@@ -5,6 +5,7 @@ class RegistrationsController < Devise::RegistrationsController
 			company = Company.new(company_params)
 			company.save!
 			resource.company_id = company.id
+			resource.roles << :manager
     	end
 		
 	end

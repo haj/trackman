@@ -73,15 +73,19 @@ group :development, :test do
   gem "capybara"
 end
 
-gem 'rename'
 
 #gem 'safe_attributes'
+
 gem 'gmaps4rails'
 gem 'underscore-rails'
-# gem 'pry-rails', :group => :development
+gem 'pry-rails', :group => :development
 gem 'has_scope'
 # gem 'seed_dump'
 
 gem 'haml-rails'   
 gem 'html2haml', :git => 'git://github.com/haml/html2haml.git'
+gem 'figaro'
 
+gem "letter_opener", :group => :development
+
+gem 'devise-basecamper'
