@@ -3,10 +3,12 @@
 %div{ :style => "width: 800px;" }
   %div#map{ :style => "width: 800px; height: 400px;"}
 
-= @position.inspect
-
 - if !@position.empty? 
   %script{:type=>"text/javascript"}
+    
+
+    $(function() {
+
     handler = Gmaps.build('Google');
     handler.buildMap({ provider: { zoom: 10 }, internal: {id: 'map'}}, function(){
     markers = handler.addMarkers(
@@ -19,6 +21,24 @@
     handler.fitMapToBounds();
     });
 
+    $(".refresh").click(function(){ 
+    $.getJSON('/users', function(json){
+    console.log(
+    = raw @hash.to_json
+    )
+    handler.removeMarkers(markers)
+    markers = handler.addMarkers(
+    = raw @hash.to_json
+    );
+    })
+    })
+
+    });
+
+= button_tag "Refresh", :class => "refresh"
+
+%script{:type=>"text/javascript"}
+  
 
 %p
   %b Name:
