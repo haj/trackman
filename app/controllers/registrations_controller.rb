@@ -1,9 +1,12 @@
 class RegistrationsController < Devise::RegistrationsController
 	
 	def create
-		super
-		company = Company.new(company_params)
-		company.save!
+		super do |resource|
+			company = Company.new(company_params)
+			company.save!
+			resource.company_id = company.id
+    	end
+		
 	end
 
 	def company_params
