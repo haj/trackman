@@ -12,6 +12,15 @@
   <div><%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
 
+  <div>
+  <%= fields_for(:company) do |w| %>
+  	<div>
+  		<%= w.label :name %>
+  		<%= w.text_field :name %>
+  	</div>
+  <% end %>
+  </div>
+
   <div><%= f.submit "Sign up" %></div>
 <% end %>
 
