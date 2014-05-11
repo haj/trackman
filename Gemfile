@@ -40,4 +40,43 @@ gem 'spring',        group: :development
 
 gem 'devise'
 gem 'acts_as_tenant'
+gem 'devise_invitable', '~> 1.3.4'
+
+
+gem 'hirb'
+gem "ancestry"
+gem "cancan"
+gem 'role_model'
+gem 'nested_form'
+gem "jquery-ui-rails"
+gem 'country-select'
+gem "geocoder"
+gem 'rails_admin'
+
+
+# stuff required for testing purposes
+group :development, :test do 
+  #rspec 
+  gem "rspec-rails"
+
+  gem 'simplecov', '~> 0.7.1'
+
+  #spring
+  gem 'spring-commands-rspec'
+
+  #guard
+  gem 'guard'
+  gem 'guard-spring'
+  gem 'guard-rspec'
+
+  gem "factory_girl_rails"
+  gem "capybara"
+end
+
+#gem 'safe_attributes'
+# #gem 'gmaps4rails'
+# #gem 'underscore-rails'
+# gem 'pry-rails', :group => :development
+# gem 'has_scope'
+# gem 'seed_dump'
 
