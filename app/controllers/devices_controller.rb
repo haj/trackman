@@ -10,6 +10,12 @@ class DevicesController < ApplicationController
   # GET /devices/1
   # GET /devices/1.json
   def show
+    @position = Device.find(params[:id]).last_position
+    @collection =  [@position]
+    @hash = Gmaps4rails.build_markers(@collection) do |position, marker|
+      marker.lat position[:latitude].to_s
+      marker.lng position[:longitude].to_s
+    end
   end
 
   # GET /devices/new

@@ -77,8 +77,7 @@ group :development, :test do
   gem "capybara"
 end
 
-
-#gem 'safe_attributes'
+gem 'safe_attributes', :require => 'safe_attributes/base'
 
 gem 'gmaps4rails'
 gem 'underscore-rails'

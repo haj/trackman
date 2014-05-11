@@ -236,6 +236,8 @@ GEM
       rspec-mocks (~> 2.14.0)
     ruby_parser (3.4.1)
       sexp_processor (~> 4.1)
+    safe_attributes (1.0.10)
+      activerecord (>= 3.0.0)
     safe_yaml (1.0.3)
     sass (3.2.19)
     sass-rails (4.0.3)
@@ -320,6 +322,7 @@ DEPENDENCIES
   rails_admin
   role_model
   rspec-rails
+  safe_attributes
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   simplecov (~> 0.7.1)
