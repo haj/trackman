@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :devices
+
   get 'home/index'
 
   resources :companies

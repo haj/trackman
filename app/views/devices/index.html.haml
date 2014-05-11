@@ -1,0 +1,23 @@
+%h1 Listing devices
+
+%table
+  %tr
+    %th Name
+    %th Emei
+    %th Cost price
+    %th
+    %th
+    %th
+
+  - @devices.each do |device|
+    %tr
+      %td= device.name
+      %td= device.emei
+      %td= device.cost_price
+      %td= link_to 'Show', device
+      %td= link_to 'Edit', edit_device_path(device)
+      %td= link_to 'Destroy', device, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Device', new_device_path

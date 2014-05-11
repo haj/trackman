@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @device.name
+%p
+  %b Emei:
+  = @device.emei
+%p
+  %b Cost price:
+  = @device.cost_price
+
+= link_to 'Edit', edit_device_path(@device)
+\|
+= link_to 'Back', devices_path
