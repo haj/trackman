@@ -8,9 +8,6 @@ describe User do
       :password => "changeme",
       :password_confirmation => "changeme"
     }
-
-    tenant = Tenant.create(name: "CompanyA")
-    Tenant.set_current_tenant(tenant.id)
   end
 
   it "should create a new instance given a valid attribute" do
