@@ -29,8 +29,6 @@ class Ability
 
   def admin 
     manager 
-     
-    can :dashboard
     can :manage, :all
   end
 
