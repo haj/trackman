@@ -89,3 +89,6 @@ gem 'figaro'
 gem "letter_opener", :group => :development
 
 gem 'devise-basecamper'
+
+gem 'twitter-bootstrap-rails', github: 'seyhunak/twitter-bootstrap-rails', branch: 'bootstrap3'
+
