@@ -20,13 +20,14 @@ class InvitationsController < DeviseController
 
     if resource.errors.empty?
       	yield resource if block_given?
-		if params[:default_role] == "Driver"
-			self.resource.roles << :driver
-			self.resource.save
-		else
-			self.resource.roles << :employee
-			self.resource.save
-		end
+
+    		if params[:default_role] == "Driver"
+    			self.resource.roles << :driver
+    			self.resource.save
+    		else
+    			self.resource.roles << :employee
+    			self.resource.save
+    		end
 
       	set_flash_message :notice, :send_instructions, :email => self.resource.email if self.resource.invitation_sent_at
       	respond_with resource, :location => after_invite_path_for(resource)

@@ -161,6 +161,7 @@ GEM
     mini_portile (0.5.3)
     minitest (5.3.3)
     multi_json (1.10.0)
+    mysql2 (0.3.15)
     nested_form (0.3.2)
     nio4r (1.0.0)
     nokogiri (1.6.1)
@@ -312,6 +313,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   letter_opener
+  mysql2
   nested_form
   pry-rails
   rails (= 4.1.1)
