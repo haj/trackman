@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-         acts_as_tenant(:company)
-         validates_uniqueness_to_tenant :email
+  acts_as_tenant(:company)
+  validates_uniqueness_to_tenant :email
+  belongs_to :company
+
+
 end
