@@ -10,7 +10,7 @@ describe "user sign in" do
       #ActsAsTenant.current_tenant = @user.company
     end
 
-  it "shouldn allow a valid email password combination" do 
+  it "should allow a valid email password combination" do 
     visit "users/sign_in"
     fill_in "Email", :with => @user.email
     fill_in "Password", :with => @user.password
