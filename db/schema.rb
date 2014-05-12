@@ -11,7 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140511204454) do
+ActiveRecord::Schema.define(version: 20140512145304) do
+
+  create_table "car_manufacturers", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "car_models", force: true do |t|
+    t.string   "name"
+    t.integer  "car_manufacturer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "car_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cars", force: true do |t|
+    t.float    "mileage"
+    t.string   "numberplate"
+    t.integer  "car_model_id"
+    t.integer  "car_type_id"
+    t.string   "registration_no"
+    t.integer  "year"
+    t.string   "color"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "company_id"
+  end
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -20,10 +53,58 @@ ActiveRecord::Schema.define(version: 20140511204454) do
     t.datetime "updated_at"
   end
 
+  create_table "device_manufacturers", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "device_models", force: true do |t|
+    t.string   "name"
+    t.integer  "device_manufacturer_id"
+    t.string   "protocol"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "device_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "devices", force: true do |t|
     t.string   "name"
     t.string   "emei"
     t.float    "cost_price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "device_model_id"
+    t.integer  "device_type_id"
+    t.integer  "car_id"
+    t.integer  "company_id"
+  end
+
+  create_table "groups", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "company_id"
+  end
+
+  create_table "simcards", force: true do |t|
+    t.string   "telephone_number"
+    t.integer  "teleprovider_id"
+    t.float    "monthly_price"
+    t.integer  "device_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "company_id"
+  end
+
+  create_table "teleproviders", force: true do |t|
+    t.string   "name"
+    t.string   "apn"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

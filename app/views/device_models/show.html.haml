@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @device_model.name
+%p
+  %b Device manufacturer:
+  = @device_model.device_manufacturer_id
+%p
+  %b Protocol:
+  = @device_model.protocol
+
+= link_to 'Edit', edit_device_model_path(@device_model)
+\|
+= link_to 'Back', device_models_path

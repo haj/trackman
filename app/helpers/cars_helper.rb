@@ -1,0 +1,23 @@
+module CarsHelper
+
+	def no_available_devices?
+		if Device.available_devices.count == 0 
+			return true
+		else 
+			return false
+		end
+	end
+
+	def list_available_devices
+		return select_tag('device_id', content_tag(:option,'Select Device ...', :value=>"")+options_from_collection_for_select(Device.available_devices, 'id', 'name'))
+	end
+
+	def list_no_available_devices
+		return select_tag('device_id', content_tag(:option,'No available devices', :value=>""))
+	end
+
+	def list_devices_with_default(device)
+		return select_tag('device_id', content_tag(:option, device.name, :value=> device.id )+options_from_collection_for_select(Device.available_devices, 'id', 'name'))
+	end
+
+end

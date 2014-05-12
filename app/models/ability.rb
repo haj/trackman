@@ -37,15 +37,19 @@ class Ability
     can :dashboard
     can :invite, User
     employee 
-    # can :manage, [Device, Car, Simcard]
-    can :read, Company, :id => @user.company_id
-    can :update, Company, :id => @user.company_id
+    can :manage, [Device, Car, Simcard]
+    can :manage, Company, :id => @user.company_id
   end
 
   def employee
-    # can :read, [Car, Device, Simcard]
-    # can :read, [CarModel, CarType, CarManufacturer]
-    # can :read, [DeviceType, DeviceModel, DeviceManufacturer, Teleprovider]
+    can :read, [Car, Device, Simcard]
+    can :read, [CarModel, CarType, CarManufacturer]
+    can :read, [DeviceType, DeviceModel, DeviceManufacturer, Teleprovider]
+    can :create, [CarModel, CarType, CarManufacturer]
+    can :create, [DeviceType, DeviceModel, DeviceManufacturer, Teleprovider]
+    can :update, [CarModel, CarType, CarManufacturer]
+    can :update, [DeviceType, DeviceModel, DeviceManufacturer, Teleprovider]
+    can :manage, Group
   end
 
   def driver

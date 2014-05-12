@@ -1,0 +1,19 @@
+%h1 Listing car_manufacturers
+
+%table.table
+  %tr
+    %th Name
+    %th
+    %th
+    %th
+
+  - @car_manufacturers.each do |car_manufacturer|
+    %tr
+      %td= car_manufacturer.name
+      %td= link_to 'Show', car_manufacturer
+      %td= link_to 'Edit', edit_car_manufacturer_path(car_manufacturer)
+      %td= link_to 'Destroy', car_manufacturer, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Car manufacturer', new_car_manufacturer_path

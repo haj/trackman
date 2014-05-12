@@ -1,0 +1,47 @@
+%h1 Listing cars
+
+= form_tag '', :method => :get do
+  = "Car model"
+  = select_tag('by_car_model', options_from_collection_for_select(CarModel.all, 'id', 'name'), :include_blank => true)
+  = "Car model"
+  = select_tag('by_car_type', options_from_collection_for_select(CarType.all, 'id', 'name'), :include_blank => true) 
+  = radio_button_tag 'trackable', 'true' ,false
+  = "traceable" 
+  = radio_button_tag 'trackable', 'false' ,false
+  = "Not traceable"
+  = radio_button_tag 'trackable', 'all' , true
+  = "All"
+
+  = submit_tag 'Filter', :class => "btn btn-primary"
+
+%br
+
+%table.table
+  %tr
+    %th Mileage
+    %th Numberplate
+    %th Car model
+    %th Car type
+    %th Registration no
+    %th Year
+    %th Color
+    %th
+    %th
+    %th
+
+  - @cars.each do |car|
+    %tr
+      %td= car.mileage
+      %td= car.numberplate
+      %td= car.car_model.name
+      %td= car.car_type.name
+      %td= car.registration_no
+      %td= car.year
+      %td= car.color
+      %td= link_to 'Show', car
+      %td= link_to 'Edit', edit_car_path(car)
+      %td= link_to 'Destroy', car, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Car', new_car_path

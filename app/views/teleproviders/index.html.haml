@@ -1,0 +1,21 @@
+%h1 Listing teleproviders
+
+%table.table
+  %tr
+    %th Name
+    %th Apn
+    %th
+    %th
+    %th
+
+  - @teleproviders.each do |teleprovider|
+    %tr
+      %td= teleprovider.name
+      %td= teleprovider.apn
+      %td= link_to 'Show', teleprovider
+      %td= link_to 'Edit', edit_teleprovider_path(teleprovider)
+      %td= link_to 'Destroy', teleprovider, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Teleprovider', new_teleprovider_path

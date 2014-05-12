@@ -1,0 +1,55 @@
+%p#notice= notice
+
+%div{ :style => "width: 800px;" }
+  %div#map{ :style => "width: 800px; height: 400px;"}
+
+- if !@position.empty? 
+  %script{:type=>"text/javascript"}
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: { zoom: 10 }, internal: {id: 'map'}}, function(){
+    markers = handler.addMarkers(
+    = raw @hash.to_json
+    );
+    handler.map.centerOn(
+    = raw @hash.first.to_json
+    );
+    handler.bounds.extendWith(markers);
+    //handler.fitMapToBounds();
+    });
+
+
+
+%br
+%br
+
+%p
+  %b Mileage:
+  = @car.mileage
+%p
+  %b Numberplate:
+  = @car.numberplate
+%p
+  %b Device:
+  - if @car.device
+    = @car.device.name
+  - else
+    = "This car doesn't have a device yet"
+%p
+  %b Car model:
+  = @car.car_model_id
+%p
+  %b Car type:
+  = @car.car_type_id
+%p
+  %b Registration no:
+  = @car.registration_no
+%p
+  %b Year:
+  = @car.year
+%p
+  %b Color:
+  = @car.color
+
+= link_to 'Edit', edit_car_path(@car)
+\|
+= link_to 'Back', cars_path

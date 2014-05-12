@@ -1,0 +1,41 @@
+%h1 Listing simcards
+
+= form_tag '', :method => :get do
+  = "Teleprovider"
+  = select_tag('by_teleprovider', options_from_collection_for_select(Teleprovider.all, 'id', 'name'), :include_blank => true)
+  = radio_button_tag 'available', 'true' ,false
+  = "Available" 
+  = radio_button_tag 'available', 'false' ,false
+  = "Used"
+  = radio_button_tag 'available', 'all' , true
+  = "All"
+
+  = submit_tag 'Filter', :class => "btn btn-primary"
+
+
+%table.table
+  %tr
+    %th Telephone no
+    %th Teleprovider
+    %th Monthly price
+    %th Device
+    %th
+    %th
+    %th
+
+  - @simcards.each do |simcard|
+    %tr
+      %td= simcard.telephone_no
+      %td= simcard.teleprovider.name
+      %td= simcard.monthly_price
+      - if simcard.device
+        %td= link_to simcard.device.name, simcard.device
+      - else 
+        %td= "No device"
+      %td= link_to 'Show', simcard
+      %td= link_to 'Edit', edit_simcard_path(simcard)
+      %td= link_to 'Destroy', simcard, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Simcard', new_simcard_path

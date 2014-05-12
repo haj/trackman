@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @teleprovider.name
+%p
+  %b Apn:
+  = @teleprovider.apn
+
+= link_to 'Edit', edit_teleprovider_path(@teleprovider)
+\|
+= link_to 'Back', teleproviders_path

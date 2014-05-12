@@ -1,4 +1,24 @@
 Rails.application.routes.draw do
+  resources :simcards
+
+  resources :teleproviders
+
+  resources :device_types
+
+  resources :device_models
+
+  resources :device_manufacturers
+
+  resources :groups
+
+  resources :cars
+
+  resources :car_types
+
+  resources :car_models
+
+  resources :car_manufacturers
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   resources :devices
 

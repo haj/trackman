@@ -1,0 +1,19 @@
+%h1 Listing device_manufacturers
+
+%table.table
+  %tr
+    %th Name
+    %th
+    %th
+    %th
+
+  - @device_manufacturers.each do |device_manufacturer|
+    %tr
+      %td= device_manufacturer.name
+      %td= link_to 'Show', device_manufacturer
+      %td= link_to 'Edit', edit_device_manufacturer_path(device_manufacturer)
+      %td= link_to 'Destroy', device_manufacturer, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Device manufacturer', new_device_manufacturer_path

@@ -1,0 +1,19 @@
+%h1 Listing device_types
+
+%table.table
+  %tr
+    %th Name
+    %th
+    %th
+    %th
+
+  - @device_types.each do |device_type|
+    %tr
+      %td= device_type.name
+      %td= link_to 'Show', device_type
+      %td= link_to 'Edit', edit_device_type_path(device_type)
+      %td= link_to 'Destroy', device_type, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Device type', new_device_type_path

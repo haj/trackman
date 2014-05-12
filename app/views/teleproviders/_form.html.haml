@@ -1,0 +1,16 @@
+= form_for @teleprovider do |f|
+  - if @teleprovider.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@teleprovider.errors.count, "error")} prohibited this teleprovider from being saved:"
+      %ul
+        - @teleprovider.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :apn
+    = f.text_field :apn
+  .actions
+    = f.submit 'Save'

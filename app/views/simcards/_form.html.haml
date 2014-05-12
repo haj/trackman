@@ -1,0 +1,30 @@
+= form_for @simcard do |f|
+  - if @simcard.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@simcard.errors.count, "error")} prohibited this simcard from being saved:"
+      %ul
+        - @simcard.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :telephone_no
+    = f.text_field :telephone_no
+  .field
+    = f.label :teleprovider
+    = f.collection_select(:teleprovider_id, Teleprovider.all, :id, :name)
+  .field
+    = f.label :monthly_price
+    = f.text_field :monthly_price
+  
+  .field
+    = f.label :device
+    - if @simcard.device.nil?
+      - if Device.devices_without_simcards(nil).count != 0 
+        = f.collection_select(:device_id, Device.devices_without_simcards(nil), :id, :name, :include_blank => "Pick a device" )
+      - else
+        = f.collection_select(:device_id, Device.devices_without_simcards(nil), :id, :name, :include_blank => "No devices available at this moment" )
+    - else 
+      = f.collection_select(:device_id, Device.devices_without_simcards(@simcard.device_id), :id, :name)
+
+  .actions
+    = f.submit 'Save'
