@@ -25,7 +25,7 @@
 
   - @simcards.each do |simcard|
     %tr
-      %td= simcard.telephone_no
+      %td= simcard.telephone_number
       %td= simcard.teleprovider.name
       %td= simcard.monthly_price
       - if simcard.device

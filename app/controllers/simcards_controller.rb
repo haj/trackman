@@ -87,6 +87,6 @@ class SimcardsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def simcard_params
-      params.require(:simcard).permit(:telephone_no, :teleprovider_id, :monthly_price, :device_id, :tenant_id)
+      params.require(:simcard).permit(:telephone_number, :teleprovider_id, :monthly_price, :device_id)
     end
 end

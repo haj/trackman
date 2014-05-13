@@ -7,8 +7,8 @@
           %li= msg
 
   .field
-    = f.label :telephone_no
-    = f.text_field :telephone_no
+    = f.label :telephone_number
+    = f.text_field :telephone_number
   .field
     = f.label :teleprovider
     = f.collection_select(:teleprovider_id, Teleprovider.all, :id, :name)
