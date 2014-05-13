@@ -20,7 +20,7 @@ module CarsHelper
 	end
 
 	def list_devices_with_default(device)
-		return select_tag('device_id', content_tag(:option, device.name, :value=> device.id )+options_from_collection_for_select(Device.available_devices, 'id', 'name'))
+		return select_tag('device_id', content_tag(:option, device.name, :value=> device.id )+content_tag(:option,'Detach device', :value=>"")+options_from_collection_for_select(Device.available_devices, 'id', 'name'))
 	end
 
 	########## 

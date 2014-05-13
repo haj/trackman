@@ -44,6 +44,12 @@ class CarsController < ApplicationController
   def create
     @car = Car.new(car_params)
     if @car.save
+      if device_params.has_key?('device_id') && !device_params['device_id'].empty?
+        device = Device.find(device_params['device_id'])
+        if !device.nil?
+          device.update_attribute(:car_id, @car.id)
+        end
+      end
       redirect_to @car, notice: 'Car was successfully created.'
     else
       render action: 'new'
@@ -63,6 +69,10 @@ class CarsController < ApplicationController
           # attach new device 
           device = Device.find(device_params['device_id'])
           device.update_attribute(:car_id, @car.id)
+        elsif device_params.has_key?('device_id')
+          if @car.has_device?
+            @car.device.update_attribute(:car_id, nil)
+          end 
         end
 
         format.html { redirect_to @car, notice: 'Car was successfully updated.' }
