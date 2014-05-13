@@ -12,7 +12,7 @@ class Car < ActiveRecord::Base
 	belongs_to :car_model
 	belongs_to :car_type
 	has_one :device
-	has_one :user
+	has_one :driver, :class_name => "User", :foreign_key => "car_id"
 
 	def name
 		if self.id.nil?

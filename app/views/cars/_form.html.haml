@@ -32,6 +32,16 @@
         = list_available_devices
 
   .field
+    = f.label :driver
+    - if @car.has_driver?
+      = list_drivers_with_default(@car.driver)
+    - else
+      - if no_available_drivers? 
+        = list_no_available_drivers
+      - else 
+        = list_available_drivers
+
+  .field
     = f.label :registration_no
     = f.text_field :registration_no
   .field
@@ -42,8 +52,8 @@
     = f.text_field :color
 
   .field
-  = f.label :group
-  = f.collection_select(:group_id, Group.all, :id, :name)
+    = f.label :group
+    = f.collection_select(:group_id, Group.all, :id, :name)
 
 
   .actions

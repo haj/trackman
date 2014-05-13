@@ -13,4 +13,14 @@ class User < ActiveRecord::Base
 	include RoleModel
 	roles(ROLES.map(&:to_sym))
 
+	def self.available_drivers
+		users = User.where(:car_id => nil)
+		drivers = users.select { |user| user.has_role?(:driver) } 
+		return drivers
+	end
+
+	def name 
+		return "#{self.first_name} #{self.last_name}"
+	end
+
 end
