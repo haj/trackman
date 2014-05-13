@@ -22,21 +22,12 @@ The `db_password` is used to connect to the MySQL database used by Traccar! (see
 
 ## Creating the admin user 
 
-1.Sign up through the web interface 
-
-3.Go to Rails console and set up the current tenant
-
-```ruby
-Tenant.set_current_tenant(Tenant.first.id)
-
-#if we don't set up the current tenant we won't be able to see members, the same goes for other tenanted models
-```
+1.Sign up through the web interface (and create a dummy company when asked)
  
-4.Then add the admin role to the User/Member roles 
+4.Then add the admin role to the user you just create (here we're searching for the user by email so make sure you put the correct email in the where clause)
 
 ```ruby
-# Make sure you use the Member model and not the User model
-admin = Member.first 
+admin = User.where(email: "<type the email address here>") 
 admin.roles << :admin
 admin.save!
 ```
