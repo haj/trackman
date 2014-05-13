@@ -256,6 +256,9 @@ GEM
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
+    seed_dump (3.1.0)
+      activerecord
+      activesupport
     sexp_processor (4.4.3)
     simplecov (0.7.1)
       multi_json (~> 1.0)
@@ -337,6 +340,7 @@ DEPENDENCIES
   safe_attributes
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
+  seed_dump
   simplecov (~> 0.7.1)
   spring
   spring-commands-rspec
