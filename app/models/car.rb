@@ -4,15 +4,15 @@ class Car < ActiveRecord::Base
 	scope :by_car_type, -> car_type_id { where(:car_type_id => car_type_id) }
 	scope :traceable, -> { where("id IN (SELECT car_id FROM Devices WHERE car_id NOT NULL)") }
 	scope :untraceable, -> { where("id NOT IN (SELECT car_id FROM Devices WHERE car_id NOT NULL)") }
-
+	scope :has_driver, -> { where() }
 
 	acts_as_tenant(:company)
 
-	belongs_to :account
+	belongs_to :company
 	belongs_to :car_model
 	belongs_to :car_type
 	has_one :device
-	belongs_to :car
+	has_one :user
 
 	def name
 		if self.id.nil?
@@ -40,6 +40,9 @@ class Car < ActiveRecord::Base
 
 	def has_device?
 		return !self.device.nil?
+	end
+
+	def has_driver?
 	end
 
 	def last_position
