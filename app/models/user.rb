@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 	acts_as_tenant(:company)
 	validates_uniqueness_to_tenant :email
 	belongs_to :company
+	belongs_to :car
 
 	include RoleModel
 	roles(ROLES.map(&:to_sym))
