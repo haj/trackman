@@ -48,7 +48,6 @@ gem 'devise_invitable', '~> 1.3.4'
 
 
 gem 'hirb'
-gem "ancestry"
 gem "cancan"
 gem 'role_model'
 gem 'nested_form'
@@ -96,4 +95,5 @@ gem 'devise-basecamper'
 gem 'twitter-bootstrap-rails', github: 'seyhunak/twitter-bootstrap-rails', branch: 'bootstrap3'
 gem "therubyracer"
 gem "less-rails"
+
 

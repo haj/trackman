@@ -52,8 +52,6 @@ GEM
       rails (>= 3.1)
       request_store (>= 1.0.5)
     addressable (2.3.6)
-    ancestry (2.1.0)
-      activerecord (>= 3.0.0)
     arel (5.0.1.20140414130214)
     bcrypt (3.1.7)
     builder (3.2.2)
@@ -306,7 +304,6 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_tenant
-  ancestry
   cancan
   capybara
   coffee-rails (~> 4.0.0)

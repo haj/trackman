@@ -31,40 +31,45 @@ class DevicesController < ApplicationController
   # POST /devices.json
   def create
     @device = Device.new(device_params)
+    #create the device in Traccar db
+    device = Traccar::Device.create(name: device_params['name'], uniqueId: device_params['emei'])
+    # attach the newly created device to the admin user of the traccar db
+    device.users << Traccar::User.first
 
-    respond_to do |format|
-      if @device.save
-        format.html { redirect_to @device, notice: 'Device was successfully created.' }
-        format.json { render :show, status: :created, location: @device }
-      else
-        format.html { render :new }
-        format.json { render json: @device.errors, status: :unprocessable_entity }
-      end
+    if @device.save
+      redirect_to @device, notice: 'Device was successfully created.'
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /devices/1
   # PATCH/PUT /devices/1.json
   def update
-    respond_to do |format|
-      if @device.update(device_params)
-        format.html { redirect_to @device, notice: 'Device was successfully updated.' }
-        format.json { render :show, status: :ok, location: @device }
-      else
-        format.html { render :edit }
-        format.json { render json: @device.errors, status: :unprocessable_entity }
-      end
+    if @device.update(device_params)
+      redirect_to @device, notice: 'Device was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /devices/1
   # DELETE /devices/1.json
   def destroy
-    @device.destroy
-    respond_to do |format|
-      format.html { redirect_to devices_url, notice: 'Device was successfully destroyed.' }
-      format.json { head :no_content }
+    # get traccar:device using device's emei
+    traccar_user = Traccar::User.first
+    traccar_device = Traccar::Device.where(uniqueId: @device.emei).first
+    # remove join record 
+    if traccar_device.users.delete(traccar_user)
+      traccar_device.positions.delete_all
+      traccar_device.delete
+      @device.destroy
+      redirect_to devices_url, notice: 'Device was successfully destroyed.'
+    else
+      redirect_to @device, notice: "Device couldn't be destroyed."
     end
+
+    
   end
 
   private
