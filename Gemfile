@@ -95,5 +95,5 @@ gem 'devise-basecamper'
 gem 'twitter-bootstrap-rails', github: 'seyhunak/twitter-bootstrap-rails', branch: 'bootstrap3'
 gem "therubyracer"
 gem "less-rails"
-
+gem 'gon'
 

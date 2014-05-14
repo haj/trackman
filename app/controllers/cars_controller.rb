@@ -16,6 +16,16 @@ class CarsController < ApplicationController
 
   def index
     @cars = apply_scopes(Car).all
+    positions = Car.all_positions(@cars)
+    @hash = Gmaps4rails.build_markers(positions) do |position, marker|
+      marker.lat position[:latitude].to_s
+      marker.lng position[:longitude].to_s
+    end
+
+    gon.data = @hash
+    gon.url = "/cars"
+    gon.map_id = "cars_index"
+    gon.query_params = request.query_parameters
   end
 
   # GET /cars/1
@@ -27,6 +37,10 @@ class CarsController < ApplicationController
       marker.lat position[:latitude].to_s
       marker.lng position[:longitude].to_s
     end
+    gon.data = @hash
+    gon.url = "/cars/#{@car.id}"
+    gon.map_id = "cars_show"
+    gon.refresh_button = ".refresh_car"
   end
 
   # GET /cars/new

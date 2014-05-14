@@ -3,10 +3,8 @@
 %div{ :style => "width: 800px;" }
   %div#map{ :style => "width: 800px; height: 400px;"}
 
-- if !@position.empty? 
+- if !@hash.empty? 
   %script{:type=>"text/javascript"}
-    
-
     $(function() {
 
     handler = Gmaps.build('Google');

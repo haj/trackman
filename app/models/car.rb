@@ -38,6 +38,16 @@ class Car < ActiveRecord::Base
 		end
 	end
 
+	def self.all_positions(cars)
+		positions = Array.new
+		cars.each do |car|
+      		if !car.last_position.empty? 
+        		positions << car.last_position
+      		end
+    	end
+    	return positions
+	end
+
 	def has_device?
 		return !self.device.nil?
 	end

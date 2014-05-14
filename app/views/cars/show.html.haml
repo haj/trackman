@@ -1,23 +1,9 @@
 %p#notice= notice
 
 %div{ :style => "width: 800px;" }
-  %div#map{ :style => "width: 800px; height: 400px;"}
+  %div#cars_show{ :style => "width: 800px; height: 400px;"}
 
-- if !@position.empty? 
-  %script{:type=>"text/javascript"}
-    handler = Gmaps.build('Google');
-    handler.buildMap({ provider: { zoom: 10 }, internal: {id: 'map'}}, function(){
-    markers = handler.addMarkers(
-    = raw @hash.to_json
-    );
-    / handler.map.centerOn(
-    / = raw @hash.first.to_json
-    / );
-    handler.bounds.extendWith(markers);
-    handler.fitMapToBounds();
-    });
-
-
+= button_tag "Refresh", :class => "refresh_car btn btn-primary"
 
 %br
 %br

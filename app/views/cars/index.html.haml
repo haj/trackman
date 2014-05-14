@@ -1,10 +1,18 @@
 %h1 Listing cars
 
+%div{ :style => "width: 800px;" }
+  %div#cars_index{ :style => "width: 800px; height: 400px;"}
+
+= button_tag "Refresh", :class => "refresh_all_cars btn btn-primary"
+
+%br
+%br
+
 = form_tag '', :method => :get do
   = "Car model"
-  = select_tag('by_car_model', options_from_collection_for_select(CarModel.all, 'id', 'name'), :include_blank => true)
-  = "Car model"
-  = select_tag('by_car_type', options_from_collection_for_select(CarType.all, 'id', 'name'), :include_blank => true) 
+  = select_tag('by_car_model', content_tag(:option,'Car Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'))
+  = "Car type"
+  = select_tag('by_car_type', content_tag(:option,'Car Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name')) 
   = radio_button_tag 'trackable', 'true' ,false
   = "traceable" 
   = radio_button_tag 'trackable', 'false' ,false
