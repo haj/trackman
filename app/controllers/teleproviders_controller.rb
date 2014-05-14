@@ -5,7 +5,8 @@ class TeleprovidersController < ApplicationController
   # GET /teleproviders
   # GET /teleproviders.json
   def index
-    @teleproviders = Teleprovider.all
+    @q = Teleprovider.search(params[:q])
+    @teleproviders = @q.result(distinct: true)
   end
 
   # GET /teleproviders/1
