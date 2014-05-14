@@ -1,6 +1,5 @@
 class Api::CarTypesController < ApplicationController
   before_action :set_car_type, only: [:show, :edit, :update, :destroy]
-  load_and_authorize_resource
   
   skip_before_filter  :verify_authenticity_token
   #before_filter :restrict_access_for_a_valid_token , :except => [:search]

@@ -40,7 +40,6 @@ class CarsController < ApplicationController
     gon.data = @hash
     gon.url = "/cars/#{@car.id}"
     gon.map_id = "cars_show"
-    gon.refresh_button = ".refresh_car"
   end
 
   # GET /cars/new

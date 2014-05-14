@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     resources :car_manufacturers
     resources :companies
     resources :users
+    resources :devices
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
