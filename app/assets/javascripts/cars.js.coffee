@@ -11,12 +11,23 @@ $(document).on "page:change", ->
 		window.markers = markers
 		handler.bounds.extendWith(markers)
 		handler.fitMapToBounds()
+		refresh_rate = 30000  
+		setTimeout((-> refresh_loop(refresh_rate)), refresh_rate)
 
-	$('.refresh_all_cars').click (event) =>
-		$.get '/cars', gon.query_params ,(data) ->
-			console.log gon.query_params
-			console.log "cars positions updated!"
-			handler.removeMarkers(window.markers);
-			window.markers = handler.addMarkers(gon.data);
+	refresh_loop = (refresh_rate) ->
+		$.ajax '/cars', 
+	        type: 'GET'
+	        dataType: 'html'
+	        data: gon.query_params
+	        error: (jqXHR, textStatus, errorThrown) ->
+	            #console.log "AJAX Error: #{textStatus}"
+	        success: (data, textStatus, jqXHR) ->
+	            console.log "Successful AJAX call"
+	            console.log gon.data
+				handler.removeMarkers(window.markers)
+				window.markers = handler.addMarkers(gon.data)
+		setTimeout((-> refresh_loop(refresh_rate)), refresh_rate)
+			
+
 
 
