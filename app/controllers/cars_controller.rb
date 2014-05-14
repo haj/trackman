@@ -1,6 +1,6 @@
 class CarsController < ApplicationController
   before_action :set_car, only: [:show, :edit, :update, :destroy]
-  #load_and_authorize_resource
+  load_and_authorize_resource
 
   has_scope :by_car_model
   has_scope :by_car_type
@@ -13,6 +13,18 @@ class CarsController < ApplicationController
       scope.untraceable
     end 
   end
+
+  has_scope :has_driver do |controller, scope, value|
+    if value == "all"
+      scope
+    elsif value == "true"
+      scope.with_driver
+    elsif value == "false"
+      scope.without_driver
+    end 
+  end
+
+
 
   def index
     @cars = apply_scopes(Car).all

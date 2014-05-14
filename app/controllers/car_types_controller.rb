@@ -1,6 +1,9 @@
 class CarTypesController < ApplicationController
   before_action :set_car_type, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
+  
+  
+
   # GET /car_types
   # GET /car_types.json
   def index

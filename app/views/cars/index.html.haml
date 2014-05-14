@@ -3,23 +3,30 @@
 %div{ :style => "width: 800px;" }
   %div#cars_index{ :style => "width: 800px; height: 400px;"}
 
-= button_tag "Refresh", :class => "refresh_all_cars btn btn-primary"
-
 %br
 %br
 
 = form_tag '', :method => :get do
   = "Car model"
   = select_tag('by_car_model', content_tag(:option,'Car Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'))
+  %br  
   = "Car type"
-  = select_tag('by_car_type', content_tag(:option,'Car Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name')) 
+  = select_tag('by_car_type', content_tag(:option,'Car Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'))
+  %br 
   = radio_button_tag 'trackable', 'true' ,false
   = "traceable" 
   = radio_button_tag 'trackable', 'false' ,false
   = "Not traceable"
   = radio_button_tag 'trackable', 'all' , true
   = "All"
-
+  %br
+  = radio_button_tag 'has_driver', 'true' ,false
+  = "With driver" 
+  = radio_button_tag 'has_driver', 'false' ,false
+  = "Without driver"
+  = radio_button_tag 'has_driver', 'all' , true
+  = "All"
+  %br
   = submit_tag 'Filter', :class => "btn btn-primary"
 
 %br

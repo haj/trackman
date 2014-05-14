@@ -4,7 +4,8 @@ class Car < ActiveRecord::Base
 	scope :by_car_type, -> car_type_id { where(:car_type_id => car_type_id) }
 	scope :traceable, -> { where("id IN (SELECT car_id FROM Devices WHERE car_id NOT NULL)") }
 	scope :untraceable, -> { where("id NOT IN (SELECT car_id FROM Devices WHERE car_id NOT NULL)") }
-	scope :has_driver, -> { where() }
+	scope :with_driver, -> { where("id IN (SELECT car_id FROM Users WHERE car_id NOT NULL)") }
+	scope :without_driver, -> { where("id NOT IN (SELECT car_id FROM Users WHERE car_id NOT NULL)") }
 
 	acts_as_tenant(:company)
 

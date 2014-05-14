@@ -1,15 +1,23 @@
 class CompaniesController < ApplicationController
-  before_action :set_company, only: [:show, :edit, :update, :destroy]
+  before_action :set_company, only: [:edit, :update, :destroy]
+  load_and_authorize_resource
 
-  # GET /companies
-  # GET /companies.json
+
+
   def index
     @companies = Company.all
   end
 
-  # GET /companies/1
-  # GET /companies/1.json
   def show
+    @company = Company.find(params[:id])
+    if current_user.has_role?(:admin)
+      ActsAsTenant.with_tenant(@company) do
+        @users = @company.users.all
+      end 
+    else
+      @users = Array.new
+    end
+    
   end
 
   # GET /companies/new

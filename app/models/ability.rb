@@ -38,7 +38,9 @@ class Ability
     can :invite, User
     employee 
     can :manage, [Device, Car, Simcard]
-    can :manage, Company, :id => @user.company_id
+    can :show, Company, :id => @user.company_id
+    can :update, Company, :id => @user.company_id
+    can :destroy, Company, :id => @user.company_id
   end
 
   def employee
