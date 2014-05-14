@@ -4,7 +4,8 @@ class DeviceManufacturersController < ApplicationController
   # GET /device_manufacturers
   # GET /device_manufacturers.json
   def index
-    @device_manufacturers = DeviceManufacturer.all
+    @q = DeviceManufacturer.search(params[:q])
+    @device_manufacturers = @q.result(distinct: true)
   end
 
   # GET /device_manufacturers/1
