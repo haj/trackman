@@ -17,6 +17,6 @@ $(document).on "page:change", ->
 			console.log gon.query_params
 			console.log "cars positions updated!"
 			handler.removeMarkers(window.markers);
-			markers = handler.addMarkers(gon.data);
-			window.markers = markers
+			window.markers = handler.addMarkers(gon.data);
+
 
