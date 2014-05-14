@@ -7,7 +7,8 @@ class CarTypesController < ApplicationController
   # GET /car_types
   # GET /car_types.json
   def index
-    @car_types = CarType.all
+    @q = CarType.search(params[:q])
+    @car_types = @q.result(distinct: true)
   end
 
   # GET /car_types/1

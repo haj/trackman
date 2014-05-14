@@ -96,4 +96,4 @@ gem 'twitter-bootstrap-rails', github: 'seyhunak/twitter-bootstrap-rails', branc
 gem "therubyracer"
 gem "less-rails"
 gem 'gon'
-
+gem "ransack"

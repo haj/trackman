@@ -1,8 +1,14 @@
-%h1 Listing car_manufacturers
+%h1 Listing Car Manufacturers
+
+= search_form_for @q, :class => "form-inline" do |f| 
+  = f.search_field :name_cont, :placeholder => "search by name" 
+  = f.submit "Search" ,:class => "btn btn-default"
+
+%br
 
 %table.table
   %tr
-    %th Name
+    = content_tag :th, sort_link(@q, :name)
     %th
     %th
     %th

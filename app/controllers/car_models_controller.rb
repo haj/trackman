@@ -7,7 +7,8 @@ class CarModelsController < ApplicationController
   # GET /car_models
   # GET /car_models.json
   def index
-    @car_models = apply_scopes(CarModel).all
+    @q = apply_scopes(CarModel).all.search(params[:q])
+    @car_models = @q.result(distinct: true)
   end
 
   # GET /car_models/1

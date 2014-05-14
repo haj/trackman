@@ -16,13 +16,12 @@ class SimcardsController < ApplicationController
 
   def available
     @simcards = Simcard.available_simcards
+
   end
 
-
-  # GET /simcards
-  # GET /simcards.json
   def index
-    @simcards = apply_scopes(Simcard).all
+    @q = apply_scopes(Simcard).all.search(params[:q])
+    @simcards = @q.result(distinct: true)
   end
 
   # GET /simcards/1

@@ -15,7 +15,7 @@ class Device < ActiveRecord::Base
 		if device_id.nil?
 			Device.where("id NOT IN (SELECT device_id FROM Simcards WHERE device_id NOT NULL)")
 		else
-			Device.where("id NOT IN (SELECT device_id FROM Simcards WHERE device_id NOT NULL) OR id = device_id")
+			Device.where("id NOT IN (SELECT device_id FROM Simcards WHERE device_id NOT NULL) OR id = #{device_id}")
 		end
 	end
 

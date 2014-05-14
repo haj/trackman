@@ -1,13 +1,17 @@
 %h1 Listing devices
 
+= search_form_for @q do |f| 
+  = f.label :name_cont 
+  = f.search_field :name_cont 
+  = f.submit
+
+
 %table.table
   %tr
-    %th Name
-    %th Emei
-    %th Cost price
-    %th
-    %th
-    %th
+    = content_tag :th, sort_link(@q, :name)
+    = content_tag :th, sort_link(@q, :emei)
+    = content_tag :th, sort_link(@q, :cost_price)
+
 
   - @devices.each do |device|
     %tr

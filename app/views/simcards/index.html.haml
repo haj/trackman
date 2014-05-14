@@ -1,24 +1,34 @@
 %h1 Listing simcards
 
-= form_tag '', :method => :get do
-  = "Teleprovider"
-  = select_tag('by_teleprovider', options_from_collection_for_select(Teleprovider.all, 'id', 'name'), :include_blank => true)
-  = radio_button_tag 'available', 'true' ,false
-  = "Available" 
-  = radio_button_tag 'available', 'false' ,false
-  = "Used"
-  = radio_button_tag 'available', 'all' , true
-  = "All"
+= search_form_for @q, :class => "form-inline" do |f| 
+  = f.search_field :telephone_number_cont, :placeholder => "search with telephone number" 
+  = f.submit "Search" ,:class => "btn btn-default"
 
-  = submit_tag 'Filter', :class => "btn btn-primary"
+%br
 
+= form_tag '', :method => :get, :class => "form-inline" do
+  .form-group
+    %b= "Teleprovider :"
+    = select_tag( :by_teleprovider, options_for_select(teleproviders, params[:by_teleprovider]), :include_blank => true)
+  .form-group
+    = radio_button_tag 'available', 'true' , true
+    = "Available" 
+  .form-group
+    = radio_button_tag 'available', 'false' , params["available"] == 'false' ? true : false
+    = "Used"
+  .form-group
+    = radio_button_tag 'available', 'all' , params["available"] == 'all' ? true : false
+    = "All"
+
+  = submit_tag 'Filter', :class => "btn btn-default"
+
+%br
 
 %table.table
   %tr
-    %th Telephone no
-    %th Teleprovider
-    %th Monthly price
-    %th Device
+    = content_tag :th, sort_link(@q, :telephone_number)
+    = content_tag :th, sort_link(@q, 'Teleprovider name')
+    = content_tag :th, sort_link(@q, :monthly_price)
     %th
     %th
     %th
