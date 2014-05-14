@@ -15,12 +15,12 @@ $(document).on "page:change", ->
 		setTimeout((-> refresh_loop(refresh_rate)), refresh_rate)
 
 	refresh_loop = (refresh_rate) ->
-		$.ajax '/cars', 
+		$.ajax gon.url, 
 	        type: 'GET'
 	        dataType: 'html'
 	        data: gon.query_params
 	        error: (jqXHR, textStatus, errorThrown) ->
-	            #console.log "AJAX Error: #{textStatus}"
+	            console.log "AJAX Error: #{gon.url}"
 	        success: (data, textStatus, jqXHR) ->
 	            console.log "Successful AJAX call"
 	            console.log gon.data

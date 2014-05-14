@@ -29,6 +29,21 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "registrations", :invitations => 'invitations' }
   resources :users
 
+  namespace :api do
+    resources :simcards
+    resources :teleproviders
+    resources :device_types
+    resources :device_models
+    resources :device_manufacturers
+    resources :groups
+    resources :cars
+    resources :car_types
+    resources :car_models
+    resources :car_manufacturers
+    resources :companies
+    resources :users
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
