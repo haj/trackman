@@ -7,7 +7,8 @@ class DeviceModelsController < ApplicationController
   # GET /device_models
   # GET /device_models.json
   def index
-    @device_models = apply_scopes(DeviceModel).all
+    @q = apply_scopes(DeviceModel).all.search(params[:q])
+    @device_models = @q.result(distinct: true)
   end
 
   # GET /device_models/1

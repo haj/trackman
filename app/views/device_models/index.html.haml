@@ -1,17 +1,23 @@
-%h1 Listing device_models
+%h1 Listing Device Models
+
+= search_form_for @q, :class => "form-inline" do |f| 
+  = f.search_field :name_cont, :placeholder => "search with name" 
+  = f.submit "Search" ,:class => "btn btn-default"
+
+%br
 
 = form_tag '', :method => :get do
   = "Device Manufacturer"
-  = select_tag('by_device_manufacturer', options_from_collection_for_select(DeviceManufacturer.all, 'id', 'name'), :include_blank => true)
-
+  = select_tag( :by_device_manufacturer, options_for_select(all_device_manufacturers, params[:by_device_manufacturer]), :include_blank => true)
   = submit_tag 'Filter', :class => "btn btn-primary"
 
+%br
 
 %table.table
   %tr
-    %th Name
-    %th Device manufacturer
-    %th Protocol
+    = content_tag :th, sort_link(@q, :name)
+    = content_tag :th, sort_link(@q, 'Device Manufacturer')
+    = content_tag :th, sort_link(@q, :protocol)
     %th
     %th
     %th
