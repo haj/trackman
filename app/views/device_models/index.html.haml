@@ -1,5 +1,12 @@
 %h1 Listing device_models
 
+= form_tag '', :method => :get do
+  = "Device Manufacturer"
+  = select_tag('by_device_manufacturer', options_from_collection_for_select(DeviceManufacturer.all, 'id', 'name'), :include_blank => true)
+
+  = submit_tag 'Filter', :class => "btn btn-primary"
+
+
 %table.table
   %tr
     %th Name

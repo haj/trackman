@@ -1,5 +1,11 @@
 %h1 Listing car_models
 
+= form_tag '', :method => :get do
+  = "Car Model"
+  = select_tag('by_car_manufacturer', options_from_collection_for_select(CarManufacturer.all, 'id', 'name'), :include_blank => true)
+
+  = submit_tag 'Filter', :class => "btn btn-primary"
+
 %table.table
   %tr
     %th Name

@@ -1,10 +1,13 @@
 class DeviceModelsController < ApplicationController
   before_action :set_device_model, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
+
+  has_scope :by_device_manufacturer
+
   # GET /device_models
   # GET /device_models.json
   def index
-    @device_models = DeviceModel.all
+    @device_models = apply_scopes(DeviceModel).all
   end
 
   # GET /device_models/1

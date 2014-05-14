@@ -1,10 +1,13 @@
 class CarModelsController < ApplicationController
   before_action :set_car_model, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
+  
+  has_scope :by_car_manufacturer
+
   # GET /car_models
   # GET /car_models.json
   def index
-    @car_models = CarModel.all
+    @car_models = apply_scopes(CarModel).all
   end
 
   # GET /car_models/1
