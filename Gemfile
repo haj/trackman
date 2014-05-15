@@ -97,3 +97,6 @@ gem "therubyracer"
 gem "less-rails"
 gem 'gon'
 gem "ransack"
+
+gem 'rvm-capistrano'
+gem 'capistrano', '2.15.5'
