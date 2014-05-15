@@ -1,33 +1,53 @@
 %h1 Listing cars
 
-%div{ :style => "width: 800px;" }
-  %div#cars_index{ :style => "width: 800px; height: 400px;"}
-
-%br
-%br
-
-= form_tag '', :method => :get do
-  = "Car model"
-  = select_tag('by_car_model', content_tag(:option,'Car Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'))
+= form_tag '', :method => :get, :class => "form-horizontal" do
+  
   %br  
-  = "Car type"
-  = select_tag('by_car_type', content_tag(:option,'Car Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'))
+  
   %br 
-  = radio_button_tag 'trackable', 'true' ,false
-  = "traceable" 
-  = radio_button_tag 'trackable', 'false' ,false
-  = "Not traceable"
-  = radio_button_tag 'trackable', 'all' , true
-  = "All"
-  %br
-  = radio_button_tag 'has_driver', 'true' ,false
-  = "With driver" 
-  = radio_button_tag 'has_driver', 'false' ,false
-  = "Without driver"
-  = radio_button_tag 'has_driver', 'all' , true
-  = "All"
-  %br
-  = submit_tag 'Filter', :class => "btn btn-primary"
+  .panel.panel-default
+    .panel-body
+      .row
+        .col-sm-3
+          %h4= "Car model"
+          .form-group
+            .row
+              .col-sm-8.col-sm-offset-1
+                = select_tag('by_car_model', content_tag(:option,'Car Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'), :class => "form-control")
+        .col-sm-3
+          %h4= "Car type"
+          .form-group
+            .row
+              .col-sm-8.col-sm-offset-1
+                = select_tag('by_car_type', content_tag(:option,'Car Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'), :class => "form-control")
+        .col-sm-3
+          %h4= "Traceable"
+          .radio 
+            = radio_button_tag 'trackable', 'true' ,false
+            = "traceable" 
+          .radio
+            = radio_button_tag 'trackable', 'false' ,false
+            = "Not traceable"
+          .radio
+            = radio_button_tag 'trackable', 'all' , true
+            = "All"
+
+        .col-sm-3
+          %h4= "Driver"
+          .radio 
+            = radio_button_tag 'has_driver', 'true' ,false
+            = "With driver" 
+          .radio
+            = radio_button_tag 'has_driver', 'false' ,false
+            = "Without driver"
+          .radio
+            = radio_button_tag 'has_driver', 'all' , true
+            = "All"
+      %br
+      .row
+        .col-sm-12
+          = submit_tag 'Apply filters', :class => "btn btn-default"
+  
 
 %br
 
@@ -59,4 +79,4 @@
 
 %br
 
-= link_to 'New Car', new_car_path
+= link_to 'New Car', new_car_path, :class => "btn btn-primary"

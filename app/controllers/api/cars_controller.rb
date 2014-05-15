@@ -24,7 +24,10 @@ class Api::CarsController < ApplicationController
       marker.lat position[:latitude].to_s
       marker.lng position[:longitude].to_s
     end
+  end
 
+  def live_map
+    @cars = Car.all
     gon.data = @hash
     gon.url = "/cars"
     gon.map_id = "cars_index"

@@ -11,7 +11,11 @@ Rails.application.routes.draw do
 
   resources :groups
 
-  resources :cars
+  resources :cars do 
+    collection do 
+      get 'live_map'
+    end
+  end
 
   resources :car_types
 
@@ -20,7 +24,12 @@ Rails.application.routes.draw do
   resources :car_manufacturers
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  resources :devices
+  
+  resources :devices do 
+    collection do 
+      get 'live_map'
+    end
+  end
 
   get 'home/index'
 
