@@ -1,10 +1,33 @@
 class DevicesController < ApplicationController
   before_action :set_device, only: [:show, :edit, :update, :destroy]
 
-  # GET /devices
-  # GET /devices.json
+  
+  has_scope :by_device_model
+  has_scope :by_device_type
+  has_scope :has_simcard do |controller, scope, value|
+    if value == "all"
+      scope
+    elsif value == "true"
+      scope.with_simcard
+    elsif value == "false"
+      scope.without_simcard
+    end 
+  end
+
+  has_scope :available do |controller, scope, value|
+    if value == "all"
+      scope
+    elsif value == "true"
+      scope.available
+    elsif value == "false"
+      scope.used
+    end 
+  end
+
+
+
   def index
-    @q = Device.search(params[:q])
+    @q = apply_scopes(Device).all.search(params[:q])
     @devices = @q.result(distinct: true)
   end
 

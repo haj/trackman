@@ -1,5 +1,5 @@
 module SimcardsHelper
-	def all_teleproviders
-		return Teleprovider.all.collect {|a| [ a.name, a.id ] }
+	def all_simcards
+		return Simcard.all.collect {|a| [ a.name, a.id ] }
 	end
 end

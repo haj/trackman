@@ -15,5 +15,33 @@
   .field
     = f.label :cost_price
     = f.text_field :cost_price
+  .field
+    = f.label :device_model
+    = f.collection_select(:device_model_id, DeviceModel.all, :id, :name)
+  .field
+    = f.label :device_type
+    = f.collection_select(:device_type_id, DeviceType.all, :id, :name)
+
+  .field
+    = f.label :car
+    - if @device.has_car?
+      = f.collection_select(:car_id, Car.cars_without_devices(@device.car_id), :id, :name )
+    - else 
+      - if Car.cars_without_devices(nil).count != 0 
+        = f.collection_select(:car_id, Car.cars_without_devices(nil), :id, :name, :include_blank => "Pick a car" )
+      - else
+        = f.collection_select(:car_id, Car.cars_without_devices(nil), :id, :name, :include_blank => "No cars available at this moment" )
+      
+     
+  .field
+    = f.label :simcard
+    - if @device.has_simcard?
+      = list_simcards_with_default(@device.simcard)
+    - else
+      - if no_available_simcards? 
+        = list_no_available_simcards
+      - else 
+        = list_available_simcards
+
   .actions
     = f.submit 'Save'

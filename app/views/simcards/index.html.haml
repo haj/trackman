@@ -11,14 +11,15 @@
     %b= "Teleprovider :"
     = select_tag( :by_teleprovider, options_for_select(all_teleproviders, params[:by_teleprovider]), :include_blank => true)
   .form-group
-    = radio_button_tag 'available', 'true' , true
+    = radio_button_tag 'available', 'all' , true
+    = "All"
+  .form-group
+    = radio_button_tag 'available', 'true' , params["available"] == 'true' ? true : false
     = "Available" 
   .form-group
     = radio_button_tag 'available', 'false' , params["available"] == 'false' ? true : false
     = "Used"
-  .form-group
-    = radio_button_tag 'available', 'all' , params["available"] == 'all' ? true : false
-    = "All"
+  
 
   = submit_tag 'Filter', :class => "btn btn-default"
 
