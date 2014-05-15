@@ -17,6 +17,7 @@ class Device < ActiveRecord::Base
 	belongs_to :device_model 
 	belongs_to :device_type
 	belongs_to :car
+	belongs_to :company
 
 	def self.available_devices
 		Device.where(:car_id => nil)
