@@ -1,0 +1,4 @@
+smtp_username: "testing.rails.apps@gmail.com"
+smtp_password: "testingrailsapps"
+db_password: "foobar@1991"
+db_production_password: "upworld021991"
