@@ -11,7 +11,7 @@ set :applicationdir, "/home/demo/trackman"
 set :scm, 'git'
 set :repository,  "ssh://demo@198.199.108.58/~/trackman.git"
 set :git_enable_submodules, 1 # if you have vendored rails
-set :branch, 'master'
+set :branch, 'capistrano'
 set :git_shallow_clone, 1
 set :scm_verbose, true
 set :ssh_options, { :forward_agent => true }
