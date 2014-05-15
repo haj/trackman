@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
 
@@ -97,3 +96,5 @@ gem "therubyracer"
 gem "less-rails"
 gem 'gon'
 gem "ransack"
+
+gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
