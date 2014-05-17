@@ -14,4 +14,10 @@ class Traccar::Device < ActiveRecord::Base
   			return {longitude: position.longitude, latitude: position.latitude }
   		end
   	end
+
+    def last_positions(number)
+      return self.positions.order("time DESC").limit(number)
+    end
+
+
 end
