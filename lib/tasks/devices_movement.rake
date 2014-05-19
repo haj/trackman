@@ -1,9 +1,9 @@
 namespace :devices_movement do
   task :refresh => :environment do
   	Company.all.each do |company|
-  		puts "#{company.name} => "
+  		puts "Company : #{company.name} => "
   		company.devices.each do |device|
-  			puts device.refresh_status
+  			puts device.update_movement_status
   		end
   	end
   end

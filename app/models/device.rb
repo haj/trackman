@@ -53,7 +53,7 @@ class Device < ActiveRecord::Base
 		return traccar_device.last_positions(number)
 	end
 
-	def refresh_status
+	def update_movement_status
 		last_positions = self.last_positions(2).to_a
 		
 
