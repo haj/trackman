@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140518001636) do
+ActiveRecord::Schema.define(version: 20140520171104) do
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -145,5 +145,14 @@ ActiveRecord::Schema.define(version: 20140518001636) do
   add_index "users", ["invitations_count"], name: "index_users_on_invitations_count"
   add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "work_hours", force: true do |t|
+    t.integer  "day_of_week"
+    t.time     "starts_at"
+    t.time     "ends_at"
+    t.integer  "device_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

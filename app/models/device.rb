@@ -18,6 +18,7 @@ class Device < ActiveRecord::Base
 	belongs_to :device_type
 	belongs_to :car
 	belongs_to :company
+	has_many :work_hours
 
 	def self.available_devices
 		Device.where(:car_id => nil)

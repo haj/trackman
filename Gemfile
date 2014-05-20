@@ -100,3 +100,5 @@ gem "ransack"
 gem "devise-async"
 gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
 gem 'whenever', :require => false
+gem 'chronic'
+gem 'tod'
