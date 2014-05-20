@@ -53,6 +53,7 @@ class Device < ActiveRecord::Base
 		return traccar_device.last_positions(number)
 	end
 
+	# check if the car (through the device) is moving or not
 	def update_movement_status
 		last_positions = self.last_positions(2).to_a
 		if last_positions.count == 2
@@ -72,6 +73,14 @@ class Device < ActiveRecord::Base
 		else
 			return "Device[#{self.name}] doesn't have GPS data"
 		end
+	end
+
+	# check if the car is moving during work hours
+	def check_if_during_work_hours
+		# get this device working hours
+		# check if current time is inside the working hours schedule
+		# return true if it's working hours 
+		# return false if car used outside working hours
 	end
 
 	

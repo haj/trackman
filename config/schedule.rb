@@ -16,8 +16,11 @@
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"
 # end
-
 # Learn more: http://github.com/javan/whenever
+
+
+# To generate cron jobs for this file
+# whenever --update-crontab trackman
 
 
 # every 1.minute do 
