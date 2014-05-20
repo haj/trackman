@@ -1,4 +1,4 @@
-namespace :devices_movement do
+namespace :devices do
   task :refresh => :environment do
   	Company.all.each do |company|
   		puts "Company : #{company.name} => "

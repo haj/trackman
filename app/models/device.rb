@@ -55,25 +55,25 @@ class Device < ActiveRecord::Base
 
 	def update_movement_status
 		last_positions = self.last_positions(2).to_a
-		
-
 		if last_positions.count == 2
 			latitude1 = last_positions[0].latitude 
 			longitude1 = last_positions[0].longitude
 			latitude2 = last_positions[1].latitude
 			longitude2 = last_positions[1].longitude
 
-			treshold = 0.0001
-			if (latitude1 - latitude2).abs < treshold && (longitude1 - longitude2).abs < treshold
+			threshold = 0.0001
+			if (latitude1 - latitude2).abs < threshold && (longitude1 - longitude2).abs < threshold
 				self.update_attributes(:movement => false, :last_checked => DateTime.now)
-				return "#{self.name} isn't moving"
+				return "Device[#{self.name}] isn't moving"
 			else 
 				self.update_attributes(:movement => true, :last_checked => DateTime.now)
-				return "#{self.name} is moving"
+				return "Device[#{self.name}] is moving"
 			end 
 		else
-			return "#{self.name} doesn't have GPS data"
+			return "Device[#{self.name}] doesn't have GPS data"
 		end
 	end
+
+	
 	
 end
