@@ -73,6 +73,7 @@ group :development, :test do
 
   gem "factory_girl_rails"
   gem "capybara"
+  gem 'do_by', github: 'andyw8/do_by'
 end
 
 gem 'safe_attributes', :require => 'safe_attributes/base'
@@ -102,3 +103,5 @@ gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
 gem 'whenever', :require => false
 gem 'chronic'
 gem 'tod'
+
+gem 'rubocop', require: false, :group => :development
