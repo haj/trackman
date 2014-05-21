@@ -77,11 +77,18 @@ class Device < ActiveRecord::Base
 	end
 
 	# check if the car is moving during work hours
-	def check_if_during_work_hours
-		# get this device working hours
-		# check if current time is inside the working hours schedule
-		# return true if it's working hours 
-		# return false if car used outside working hours
+	def movement_authorized?
+		time_now = Time.now
+		current_time = time_now.to_time_of_day
+		current_day_of_week = time_now.wday
+		self.work_hours.each do |work_hour|
+			shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
+			if shift.include?(current_time) && work_hour.day_of_week == current_day_of_week
+				return true
+			end
+		end
+
+		return false
 	end
 
 	
