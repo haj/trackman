@@ -1,5 +1,5 @@
 namespace :cars do
-  task :refresh => :environment do
+  task :refresh_movement_status => :environment do
   	Company.all.each do |company|
   		puts "Company : #{company.name} => "
   		company.cars.each do |car|

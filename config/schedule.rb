@@ -23,6 +23,6 @@
 # whenever --update-crontab trackman
 
 
-# every 1.minute do 
-# 	rake devices:refresh
-# end
+every 15.minutes do 
+	rake "cars:refresh_movement_status"
+end
