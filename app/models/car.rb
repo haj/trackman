@@ -65,6 +65,10 @@ class Car < ActiveRecord::Base
 		end
 	end
 
+	def moving?
+		return self.device.movement
+	end
+
 	# RULES/ALARMS
 
 	def update_movement_status

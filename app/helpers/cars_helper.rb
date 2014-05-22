@@ -46,4 +46,19 @@ module CarsHelper
 		return select_tag('user_id', content_tag(:option, driver.name, :value=> driver.id )+options_from_collection_for_select(User.available_drivers, 'id', 'name'))
 	end
 
+	########## 
+	# rules/alarms helpers
+	##########
+
+	def render_movement_status(car)
+		if car.has_device? && car.moving?
+			return "Car is moving"
+		elsif car.has_device?
+			return "Car isn't moving"
+		else	
+			return "No GPS Data"
+		end
+	end
+
+
 end
