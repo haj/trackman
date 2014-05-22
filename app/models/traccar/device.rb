@@ -19,5 +19,4 @@ class Traccar::Device < ActiveRecord::Base
       return self.positions.order("time DESC").limit(number)
     end
 
-
 end

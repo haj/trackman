@@ -54,6 +54,7 @@ class Car < ActiveRecord::Base
 	end
 
 	def has_driver?
+		return !self.car.nil?
 	end
 
 	def last_position
@@ -61,6 +62,28 @@ class Car < ActiveRecord::Base
 			return Hash.new
 		else
 			self.device.last_position
+		end
+	end
+
+	def moving?
+		return self.device.movement
+	end
+
+	# RULES/ALARMS
+
+	def update_movement_status
+		if self.has_device? 
+			return self.device.update_movement_status
+		else 
+			return "Car doesn't have device"
+		end
+	end
+
+	def movement_authorized?
+		if car.has_device? 
+			return car.device.movement_authorized?
+		else
+			return false
 		end
 	end
 

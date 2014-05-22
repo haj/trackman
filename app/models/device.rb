@@ -18,6 +18,7 @@ class Device < ActiveRecord::Base
 	belongs_to :device_type
 	belongs_to :car
 	belongs_to :company
+	has_many :work_hours
 
 	def self.available_devices
 		Device.where(:car_id => nil)
@@ -47,5 +48,49 @@ class Device < ActiveRecord::Base
 			Traccar::Device.where(uniqueId: self.emei).first.last_position
 		end
 	end
+
+	def last_positions(number=2)
+		traccar_device = Traccar::Device.where(:uniqueId => self.emei).first
+		return traccar_device.last_positions(number)
+	end
+
+	# check if the car (through the device) is moving or not
+	def update_movement_status
+		last_positions = self.last_positions(2).to_a
+		if last_positions.count == 2
+			latitude1 = last_positions[0].latitude 
+			longitude1 = last_positions[0].longitude
+			latitude2 = last_positions[1].latitude
+			longitude2 = last_positions[1].longitude
+
+			threshold = 0.0001
+			if (latitude1 - latitude2).abs < threshold && (longitude1 - longitude2).abs < threshold
+				self.update_attributes(:movement => false, :last_checked => DateTime.now)
+				return "Device[#{self.name}] isn't moving"
+			else 
+				self.update_attributes(:movement => true, :last_checked => DateTime.now)
+				return "Device[#{self.name}] is moving"
+			end 
+		else
+			return "Device[#{self.name}] doesn't have GPS data"
+		end
+	end
+
+	# check if the car is moving during work hours
+	def movement_authorized?
+		time_now = Time.now
+		current_time = time_now.to_time_of_day
+		current_day_of_week = time_now.wday
+		self.work_hours.each do |work_hour|
+			shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
+			if shift.include?(current_time) && work_hour.day_of_week == current_day_of_week
+				return true
+			end
+		end
+
+		return false
+	end
+
+	
 	
 end

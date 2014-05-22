@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :work_hours
+
   resources :simcards
 
   resources :teleproviders

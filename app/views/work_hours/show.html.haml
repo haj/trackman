@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Day of week:
+  = @work_hour.day_of_week
+%p
+  %b Starts at:
+  = @work_hour.starts_at
+%p
+  %b Ends at:
+  = @work_hour.ends_at
+%p
+  %b Device:
+  = @work_hour.device_id
+
+= link_to 'Edit', edit_work_hour_path(@work_hour)
+\|
+= link_to 'Back', work_hours_path
