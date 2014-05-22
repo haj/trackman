@@ -27,12 +27,13 @@ class CarsController < ApplicationController
 
 
   def index
-    @cars = apply_scopes(Car).all
-    positions = Car.all_positions(@cars)
-    @hash = Gmaps4rails.build_markers(positions) do |position, marker|
-      marker.lat position[:latitude].to_s
-      marker.lng position[:longitude].to_s
-    end
+    @q = apply_scopes(Car).all.search(params[:q])
+    @cars = @q.result(distinct: true)
+    #positions = Car.all_positions(@cars)    
+    # @hash = Gmaps4rails.build_markers(positions) do |position, marker|
+    #   marker.lat position[:latitude].to_s
+    #   marker.lng position[:longitude].to_s
+    # end
 
     gon.data = @hash
     gon.url = "/cars"
