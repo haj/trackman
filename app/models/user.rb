@@ -4,7 +4,10 @@ class User < ActiveRecord::Base
   devise :invitable, :async, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+
     ROLES = ["admin", "manager", "employee", "driver"]
+
+    acts_as_messageable
 
 	acts_as_tenant(:company)
 	validates_uniqueness_to_tenant :email
@@ -22,6 +25,15 @@ class User < ActiveRecord::Base
 
 	def name 
 		return "#{self.first_name} #{self.last_name}"
+	end
+
+	# This is required by mailboxer gem
+	def mailboxer_email(object)
+	  #Check if an email should be sent for that object
+	  #if true
+	  return "define_email@on_your.model"
+	  #if false
+	  #return nil
 	end
 
 end
