@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :invitable, :async, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  devise :invitable, :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable#, :async
 
     ROLES = ["admin", "manager", "employee", "driver"]
 
