@@ -13,7 +13,7 @@ Devise.setup do |config|
   config.mailer_sender = Figaro.env.smtp_username
 
   # Configure the class responsible to send e-mails.
-  # config.mailer = 'Devise::Mailer'
+  #config.mailer = "Devise::Async::Proxy"
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
