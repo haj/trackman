@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140523173205) do
+ActiveRecord::Schema.define(version: 20140524205239) do
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -45,6 +45,15 @@ ActiveRecord::Schema.define(version: 20140523173205) do
     t.datetime "updated_at"
     t.integer  "company_id"
   end
+
+  create_table "cars_rules", id: false, force: true do |t|
+    t.integer  "car_id",     null: false
+    t.integer  "rule_id",    null: false
+    t.string   "status"
+    t.datetime "last_alert"
+  end
+
+  add_index "cars_rules", ["car_id", "rule_id"], name: "index_cars_rules_on_car_id_and_rule_id", unique: true
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -116,6 +125,15 @@ ActiveRecord::Schema.define(version: 20140523173205) do
     t.integer  "company_id"
   end
 
+  create_table "groups_rules", force: true do |t|
+    t.integer  "group_id",   null: false
+    t.integer  "rule_id",    null: false
+    t.string   "status"
+    t.datetime "last_alert"
+  end
+
+  add_index "groups_rules", ["group_id", "rule_id"], name: "index_groups_rules_on_group_id_and_rule_id", unique: true
+
   create_table "notifications", force: true do |t|
     t.string   "type"
     t.text     "body"
@@ -149,6 +167,12 @@ ActiveRecord::Schema.define(version: 20140523173205) do
   end
 
   add_index "receipts", ["notification_id"], name: "index_receipts_on_notification_id"
+
+  create_table "rules", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "simcards", force: true do |t|
     t.string   "telephone_number"

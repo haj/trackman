@@ -1,8 +1,35 @@
 %p#notice= notice
 
-%p
-  %b Name:
-  = @group.name
+%h1= "#{@group.name} group"
+
+%h3 Cars
+
+%table.table
+	%tr
+		%th= "Name"
+
+
+	- @group.cars.each do |car|
+		%tr
+			%td= car.name
+
+%br
+
+%h3 Rules
+
+%table.table
+	%tr
+		%th= "Name"
+		%th= "Status"
+		%th= "Last alert"
+
+	- @rules.each do |rule|
+		%tr
+			%td= rule.name
+			%td= @group.rule_status(rule)
+			%td= rule.name
+%br
+
 
 = link_to 'Edit', edit_group_path(@group)
 \|

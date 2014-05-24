@@ -14,6 +14,7 @@ class Car < ActiveRecord::Base
 	belongs_to :car_type
 	has_one :device
 	has_one :driver, :class_name => "User", :foreign_key => "car_id"
+	has_and_belongs_to_many :rules
 
 	def name
 		if self.id.nil?
