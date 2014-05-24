@@ -10,7 +10,7 @@ $(document).ready ->
 			window.markers = markers
 			handler.bounds.extendWith(markers)
 			handler.fitMapToBounds()
-			refresh_rate = 3000000  
+			refresh_rate = 3000  
 			setTimeout((-> device_refresh_loop(refresh_rate)), refresh_rate)
 
 		device_refresh_loop = (refresh_rate) ->
@@ -21,7 +21,7 @@ $(document).ready ->
 		        error: (jqXHR, textStatus, errorThrown) ->
 		            console.log "AJAX Error: #{gon.device_url}"
 		        success: (data, textStatus, jqXHR) ->
-		            console.log "Refreshing cars"
+		            console.log "Refreshing devices"
 					handler.removeMarkers(window.markers)
 					window.markers = handler.addMarkers(gon.device_data)
 			setTimeout((-> device_refresh_loop(refresh_rate)), refresh_rate)

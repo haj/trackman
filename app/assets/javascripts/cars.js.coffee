@@ -10,10 +10,10 @@ $(document).ready ->
 			window.markers = markers
 			handler.bounds.extendWith(markers)
 			handler.fitMapToBounds()
-			refresh_rate = 3000000  
-			setTimeout((-> refresh_loop(refresh_rate)), refresh_rate)
+			refresh_rate = 3000  
+			setTimeout((-> car_refresh_loop(refresh_rate)), refresh_rate)
 
-		refresh_loop = (refresh_rate) ->
+		car_refresh_loop = (refresh_rate) ->
 			$.ajax gon.url, 
 		        type: 'GET'
 		        dataType: 'html'
@@ -24,7 +24,7 @@ $(document).ready ->
 		            console.log "Refreshing cars"
 					handler.removeMarkers(window.markers)
 					window.markers = handler.addMarkers(gon.data)
-			setTimeout((-> refresh_loop(refresh_rate)), refresh_rate)
+			setTimeout((-> car_refresh_loop(refresh_rate)), refresh_rate)
 				
 
 
