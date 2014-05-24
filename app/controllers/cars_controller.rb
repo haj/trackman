@@ -26,14 +26,15 @@ class CarsController < ApplicationController
 
 
 
+
   def index
     @q = apply_scopes(Car).all.search(params[:q])
     @cars = @q.result(distinct: true)
-    #positions = Car.all_positions(@cars)    
-    # @hash = Gmaps4rails.build_markers(positions) do |position, marker|
-    #   marker.lat position[:latitude].to_s
-    #   marker.lng position[:longitude].to_s
-    # end
+    @positions = Car.all_positions(@cars)    
+    @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
+      marker.lat position[:latitude].to_s
+      marker.lng position[:longitude].to_s
+    end
 
     gon.push({
       :data => @hash,
@@ -125,6 +126,23 @@ class CarsController < ApplicationController
       format.html { redirect_to cars_url }
       format.json { head :no_content }
     end
+  end
+
+  def live_map
+    @cars = Car.all
+    @positions = Car.all_positions(@cars)    
+    @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
+      marker.lat position[:latitude].to_s
+      marker.lng position[:longitude].to_s
+    end
+
+    gon.push({
+      :data => @hash,
+      :url => "/cars",
+      :map_id => "cars_index",
+      :resource => "cars", 
+      :query_params => request.query_parameters
+    })
   end
 
   private

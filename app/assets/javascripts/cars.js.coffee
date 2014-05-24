@@ -10,7 +10,7 @@ $(document).ready ->
 			window.markers = markers
 			handler.bounds.extendWith(markers)
 			handler.fitMapToBounds()
-			refresh_rate = 3000  
+			refresh_rate = 3000
 			setTimeout((-> car_refresh_loop(refresh_rate)), refresh_rate)
 
 		car_refresh_loop = (refresh_rate) ->
@@ -25,6 +25,7 @@ $(document).ready ->
 					handler.removeMarkers(window.markers)
 					window.markers = handler.addMarkers(gon.data)
 			setTimeout((-> car_refresh_loop(refresh_rate)), refresh_rate)
+
 				
 
 
