@@ -107,3 +107,6 @@ gem 'chronic'
 gem 'tod'
 
 gem 'rubocop', require: false, :group => :development
+
+gem 'mailboxer'
+gem 'daemons'
