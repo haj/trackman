@@ -35,10 +35,13 @@ class CarsController < ApplicationController
     #   marker.lng position[:longitude].to_s
     # end
 
-    gon.data = @hash
-    gon.url = "/cars"
-    gon.map_id = "cars_index"
-    gon.query_params = request.query_parameters
+    gon.push({
+      :data => @hash,
+      :url => "/cars",
+      :map_id => "cars_index",
+      :resource => "cars", 
+      :query_params => request.query_parameters
+    })
   end
 
   # GET /cars/1
@@ -50,9 +53,13 @@ class CarsController < ApplicationController
       marker.lat position[:latitude].to_s
       marker.lng position[:longitude].to_s
     end
-    gon.data = @hash
-    gon.url = "/cars/#{@car.id}"
-    gon.map_id = "cars_show"
+
+    gon.push({
+      :data => @hash,
+      :url => "/cars/#{@car.id}",
+      :map_id => "cars_show",
+      :resource => "cars"
+    })
   end
 
   # GET /cars/new

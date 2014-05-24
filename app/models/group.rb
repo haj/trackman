@@ -6,11 +6,11 @@ class Group < ActiveRecord::Base
 	has_many :group_rules
 
 	def rule_status(rule)
-		self.group_rules.where(rule_id: rule.id).first.status
+		self.group_rules.where(rule_id: rule.id, group_id: self.id).first.status
 	end
 
-	def rule_last_alert
-		self.group_rules.first.last_alert
+	def rule_last_alert(rule)
+		self.group_rules.where(rule_id: rule.id, group_id: self.id).first.last_alert
 	end
 	
 end

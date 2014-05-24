@@ -11,7 +11,7 @@
 
 	- @group.cars.each do |car|
 		%tr
-			%td= car.name
+			%td= link_to car.name, car
 
 %br
 
@@ -27,7 +27,7 @@
 		%tr
 			%td= rule.name
 			%td= @group.rule_status(rule)
-			%td= rule.name
+			%td= @group.rule_last_alert(rule)
 %br
 
 

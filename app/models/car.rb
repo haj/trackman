@@ -71,7 +71,7 @@ class Car < ActiveRecord::Base
 		return self.device.movement
 	end
 
-	# RULES/ALARMS
+	# RULES/ALARMS jobs
 
 	def update_movement_status
 		if self.has_device? 
@@ -88,5 +88,15 @@ class Car < ActiveRecord::Base
 			return false
 		end
 	end
+
+	# has_many rules
+	def rule_status(rule)
+		self.car_rules.where(rule_id: rule.id, car_id: self.id).first.status
+	end
+
+	def rule_last_alert(rule)
+		self.car_rules.where(rule_id: rule.id, car_id: self.id).first.last_alert
+	end
+
 
 end
