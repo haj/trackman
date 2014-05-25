@@ -1,0 +1,36 @@
+%h1 Listing users
+
+= search_form_for @q do |f| 
+  = f.search_field :email_cont, :placeholder => "Search with email"
+  = f.submit "Search", :class => "btn btn-default"
+
+%br
+
+= form_tag '', :method => :get, :class => "form-inline" do
+  .form-group
+    = "Roles"
+    = select_tag( :by_role, options_for_select(all_roles, params[:by_role]), :include_blank => true)
+    
+  %br
+  %br
+  = submit_tag 'Filter', :class => "btn btn-primary"
+
+%br
+
+%table.table
+  %tr
+    = content_tag :th, sort_link(@q, :name)
+    = content_tag :th, sort_link(@q, :email)
+    %th
+    %th
+
+  - @users.each do |user|
+    %tr
+      %td= link_to user.name, user
+      %td= user.email
+      %td= link_to 'Edit', edit_user_path(user)
+      %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'Invite user', new_user_invitation_path

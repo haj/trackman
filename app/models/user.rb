@@ -4,8 +4,7 @@ class User < ActiveRecord::Base
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :async
 
-
-   	scope :by_role, -> role_name { where(:car_model_id => car_model_id) }
+   	scope :by_role, -> role_name { where(roles_mask: self.mask_values_for(role_name.to_sym)) }
 
     ROLES = ["admin", "manager", "employee", "driver"]
 

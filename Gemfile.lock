@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/andrewhubbs/role_model.git
+  revision: 1fccd4e3efd0e7d22e2e85298f27f55dbf2cb218
+  specs:
+    role_model (0.8.1)
+
+GIT
   remote: git://github.com/andyw8/do_by.git
   revision: a590dc1f0ec68c894f670fd912364817af14c962
   specs:
@@ -261,7 +267,6 @@ GEM
     ref (1.0.5)
     remotipart (1.2.1)
     request_store (1.0.5)
-    role_model (0.8.1)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -387,7 +392,7 @@ DEPENDENCIES
   rails (= 4.1.1)
   rails_admin
   ransack
-  role_model
+  role_model!
   rspec-rails
   rubocop
   safe_attributes

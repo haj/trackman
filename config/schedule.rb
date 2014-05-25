@@ -26,3 +26,7 @@
 every 15.minutes do 
 	rake "cars:refresh_movement_status"
 end
+
+every 5.minutes do 
+	rake jobs:workoff
+end

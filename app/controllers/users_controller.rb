@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :destroy]
 
-  
 
-  # GET /users
-  # GET /users.json
+  has_scope :by_role
+  
   def index
-    @users = User.all
+    @q = apply_scopes(User).all.search(params[:q])
+    @users = @q.result(distinct: true)
   end
 
   # GET /users/1

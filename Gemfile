@@ -48,7 +48,7 @@ gem 'devise_invitable', '~> 1.3.4'
 
 gem 'hirb'
 gem "cancan"
-gem 'role_model'
+gem 'role_model', github: 'andrewhubbs/role_model'
 gem 'nested_form'
 gem "jquery-ui-rails"
 gem 'country-select'
@@ -111,3 +111,5 @@ gem 'rubocop', require: false, :group => :development
 gem 'mailboxer'
 
 #gem 'jquery-turbolinks'
+
+
