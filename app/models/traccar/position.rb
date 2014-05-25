@@ -7,6 +7,6 @@ class Traccar::Position < ActiveRecord::Base
   	belongs_to :device, :class_name => 'Traccar::Device'
 
   	bad_attribute_names :valid?
-  	validates_presence_of :valid?
+  	#validates_presence_of :valid?
   	
 end

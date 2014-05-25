@@ -73,7 +73,6 @@ group :development, :test do
 
   gem "factory_girl_rails"
   gem "capybara"
-  gem 'do_by', github: 'andyw8/do_by'
 end
 
 gem 'safe_attributes', :require => 'safe_attributes/base'

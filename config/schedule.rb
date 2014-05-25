@@ -22,11 +22,18 @@
 # To generate cron jobs for this file
 # whenever --update-crontab trackman
 
+# crontab -r 
+# whenever --update-crontab --set environment='development'
+
 
 every 15.minutes do 
 	rake "cars:refresh_movement_status"
 end
 
 every 5.minutes do 
-	rake jobs:workoff
+	rake "jobs:workoff"
+end
+
+every 2.minutes do 
+	rake "simulate:moving_cars"
 end

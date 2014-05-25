@@ -11,7 +11,15 @@ $(document).ready ->
 			handler.bounds.extendWith(markers)
 			handler.fitMapToBounds()
 			refresh_rate = 3000
-			setTimeout((-> car_refresh_loop(refresh_rate)), refresh_rate)
+
+
+		renewUsers = (count) ->
+ 			console.log "Refreshing cars"
+ 			console.log(count)
+				handler.removeMarkers(window.markers)
+				window.markers = handler.addMarkers(count)
+		gon.watch('data', interval: 3000, renewUsers)
+
 
 		car_refresh_loop = (refresh_rate) ->
 			$.ajax gon.url, 
@@ -21,9 +29,9 @@ $(document).ready ->
 		        error: (jqXHR, textStatus, errorThrown) ->
 		            console.log "AJAX Error: #{gon.url}"
 		        success: (data, textStatus, jqXHR) ->
-		            console.log "Refreshing cars"
+		        	console.log "Refreshing cars"
 					handler.removeMarkers(window.markers)
-					window.markers = handler.addMarkers(gon.data)
+					window.markers = handler.addMarkers(data)   
 			setTimeout((-> car_refresh_loop(refresh_rate)), refresh_rate)
 
 				
