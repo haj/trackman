@@ -11,11 +11,15 @@ Rails.application.routes.draw do
 
   resources :device_manufacturers
 
-  resources :groups
+  resources :groups do 
+    member do 
+      get 'live'
+    end
+  end
 
   resources :cars do 
     collection do 
-      get 'live_map'
+      get 'live'
     end
   end
 

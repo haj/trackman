@@ -56,7 +56,7 @@ class Car < ActiveRecord::Base
 	end
 
 	def has_driver?
-		return !self.car.nil?
+		return !self.driver.nil?
 	end
 
 	def last_position

@@ -54,7 +54,7 @@
             </ul>
           </li> 
           <% if current_user && current_user.has_role?(:manager) %>
-            <li><%= link_to 'Live Map', live_map_cars_path %></li> 
+            <li><%= link_to 'Live Map', live_cars_path %></li> 
           <% end %>
         <% end %>    
       </ul>

@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :async
 
 
+   	scope :by_role, -> role_name { where(:car_model_id => car_model_id) }
+
     ROLES = ["admin", "manager", "employee", "driver"]
 
     acts_as_messageable
@@ -23,11 +25,16 @@ class User < ActiveRecord::Base
 		return drivers
 	end
 
-	def name 
-		return "#{self.first_name} #{self.last_name}"
+	def name_with_email
+		"#{self.first_name} #{self.last_name} #{self.email}" 
 	end
 
-	# This is required by mailboxer gem
+	# These methods are required by the mailboxer gem
+
+	def name 
+		"#{self.first_name} #{self.last_name}"
+	end
+
 	def mailboxer_email(object)
 	  #Check if an email should be sent for that object
 	  #if true

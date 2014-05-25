@@ -24,6 +24,22 @@ class GroupsController < ApplicationController
   def edit
   end
 
+  def live
+    @group = Group.find(params[:id])
+    @cars = @group.cars
+    @positions = Car.all_positions(@cars)    
+    @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
+      marker.lat position[:latitude].to_s
+      marker.lng position[:longitude].to_s
+    end
+
+    gon.push({
+      :data => @hash,
+      :url => "/groups/#{@group.id}/live",
+      :map_id => "group_cars",
+      :resource => "groups"
+    })
+  end
   # POST /groups
   # POST /groups.json
   def create

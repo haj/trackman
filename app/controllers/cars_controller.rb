@@ -128,7 +128,7 @@ class CarsController < ApplicationController
     end
   end
 
-  def live_map
+  def live
     @cars = Car.all
     @positions = Car.all_positions(@cars)    
     @hash = Gmaps4rails.build_markers(@positions) do |position, marker|

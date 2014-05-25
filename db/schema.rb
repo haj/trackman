@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140524205607) do
+ActiveRecord::Schema.define(version: 20140524235623) do
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -61,6 +61,21 @@ ActiveRecord::Schema.define(version: 20140524205607) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "conditions", force: true do |t|
+    t.string   "name"
+    t.string   "method_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "conditions_rules", force: true do |t|
+    t.integer "rule_id",      null: false
+    t.integer "condition_id", null: false
+    t.string  "conjunction"
+  end
+
+  add_index "conditions_rules", ["condition_id", "rule_id"], name: "index_conditions_rules_on_condition_id_and_rule_id", unique: true
 
   create_table "conversations", force: true do |t|
     t.string   "subject",    default: ""
