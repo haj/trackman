@@ -26,14 +26,14 @@
 # whenever --update-crontab --set environment='development'
 
 
-every 15.minutes do 
-	rake "cars:refresh_movement_status"
+every 3.minute do 
+	rake "check:which_cars_are_moving"
 end
 
-every 5.minutes do 
+every 2.minute do 
 	rake "jobs:workoff"
 end
 
-every 2.minutes do 
-	rake "simulate:moving_cars"
+every 1.minute do 
+	rake "simulate:cars_random_movement"
 end

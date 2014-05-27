@@ -13,15 +13,9 @@ $(document).ready ->
 			refresh_rate = 3000  
 			setTimeout((-> device_refresh_loop(refresh_rate)), refresh_rate)
 
-		device_refresh_loop = (refresh_rate) ->
-			$.ajax gon.device_url, 
-		        type: 'GET'
-		        dataType: 'html'
-		        data: gon.device_query_params
-		        error: (jqXHR, textStatus, errorThrown) ->
-		            console.log "AJAX Error: #{gon.device_url}"
-		        success: (data, textStatus, jqXHR) ->
-		            console.log "Refreshing devices"
-					handler.removeMarkers(window.markers)
-					window.markers = handler.addMarkers(gon.device_data)
-			setTimeout((-> device_refresh_loop(refresh_rate)), refresh_rate)
+		refreshDevicesMap = (data) ->
+ 			console.log "Refreshing devices"
+ 			console.log(data)
+				handler.removeMarkers(window.markers)
+				window.markers = handler.addMarkers(data)
+		gon.watch('data', interval: 3000, refreshDevicesMap)

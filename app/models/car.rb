@@ -41,10 +41,11 @@ class Car < ActiveRecord::Base
 		end
 	end
 
+	# Generate the pos
 	def self.all_positions(cars)
 		positions = Array.new
 		cars.each do |car|
-      		if !car.last_position.empty? 
+      		if car.last_position.count != 0 
         		positions << car.last_position
       		end
     	end
@@ -59,8 +60,12 @@ class Car < ActiveRecord::Base
 		return !self.driver.nil?
 	end
 
+	# Generate a hash with latitude and longitude of the car (fetched through the device GPS data)
+	#   Also for this hash to be non-empty, the car must have a device associated with it in the database
 	def last_position
 		if self.device.nil?
+			# if this car doesn't have a device attached to it 
+			#   then just send an empty hash for the position
 			return Hash.new
 		else
 			self.device.last_position
@@ -71,8 +76,9 @@ class Car < ActiveRecord::Base
 		return self.device.movement
 	end
 
-	# RULES/ALARMS jobs
+	# ALARMS
 
+	# check if car is moving or idle
 	def update_movement_status
 		if self.has_device? 
 			return self.device.update_movement_status
@@ -81,19 +87,26 @@ class Car < ActiveRecord::Base
 		end
 	end
 
+	# Check if car is authorized to be moving 
+	#  (means if the driver is using the vehicle during his work hours or not)
 	def movement_authorized?
 		if car.has_device? 
 			return car.device.movement_authorized?
 		else
+			# This return false but in reality if means this car doesn't have a device associated with it in the database
+			# TODO : change this to something more meaningful
 			return false
 		end
 	end
 
-	# has_many rules
+	# RULES
+
+	# fetch name of the rule associated with this car
 	def rule_status(rule)
 		self.car_rules.where(rule_id: rule.id, car_id: self.id).first.status
 	end
 
+	# fetch last_alert time of the rule associated with this car
 	def rule_last_alert(rule)
 		self.car_rules.where(rule_id: rule.id, car_id: self.id).first.last_alert
 	end

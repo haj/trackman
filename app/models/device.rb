@@ -9,8 +9,6 @@ class Device < ActiveRecord::Base
 	scope :available, -> { where(:car_id => nil) }
 	scope :used, -> { where("car_id NOT NULL") }
 
-
-
 	acts_as_tenant(:company)
 
 	has_one :simcard
@@ -19,6 +17,7 @@ class Device < ActiveRecord::Base
 	belongs_to :car
 	belongs_to :company
 	has_many :work_hours
+
 
 	def self.available_devices
 		Device.where(:car_id => nil)
@@ -74,6 +73,10 @@ class Device < ActiveRecord::Base
 		else
 			return "Device[#{self.name}] doesn't have GPS data"
 		end
+	end
+
+	def traccar_device
+		Traccar::Device.where(uniqueId: self.emei).first
 	end
 
 	# check if the car is moving during work hours

@@ -13,26 +13,13 @@ $(document).ready ->
 			refresh_rate = 3000
 
 
-		renewUsers = (count) ->
+		refreshCarsMap = (data) ->
  			console.log "Refreshing cars"
- 			console.log(count)
+ 			console.log(data)
 				handler.removeMarkers(window.markers)
-				window.markers = handler.addMarkers(count)
-		gon.watch('data', interval: 3000, renewUsers)
+				window.markers = handler.addMarkers(data)
+		gon.watch('data', interval: 3000, refreshCarsMap)
 
-
-		car_refresh_loop = (refresh_rate) ->
-			$.ajax gon.url, 
-		        type: 'GET'
-		        dataType: 'html'
-		        data: gon.query_params
-		        error: (jqXHR, textStatus, errorThrown) ->
-		            console.log "AJAX Error: #{gon.url}"
-		        success: (data, textStatus, jqXHR) ->
-		        	console.log "Refreshing cars"
-					handler.removeMarkers(window.markers)
-					window.markers = handler.addMarkers(data)   
-			setTimeout((-> car_refresh_loop(refresh_rate)), refresh_rate)
 
 				
 

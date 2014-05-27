@@ -8,7 +8,7 @@ describe "user registration" do
     fill_in "Email",                 :with => "test@example.com"
     fill_in "Password",              :with => "testpassword"
     fill_in "user_password_confirmation", :with => "testpassword"
-    fill_in "Name", :with => "corp"
+    fill_in "Company name", :with => "corp"
     fill_in "Subdomain", :with => "corp"
 
     click_button "Sign up"

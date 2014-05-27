@@ -98,17 +98,12 @@ gem 'gon'
 gem "ransack"
 
 gem "devise-async"
-#gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
 gem 'delayed_job_active_record'
 gem 'daemons' #required by delayed_job 
 gem 'whenever', :require => false
 gem 'chronic'
 gem 'tod'
-
 gem 'rubocop', require: false, :group => :development
-
 gem 'mailboxer'
-
-#gem 'jquery-turbolinks'
 
 
