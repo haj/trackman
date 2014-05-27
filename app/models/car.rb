@@ -16,6 +16,10 @@ class Car < ActiveRecord::Base
 	has_one :driver, :class_name => "User", :foreign_key => "car_id"
 	has_and_belongs_to_many :rules
 	has_many :car_rules
+	has_many :states
+
+
+
 
 	def name
 		if self.id.nil?
@@ -76,10 +80,58 @@ class Car < ActiveRecord::Base
 		return self.device.movement
 	end
 
-	# ALARMS
+	
 
-	# check if car is moving or idle
-	def update_movement_status
+	# RULES
+
+	# fetch name of the rule associated with this car
+	def rule_status(rule)
+		self.car_rules.where(rule_id: rule.id, car_id: self.id).first.status
+	end
+
+	# fetch last_alert time of the rule associated with this car
+	def rule_last_alert(rule)
+		self.car_rules.where(rule_id: rule.id, car_id: self.id).first.last_alert
+	end
+
+	# ALARMS
+	
+	def generate_alarms
+
+		state = State.new
+
+		if self.no_data? 
+			# check if car has device associated with it 
+			state.data = false
+			end
+			return "Tracking device broken"
+
+		elsif self.moving? 
+
+			if self.movement_authorized?
+			end
+
+			if self.speed_limit? 
+			end
+
+			if self.stolen?
+			end
+
+			if self.long_hours?
+			end
+
+		else 
+
+			if self.long_pause?
+			end
+
+		end
+
+
+
+	end
+
+	def moving?
 		if self.has_device? 
 			return self.device.update_movement_status
 		else 
@@ -93,22 +145,34 @@ class Car < ActiveRecord::Base
 		if car.has_device? 
 			return car.device.movement_authorized?
 		else
-			# This return false but in reality if means this car doesn't have a device associated with it in the database
+			# This return false but in reality it means this car doesn't have a device associated with it in the database
 			# TODO : change this to something more meaningful
 			return false
 		end
 	end
 
-	# RULES
-
-	# fetch name of the rule associated with this car
-	def rule_status(rule)
-		self.car_rules.where(rule_id: rule.id, car_id: self.id).first.status
+	def no_data?
+		# check if last time a new position reported is longer than x minutes
+		return !car.has_device? || car.device.no_data?
 	end
 
-	# fetch last_alert time of the rule associated with this car
-	def rule_last_alert(rule)
-		self.car_rules.where(rule_id: rule.id, car_id: self.id).first.last_alert
+	def speed_limit? 
+		# check current speed and if it's respecting the speed limit for this vehicle
+		# get the current speed from device
+	end
+
+	def stolen?
+		# check if the engine off (but the car is still moving)
+	end
+
+	def long_hours?
+		# check when was the last pause 
+		# 	(let's say a pause is 15 minutes for now)
+	end
+
+	def long_pause? 
+		# check when was the last the vehicle was moving 
+		# 	(that way we can deduce the duration of the current pause and decide if it's too long or not)
 	end
 
 

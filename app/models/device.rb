@@ -1,4 +1,5 @@
 class Device < ActiveRecord::Base
+	include ActionView::Helpers::DateHelper
 
 	scope :by_device_model, -> device_model_id { where(:device_model_id => device_model_id) }
 	scope :by_device_type, -> device_type_id { where(:device_type_id => device_type_id) }
@@ -53,8 +54,8 @@ class Device < ActiveRecord::Base
 		return traccar_device.last_positions(number)
 	end
 
-	# check if the car (through the device) is moving or not
-	def update_movement_status
+	# check if the device is reporting that the car is moving (or not)
+	def moving?
 		last_positions = self.last_positions(2).to_a
 		if last_positions.count == 2
 			latitude1 = last_positions[0].latitude 
@@ -94,6 +95,42 @@ class Device < ActiveRecord::Base
 		return false
 	end
 
+	def no_data?
+		last_position = self.traccar_device.positions.last
+
+		seconds_since_last_position = Shift.new(Time.now.to_time_of_day, last_position.time.to_time_of_day).duration
+		
+		#return "#{time_ago_in_words(last_position.time)} ago OR #{since} seconds"
+		
+		if seconds_since_last_position >= ENV['no_data_threshold'].to_i.minutes
+			return true
+		else
+			return false
+		end
+	end
+
+	def speed
+		self.traccar_device.positions.last.speed
+	end
+
+	def speed_limit? 
+		# check current speed and if it's respecting the speed limit for this vehicle
+		# get the current speed from device
+	end
+
+	def stolen?
+		# check if the engine off (but the car is still moving)
+	end
+
+	def long_hours?
+		# check when was the last pause 
+		# 	(let's say a pause is 15 minutes for now)
+	end
+
+	def long_pause? 
+		# check when was the last the vehicle was moving 
+		# 	(that way we can deduce the duration of the current pause and decide if it's too long or not)
+	end
 	
 	
 end
