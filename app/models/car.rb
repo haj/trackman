@@ -17,9 +17,7 @@ class Car < ActiveRecord::Base
 	has_and_belongs_to_many :rules
 	has_many :car_rules
 	has_many :states
-
-
-
+	has_many :work_hours
 
 	def name
 		if self.id.nil?
@@ -103,31 +101,17 @@ class Car < ActiveRecord::Base
 		if self.no_data? 
 			# check if car has device associated with it 
 			state.data = false
-			end
-			return "Tracking device broken"
 
 		elsif self.moving? 
-
-			if self.movement_authorized?
-			end
-
-			if self.speed_limit? 
-			end
-
-			if self.stolen?
-			end
-
-			if self.long_hours?
-			end
-
+			state.authorized_hours = self.movement_authorized?
+			state.speed_limit = self.speed_limit?
+			state.long_hours = self.long_hours?
 		else 
 
-			if self.long_pause?
-			end
-
+			state.long_pause = self.long_pause?
 		end
 
-
+		state.save!
 
 	end
 
@@ -139,16 +123,20 @@ class Car < ActiveRecord::Base
 		end
 	end
 
-	# Check if car is authorized to be moving 
-	#  (means if the driver is using the vehicle during his work hours or not)
+	# check if the car is moving during work hours
 	def movement_authorized?
-		if car.has_device? 
-			return car.device.movement_authorized?
-		else
-			# This return false but in reality it means this car doesn't have a device associated with it in the database
-			# TODO : change this to something more meaningful
-			return false
+		time_now = Time.now
+		current_time = time_now.to_time_of_day
+		current_day_of_week = time_now.wday
+
+		self.work_hours.each do |work_hour|
+			shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
+			if shift.include?(current_time) && work_hour.day_of_week == current_day_of_week
+				return true
+			end
 		end
+
+		return false
 	end
 
 	def no_data?
@@ -157,22 +145,27 @@ class Car < ActiveRecord::Base
 	end
 
 	def speed_limit? 
+		
 		# check current speed and if it's respecting the speed limit for this vehicle
 		# get the current speed from device
+		# TODO 
 	end
 
 	def stolen?
 		# check if the engine off (but the car is still moving)
+		# TODO
 	end
 
 	def long_hours?
 		# check when was the last pause 
 		# 	(let's say a pause is 15 minutes for now)
+		# TODO
 	end
 
 	def long_pause? 
 		# check when was the last the vehicle was moving 
 		# 	(that way we can deduce the duration of the current pause and decide if it's too long or not)
+		# TODO
 	end
 
 

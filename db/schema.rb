@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140527220307) do
+ActiveRecord::Schema.define(version: 20140527234222) do
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -263,7 +263,7 @@ ActiveRecord::Schema.define(version: 20140527220307) do
     t.integer  "day_of_week"
     t.time     "starts_at"
     t.time     "ends_at"
-    t.integer  "device_id"
+    t.integer  "car_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

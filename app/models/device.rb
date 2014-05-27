@@ -17,7 +17,7 @@ class Device < ActiveRecord::Base
 	belongs_to :device_type
 	belongs_to :car
 	belongs_to :company
-	has_many :work_hours
+	#has_many :work_hours
 
 
 	def self.available_devices
@@ -80,21 +80,6 @@ class Device < ActiveRecord::Base
 		Traccar::Device.where(uniqueId: self.emei).first
 	end
 
-	# check if the car is moving during work hours
-	def movement_authorized?
-		time_now = Time.now
-		current_time = time_now.to_time_of_day
-		current_day_of_week = time_now.wday
-		self.work_hours.each do |work_hour|
-			shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
-			if shift.include?(current_time) && work_hour.day_of_week == current_day_of_week
-				return true
-			end
-		end
-
-		return false
-	end
-
 	def no_data?
 		last_position = self.traccar_device.positions.last
 
@@ -114,6 +99,7 @@ class Device < ActiveRecord::Base
 	end
 
 	def speed_limit? 
+		if self.speed < 
 		# check current speed and if it's respecting the speed limit for this vehicle
 		# get the current speed from device
 	end
