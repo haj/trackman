@@ -55,8 +55,9 @@ class CarsController < ApplicationController
       marker.lng position[:longitude].to_s
     end
 
+    gon.watch.data = @hash
+
     gon.push({
-      :data => @hash,
       :url => "/cars/#{@car.id}",
       :map_id => "cars_show",
       :resource => "cars"

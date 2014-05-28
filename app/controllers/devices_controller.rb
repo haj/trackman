@@ -41,10 +41,11 @@ class DevicesController < ApplicationController
       marker.lng position[:longitude].to_s
     end
 
+    gon.watch.data = @hash
+
     gon.push({
-      :device_data => @hash,
-      :device_url => "/devices/#{@device.id}",
-      :device_map_id => "devices_show", 
+      :url => "/devices/#{@device.id}",
+      :map_id => "devices_show", 
       :resource => "devices"
     })
   end

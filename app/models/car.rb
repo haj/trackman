@@ -184,10 +184,10 @@ class Car < ActiveRecord::Base
 		end
 
 		def moving?
-			if self.has_device? 
-				return self.device.update_movement_status
-			else 
-				return "Car doesn't have device"
+			if self.no_data?
+				return false
+			else
+				return self.device.moving?
 			end
 		end
 
@@ -224,33 +224,37 @@ class Car < ActiveRecord::Base
 			
 		end
 
-		def stolen?
-			# check if the engine off (but the car is still moving)
-			# TODO : implement it
-
-			return false
-		end
-
-		def long_hours?
-			# check when was the last pause 
-			# 	(let's say a pause is 15 minutes for now)
-			# TODO : implement it
-
-			return true
-		end
-
 		def long_pause? 
 			# check when was the last the vehicle was moving 
 			# 	(that way we can deduce the duration of the current pause and decide if it's too long or not)
-			# TODO : implement it
 
-			# get all states where created_at > 2.hours.ago for example
-			# order those states in desc 
+			# get all states where created_at > 1.hour.ago and order it (created_at DESC)
+			states = self.states.where(created_at > 1.hour.ago).order("created_at DESC")
 			# find first state where movement => true and speed > 5 in that 2 hours window
+			states_where_vehicle_was_moving = states.select { |state| state.movement == true && state.speed > 5 }
 
-			# if we find nothing then the driver probably didn't move during those 2 hours
+			if states_where_vehicle_was_moving.count > 0
+				return false
+			else 
+				return true
+			end
+
+		end
+
+		# NOT IMPLEMENTED
+		def stolen?
+			# check if the engine off (but the car is still moving)
 
 			return false
+		end
+
+		# NOT IMPLEMENTED
+		def long_hours?
+			# check when was the last pause 
+			# 	(let's say a pause is 15 minutes for now)
+			
+
+			return true
 		end
 
 

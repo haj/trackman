@@ -65,13 +65,13 @@ class Device < ActiveRecord::Base
 			threshold = 0.0001
 			if (latitude1 - latitude2).abs < threshold && (longitude1 - longitude2).abs < threshold
 				self.update_attributes(:movement => false, :last_checked => DateTime.now)
-				return "Device[#{self.name}] isn't moving"
+				return false
 			else 
 				self.update_attributes(:movement => true, :last_checked => DateTime.now)
-				return "Device[#{self.name}] is moving"
+				return true
 			end 
 		else
-			return "Device[#{self.name}] doesn't have GPS data"
+			return false
 		end
 	end
 
@@ -98,7 +98,7 @@ class Device < ActiveRecord::Base
 	end
 
 	def speed_limit? 
-		if self.speed < 
+		#if self.speed < 
 		# check current speed and if it's respecting the speed limit for this vehicle
 		# get the current speed from device
 	end
