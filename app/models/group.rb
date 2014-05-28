@@ -4,6 +4,18 @@ class Group < ActiveRecord::Base
 
 	has_and_belongs_to_many :rules
 	has_many :group_rules
+	has_many :group_work_hours
+
+	after_save :generate_default_work_hours
+
+	def generate_default_work_hours
+		(1..7).each do |day_of_week|
+			starts_at = TimeOfDay.new 7 
+			ends_at = TimeOfDay.parse "7pm" 
+			new_work_shift = GroupWorkHour.create(day_of_week: day_of_week, starts_at: starts_at, ends_at: ends_at) 
+			self.group_work_hours << new_work_shift
+		end
+	end
 
 	def rule_status(rule)
 		self.group_rules.where(rule_id: rule.id, group_id: self.id).first.status

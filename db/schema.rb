@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140527234222) do
+ActiveRecord::Schema.define(version: 20140528000539) do
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -131,6 +131,15 @@ ActiveRecord::Schema.define(version: 20140527234222) do
     t.integer  "company_id"
     t.boolean  "movement"
     t.datetime "last_checked"
+  end
+
+  create_table "group_work_hours", force: true do |t|
+    t.integer  "day_of_week"
+    t.time     "starts_at"
+    t.time     "ends_at"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "groups", force: true do |t|
