@@ -1,5 +1,5 @@
 namespace :simulate do
-  task :random_cars => :environment do
+  task :moving_cars => :environment do
   	Traccar::Device.all.each do |device|
   		if device.last_position.count == 0	
         puts "device.last_position.count == 0"	
@@ -8,7 +8,7 @@ namespace :simulate do
         device.positions << new_position
   		else 	
         random_choice = [0, 1].sample
-        if random_choice == 0 
+        if true #random_choice == 0 
           puts "random_choice == 0"
           # generate a position to make the car seem like it's moving 
           old_position = device.last_position

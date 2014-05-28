@@ -35,5 +35,5 @@ every 2.minute do
 end
 
 every 1.minute do 
-	rake "simulate:cars_random_movement"
+	rake "simulate:random_cars"
 end

@@ -1,5 +1,5 @@
 namespace :simulate do
-  task :random_cars => :environment do
+  task :idle_cars => :environment do
   	Traccar::Device.all.each do |device|
   		if device.last_position.count == 0	
         puts "device.last_position.count == 0"	
@@ -8,7 +8,7 @@ namespace :simulate do
         device.positions << new_position
   		else 	
         random_choice = [0, 1].sample
-        if random_choice == 0 
+        if false #random_choice == 0 
           puts "random_choice == 0"
           # generate a position to make the car seem like it's moving 
           old_position = device.last_position
@@ -16,7 +16,7 @@ namespace :simulate do
           new_longitude = old_position[:longitude] + 0.001
           new_position = Traccar::Position.create(course: 0.0, latitude: new_latitude, longitude: new_longitude, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.now, valid: true, device_id: device.id)
           device.positions << new_position
-        elsif random_choice == 1
+        elsif true #random_choice == 1
           puts "random_choice == 1"
           # generate a position to make the car seem like it's not moving 
           new_position = Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: device.last_position[:latitude], longitude: device.last_position[:longitude], other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.now, valid: true, device_id: device.id)

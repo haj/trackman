@@ -82,11 +82,11 @@ class Device < ActiveRecord::Base
 	def no_data?
 		last_position = self.traccar_device.positions.last
 
-		seconds_since_last_position = Shift.new(Time.now.to_time_of_day, last_position.time.to_time_of_day).duration
+		seconds = Time.now.utc - last_position.time.utc
 		
 		#return "#{time_ago_in_words(last_position.time)} ago OR #{since} seconds"
 		
-		if seconds_since_last_position >= ENV['no_data_threshold'].to_i.minutes
+		if seconds >= 20.minutes
 			return true
 		else
 			return false

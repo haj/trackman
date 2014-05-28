@@ -127,11 +127,21 @@ class Car < ActiveRecord::Base
 			self.car_rules.where(rule_id: rule.id, car_id: self.id).first.last_alert
 		end
 
-
-
 	# ALARMS
-	
+
 		def generate_alarms
+			updates = self.generate_state
+
+			if updates.has_key?(:movement) && updates[:movement] == true
+				AlarmMailer.alarm_email(self.company.users.by_role(:manager).first).deliver
+			elsif updates.has_key?(:movement) && updates[:movement] == false
+				AlarmMailer.alarm_email(self.company.users.by_role(:manager).first).deliver
+			end
+
+			return updates
+		end
+	
+		def generate_state
 
 			current_state = State.new
 			current_state.car_id = self.id
@@ -143,8 +153,10 @@ class Car < ActiveRecord::Base
 
 			else
 
+				current_state.data = true
+
 				# default values
-				current_state.movement = true
+				current_state.movement = self.moving?
 
 				current_state.speed = self.device.speed
 
@@ -169,13 +181,17 @@ class Car < ActiveRecord::Base
 			# 	the notification to send to the manager
 			previous_state = self.states.order("created_at DESC").limit(2).last
 
-			updates = Array.new #things about this car that changed since last time we checked
+			updates = Hash.new #things about this car that changed since last time we checked
 
-			things_we_wanna_track = [:data, :movement, :authorized_hours, :speed_limit, :long_hours, :long_pause]
+			things_we_wanna_track = [:movement, :authorized_hours, :speed_limit, :long_hours, :long_pause, :speed]
+
+			if current_state.data == false
+				updates[:data] = false
+			end
 
 			things_we_wanna_track.each do |aspect| 
 				if current_state.send(aspect) != previous_state.send(aspect)
-					updates.append({ aspect => current_state.send(aspect) })
+					updates[aspect] = current_state.send(aspect)
 				end
 			end
 
