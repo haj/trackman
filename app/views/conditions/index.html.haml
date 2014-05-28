@@ -1,0 +1,17 @@
+%h1 Listing conditions
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @conditions.each do |condition|
+    %tr
+      %td= link_to 'Show', condition
+      %td= link_to 'Edit', edit_condition_path(condition)
+      %td= link_to 'Destroy', condition, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Condition', new_condition_path
