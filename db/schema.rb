@@ -11,7 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140528183613) do
+ActiveRecord::Schema.define(version: 20140528185701) do
+
+  create_table "alarms", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "alarms_cars", force: true do |t|
+    t.integer  "car_id",     null: false
+    t.integer  "alarm_id",   null: false
+    t.string   "status"
+    t.datetime "last_alert"
+  end
+
+  add_index "alarms_cars", ["car_id", "alarm_id"], name: "index_alarms_cars_on_car_id_and_alarm_id", unique: true
+
+  create_table "alarms_groups", force: true do |t|
+    t.integer  "group_id",   null: false
+    t.integer  "alarm_id",   null: false
+    t.string   "status"
+    t.datetime "last_alert"
+  end
+
+  add_index "alarms_groups", ["group_id", "alarm_id"], name: "index_alarms_groups_on_group_id_and_alarm_id", unique: true
+
+  create_table "alarms_rules", force: true do |t|
+    t.integer "rule_id",     null: false
+    t.integer "alarm_id",    null: false
+    t.string  "conjunction"
+    t.string  "params"
+  end
+
+  add_index "alarms_rules", ["alarm_id", "rule_id"], name: "index_alarms_rules_on_alarm_id_and_rule_id", unique: true
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -161,6 +194,13 @@ ActiveRecord::Schema.define(version: 20140528183613) do
 
   create_table "roles", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rules", force: true do |t|
+    t.string   "name"
+    t.string   "method_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

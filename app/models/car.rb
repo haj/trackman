@@ -14,11 +14,11 @@ class Car < ActiveRecord::Base
 	belongs_to :car_type
 	has_one :device
 	has_one :driver, :class_name => "User", :foreign_key => "car_id"
-	has_and_belongs_to_many :rules
-	has_many :car_rules
 	has_many :states
 	has_many :work_hours
 	belongs_to :group
+	has_and_belongs_to_many :alarms
+	has_many :alarm_cars
 
 	after_save :apply_group_work_hours
 	after_create :generate_default_work_hours
@@ -113,32 +113,37 @@ class Car < ActiveRecord::Base
 			return !self.group.nil?
 		end
 
+
+	def check_alarms
+		self.alarms.all.each do |alarm|
+			result = alarm.verify
+			if result == true
+				#send email to user with name of the alarm
+				
+			end
+		end
+	end
+
 	
 
 	# RULES
 
 		# fetch name of the rule associated with this car
-		def rule_status(rule)
-			self.car_rules.where(rule_id: rule.id, car_id: self.id).first.status
+		def alarm_status(alarm)
+			self.car_alarms.where(alarm_id: rule.id, car_id: self.id).first.status
 		end
 
 		# fetch last_alert time of the rule associated with this car
-		def rule_last_alert(rule)
-			self.car_rules.where(rule_id: rule.id, car_id: self.id).first.last_alert
+		def alarm_last_alert(alarm)
+			self.car_alarms.where(alarm_id: rule.id, car_id: self.id).first.last_alert
 		end
 
 	# ALARMS
 
 		def generate_alarms
-			updates = self.generate_state
-
-			if updates.has_key?(:movement) && updates[:movement] == true
-				AlarmMailer.alarm_email(self.company.users.by_role(:manager).first).deliver
-			elsif updates.has_key?(:movement) && updates[:movement] == false
-				AlarmMailer.alarm_email(self.company.users.by_role(:manager).first).deliver
-			end
-
-			return updates
+			# For each alarm associated with this car where status == active 
+			# Verify if that alarm should be triggered 
+			self.alarms
 		end
 	
 		def generate_state

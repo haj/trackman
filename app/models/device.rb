@@ -54,7 +54,7 @@ class Device < ActiveRecord::Base
 	end
 
 	# check if the device is reporting that the car is moving (or not)
-	def moving?
+	def moving?(precision = 0.0001)
 		last_positions = self.last_positions(2).to_a
 		if last_positions.count == 2
 			latitude1 = last_positions[0].latitude 
@@ -62,7 +62,7 @@ class Device < ActiveRecord::Base
 			latitude2 = last_positions[1].latitude
 			longitude2 = last_positions[1].longitude
 
-			threshold = 0.0001
+			threshold = precision
 			if (latitude1 - latitude2).abs < threshold && (longitude1 - longitude2).abs < threshold
 				self.update_attributes(:movement => false, :last_checked => DateTime.now)
 				return false
@@ -79,20 +79,10 @@ class Device < ActiveRecord::Base
 		Traccar::Device.where(uniqueId: self.emei).first
 	end
 
-	def no_data?
-		last_position = self.traccar_device.positions.last
-
-		seconds = Time.now.utc - last_position.time.utc
-		
-		#return "#{time_ago_in_words(last_position.time)} ago OR #{since} seconds"
-		
-		if seconds >= 20.minutes
-			return true
-		else
-			return false
-		end
+	def driving_at_more()
 	end
 
+	
 	def speed
 		self.traccar_device.positions.last.speed
 	end

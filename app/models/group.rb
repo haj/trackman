@@ -2,8 +2,8 @@ class Group < ActiveRecord::Base
 	has_many :cars
 	acts_as_tenant(:company)
 
-	has_and_belongs_to_many :rules
-	has_many :group_rules
+	has_and_belongs_to_many :alarms
+	has_many :alarm_groups
 	has_many :group_work_hours
 
 	after_create :generate_default_work_hours

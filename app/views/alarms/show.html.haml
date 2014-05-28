@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @alarm.name
+
+= link_to 'Edit', edit_alarm_path(@alarm)
+\|
+= link_to 'Back', alarms_path

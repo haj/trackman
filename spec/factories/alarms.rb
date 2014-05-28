@@ -1,8 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :rule do
+  factory :alarm do
     name "MyString"
-    method_name "MyString"
   end
 end
