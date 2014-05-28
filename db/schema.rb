@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140528000539) do
+ActiveRecord::Schema.define(version: 20140528012821) do
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -215,15 +215,16 @@ ActiveRecord::Schema.define(version: 20140528000539) do
   end
 
   create_table "states", force: true do |t|
-    t.boolean  "data"
-    t.boolean  "movement"
-    t.boolean  "authorized_hours"
-    t.boolean  "speed_limit"
-    t.boolean  "long_hours"
-    t.boolean  "long_pause"
+    t.boolean  "data",             default: false
+    t.boolean  "movement",         default: false
+    t.boolean  "authorized_hours", default: false
+    t.boolean  "speed_limit",      default: false
+    t.boolean  "long_hours",       default: false
+    t.boolean  "long_pause",       default: false
     t.integer  "car_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "speed",            default: 0.0
   end
 
   create_table "teleproviders", force: true do |t|

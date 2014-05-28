@@ -6,14 +6,14 @@ class Group < ActiveRecord::Base
 	has_many :group_rules
 	has_many :group_work_hours
 
-	after_save :generate_default_work_hours
+	after_create :generate_default_work_hours
 
-	def generate_default_work_hours
+	def generate_default_work_hours(record)
 		(1..7).each do |day_of_week|
 			starts_at = TimeOfDay.new 7 
 			ends_at = TimeOfDay.parse "7pm" 
 			new_work_shift = GroupWorkHour.create(day_of_week: day_of_week, starts_at: starts_at, ends_at: ends_at) 
-			self.group_work_hours << new_work_shift
+			record.group_work_hours << new_work_shift
 		end
 	end
 
