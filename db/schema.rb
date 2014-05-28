@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140528012821) do
+ActiveRecord::Schema.define(version: 20140528183613) do
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -46,36 +46,12 @@ ActiveRecord::Schema.define(version: 20140528012821) do
     t.integer  "company_id"
   end
 
-  create_table "cars_rules", force: true do |t|
-    t.integer  "car_id",     null: false
-    t.integer  "rule_id",    null: false
-    t.string   "status"
-    t.datetime "last_alert"
-  end
-
-  add_index "cars_rules", ["car_id", "rule_id"], name: "index_cars_rules_on_car_id_and_rule_id", unique: true
-
   create_table "companies", force: true do |t|
     t.string   "name"
     t.string   "subdomain"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "conditions", force: true do |t|
-    t.string   "name"
-    t.string   "method_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "conditions_rules", force: true do |t|
-    t.integer "rule_id",      null: false
-    t.integer "condition_id", null: false
-    t.string  "conjunction"
-  end
-
-  add_index "conditions_rules", ["condition_id", "rule_id"], name: "index_conditions_rules_on_condition_id_and_rule_id", unique: true
 
   create_table "conversations", force: true do |t|
     t.string   "subject",    default: ""
@@ -149,15 +125,6 @@ ActiveRecord::Schema.define(version: 20140528012821) do
     t.integer  "company_id"
   end
 
-  create_table "groups_rules", force: true do |t|
-    t.integer  "group_id",   null: false
-    t.integer  "rule_id",    null: false
-    t.string   "status"
-    t.datetime "last_alert"
-  end
-
-  add_index "groups_rules", ["group_id", "rule_id"], name: "index_groups_rules_on_group_id_and_rule_id", unique: true
-
   create_table "notifications", force: true do |t|
     t.string   "type"
     t.text     "body"
@@ -193,12 +160,6 @@ ActiveRecord::Schema.define(version: 20140528012821) do
   add_index "receipts", ["notification_id"], name: "index_receipts_on_notification_id"
 
   create_table "roles", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "rules", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
