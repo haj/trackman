@@ -141,11 +141,11 @@ class Car < ActiveRecord::Base
 				# 	and the device is not broken
 				current_state.data = false
 
-			elsif self.moving?
+			else
 
 				# default values
 				current_state.movement = true
-				
+
 				current_state.speed = self.device.speed
 
 				# check if driver is using car during work hours
