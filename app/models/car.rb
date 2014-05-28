@@ -141,16 +141,25 @@ class Car < ActiveRecord::Base
 				# 	and the device is not broken
 				current_state.data = false
 
-			elsif self.moving? 
-				# check if car is operating during work hours 
+			elsif self.moving?
+
+				# default values
+				current_state.movement = true
+				
+				current_state.speed = self.device.speed
+
+				# check if driver is using car during work hours
 				current_state.authorized_hours = self.movement_authorized?
+				
 				# check if driver is respecting speed limit
 				current_state.speed_limit = self.speed_limit?
+
 				# check if driver been driving for long hours
 				current_state.long_hours = self.long_hours?
-			else 
+
 				# check if driver of this car took a long pause
 				current_state.long_pause = self.long_pause?
+				
 			end
 
 			# save current state of this car
@@ -234,6 +243,12 @@ class Car < ActiveRecord::Base
 			# check when was the last the vehicle was moving 
 			# 	(that way we can deduce the duration of the current pause and decide if it's too long or not)
 			# TODO : implement it
+
+			# get all states where created_at > 2.hours.ago for example
+			# order those states in desc 
+			# find first state where movement => true and speed > 5 in that 2 hours window
+
+			# if we find nothing then the driver probably didn't move during those 2 hours
 
 			return false
 		end
