@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :parameters
+
   resources :alarms
 
   resources :rules

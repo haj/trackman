@@ -3,6 +3,7 @@
 %table.table
 	%tr
 		%th "Name"
+		%th "Method name"
 		%th
 		%th
 		%th
@@ -10,6 +11,7 @@
 	- @rules.each do |rule|
 		%tr
 			%td= rule.name
+			%td= rule.method_name
 			%td= link_to 'Show', rule
 			%td= link_to 'Edit', edit_rule_path(rule)
 			%td= link_to 'Destroy', rule, :method => :delete, :data => { :confirm => 'Are you sure?' }

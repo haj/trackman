@@ -1,10 +1,25 @@
 = form_for @rule do |f|
-  - if @rule.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@rule.errors.count, "error")} prohibited this rule from being saved:"
-      %ul
-        - @rule.errors.full_messages.each do |msg|
-          %li= msg
+    - if @rule.errors.any?
+        #error_explanation
+            %h2= "#{pluralize(@rule.errors.count, "error")} prohibited this rule from being saved:"
+            %ul
+                - @rule.errors.full_messages.each do |msg|
+                    %li= msg
 
-  .actions
-    = f.submit 'Save'
+    .field
+        = f.label :name
+        = f.text_field :name
+    .field
+        = f.label :method_name
+        = f.text_field :method_name
+
+    %h3 Parameters
+
+    #parameters
+    = f.fields_for :parameters do |parameter|
+        = render 'parameter_fields', :f => parameter
+    .links
+        = link_to_add_association 'add parameter', f, :parameters
+
+    .actions
+        = f.submit 'Save'

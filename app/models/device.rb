@@ -78,10 +78,6 @@ class Device < ActiveRecord::Base
 	def traccar_device
 		Traccar::Device.where(uniqueId: self.emei).first
 	end
-
-	def driving_at_more()
-	end
-
 	
 	def speed
 		self.traccar_device.positions.last.speed

@@ -2,13 +2,16 @@ class Rule < ActiveRecord::Base
 
 	has_and_belongs_to_many :alarms
 	has_many :alarm_rules
+	has_many :parameters
 
+	accepts_nested_attributes_for :parameters, :reject_if => :all_blank, :allow_destroy => true
 
 	def verify(alarm_id)
 		# get params
 		alarm_rule = AlarmRule.where(alarm_id: alarm_id, rule_id: self.id).first
 		params = alarm_rule.params
 
+		# TODO : make the eval more secure
 		return self.send(self.method_name, eval(params))
 	end
 
@@ -69,6 +72,24 @@ class Rule < ActiveRecord::Base
 		else
 			return false
 		end	
+	end
+
+	# check if the car is moving during work hours
+	def movement_authorized(params)
+
+		car = Car.find(params[:car_id])
+
+		current_time = Time.now.to_time_of_day
+		current_day_of_week = Time.now.wday
+
+		car.work_hours.each do |work_hour|
+			shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
+			if shift.include?(current_time) && work_hour.day_of_week == current_day_of_week
+				return true
+			end
+		end
+
+		return false
 	end
 
 

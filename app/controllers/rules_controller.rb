@@ -69,6 +69,6 @@ class RulesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rule_params
-      params.require(:rule).permit(:name, :method_name)
+      params.require(:rule).permit(:name, :method_name, parameters_attributes: [:id, :name, :data_type, :_destroy])
     end
 end
