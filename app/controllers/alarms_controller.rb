@@ -25,9 +25,8 @@ class AlarmsController < ApplicationController
   # POST /alarms.json
   def create
      
-    render text: params
-    return
-
+    # render text: params
+    # return
 
     hash = {name: alarm_params['name']}
     @alarm = Alarm.new(hash)
@@ -41,9 +40,14 @@ class AlarmsController < ApplicationController
           # fetch current rule
           rule = Rule.find(value['id'].to_i) 
           @alarm.rules << rule
-          # update the params for current alarm -> rule
+          # get the alarm -> rule record
           alarm_rule = AlarmRule.where(alarm_id: @alarm.id, rule_id: rule.id).first
+          # update the params for current alarm -> rule
           alarm_rule.update_attribute(:params, value['params'].to_s)
+          # update the conjunction
+          if index != 0 
+            alarm_rule.update_attribute(:conjunction, value['conjunction']['value'].to_s)
+          end
         end
       end
 

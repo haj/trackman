@@ -4,7 +4,7 @@
 
 
 $(document).ready ->
-	$("#rules").on "change", "select:regex(id, .*alarm_rules_attributes.*)", ->	
+	$("#rules").on "change", "select:regex(id, .*alarm_rules_attributes.*_id)", ->	
 		regex_numbers = /\d+/;
 		
 		console.log('Change on select with id = ' + $(this).attr('id').match(regex_numbers))
@@ -13,7 +13,7 @@ $(document).ready ->
 		
 		select_id = $(this).attr('id').match(regex_numbers)
 
-		params_block = $(this).parent().parent().children('.params')
+		params_block = $(this).parent(".field").parent(".nested-fields").children('.params')
 
 		$.ajax "/rules/#{$(this).val()}/rule_params_list",
 			success: (response) ->

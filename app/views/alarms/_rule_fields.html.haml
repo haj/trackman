@@ -1,14 +1,18 @@
 .nested-fields
-    .field
-        = f.label :name
-        %br
-        = f.collection_select(:id, Rule.all, :id, :name)
 
-    .params
-        = f.fields_for :params do |p|
-            .field
-                Parameter :
-                = p.text_field :rule_param 
+	.field 
+		= f.fields_for :conjunction do |c|
+			= c.select :value, ['And', 'Or'] 
 
+	.field
+		= f.label :name
+		%br
+		= f.collection_select(:id, Rule.all, :id, :name)
 
-    = link_to_remove_association "remove rule", f
+	.params
+		= f.fields_for :params do |p|
+			.field
+
+	= link_to_remove_association "remove rule", f, :class => "btn btn-danger"
+
+	%br

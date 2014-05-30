@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
   # GET /groups/1.json
   def show
     @group = Group.find(params[:id])
-    @rules = @group.rules
+    @alarms = @group.alarms
   end
 
   # GET /groups/new
@@ -88,6 +88,6 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name)
+      params.require(:group).permit(:name, alarm_ids: [])
     end
 end

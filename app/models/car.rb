@@ -20,29 +20,31 @@ class Car < ActiveRecord::Base
 	has_and_belongs_to_many :alarms
 	has_many :alarm_cars
 
+	accepts_nested_attributes_for :alarms
+
 	after_save :apply_group_work_hours
 	after_create :generate_default_work_hours
 
 	# TODO : test it
-	def apply_group_work_hours(record)
+	def apply_group_work_hours
 		# car inherits group work hours if 
 		# 	car belongs to group and doesn't have work hours already defined
-		if record.has_group? && record.work_hours.count == 0
-			record.group.group_work_hours.each do |work_hour|
+		if self.has_group? && self.work_hours.count == 0
+			self.group.group_work_hours.each do |work_hour|
 				new_work_shift = WorkHour.create(day_of_week: work_hour.day_of_week, starts_at: work_hour.starts_at, ends_at: work_hour.ends_at)
-				record.work_hours << new_work_shift
+				self.work_hours << new_work_shift
 			end
 		end
 	end
 
 	# TODO : test it
-	def generate_default_work_hours(record)
-		if record.group.nil?
+	def generate_default_work_hours
+		if self.group.nil?
 			(1..7).each do |day_of_week|
 				starts_at = TimeOfDay.new 7 
 				ends_at = TimeOfDay.parse "7pm" 
 				new_work_shift = WorkHour.create(day_of_week: day_of_week, starts_at: starts_at, ends_at: ends_at) 
-				record.work_hours << new_work_shift
+				self.work_hours << new_work_shift
 			end
 		end
 	end

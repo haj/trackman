@@ -6,7 +6,7 @@ class Rule < ActiveRecord::Base
 
 	accepts_nested_attributes_for :parameters, :reject_if => :all_blank, :allow_destroy => true
 
-	attr_accessor :stupid_field, :params
+	attr_accessor :params
 
 	def params
 		self.parameters
@@ -27,16 +27,12 @@ class Rule < ActiveRecord::Base
 		return result
 	end
 
-	def self.test(params)
-		return true
-	end
-
 	# lost contact with vehicle
 	# params = {:car_id, :duration}
 	def no_data?(car_id, params)
 		car = Car.find(car_id)
 		# check if last time a new position reported is longer than x minutes
-		return !car.has_device? || car.device.no_data?(params[:duration])
+		return !car.has_device? || car.device.no_data?(params["duration"].to_i)
 	end
 
 	# starts moving
@@ -56,9 +52,9 @@ class Rule < ActiveRecord::Base
 	def stopped_for_more_than(car_id, params)
 		car = Car.find(car_id)
 
-		states = car.states.where(created_at > params[:duration]).order("created_at DESC")
+		states = car.states.where(created_at > params["duration"].to_i).order("created_at DESC")
 
-		# find first state where movement => true and speed > 5 in that 2 hours window
+		# find first state where movement => true and speed > 5 in that params["duration"] hours window
 		states_where_vehicle_was_moving = states.select { |state| state.movement == true && state.speed > 5 }
 
 		if states_where_vehicle_was_moving.count > 0
@@ -71,11 +67,11 @@ class Rule < ActiveRecord::Base
 	# not respecting speed limits
 	def going_faster_than(car_id, params)
 		car = Car.find(car_id)
-		if car.device.speed > params[:speed] # in km/h
-			Rails.logger.info "[going_faster_than] Car going faster than #{params[:speed]}"
+		if car.device.speed > params["speed"].to_i # in km/h
+			Rails.logger.info "[going_faster_than] Car going faster than #{params['speed']}"
 			return true
 		else
-			Rails.logger.info "[going_faster_than] Car going slower than #{params[:speed]}"
+			Rails.logger.info "[going_faster_than] Car going slower than #{params['speed']}"
 			return false
 		end	
 	end
@@ -84,7 +80,7 @@ class Rule < ActiveRecord::Base
 	def going_slower_than(car_id, params)
 		car = Car.find(car_id)
 
-		if car.device.speed <= params[:speed] # in km/h
+		if car.device.speed <= params["speed"].to_i # in km/h
 			return true
 		else
 			return false

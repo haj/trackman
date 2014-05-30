@@ -15,7 +15,7 @@
 
 %br
 
-%h3 Rules
+%h3 Alarms
 
 %table.table
 	%tr
@@ -23,11 +23,11 @@
 		%th= "Status"
 		%th= "Last alert"
 
-	- @rules.each do |rule|
+	- @alarms.each do |alarm|
 		%tr
-			%td= rule.name
-			%td= @group.rule_status(rule)
-			%td= @group.rule_last_alert(rule)
+			%td= alarm.name
+			%td= @group.alarm_status(alarm)
+			%td= @group.alarm_last_alert(alarm)
 %br
 
 

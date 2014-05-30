@@ -14,9 +14,12 @@
 	#rules
 		= f.fields_for :rules do |rule|
 			= render 'rule_fields', :f => rule
-		.links
-			= link_to_add_association 'add rule', f, :rules
+		%p 
+			.links
+				= link_to_add_association 'add rule', f, :rules, :class => "btn btn-primary"
 
-
+	%br
+	%br
+	%br
 	.actions
 		= f.submit 'Save'
