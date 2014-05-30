@@ -31,6 +31,10 @@ class Device < ActiveRecord::Base
 		end
 	end
 
+	def traccar_device
+		Traccar::Device.where(uniqueId: self.emei).first
+	end
+
 	def has_car?
 		!self.car_id.nil?
 	end
@@ -75,8 +79,18 @@ class Device < ActiveRecord::Base
 		end
 	end
 
-	def traccar_device
-		Traccar::Device.where(uniqueId: self.emei).first
+	def no_data?
+		last_position = self.traccar_device.positions.last
+
+		seconds = Time.now.utc - last_position.time.utc
+
+		#return "#{time_ago_in_words(last_position.time)} ago OR #{since} seconds"
+
+		if seconds >= 20.minutes
+			return true
+		else
+			return false
+		end
 	end
 	
 	def speed
@@ -102,6 +116,7 @@ class Device < ActiveRecord::Base
 		# check when was the last the vehicle was moving 
 		# 	(that way we can deduce the duration of the current pause and decide if it's too long or not)
 	end
+
 	
 	
 end

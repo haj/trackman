@@ -1,0 +1,14 @@
+.nested-fields
+    .field
+        = f.label :name
+        %br
+        = f.collection_select(:id, Rule.all, :id, :name)
+
+    .params
+        = f.fields_for :params do |p|
+            .field
+                Parameter :
+                = p.text_field :rule_param 
+
+
+    = link_to_remove_association "remove rule", f

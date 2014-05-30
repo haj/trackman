@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
-	if gon.resource == "groups"
+	if (typeof gon != "undefined") && gon.resource == "groups"
 		handler = Gmaps.build('Google')
 		handler.buildMap { provider: { zoom: 10 }, internal: {id: gon.map_id}}, ->
 			markers = handler.addMarkers(gon.data)

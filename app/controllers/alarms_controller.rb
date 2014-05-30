@@ -24,16 +24,32 @@ class AlarmsController < ApplicationController
   # POST /alarms
   # POST /alarms.json
   def create
-    @alarm = Alarm.new(alarm_params)
+     
+    render text: params
+    return
 
-    respond_to do |format|
-      if @alarm.save
-        format.html { redirect_to @alarm, notice: 'Alarm was successfully created.' }
-        format.json { render :show, status: :created, location: @alarm }
-      else
-        format.html { render :new }
-        format.json { render json: @alarm.errors, status: :unprocessable_entity }
+
+    hash = {name: alarm_params['name']}
+    @alarm = Alarm.new(hash)
+
+    if @alarm.save
+
+      rules = alarm_params['rules_attributes']
+
+      rules.each_with_index do |(key,value),index| 
+        if value['_destroy'] != "1"
+          # fetch current rule
+          rule = Rule.find(value['id'].to_i) 
+          @alarm.rules << rule
+          # update the params for current alarm -> rule
+          alarm_rule = AlarmRule.where(alarm_id: @alarm.id, rule_id: rule.id).first
+          alarm_rule.update_attribute(:params, value['params'].to_s)
+        end
       end
+
+      redirect_to @alarm, notice: 'Alarm was successfully created.'
+    else
+      render :new
     end
   end
 
@@ -69,6 +85,6 @@ class AlarmsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def alarm_params
-      params.require(:alarm).permit(:name)
+      params.require(:alarm).permit!
     end
 end

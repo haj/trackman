@@ -1,8 +1,14 @@
 %p#notice= notice
 
 %p
-  %b Name:
-  = @alarm.name
+	%b Name:
+	= @alarm.name
+
+%b Rules :
+%p
+	%ul
+		- @alarm.rules.each do |rule|
+			%li= "#{rule.name}"
 
 = link_to 'Edit', edit_alarm_path(@alarm)
 \|

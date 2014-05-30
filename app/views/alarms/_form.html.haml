@@ -1,13 +1,22 @@
 = form_for @alarm do |f|
-  - if @alarm.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@alarm.errors.count, "error")} prohibited this alarm from being saved:"
-      %ul
-        - @alarm.errors.full_messages.each do |msg|
-          %li= msg
+	- if @alarm.errors.any?
+		#error_explanation
+			%h2= "#{pluralize(@alarm.errors.count, "error")} prohibited this alarm from being saved:"
+			%ul
+				- @alarm.errors.full_messages.each do |msg|
+					%li= msg
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .actions
-    = f.submit 'Save'
+	.field
+		= f.label :name
+		= f.text_field :name
+
+	%h3 Rules
+	#rules
+		= f.fields_for :rules do |rule|
+			= render 'rule_fields', :f => rule
+		.links
+			= link_to_add_association 'add rule', f, :rules
+
+
+	.actions
+		= f.submit 'Save'

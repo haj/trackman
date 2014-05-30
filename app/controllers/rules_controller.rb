@@ -1,6 +1,11 @@
 class RulesController < ApplicationController
   before_action :set_rule, only: [:show, :edit, :update, :destroy]
 
+  def rule_params_list
+    rule = Rule.find(params[:id])
+    render json: rule.params
+  end
+
   # GET /rules
   # GET /rules.json
   def index
@@ -24,6 +29,7 @@ class RulesController < ApplicationController
   # POST /rules
   # POST /rules.json
   def create
+
     @rule = Rule.new(rule_params)
 
     respond_to do |format|

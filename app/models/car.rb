@@ -135,10 +135,10 @@ class Car < ActiveRecord::Base
 
 	def check_alarms
 		self.alarms.all.each do |alarm|
-			result = alarm.verify
-			if result == true
-				#send email to user with name of the alarm triggered
-			end
+			puts alarm.verify(self.id)
+			# if result == true
+			# 	#send email to user with name of the alarm triggered
+			# end
 		end
 	end
 
@@ -149,6 +149,11 @@ class Car < ActiveRecord::Base
 		else
 			return self.device.moving?
 		end
+	end
+
+	def no_data?
+		# check if last time a new position reported is longer than x minutes
+		return !self.has_device? || self.device.no_data?
 	end
 
 

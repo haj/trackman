@@ -4,7 +4,11 @@ Rails.application.routes.draw do
 
   resources :alarms
 
-  resources :rules
+  resources :rules do 
+    member do 
+      get 'rule_params_list'
+    end
+  end
 
   resources :work_hours
 
