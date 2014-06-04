@@ -26,14 +26,15 @@
 # whenever --update-crontab --set environment='development'
 
 
-every 3.minute do 
-	rake "check:which_cars_are_moving"
+every 2.minute do 
+	rake "check:alarms"
 end
 
 every 2.minute do 
 	rake "jobs:workoff"
 end
 
+# this recurring task is here just for testing purposes-only and should be removed later
 every 1.minute do 
 	rake "simulate:random_cars"
 end
