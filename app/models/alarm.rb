@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: alarms
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Alarm < ActiveRecord::Base
 	
 	#alarms -> rules
@@ -24,9 +34,9 @@ class Alarm < ActiveRecord::Base
 			conj = AlarmRule.where(rule_id: rule.id, alarm_id: self.id).first.conjunction
 			result = rule.verify(self.id, car_id)
 
-			if conj.nil? || conj == "or"
+			if conj.nil? || conj.downcase == "or"
 				verification_result = verification_result || result
-			elsif conj == "and"
+			elsif conj.downcase == "and"
 				verification_result = verification_result && result
 			end
 

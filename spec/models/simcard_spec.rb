@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: simcards
+#
+#  id               :integer          not null, primary key
+#  telephone_number :string(255)
+#  teleprovider_id  :integer
+#  monthly_price    :float
+#  device_id        :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#  company_id       :integer
+#
+
 require 'spec_helper'
 
 describe Simcard do

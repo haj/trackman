@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: devices
+#
+#  id                :integer          not null, primary key
+#  name              :string(255)
+#  uniqueId          :string(255)
+#  latestPosition_id :integer
+#
+
 class Traccar::Device < ActiveRecord::Base
   	establish_connection "secondary_#{Rails.env}".to_sym
   	self.table_name = "devices"

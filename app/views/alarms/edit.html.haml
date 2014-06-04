@@ -12,9 +12,13 @@
 		= f.label :name
 		= f.text_field :name
 
-	%br
-	%br
-	%br
+	%b Rules :
+	%p
+		%ul
+			- @alarm.rules.each do |rule|
+				%li= rule_with_params(rule,@alarm)
+
+		
 	.actions
 		= f.submit 'Save'
 

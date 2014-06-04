@@ -1,5 +1,5 @@
 class AlarmsController < ApplicationController
-  before_action :set_alarm, only: [:show, :edit, :update, :destroy]
+  before_action :set_alarm, only: [ :edit, :update, :destroy]
 
   # GET /alarms
   # GET /alarms.json
@@ -10,6 +10,9 @@ class AlarmsController < ApplicationController
   # GET /alarms/1
   # GET /alarms/1.json
   def show
+    @alarm = Alarm.find(params[:id])
+    @rules = @alarm.rules
+    
   end
 
   # GET /alarms/new

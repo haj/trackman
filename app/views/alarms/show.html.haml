@@ -8,7 +8,7 @@
 %p
 	%ul
 		- @alarm.rules.each do |rule|
-			%li= "#{rule.name}"
+			%li= rule_with_params(rule,@alarm)
 
 = link_to 'Edit', edit_alarm_path(@alarm)
 \|

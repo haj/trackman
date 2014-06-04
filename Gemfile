@@ -108,4 +108,6 @@ gem 'mailboxer'
 
 gem "cocoon"
 
+gem 'annotate', ">=2.6.0"
+
 

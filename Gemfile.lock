@@ -58,6 +58,9 @@ GEM
       rails (>= 3.1)
       request_store (>= 1.0.5)
     addressable (2.3.6)
+    annotate (2.6.1)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
     arel (5.0.1.20140414130214)
     ast (2.0.0)
     bcrypt (3.1.7)
@@ -358,6 +361,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_tenant
+  annotate (>= 2.6.0)
   cancan
   capybara
   chronic

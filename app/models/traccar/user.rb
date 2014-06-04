@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :integer          not null, primary key
+#  admin           :boolean
+#  login           :string(255)
+#  password        :string(255)
+#  userSettings_id :integer
+#
+
 class Traccar::User < ActiveRecord::Base
   	establish_connection "secondary_#{Rails.env}".to_sym
   	self.table_name = "users"

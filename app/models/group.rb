@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: groups
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  company_id :integer
+#
+
 class Group < ActiveRecord::Base
 	has_many :cars
 	acts_as_tenant(:company)

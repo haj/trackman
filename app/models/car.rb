@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: cars
+#
+#  id              :integer          not null, primary key
+#  mileage         :float
+#  numberplate     :string(255)
+#  car_model_id    :integer
+#  car_type_id     :integer
+#  registration_no :string(255)
+#  year            :integer
+#  color           :string(255)
+#  group_id        :integer
+#  created_at      :datetime
+#  updated_at      :datetime
+#  company_id      :integer
+#
+
 class Car < ActiveRecord::Base
 
 	scope :by_car_model, -> car_model_id { where(:car_model_id => car_model_id) }
@@ -116,11 +134,7 @@ class Car < ActiveRecord::Base
 		end
 
 
-	
-
-	
-
-	# RULES
+	# RULES accessors
 
 		# fetch name of the rule associated with this car
 		def alarm_status(alarm)
@@ -137,10 +151,12 @@ class Car < ActiveRecord::Base
 
 	def check_alarms
 		self.alarms.all.each do |alarm|
-			puts alarm.verify(self.id)
-			# if result == true
-			# 	#send email to user with name of the alarm triggered
-			# end
+			result = alarm.verify(self.id)
+			puts "#{alarm.name} : #{result}"
+			if result == true
+				#send email to user with name of the alarm triggered
+				AlarmMailer.alarm_email(self.company.users.first, self, alarm).deliver
+			end
 		end
 	end
 

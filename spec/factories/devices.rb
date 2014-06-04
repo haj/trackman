@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: devices
+#
+#  id                :integer          not null, primary key
+#  name              :string(255)
+#  uniqueId          :string(255)
+#  latestPosition_id :integer
+#
+
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
