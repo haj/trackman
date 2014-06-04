@@ -63,16 +63,27 @@ class Rule < ActiveRecord::Base
 	def stopped_for_more_than(car_id, params)
 		car = Car.find(car_id)
 
-		states = car.states.where(created_at > params["duration"].to_i).order("created_at DESC")
+		states = car.states.where(created_at > params["time_scope"].to_i.minutes.ago).order("created_at DESC")
 
-		# find first state where movement => true and speed > 5 in that params["duration"] hours window
-		states_where_vehicle_was_moving = states.select { |state| state.movement == true && state.speed > 5 }
+		duration_threshold = params["duration"].to_i
 
-		if states_where_vehicle_was_moving.count > 0
-			return false
-		else 
-			return true
+		previous_state = states.first
+
+		states.each do |current_state| 
+
+			if current_state.movement == false #car not moving
+				duration_sum = 0 if current_state.created_at != previous_state.created_at && previous_state.movement == true
+				duration_sum += (previous_state.created_at - current_state.created_at)/60
+				if duration_sum >= duration_threshold
+					return true
+				end
+			end
+
+			previous_state = current_state
 		end
+
+		return false
+
 	end
 
 	# not respecting speed limits
@@ -114,6 +125,9 @@ class Rule < ActiveRecord::Base
 		end
 
 		return false
+	end
+
+	def drove_for_more_than(car_id, params)
 	end
 
 
