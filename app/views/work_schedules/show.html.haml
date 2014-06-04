@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Car:
+  = @work_schedule.car_id
+%p
+  %b Name:
+  = @work_schedule.name
+
+= link_to 'Edit', edit_work_schedule_path(@work_schedule)
+\|
+= link_to 'Back', work_schedules_path

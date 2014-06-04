@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140528232623) do
+ActiveRecord::Schema.define(version: 20140604220440) do
 
   create_table "alarms", force: true do |t|
     t.string   "name"
@@ -282,7 +282,16 @@ ActiveRecord::Schema.define(version: 20140528232623) do
     t.integer  "day_of_week"
     t.time     "starts_at"
     t.time     "ends_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "work_schedule_id"
+  end
+
+  add_index "work_hours", ["work_schedule_id"], name: "index_work_hours_on_work_schedule_id"
+
+  create_table "work_schedules", force: true do |t|
     t.integer  "car_id"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

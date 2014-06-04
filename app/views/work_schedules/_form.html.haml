@@ -1,0 +1,16 @@
+= form_for @work_schedule do |f|
+  - if @work_schedule.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@work_schedule.errors.count, "error")} prohibited this work_schedule from being saved:"
+      %ul
+        - @work_schedule.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :car_id
+    = f.number_field :car_id
+  .field
+    = f.label :name
+    = f.text_field :name
+  .actions
+    = f.submit 'Save'

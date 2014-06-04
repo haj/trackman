@@ -33,7 +33,10 @@ class Car < ActiveRecord::Base
 	has_one :device
 	has_one :driver, :class_name => "User", :foreign_key => "car_id"
 	has_many :states
-	has_many :work_hours
+
+	#has_many :work_hours
+	has_one :work_schedule
+
 	belongs_to :group
 	has_and_belongs_to_many :alarms
 	has_many :alarm_cars

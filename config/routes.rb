@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :work_schedules
+
   resources :parameters
 
   resources :alarms
