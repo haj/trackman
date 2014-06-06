@@ -24,9 +24,6 @@ class CarsController < ApplicationController
     end 
   end
 
-
-
-
   def index
     @q = apply_scopes(Car).all.search(params[:q])
     @cars = @q.result(distinct: true)
