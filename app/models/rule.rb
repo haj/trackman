@@ -103,8 +103,10 @@ class Rule < ActiveRecord::Base
 		car = Car.find(car_id)
 
 		if car.device.speed <= params["speed"].to_i # in km/h
+			Rails.logger.info "[going_slower_than] Car going slower than #{params['speed']}"
 			return true
 		else
+			Rails.logger.info "[going_slower_than] Car going faster than #{params['speed']}"
 			return false
 		end	
 	end

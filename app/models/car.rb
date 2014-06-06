@@ -43,8 +43,8 @@ class Car < ActiveRecord::Base
 
 	accepts_nested_attributes_for :alarms
 
-	after_save :apply_group_work_hours
-	after_create :generate_default_work_hours
+	#after_save :apply_group_work_hours
+	#after_create :generate_default_work_hours
 
 	# TODO : test it
 	def apply_group_work_hours
