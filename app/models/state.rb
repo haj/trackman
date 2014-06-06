@@ -2,17 +2,15 @@
 #
 # Table name: states
 #
-#  id               :integer          not null, primary key
-#  data             :boolean          default(FALSE)
-#  movement         :boolean          default(FALSE)
-#  authorized_hours :boolean          default(FALSE)
-#  speed_limit      :boolean          default(FALSE)
-#  long_hours       :boolean          default(FALSE)
-#  long_pause       :boolean          default(FALSE)
-#  car_id           :integer
-#  created_at       :datetime
-#  updated_at       :datetime
-#  speed            :float            default(0.0)
+#  id         :integer          not null, primary key
+#  no_data    :boolean          default(FALSE)
+#  moving     :boolean          default(FALSE)
+#  car_id     :integer
+#  created_at :datetime
+#  updated_at :datetime
+#  speed      :float            default(0.0)
+#  driver_id  :integer
+#  device_id  :integer
 #
 
 class State < ActiveRecord::Base

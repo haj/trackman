@@ -18,85 +18,91 @@
 
 class Car < ActiveRecord::Base
 
-	scope :by_car_model, -> car_model_id { where(:car_model_id => car_model_id) }
-	scope :by_car_type, -> car_type_id { where(:car_type_id => car_type_id) }
-	scope :traceable, -> { where("id IN (SELECT car_id FROM Devices WHERE car_id NOT NULL)") }
-	scope :untraceable, -> { where("id NOT IN (SELECT car_id FROM Devices WHERE car_id NOT NULL)") }
-	scope :with_driver, -> { where("id IN (SELECT car_id FROM Users WHERE car_id NOT NULL)") }
-	scope :without_driver, -> { where("id NOT IN (SELECT car_id FROM Users WHERE car_id NOT NULL)") }
+	# Scopes
+
+		scope :by_car_model, -> car_model_id { where(:car_model_id => car_model_id) }
+		scope :by_car_type, -> car_type_id { where(:car_type_id => car_type_id) }
+		scope :traceable, -> { where("id IN (SELECT car_id FROM Devices WHERE car_id NOT NULL)") }
+		scope :untraceable, -> { where("id NOT IN (SELECT car_id FROM Devices WHERE car_id NOT NULL)") }
+		scope :with_driver, -> { where("id IN (SELECT car_id FROM Users WHERE car_id NOT NULL)") }
+		scope :without_driver, -> { where("id NOT IN (SELECT car_id FROM Users WHERE car_id NOT NULL)") }
 
 	acts_as_tenant(:company)
 
-	belongs_to :company
-	belongs_to :car_model
-	belongs_to :car_type
-	has_one :device
-	has_one :driver, :class_name => "User", :foreign_key => "car_id"
-	has_many :states
+ 	# Associations
 
-	#has_many :work_hours
-	has_one :work_schedule
+		belongs_to :company
+		belongs_to :car_model
+		belongs_to :car_type
+		has_one :device
+		has_one :driver, :class_name => "User", :foreign_key => "car_id"
+		has_many :states
 
-	belongs_to :group
-	has_and_belongs_to_many :alarms
-	has_many :alarm_cars
+		#has_many :work_hours
+		has_one :work_schedule
+
+		belongs_to :group
+		has_and_belongs_to_many :alarms
+		has_many :alarm_cars
 
 	accepts_nested_attributes_for :alarms
 
 	#after_save :apply_group_work_hours
 	#after_create :generate_default_work_hours
 
-	# TODO : test it
-	def apply_group_work_hours
-		# car inherits group work hours if 
-		# 	car belongs to group and doesn't have work hours already defined
-		if self.has_group? && self.work_hours.count == 0
-			self.group.group_work_hours.each do |work_hour|
-				new_work_shift = WorkHour.create(day_of_week: work_hour.day_of_week, starts_at: work_hour.starts_at, ends_at: work_hour.ends_at)
-				self.work_hours << new_work_shift
+	# Work Hours 
+
+		# TODO : fix it (add work hours to schedule first)
+		def apply_group_work_hours
+			# car inherits group work hours if 
+			# 	car belongs to group and doesn't have work hours already defined
+			# if self.has_group? && self.work_hours.count == 0
+			# 	self.group.group_work_hours.each do |work_hour|
+			# 		new_work_shift = WorkHour.create(day_of_week: work_hour.day_of_week, starts_at: work_hour.starts_at, ends_at: work_hour.ends_at)
+			# 		self.work_hours << new_work_shift
+			# 	end
+			# end
+		end
+
+		# TODO : fix it (add work hours to schedule first)
+		def generate_default_work_hours
+			# if self.group.nil?
+			# 	(1..7).each do |day_of_week|
+			# 		starts_at = TimeOfDay.new 7 
+			# 		ends_at = TimeOfDay.parse "7pm" 
+			# 		new_work_shift = WorkHour.create(day_of_week: day_of_week, starts_at: starts_at, ends_at: ends_at) 
+			# 		self.work_hours << new_work_shift
+			# 	end
+			# end
+		end
+
+	# Virtual attributes
+
+		def name
+			if self.id.nil?
+				return "Car"
+			else
+				return "##{id} - #{self.car_model.name} - #{self.car_type.name}"
 			end
 		end
-	end
 
-	# TODO : test it
-	def generate_default_work_hours
-		if self.group.nil?
-			(1..7).each do |day_of_week|
-				starts_at = TimeOfDay.new 7 
-				ends_at = TimeOfDay.parse "7pm" 
-				new_work_shift = WorkHour.create(day_of_week: day_of_week, starts_at: starts_at, ends_at: ends_at) 
-				self.work_hours << new_work_shift
+	# Cars without ... 
+
+		def self.cars_without_devices(car_id)
+			if car_id.nil?
+				Car.where("id NOT IN (SELECT car_id FROM Devices WHERE car_id NOT NULL)")
+			else
+				Car.where("id NOT IN (SELECT car_id FROM Devices WHERE car_id NOT NULL AND car_id != #{car_id})")
 			end
 		end
-	end
 
-	def speed_limit
-		return 60
-	end
-
-	def name
-		if self.id.nil?
-			return "Car"
-		else
-			return "##{id} - #{self.car_model.name} - #{self.car_type.name}"
+		def self.cars_without_drivers(car_id)
+			if car_id.nil?
+				Car.where("id NOT IN (SELECT car_id FROM Users WHERE car_id NOT NULL)")
+			else
+				Car.where("id NOT IN (SELECT car_id FROM Users WHERE car_id NOT NULL AND car_id != #{car_id})")
+			end
 		end
-	end
-
-	def self.cars_without_devices(car_id)
-		if car_id.nil?
-			Car.where("id NOT IN (SELECT car_id FROM Devices WHERE car_id NOT NULL)")
-		else
-			Car.where("id NOT IN (SELECT car_id FROM Devices WHERE car_id NOT NULL AND car_id != #{car_id})")
-		end
-	end
-
-	def self.cars_without_drivers(car_id)
-		if car_id.nil?
-			Car.where("id NOT IN (SELECT car_id FROM Users WHERE car_id NOT NULL)")
-		else
-			Car.where("id NOT IN (SELECT car_id FROM Users WHERE car_id NOT NULL AND car_id != #{car_id})")
-		end
-	end
 
 	# Positions
 		
@@ -122,7 +128,7 @@ class Car < ActiveRecord::Base
 			end
 		end
 
-	# Car.has_?
+	# Has?
 
 		def has_device?
 			return !self.device.nil?
@@ -136,8 +142,7 @@ class Car < ActiveRecord::Base
 			return !self.group.nil?
 		end
 
-
-	# RULES accessors
+	# Rule accessors
 
 		# fetch name of the rule associated with this car
 		def alarm_status(alarm)
@@ -149,33 +154,38 @@ class Car < ActiveRecord::Base
 			self.car_alarms.where(alarm_id: rule.id, car_id: self.id).first.last_alert
 		end
 
-	# ALARMS
+	# Alarms
 
-
-	def check_alarms
-		self.alarms.all.each do |alarm|
-			result = alarm.verify(self.id)
-			puts "#{alarm.name} : #{result}"
-			if result == true
-				#send email to user with name of the alarm triggered
-				AlarmMailer.alarm_email(self.company.users.first, self, alarm).deliver
+		# return if the car is moving or not 
+		def moving?
+			if self.no_data?
+				return false
+			else
+				return self.device.moving?
 			end
 		end
-	end
 
-
-	def moving?
-		if self.no_data?
-			return false
-		else
-			return self.device.moving?
+		# return if the we're receiving data or not from the car
+		def no_data?
+			# check if last time a new position reported is longer than x minutes
+			return !self.has_device? || self.device.no_data?
 		end
-	end
 
-	def no_data?
-		# check if last time a new position reported is longer than x minutes
-		return !self.has_device? || self.device.no_data?
-	end
+		# Alarms trigger
+
+			def check_alarms
+				self.alarms.all.each do |alarm|
+					result = alarm.verify(self.id)
+					puts "#{alarm.name} : #{result}"
+					if result == true
+						#send email to user with name of the alarm triggered
+						AlarmMailer.alarm_email(self.company.users.first, self, alarm).deliver
+					end
+				end
+			end
+
+
+
 
 
 

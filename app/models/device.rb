@@ -111,15 +111,12 @@ class Device < ActiveRecord::Base
 		end
 	end
 	
+	# return the speed of the vehicle associated with the last position
 	def speed
 		self.traccar_device.positions.last.speed
 	end
 
-	def speed_limit? 
-		#if self.speed < 
-		# check current speed and if it's respecting the speed limit for this vehicle
-		# get the current speed from device
-	end
+	
 
 	def stolen?
 		# check if the engine off (but the car is still moving)

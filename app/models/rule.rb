@@ -11,20 +11,23 @@
 
 class Rule < ActiveRecord::Base
 
-	has_and_belongs_to_many :alarms
-	has_many :alarm_rules
-	has_many :parameters
+	# Associations
+
+		has_and_belongs_to_many :alarms
+		has_many :alarm_rules
+		has_many :parameters
 
 	accepts_nested_attributes_for :parameters, :reject_if => :all_blank, :allow_destroy => true
 
 	attr_accessor :params
 
-	def params
-		self.parameters
-	end
+	# Virtual attributes
 
+		def params
+			self.parameters
+		end
 
-
+	# Check if a certain rule (+params) apply to a specific car 
 	def verify(alarm_id, car_id)
 		# get params
 		alarm_rule = AlarmRule.where(alarm_id: alarm_id, rule_id: self.id).first
@@ -38,99 +41,154 @@ class Rule < ActiveRecord::Base
 		return result
 	end
 
-	# lost contact with vehicle
-	# params = {:car_id, :duration}
-	def no_data?(car_id, params)
-		car = Car.find(car_id)
-		# check if last time a new position reported is longer than x minutes
-		return !car.has_device? || car.device.no_data?(params["duration"].to_i)
-	end
+	### Verificators
 
-	# starts moving
-	def starts_moving(car_id, params)
-		car = Car.find(car_id)
-		if car.no_data?
-			Rails.logger.info "[starts_moving] Car has no data"
-			return false
-		else
-			result = car.device.moving?
-			Rails.logger.info "[starts_moving] Car moving is #{result}"
-			return result
+		# Vehicle stopped sending updates for at least params["duration"] minutes
+		def no_data?(car_id, params)
+			car = Car.find(car_id)
+			# check if last time a new position reported is longer than x minutes
+			return !car.has_device? || car.device.no_data?(params["duration"].to_i)
 		end
-	end
 
-	# long pause
-	def stopped_for_more_than(car_id, params)
-		car = Car.find(car_id)
+		# Vehicle started moving
+		def starts_moving(car_id, params)
+			car = Car.find(car_id)
+			if car.no_data?
+				Rails.logger.info "[starts_moving] Car has no data"
+				return false
+			else
+				result = car.device.moving?
+				Rails.logger.info "[starts_moving] Car moving is #{result}"
+				return result
+			end
+		end
 
-		states = car.states.where(created_at > params["time_scope"].to_i.minutes.ago).order("created_at DESC")
+		# TODO : Vehicle stopped for more than params["duration"] minutes in the last params["time_scope"] minutes
 
-		duration_threshold = params["duration"].to_i
+		def stopped_for_more_than(car_id, params)
+			car = Car.find(car_id)
 
-		previous_state = states.first
+			states = car.states.where(created_at > params["time_scope"].to_i.minutes.ago).order("created_at ASC")
 
-		states.each do |current_state| 
+			duration_threshold = params["duration"].to_i
 
-			if current_state.movement == false #car not moving
-				duration_sum = 0 if current_state.created_at != previous_state.created_at && previous_state.movement == true
-				duration_sum += (previous_state.created_at - current_state.created_at)/60
-				if duration_sum >= duration_threshold
+			previous_state = states.first
+
+			states.each do |car_current_state| 
+
+				if car_current_state.moving == false #car not moving
+					duration_sum += ( car_current_state.created_at  - previous_state.created_at)/60
+					if duration_sum >= duration_threshold
+						return true
+					end
+				else #car started moving again
+					duration_sum = 0
+				end
+
+				previous_state = car_current_state
+
+			end
+
+			return false
+		end
+
+		# TODO : Vehicle driving for more than consecutive params["duration"] minutes in the last params["time_scope"]
+		#  
+		def driving_consecutive_hours(car_id, params) # params = {time_scope, duration}
+			car = Car.find(car_id)
+			# get states created in the last X minutes
+			states = car.states.where(created_at > params["time_scope"].to_i.minutes.ago).order("created_at ASC")
+			duration_threshold = params["duration"].to_i
+			previous_state = states.first
+			states.each do |car_current_state| 
+				if car_current_state.moving == true #car is moving
+					duration_sum += ( car_current_state.created_at  - previous_state.created_at)/60
+					if duration_sum >= duration_threshold
+						return true
+					end
+				else #car stopped moving
+					duration_sum = 0
+				end
+				previous_state = car_current_state
+			end
+
+			return false
+		end
+
+		# Vehicle moving faster than params["speed"]
+		def going_faster_than(car_id, params)
+			car = Car.find(car_id)
+			if car.device.speed > params["speed"].to_i # in km/h
+				Rails.logger.info "[going_faster_than] Car going faster than #{params['speed']}"
+				return true
+			else
+				Rails.logger.info "[going_faster_than] Car going slower than #{params['speed']}"
+				return false
+			end	
+		end
+
+		# Vehicle moving slower than params["speed"]
+		def going_slower_than(car_id, params)
+			car = Car.find(car_id)
+
+			if car.device.speed <= params["speed"].to_i # in km/h
+				Rails.logger.info "[going_slower_than] Car going slower than #{params['speed']}"
+				return true
+			else
+				Rails.logger.info "[going_slower_than] Car going faster than #{params['speed']}"
+				return false
+			end	
+		end
+
+
+		# TODO : Vehicle moving during work hours
+		def movement_authorized(car_id, params)
+
+			car = Car.find(car_id)
+
+			current_time = Time.now.to_time_of_day
+			current_day_of_week = Time.now.wday
+
+			car.work_schedule.work_hours.each do |work_hour|
+				shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
+				if shift.include?(current_time) && work_hour.day_of_week == current_day_of_week
 					return true
 				end
 			end
 
-			previous_state = current_state
+			return false
 		end
 
-		return false
-
-	end
-
-	# not respecting speed limits
-	def going_faster_than(car_id, params)
-		car = Car.find(car_id)
-		if car.device.speed > params["speed"].to_i # in km/h
-			Rails.logger.info "[going_faster_than] Car going faster than #{params['speed']}"
-			return true
-		else
-			Rails.logger.info "[going_faster_than] Car going slower than #{params['speed']}"
-			return false
-		end	
-	end
-
-	# going too slow
-	def going_slower_than(car_id, params)
-		car = Car.find(car_id)
-
-		if car.device.speed <= params["speed"].to_i # in km/h
-			Rails.logger.info "[going_slower_than] Car going slower than #{params['speed']}"
-			return true
-		else
-			Rails.logger.info "[going_slower_than] Car going faster than #{params['speed']}"
-			return false
-		end	
-	end
-
-	# check if the car is moving during work hours
-	def movement_authorized(car_id, params)
-
-		car = Car.find(car_id)
-
-		current_time = Time.now.to_time_of_day
-		current_day_of_week = Time.now.wday
-
-		car.work_hours.each do |work_hour|
-			shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
-			if shift.include?(current_time) && work_hour.day_of_week == current_day_of_week
-				return true
+		# TODO : Vehicle enters an area 
+		def entered_an_area(car_id, params)
+			# get the current coordinate of the car
+			car = Car.find(car_id)
+			car_position = car.last_position
+			distance = Geocoder::Calculations.distance_between([car_position[:latitude],car_position[:longitude]], [params["latitude"],params["longitude"]])
+			if distance > params["radius"]
+				false
+			else
+				true
 			end
 		end
 
-		return false
-	end
+		# TODO : Vehicle leaves an area
+		def left_an_area(car_id, params)
+			# get the current coordinate of the car
+			car = Car.find(car_id)
+			car_position = car.last_position
+			distance = Geocoder::Calculations.distance_between([car_position[:latitude],car_position[:longitude]], [params["latitude"],params["longitude"]])
+			if distance <= params["radius"]
+				false
+			else
+				true
+			end
+		end
 
-	def drove_for_more_than(car_id, params)
-	end
+		# TODO : Vehicle outside planned route
+		def left_planned_route(car_id, params)
+
+		end
 
 
 
