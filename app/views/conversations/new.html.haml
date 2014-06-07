@@ -1,0 +1,5 @@
+= form_tag "/conversations", :method => :post do
+  = select_tag('recipient_id', options_from_collection_for_select(User.all, 'id', 'name'))
+  = text_field_tag "subject"
+  = text_field_tag "body"
+  = submit_tag "Send"

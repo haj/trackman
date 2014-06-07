@@ -161,14 +161,33 @@ class Rule < ActiveRecord::Base
 
 		# TODO : Vehicle enters an area 
 		def entered_an_area(car_id, params)
+
 			# get the current coordinate of the car
 			car = Car.find(car_id)
-			car_position = car.last_position
-			distance = Geocoder::Calculations.distance_between([car_position[:latitude],car_position[:longitude]], [params["latitude"],params["longitude"]])
-			if distance > params["radius"]
-				false
+			last_2_positions = car.device.last_positions
+			
+			previous_position = last_2_positions[1]
+			current_position  = last_2_positions[0]
+
+			# Rails.logger.info "[entered_an_area] area_position = #{params['latitude']},#{params['longitude']} }"
+			# Rails.logger.info "[entered_an_area] previous_position = #{previous_position[:latitude]},#{previous_position[:longitude]} }"
+
+			# check if the car was outside that area first
+			previous_distance = Geocoder::Calculations.distance_between([previous_position[:latitude],previous_position[:longitude]], [params["latitude"],params["longitude"]])
+			# Rails.logger.info "[entered_an_area] previous_distance = #{previous_distance}"
+
+			if previous_distance >= params["radius"].to_i
+				new_distance = Geocoder::Calculations.distance_between([current_position[:latitude],current_position[:longitude]], [params["latitude"],params["longitude"]])
+				if new_distance <= params["radius"].to_i
+					#Rails.logger.info "[entered_an_area] new_distance <= radius"
+					return true
+				else
+					#Rails.logger.info "[entered_an_area] new_distance > radius"
+					return false
+				end
 			else
-				true
+				#Rails.logger.info "[entered_an_area] previous_distance < radius"
+				return false
 			end
 		end
 
@@ -176,12 +195,30 @@ class Rule < ActiveRecord::Base
 		def left_an_area(car_id, params)
 			# get the current coordinate of the car
 			car = Car.find(car_id)
-			car_position = car.last_position
-			distance = Geocoder::Calculations.distance_between([car_position[:latitude],car_position[:longitude]], [params["latitude"],params["longitude"]])
-			if distance <= params["radius"]
-				false
+			last_2_positions = car.device.last_positions
+			
+			previous_position = last_2_positions[1]
+			current_position  = last_2_positions[0]
+
+			# Rails.logger.info "[entered_an_area] area_position = #{params['latitude']},#{params['longitude']} }"
+			# Rails.logger.info "[entered_an_area] previous_position = #{previous_position[:latitude]},#{previous_position[:longitude]} }"
+
+			# check if the car was inside that area in the first place
+			previous_distance = Geocoder::Calculations.distance_between([previous_position[:latitude],previous_position[:longitude]], [params["latitude"],params["longitude"]])
+			# Rails.logger.info "[entered_an_area] previous_distance = #{previous_distance}"
+
+			if previous_distance <= params["radius"].to_i
+				new_distance = Geocoder::Calculations.distance_between([current_position[:latitude],current_position[:longitude]], [params["latitude"],params["longitude"]])
+				if new_distance > params["radius"].to_i
+					#Rails.logger.info "[entered_an_area] new_distance <= radius"
+					return true # vehicle just got outisde the radius
+				else
+					#Rails.logger.info "[entered_an_area] new_distance > radius"
+					return false # vehicle is still inside the radius
+				end
 			else
-				true
+				#Rails.logger.info "[entered_an_area] previous_distance < radius"
+				return false # vehicle wasn't the in the area in the first place
 			end
 		end
 

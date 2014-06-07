@@ -20,6 +20,7 @@ class UsersController < ApplicationController
   end
 
   def conversations
+    @conversations = User.find(params[:id]).mailbox.conversations
   end
 
   # GET /users/1/edit

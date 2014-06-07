@@ -156,20 +156,26 @@ class Car < ActiveRecord::Base
 
 	# Alarms
 
-		# return if the car is moving or not 
-		def moving?
-			if self.no_data?
-				return false
-			else
-				return self.device.moving?
-			end
-		end
+		# Verificators 
 
-		# return if the we're receiving data or not from the car
-		def no_data?
-			# check if last time a new position reported is longer than x minutes
-			return !self.has_device? || self.device.no_data?
-		end
+			# return if the car is moving or not 
+			def moving?
+				if self.no_data?
+					return false
+				else
+					return self.device.moving?
+				end
+			end
+
+			# return if the we're receiving data or not from the car
+			def no_data?
+				# check if last time a new position reported is longer than x minutes
+				return !self.has_device? || self.device.no_data?
+			end
+
+			def speed
+				self.device.speed
+			end
 
 		# Alarms trigger
 
@@ -182,6 +188,20 @@ class Car < ActiveRecord::Base
 						AlarmMailer.alarm_email(self.company.users.first, self, alarm).deliver
 					end
 				end
+			end
+
+		# Generate state card
+			def generate_state
+				state = State.new
+
+				state.moving = self.moving? 
+				state.no_data = self.no_data?
+				state.speed = self.speed
+
+				state.car_id = self.id 
+				state.driver_id = self.driver.id
+				#state.device_id = self.device.id
+
 			end
 
 

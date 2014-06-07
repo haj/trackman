@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+
+  resources :conversations
+
   resources :work_schedules
 
   resources :parameters

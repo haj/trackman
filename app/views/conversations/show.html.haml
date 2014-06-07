@@ -1,0 +1,22 @@
+%p#notice= notice
+
+%p
+	%b Subject:
+	= @conversation.subject
+%p
+	%b Messages:
+	- @conversation.messages.each do |message|
+		%p
+			= "Sender :" 
+			%br
+			= message.sender_type.constantize.find(message.sender_id).name
+		%p
+			= "Message :"
+			%br
+			= message.body
+		%br
+		%br
+
+
+
+= link_to 'Back', conversations_user_path(current_user) if current_user

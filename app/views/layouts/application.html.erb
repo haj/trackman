@@ -27,7 +27,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><%= link_to "Home", root_path %></li> 
-        <% if current_user %>  
+        <% if user_signed_in? %>  
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manage <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -64,6 +64,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
+        <li><%= link_to 'Conversations', conversations_user_path(current_user) %></li>
         <li><%= link_to 'Account', edit_user_registration_path %></li> 
         <li><%= link_to "Logout (#{current_user.email})", destroy_user_session_path, method: :delete %></li>
         <% else %>
