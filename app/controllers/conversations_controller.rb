@@ -7,15 +7,11 @@ class ConversationsController < ApplicationController
 
   # Create a brand new conversation
   def create
-
     render text: params
-    return
-
-    recipient_emails = conversation_params(:recipients).split(',')
-    recipients = User.where(email: recipient_emails).all
-
-    conversation = current_user.send_message(recipients, *conversation_params(:body, :subject)).conversation
-
+    return 
+    
+    recipient = User.find(conversation_params['recipient_id'])
+    conversation = current_user.send_message(recipient, conversation_params["Body"], conversation_params["subject"]).conversation
     redirect_to conversation
   end
 
@@ -41,29 +37,8 @@ class ConversationsController < ApplicationController
 
   private
 
-  def mailbox
-    @mailbox ||= current_user.mailbox
+  def conversation_params
+    params.require(:conversation).permit(:body, :subject, :recipient_id)
   end
 
-  def conversation
-    @conversation ||= mailbox.conversations.find(params[:id])
-  end
-
-  def conversation_params(*keys)
-    fetch_params(:conversation, *keys)
-  end
-
-  def message_params(*keys)
-    fetch_params(:message, *keys)
-  end
-
-  def fetch_params(key, *subkeys)
-    params[key].instance_eval do
-      case subkeys.size
-      when 0 then self
-      when 1 then self[subkeys.first]
-      else subkeys.map{|k| self[k] }
-      end
-    end
-  end
 end

@@ -191,7 +191,7 @@ class Car < ActiveRecord::Base
 			end
 
 		# Generate state card
-			def generate_state
+			def capture_state
 				state = State.new
 
 				state.moving = self.moving? 
@@ -199,9 +199,10 @@ class Car < ActiveRecord::Base
 				state.speed = self.speed
 
 				state.car_id = self.id 
-				state.driver_id = self.driver.id
+				state.driver_id = self.driver.id if self.has_driver?
 				#state.device_id = self.device.id
 
+				state.save!
 			end
 
 
