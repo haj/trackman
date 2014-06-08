@@ -75,4 +75,8 @@ class User < ActiveRecord::Base
 	  #return nil
 	end
 
+	def self.recipients(user)
+		User.where.not(:id => user.id)
+	end
+
 end

@@ -7,11 +7,11 @@ class ConversationsController < ApplicationController
 
   # Create a brand new conversation
   def create
-    render text: params
-    return 
+    # render text: params
+    # return 
     
     recipient = User.find(conversation_params['recipient_id'])
-    conversation = current_user.send_message(recipient, conversation_params["Body"], conversation_params["subject"]).conversation
+    conversation = current_user.send_message(recipient, conversation_params["body"], conversation_params["subject"]).conversation
     redirect_to conversation
   end
 
@@ -33,6 +33,12 @@ class ConversationsController < ApplicationController
 
   def show
     @conversation = current_user.mailbox.conversations.find(params[:id])
+  end
+
+  def destroy
+    @conversation = current_user.mailbox.conversations.find(params[:id])
+    @conversation.destroy
+    redirect_to conversations_user_path(current_user)
   end
 
   private
