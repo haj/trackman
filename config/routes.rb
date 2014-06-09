@@ -1,13 +1,21 @@
 Rails.application.routes.draw do
 
 
-  resources :conversations
+  resources :conversations do 
+    member do 
+      post 'reply'
+    end
+  end
 
   resources :work_schedules
 
   resources :parameters
 
-  resources :alarms
+  resources :alarms do 
+    collection do 
+      get 'region'
+    end
+  end
 
   resources :rules do 
     member do 

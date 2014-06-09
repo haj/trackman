@@ -15,6 +15,7 @@
 		= f.fields_for :rules do |rule|
 			= render 'rule_fields', :f => rule
 		%p 
+
 			.links
 				= link_to_add_association 'add rule', f, :rules, :class => "btn btn-primary"
 
@@ -23,3 +24,7 @@
 	%br
 	.actions
 		= f.submit 'Save'
+
+
+%div.some{ :style => "width: 800px;" }
+	%div#multi_overlays.some{ :style => "width: 800px; height: 400px;" }

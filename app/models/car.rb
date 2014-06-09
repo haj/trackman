@@ -18,6 +18,8 @@
 
 class Car < ActiveRecord::Base
 
+	acts_as_messageable
+
 	# Scopes
 
 		scope :by_car_model, -> car_model_id { where(:car_model_id => car_model_id) }
@@ -184,8 +186,11 @@ class Car < ActiveRecord::Base
 					result = alarm.verify(self.id)
 					puts "#{alarm.name} : #{result}"
 					if result == true
+						subject =  "Alarm : #{alarm.name}"
+						body = alarm.name
+						self.company.users.first.notify(subject, body, self)
 						#send email to user with name of the alarm triggered
-						AlarmMailer.alarm_email(self.company.users.first, self, alarm).deliver
+						#AlarmMailer.alarm_email(self.company.users.first, self, alarm).deliver
 					end
 				end
 			end

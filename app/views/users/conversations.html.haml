@@ -10,8 +10,7 @@
 	- @conversations.each do |conversation|
 		%tr
 			%td= link_to conversation.subject, conversation
-			%td= link_to 'Show', conversation
-			%td= link_to 'Destroy', conversation, :method => :delete, :data => { :confirm => 'Are you sure?' }
+			%td= link_to 'Remove', conversation, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 

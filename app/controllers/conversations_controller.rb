@@ -11,14 +11,15 @@ class ConversationsController < ApplicationController
     # return 
     
     recipient = User.find(conversation_params['recipient_id'])
-    conversation = current_user.send_message(recipient, conversation_params["body"], conversation_params["subject"]).conversation
-    redirect_to conversation
+    @conversation = current_user.send_message(recipient, conversation_params["body"], conversation_params["subject"]).conversation
+    redirect_to @conversation
   end
 
   # Reply to an existing conversation
   def reply
-    current_user.reply_to_conversation(conversation, *message_params(:body, :subject))
-    redirect_to conversation
+    @conversation = current_user.mailbox.conversations.find(params[:id])
+    current_user.reply_to_conversation(@conversation, conversation_params['body'])
+    redirect_to @conversation
   end
 
   def trash

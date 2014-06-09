@@ -1,21 +1,22 @@
 %p#notice= notice
 
 %p
-	%b Subject:
-	= @conversation.subject
+	%h3= @conversation.subject
 %p
-	%b Messages:
 	- @conversation.messages.each do |message|
 		%p
-			= "Sender :" 
-			%br
-			= message.sender_type.constantize.find(message.sender_id).name
-		%p
-			= "Message :"
-			%br
+			%b= "#{message.sender_type.constantize.find(message.sender_id).name} :"
 			= message.body
 		%br
 		%br
+
+= form_tag reply_conversation_path(@conversation) do
+
+	%p  
+		= "Message"  
+		= text_area_tag "conversation[body]"
+  
+	= submit_tag "Send"
 
 
 
