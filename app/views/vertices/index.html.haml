@@ -1,0 +1,23 @@
+%h1 Listing vertices
+
+%table
+  %tr
+    %th Latitude
+    %th Longitude
+    %th Region
+    %th
+    %th
+    %th
+
+  - @vertices.each do |vertex|
+    %tr
+      %td= vertex.latitude
+      %td= vertex.longitude
+      %td= vertex.region_id
+      %td= link_to 'Show', vertex
+      %td= link_to 'Edit', edit_vertex_path(vertex)
+      %td= link_to 'Destroy', vertex, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Vertex', new_vertex_path

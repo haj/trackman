@@ -15,6 +15,12 @@ GIT
       ruby_parser (~> 3.4.1)
 
 GIT
+  remote: git://github.com/kimhunter/PointInPolygon.git
+  revision: 5937327e1dd4633f6e09b89344d050e56b90f7e6
+  specs:
+    pinp (0.1.0)
+
+GIT
   remote: git://github.com/seyhunak/twitter-bootstrap-rails.git
   revision: 0d430bc229e4e61591ca1615aae513a3416cc5f1
   branch: bootstrap3
@@ -395,6 +401,7 @@ DEPENDENCIES
   mailboxer
   mysql2
   nested_form
+  pinp!
   pry-rails
   rails (= 4.1.1)
   rails_admin

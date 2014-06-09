@@ -110,4 +110,5 @@ gem "cocoon"
 
 gem 'annotate', ">=2.6.0"
 
+gem 'pinp', github: 'kimhunter/PointInPolygon'
 

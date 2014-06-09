@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
 
+  resources :vertices
+
+  resources :regions
+
   resources :conversations do 
     member do 
       post 'reply'

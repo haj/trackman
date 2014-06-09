@@ -2,7 +2,7 @@ $(document).ready ->
 
   if $('#map_canvas').length
 
-    $('#submit_poylgon').click ->
+    $('#submit_polygon').click ->
       for marker in markers 
         console.log(marker.position['d'] + " , " + marker.position['e'])
         
