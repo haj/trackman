@@ -23,6 +23,10 @@ class UsersController < ApplicationController
     @conversations = User.find(params[:id]).mailbox.conversations
   end
 
+  def notifications
+    @notifications = User.find(params[:id]).mailbox.notifications
+  end
+
   # GET /users/1/edit
   def edit
     

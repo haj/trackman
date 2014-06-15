@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :notifications
 
   resources :vertices
 
@@ -73,6 +74,7 @@ Rails.application.routes.draw do
   resources :users do 
     member do 
       get 'conversations'
+      get 'notifications'
     end
   end
 

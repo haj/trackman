@@ -65,6 +65,7 @@
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
         <li><%= link_to 'Conversations', conversations_user_path(current_user) %></li>
+        <li><%= link_to "Notifications (#{notifications_count(current_user)})", notifications_user_path(current_user) %></li>
         <li><%= link_to 'Account', edit_user_registration_path %></li> 
         <li><%= link_to "Logout (#{current_user.email})", destroy_user_session_path, method: :delete %></li>
         <% else %>
