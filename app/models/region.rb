@@ -1,6 +1,7 @@
 class Region < ActiveRecord::Base
-	has_many :vertices
+	has_many :vertices, dependent: :destroy
 
+	# returns if point is inside a polygon
 	def contains_point(latitude, longitude)
 		points = []
 		self.vertices.each do |vertex|
@@ -10,4 +11,5 @@ class Region < ActiveRecord::Base
 		pgon = Pinp::Polygon.new(points)
 		return pgon.contains_point? Pinp::Point.new(latitude, longitude)
 	end
+
 end

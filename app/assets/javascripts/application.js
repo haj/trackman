@@ -18,3 +18,4 @@
 //= require gmaps/google
 //= require cocoon
 //= require jquery.regex-selector
+//= require jquery.timetable

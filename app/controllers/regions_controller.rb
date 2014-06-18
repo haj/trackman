@@ -24,10 +24,18 @@ class RegionsController < ApplicationController
   # POST /regions
   # POST /regions.json
   def create
-    @region = Region.new(region_params)
+    # render text: vertices_params
+    # return 
+    @region = Region.new(name: vertices_params['name'])
 
     respond_to do |format|
       if @region.save
+        vertices = vertices_params['vertices'].values
+
+        vertices.each do |vertex|
+          new_vertex = Vertex.create(latitude: vertex['latitude'], longitude: vertex['longitude'], region_id: @region.id)
+        end
+
         format.html { redirect_to @region, notice: 'Region was successfully created.' }
         format.json { render :show, status: :created, location: @region }
       else
@@ -65,6 +73,10 @@ class RegionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_region
       @region = Region.find(params[:id])
+    end
+
+    def vertices_params
+      params.permit!
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
