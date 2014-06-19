@@ -24,20 +24,22 @@ class CarsController < ApplicationController
     end 
   end
 
-
-
   def index
-    @cars = apply_scopes(Car).all
-    positions = Car.all_positions(@cars)
-    @hash = Gmaps4rails.build_markers(positions) do |position, marker|
+    @q = apply_scopes(Car).all.search(params[:q])
+    @cars = @q.result(distinct: true)
+    @positions = Car.all_positions(@cars)    
+    @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
       marker.lat position[:latitude].to_s
       marker.lng position[:longitude].to_s
     end
 
-    gon.data = @hash
-    gon.url = "/cars"
-    gon.map_id = "cars_index"
-    gon.query_params = request.query_parameters
+    gon.push({
+      :data => @hash,
+      :url => "/cars",
+      :map_id => "cars_index",
+      :resource => "cars", 
+      :query_params => request.query_parameters
+    })
   end
 
   # GET /cars/1
@@ -49,9 +51,14 @@ class CarsController < ApplicationController
       marker.lat position[:latitude].to_s
       marker.lng position[:longitude].to_s
     end
-    gon.data = @hash
-    gon.url = "/cars/#{@car.id}"
-    gon.map_id = "cars_show"
+
+    gon.watch.data = @hash
+
+    gon.push({
+      :url => "/cars/#{@car.id}",
+      :map_id => "cars_show",
+      :resource => "cars"
+    })
   end
 
   # GET /cars/new
@@ -119,6 +126,24 @@ class CarsController < ApplicationController
     end
   end
 
+  def live
+    @cars = Car.all
+    @positions = Car.all_positions(@cars)    
+    @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
+      marker.lat position[:latitude].to_s
+      marker.lng position[:longitude].to_s
+    end
+
+    gon.watch.data = @hash
+
+    gon.push({
+      :url => "/cars",
+      :map_id => "cars_index",
+      :resource => "cars", 
+      :query_params => request.query_parameters
+    })
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_car
@@ -127,7 +152,7 @@ class CarsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_params
-      params.require(:car).permit(:mileage, :numberplate, :car_model_id, :car_type_id, :registration_no, :year, :color, :group_id, :user_id)
+      params.require(:car).permit(:mileage, :numberplate, :car_model_id, :car_type_id, :registration_no, :year, :color, :group_id, :user_id, alarm_ids: [])
     end
 
     def device_params

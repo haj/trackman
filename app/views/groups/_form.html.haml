@@ -9,5 +9,11 @@
   .field
     = f.label :name
     = f.text_field :name
+
+  %h3 Alarms
+  = f.select :alarm_ids, Alarm.all.collect {|x| [x.name, x.id]}, {}, :multiple => true
+
+  %br
+
   .actions
     = f.submit 'Save'

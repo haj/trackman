@@ -1,0 +1,23 @@
+%h1 Listing parameters
+
+%table
+  %tr
+    %th Name
+    %th Type
+    %th Rule
+    %th
+    %th
+    %th
+
+  - @parameters.each do |parameter|
+    %tr
+      %td= parameter.name
+      %td= parameter.type
+      %td= parameter.rule_id
+      %td= link_to 'Show', parameter
+      %td= link_to 'Edit', edit_parameter_path(parameter)
+      %td= link_to 'Destroy', parameter, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Parameter', new_parameter_path

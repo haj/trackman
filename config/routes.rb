@@ -1,4 +1,35 @@
 Rails.application.routes.draw do
+
+  resources :notifications
+
+  resources :vertices
+
+  resources :regions
+
+  resources :conversations do 
+    member do 
+      post 'reply'
+    end
+  end
+
+  resources :work_schedules
+
+  resources :parameters
+
+  resources :alarms do 
+    collection do 
+      get 'region'
+    end
+  end
+
+  resources :rules do 
+    member do 
+      get 'rule_params_list'
+    end
+  end
+
+  resources :work_hours
+
   resources :simcards
 
   resources :teleproviders
@@ -9,11 +40,15 @@ Rails.application.routes.draw do
 
   resources :device_manufacturers
 
-  resources :groups
+  resources :groups do 
+    member do 
+      get 'live'
+    end
+  end
 
   resources :cars do 
     collection do 
-      get 'live_map'
+      get 'live'
     end
   end
 
@@ -36,7 +71,12 @@ Rails.application.routes.draw do
   resources :companies
 
   devise_for :users, controllers: { registrations: "registrations", :invitations => 'invitations' }
-  resources :users
+  resources :users do 
+    member do 
+      get 'conversations'
+      get 'notifications'
+    end
+  end
 
   namespace :api do
     resources :simcards

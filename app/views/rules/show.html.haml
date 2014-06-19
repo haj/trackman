@@ -1,0 +1,19 @@
+%p#notice= notice
+
+%p
+    %b Name:
+    = @rule.name
+%p
+    %b Method name:
+    = @rule.method_name
+
+%b Parmeters :
+%p
+    %ul
+        - @rule.parameters.each do |param|
+            %li= "#{param.name} (#{param.data_type})"
+
+
+= link_to 'Edit', edit_rule_path(@rule)
+\|
+= link_to 'Back', rules_path

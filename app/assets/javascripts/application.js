@@ -13,7 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require turbolinks
 //= require_tree .
 //= require underscore
 //= require gmaps/google
+//= require cocoon
+//= require jquery.regex-selector
+//= require jquery.timetable

@@ -53,13 +53,13 @@
 
 %table.table
   %tr
-    %th Mileage
-    %th Numberplate
-    %th Car model
-    %th Car type
+    = content_tag :th, sort_link(@q, :mileage)
+    = content_tag :th, sort_link(@q, :numberplate)
+    = content_tag :th, sort_link(@q, :car_model)
+    = content_tag :th, sort_link(@q, :car_type)
     %th Registration no
-    %th Year
-    %th Color
+    = content_tag :th, sort_link(@q, :year)
+    = content_tag :th, sort_link(@q, 'Movement')
     %th
     %th
     %th
@@ -72,7 +72,7 @@
       %td= car.car_type.name
       %td= car.registration_no
       %td= car.year
-      %td= car.color
+      %td= render_movement_status(car)
       %td= link_to 'Show', car
       %td= link_to 'Edit', edit_car_path(car)
       %td= link_to 'Destroy', car, :method => :delete, :data => { :confirm => 'Are you sure?' }

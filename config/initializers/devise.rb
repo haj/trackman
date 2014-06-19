@@ -11,8 +11,9 @@ config.secret_key = 'df8cea425342e6f324f0d61e676102c5b53932522b94076892f2e12a0ee
   # with default "from" parameter.
   config.mailer_sender = 'testing.rails.apps@gmail.com'
 
+
   # Configure the class responsible to send e-mails.
-  # config.mailer = 'Devise::Mailer'
+  #config.mailer = "Devise::Async::Proxy"
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and

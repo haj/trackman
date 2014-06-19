@@ -15,7 +15,7 @@
 %p
   %b Device:
   - if @car.device
-    = @car.device.name
+    = link_to @car.device.name, @car.device
   - else
     = "This car doesn't have a device yet"
 %p

@@ -1,0 +1,16 @@
+%h1 Listing notifications
+
+%table.table
+	%tr
+		%th Name
+		%th
+		%th
+		%th
+
+	- @notifications.each do |notification|
+		%tr
+			%td= link_to notification.subject, notification
+			%td= link_to 'Mark as read', notification, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+

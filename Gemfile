@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
 
@@ -25,7 +24,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+#gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -44,7 +43,7 @@ gem 'spring',        group: :development
 # gem 'capistrano-rails', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]
 
 gem 'devise'
 gem 'acts_as_tenant'
@@ -53,7 +52,7 @@ gem 'devise_invitable', '~> 1.3.4'
 
 gem 'hirb'
 gem "cancan"
-gem 'role_model'
+gem 'role_model', github: 'andrewhubbs/role_model'
 gem 'nested_form'
 gem "jquery-ui-rails"
 gem 'country-select'
@@ -102,5 +101,23 @@ gem "less-rails"
 gem 'gon'
 gem "ransack"
 
+
 gem 'rvm-capistrano'
 gem 'capistrano', '2.15.5'
+
+gem "devise-async"
+gem 'delayed_job_active_record'
+gem 'daemons' #required by delayed_job 
+gem 'whenever', :require => false
+gem 'chronic'
+gem 'tod'
+gem 'rubocop', require: false, :group => :development
+gem 'mailboxer'
+
+gem "cocoon"
+
+gem 'annotate', ">=2.6.0"
+
+gem 'pinp', github: 'kimhunter/PointInPolygon'
+
+

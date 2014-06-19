@@ -40,6 +40,14 @@ class DevicesController < ApplicationController
       marker.lat position[:latitude].to_s
       marker.lng position[:longitude].to_s
     end
+
+    gon.watch.data = @hash
+
+    gon.push({
+      :url => "/devices/#{@device.id}",
+      :map_id => "devices_show", 
+      :resource => "devices"
+    })
   end
 
   # GET /devices/new

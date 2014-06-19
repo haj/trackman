@@ -22,7 +22,7 @@ The `db_password` is used to connect to the MySQL database used by Traccar! (see
 
 1.Sign up through the web interface (and create a dummy company when asked)
  
-4.Then add the admin role to the user you just create (here we're searching for the user by email so make sure you put the correct email in the where clause)
+2.Then add the admin role to the user you just create (here we're searching for the user by email so make sure you put the correct email in the where clause)
 
 ```ruby
 admin = User.where(email: "<type the email address here>") 
@@ -32,15 +32,8 @@ admin.save!
 
 ## Traccar server configuration file 
 
-When configuring Traccar server it's important to change the `database.refreshDelay` from the default `300 seconds` to something smaller (like `5 seconds`), because here's a scenario when the initial value create problems : 
-
-If for some reason a device start pinging the server before it's EMEI/UniqueId was added to the database, obviously the server will flag it as `unknown device` and the GPS data received by the server will be ignored and not saved in the database! 
-
-Now if we add the device EMEI/UniqueId to the traccar database and we stop/start the Android client for example we would expect the server to stop flagging that device as `unknown device` and start storing GPS data for that device in the database, but sadly it's not the case, at least not after the `300 seconds` specified by the `database.refreshDelay`! So that's why it's important to change the `300 seconds` constant! 
-
-
 ```
-    <!-- Global confiduration -->
+    <!-- Global configuration -->
     <entry key='database.driver'>com.mysql.jdbc.Driver</entry>
     <entry key='database.dataSource'>com.mysql.jdbc.jdbc2.optional.MysqlDataSource</entry>
     <entry key='database.url'>jdbc:mysql://127.0.0.1:3306/traccar?allowMultiQueries=true&amp;autoReconnect=true</entry>
@@ -54,3 +47,12 @@ Now if we add the device EMEI/UniqueId to the traccar database and we stop/start
     ...
     ...
 ```
+
+Check Wiki for details about why it's important to change the refresh delay. 
+
+
+
+ 
+
+
+

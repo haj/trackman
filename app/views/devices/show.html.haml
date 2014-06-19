@@ -1,42 +1,9 @@
 %p#notice= notice
 
 %div{ :style => "width: 800px;" }
-  %div#map{ :style => "width: 800px; height: 400px;"}
+  %div#devices_show{ :style => "width: 800px; height: 400px;"}
 
-- if !@hash.empty? 
-  %script{:type=>"text/javascript"}
-    $(function() {
-
-    handler = Gmaps.build('Google');
-    handler.buildMap({ provider: { zoom: 10 }, internal: {id: 'map'}}, function(){
-    markers = handler.addMarkers(
-    = raw @hash.to_json
-    );
-    / handler.map.centerOn(
-    / = raw @hash.first.to_json
-    / );
-    handler.bounds.extendWith(markers);
-    handler.fitMapToBounds();
-    });
-
-    $(".refresh").click(function(){ 
-    $.getJSON('/users', function(json){
-    console.log(
-    = raw @hash.to_json
-    )
-    handler.removeMarkers(markers)
-    markers = handler.addMarkers(
-    = raw @hash.to_json
-    );
-    })
-    })
-
-    });
-
-= button_tag "Refresh", :class => "refresh"
-
-%script{:type=>"text/javascript"}
-  
+%br
 
 %p
   %b Name:

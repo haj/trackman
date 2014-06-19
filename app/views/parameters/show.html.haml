@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @parameter.name
+%p
+  %b Type:
+  = @parameter.type
+%p
+  %b Rule:
+  = @parameter.rule_id
+
+= link_to 'Edit', edit_parameter_path(@parameter)
+\|
+= link_to 'Back', parameters_path

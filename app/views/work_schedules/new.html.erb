@@ -1,0 +1,120 @@
+
+<style type='text/css'>
+
+	body {
+		margin: 20px 200px 20px 20px;
+		text-align: center;
+		font-size: 13px;
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		}
+
+	#calendar {
+		width: 100%;
+	}
+
+</style>
+
+
+<div id='calendar'></div>
+<br/>
+<input type="button" id="submit_calendar" value="Submit" />
+
+
+<script type='text/javascript'>
+
+	$(document).ready(function() {
+	
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+
+		var calendar = $('#calendar').timetable({
+			header: {
+			},
+			editable: true,
+			selectable: true,
+			minTime: 8,
+			maxTime:20,
+			slotMinutes: 30,
+			selectHelper: true,
+			events: [
+				{
+					title: '',
+					start: 600,
+					end: 720,
+					allDay: false,
+					resource: '2'
+				},
+				{
+					title: '',
+					start: 830,
+					end: 1000,
+					allDay: false,
+					resource: '4'
+				},
+			],
+			select: function(start, end, allDay, jsEvent, view, resource) {
+
+
+				var midnight = new Date();
+				midnight.setHours(00,00,00,00);
+			
+				// console.log("start : " + midnight);
+				// console.log("end : " + start);
+
+				start_time = (start - midnight)/60/1000; 
+				end_time = (end - midnight)/60/1000;
+
+				calendar.timetable('renderEvent',
+				{
+					title: "",
+					start: start_time,
+					end: end_time,
+					allDay: false,
+					resource: resource.id
+				},
+					true // make the event "stick"
+				);
+
+				calendar.timetable('unselect');
+
+			},
+			eventClick: function ( event, jsEvent, view )  {
+				view.calendar.removeEvents(event._id)								
+			},
+			eventRender: function( event, element, view ) { 
+				element.bind('contextmenu',function(e){
+					$('#contextMenuContainer').html('<div class=\'contextMenu\'>Actions for event<br><br><input type=\'button\' value=\'Action 1\'><br><input type=\'button\' value=\'Action 2\'></div>');	
+					$('#contextMenuContainer').fadeIn();
+					var position = element.position();
+					$('#contextMenuContainer').css({
+						left : position.left+20,
+						top  : position.top+80
+					});
+					$(document).click(function()   {
+						$('#contextMenuContainer').fadeOut();
+					});
+					return false;
+				});
+			},
+			height: calcCalendarHeight()
+		});
+		
+		function calcCalendarHeight() {
+			var h = $(window).height() - 40;
+			//console.log(h);
+			return h;
+		}
+		
+		$(window).resize(function() {
+			$('#calendar').timetable('option', 'height', calcCalendarHeight());
+		});
+
+		$("#submit_calendar").click(function(ev){
+			console.log(calendar.timetable('clientEvents'))
+		});
+
+	});
+
+</script>

@@ -1,0 +1,28 @@
+%h1 Editing alarm (Not supported yet)
+
+= form_for @alarm do |f|
+	- if @alarm.errors.any?
+		#error_explanation
+			%h2= "#{pluralize(@alarm.errors.count, "error")} prohibited this alarm from being saved:"
+			%ul
+				- @alarm.errors.full_messages.each do |msg|
+					%li= msg
+
+	.field
+		= f.label :name
+		= f.text_field :name
+
+	%b Rules :
+	%p
+		%ul
+			- @alarm.rules.each do |rule|
+				%li= rule_with_params(rule,@alarm)
+
+		
+	.actions
+		= f.submit 'Save'
+
+
+= link_to 'Show', @alarm
+\|
+= link_to 'Back', alarms_path

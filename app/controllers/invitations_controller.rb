@@ -15,11 +15,14 @@ class InvitationsController < DeviseController
 
   # POST /resource/invitation
   def create
-
+    
     self.resource = invite_resource
 
     if resource.errors.empty?
       	yield resource if block_given?
+
+        self.resource.first_name = params[:first_name]
+        self.resource.last_name = params[:last_name]
 
     		if params[:default_role] == "Driver"
     			self.resource.roles << :driver
@@ -103,7 +106,7 @@ class InvitationsController < DeviseController
 
 	def configure_permitted_parameters
 		# Only add some parameters
-		devise_parameter_sanitizer.for(:accept_invitation).concat [:default_role]	
+		devise_parameter_sanitizer.for(:accept_invitation).concat [:default_role, :first_name, :last_name]	
 	end
   
 end

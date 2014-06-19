@@ -3,16 +3,30 @@
 <%= form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f| %>
   <%= devise_error_messages! %>
 
-<% resource.class.invite_key_fields.each do |field| -%>
-  <p>
-  	<%= f.label field %><br />
-  	<%= f.text_field field %>
-  </p>
-<% end -%>
+
 	
 	<div>
-	<%= radio_button_tag 'default_role', 'Driver', true %> Driver
-	<%= radio_button_tag 'default_role', 'Employee' %> Employee
+		<p>
+			<%= f.label "Firstname" %><br/>
+			<%= text_field_tag 'first_name' %>
+		</p>
+		<p>
+			<%= f.label "Lastname" %><br/>
+			<%= text_field_tag 'last_name' %>
+		</p>
+
+		<% resource.class.invite_key_fields.each do |field| -%>
+		  <p>
+		  	<%= f.label field %><br />
+		  	<%= f.text_field field %>
+		  </p>
+		<% end -%>
+
+		<p>
+			<%= f.label "Role" %><br />
+			<%= radio_button_tag 'default_role', 'Driver', true %> Driver
+			<%= radio_button_tag 'default_role', 'Employee' %> Employee
+		</p>
 	</div>
 
 	</br>

@@ -1,0 +1,21 @@
+%h1 Listing work_schedules
+
+%table
+  %tr
+    %th Car
+    %th Name
+    %th
+    %th
+    %th
+
+  - @work_schedules.each do |work_schedule|
+    %tr
+      %td= work_schedule.car_id
+      %td= work_schedule.name
+      %td= link_to 'Show', work_schedule
+      %td= link_to 'Edit', edit_work_schedule_path(work_schedule)
+      %td= link_to 'Destroy', work_schedule, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Work schedule', new_work_schedule_path

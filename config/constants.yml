@@ -1,0 +1,3 @@
+no_data_threshold: "20"
+smtp_username: "testingrailsapps@gmail.com"
+smtp_password: "testingrailsapps"

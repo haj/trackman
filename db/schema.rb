@@ -11,7 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140513020421) do
+ActiveRecord::Schema.define(version: 20140609164137) do
+
+  create_table "alarms", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "alarms_cars", force: true do |t|
+    t.integer  "car_id",     null: false
+    t.integer  "alarm_id",   null: false
+    t.string   "status"
+    t.datetime "last_alert"
+  end
+
+  add_index "alarms_cars", ["car_id", "alarm_id"], name: "index_alarms_cars_on_car_id_and_alarm_id", unique: true
+
+  create_table "alarms_groups", force: true do |t|
+    t.integer  "group_id",   null: false
+    t.integer  "alarm_id",   null: false
+    t.string   "status"
+    t.datetime "last_alert"
+  end
+
+  add_index "alarms_groups", ["group_id", "alarm_id"], name: "index_alarms_groups_on_group_id_and_alarm_id", unique: true
+
+  create_table "alarms_rules", force: true do |t|
+    t.integer "rule_id",     null: false
+    t.integer "alarm_id",    null: false
+    t.string  "conjunction"
+    t.string  "params"
+  end
+
+  add_index "alarms_rules", ["alarm_id", "rule_id"], name: "index_alarms_rules_on_alarm_id_and_rule_id", unique: true
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -53,6 +86,28 @@ ActiveRecord::Schema.define(version: 20140513020421) do
     t.datetime "updated_at"
   end
 
+  create_table "conversations", force: true do |t|
+    t.string   "subject",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "delayed_jobs", force: true do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+
   create_table "device_manufacturers", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -83,6 +138,17 @@ ActiveRecord::Schema.define(version: 20140513020421) do
     t.integer  "device_type_id"
     t.integer  "car_id"
     t.integer  "company_id"
+    t.boolean  "movement"
+    t.datetime "last_checked"
+  end
+
+  create_table "group_work_hours", force: true do |t|
+    t.integer  "day_of_week"
+    t.time     "starts_at"
+    t.time     "ends_at"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "groups", force: true do |t|
@@ -90,6 +156,67 @@ ActiveRecord::Schema.define(version: 20140513020421) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "company_id"
+  end
+
+  create_table "notifications", force: true do |t|
+    t.string   "type"
+    t.text     "body"
+    t.string   "subject",              default: ""
+    t.integer  "sender_id"
+    t.string   "sender_type"
+    t.integer  "conversation_id"
+    t.boolean  "draft",                default: false
+    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                           null: false
+    t.integer  "notified_object_id"
+    t.string   "notified_object_type"
+    t.string   "notification_code"
+    t.string   "attachment"
+    t.boolean  "global",               default: false
+    t.datetime "expires"
+  end
+
+  add_index "notifications", ["conversation_id"], name: "index_notifications_on_conversation_id"
+
+  create_table "parameters", force: true do |t|
+    t.string   "name"
+    t.string   "data_type"
+    t.integer  "rule_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "receipts", force: true do |t|
+    t.integer  "receiver_id"
+    t.string   "receiver_type"
+    t.integer  "notification_id",                            null: false
+    t.boolean  "is_read",                    default: false
+    t.boolean  "trashed",                    default: false
+    t.boolean  "deleted",                    default: false
+    t.string   "mailbox_type",    limit: 25
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  add_index "receipts", ["notification_id"], name: "index_receipts_on_notification_id"
+
+  create_table "regions", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rules", force: true do |t|
+    t.string   "name"
+    t.string   "method_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "simcards", force: true do |t|
@@ -100,6 +227,17 @@ ActiveRecord::Schema.define(version: 20140513020421) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "company_id"
+  end
+
+  create_table "states", force: true do |t|
+    t.boolean  "no_data",    default: false
+    t.boolean  "moving",     default: false
+    t.integer  "car_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "speed",      default: 0.0
+    t.integer  "driver_id"
+    t.integer  "device_id"
   end
 
   create_table "teleproviders", force: true do |t|
@@ -143,5 +281,31 @@ ActiveRecord::Schema.define(version: 20140513020421) do
   add_index "users", ["invitations_count"], name: "index_users_on_invitations_count"
   add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "vertices", force: true do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "region_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "work_hours", force: true do |t|
+    t.integer  "day_of_week"
+    t.time     "starts_at"
+    t.time     "ends_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "work_schedule_id"
+  end
+
+  add_index "work_hours", ["work_schedule_id"], name: "index_work_hours_on_work_schedule_id"
+
+  create_table "work_schedules", force: true do |t|
+    t.integer  "car_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

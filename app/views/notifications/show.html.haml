@@ -1,0 +1,10 @@
+%p#notice= notice
+
+%p
+  %b= @notification.subject
+
+%p
+  %b= @notification.body
+    
+
+= link_to 'Back', notifications_user_path(current_user)
