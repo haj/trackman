@@ -80,13 +80,6 @@ ActiveRecord::Schema.define(version: 20140621123338) do
     t.integer  "work_schedule_id"
   end
 
-  create_table "cars_work_schedules", id: false, force: true do |t|
-    t.integer "car_id",           null: false
-    t.integer "work_schedule_id", null: false
-  end
-
-  add_index "cars_work_schedules", ["car_id", "work_schedule_id"], name: "index_cars_work_schedules_on_car_id_and_work_schedule_id", unique: true
-
   create_table "companies", force: true do |t|
     t.string   "name"
     t.string   "subdomain"
