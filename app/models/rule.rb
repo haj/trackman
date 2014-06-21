@@ -142,12 +142,17 @@ class Rule < ActiveRecord::Base
 
 
 		# TODO : Vehicle moving during work hours
-		def movement_authorized(car_id, params)
+		def movement_authorized(car_id, params, time = Time.now)
 
 			car = Car.find(car_id)
 
-			current_time = Time.now.to_time_of_day
-			current_day_of_week = Time.now.wday
+			current_time = time.to_time_of_day
+
+			current_day_of_week = time.wday
+
+			if current_day_of_week == 0 
+				current_day_of_week = 7
+			end
 
 			car.work_schedule.work_hours.each do |work_hour|
 				shift = Shift.new(work_hour.starts_at, work_hour.ends_at)

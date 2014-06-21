@@ -78,6 +78,9 @@ describe Rule do
 	end
 
 	describe "alarm when vehicle used outside work hours" do 
+		it "should return when vehicle used outside work hours" do 
+			
+		end
 	end	
 
 	describe "alarm when vehicle got into an area" do 

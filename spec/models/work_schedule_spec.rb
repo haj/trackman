@@ -26,12 +26,8 @@ describe WorkSchedule do
     end
 
   	it "should return a new record of type WorkSchedule" do 
-  		# create a work_schedule and attach to it few work hours
-  		
   		cloned_work_schedule = @work_schedule.create_clone
   		cloned_work_schedule.class.should == WorkSchedule
-
-  		 
   	end
 
   	it "should not return false" do 
