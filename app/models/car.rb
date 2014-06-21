@@ -41,7 +41,7 @@ class Car < ActiveRecord::Base
 		has_many :states
 
 		#has_many :work_hours
-		has_one :work_schedule
+		belongs_to :work_schedule
 
 		belongs_to :group
 		has_and_belongs_to_many :alarms

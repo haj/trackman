@@ -10,6 +10,6 @@
 #
 
 class WorkSchedule < ActiveRecord::Base
-	belongs_to :car
+	has_many :cars
 	has_many :work_hours
 end
