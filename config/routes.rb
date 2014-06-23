@@ -26,6 +26,10 @@ Rails.application.routes.draw do
     member do 
       get 'rule_params_list'
     end
+    collection do 
+      get 'regions'
+    end
+
   end
 
   resources :work_hours
