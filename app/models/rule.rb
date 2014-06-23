@@ -141,7 +141,7 @@ class Rule < ActiveRecord::Base
 		end
 
 
-		# TODO : Vehicle moving during work hours
+		# Vehicle moving during (or not) work hours
 		def movement_authorized(car_id, params, time = Time.now)
 
 			car = Car.find(car_id)
@@ -169,61 +169,60 @@ class Rule < ActiveRecord::Base
 
 			# get the current coordinate of the car
 			car = Car.find(car_id)
-			last_2_positions = car.device.last_positions
-			
-			previous_position = last_2_positions[1]
-			current_position  = last_2_positions[0]
 
-			# Rails.logger.info "[entered_an_area] area_position = #{params['latitude']},#{params['longitude']} }"
-			# Rails.logger.info "[entered_an_area] previous_position = #{previous_position[:latitude]},#{previous_position[:longitude]} }"
+			current_position, previous_position = car.device.last_positions
 
-			# check if the car was outside that area first
-			previous_distance = Geocoder::Calculations.distance_between([previous_position[:latitude],previous_position[:longitude]], [params["latitude"],params["longitude"]])
-			# Rails.logger.info "[entered_an_area] previous_distance = #{previous_distance}"
+			# TODO : put real region
+			region = Region.find(params["region_id"].to_i)
 
-			if previous_distance >= params["radius"].to_i
-				new_distance = Geocoder::Calculations.distance_between([current_position[:latitude],current_position[:longitude]], [params["latitude"],params["longitude"]])
-				if new_distance <= params["radius"].to_i
-					#Rails.logger.info "[entered_an_area] new_distance <= radius"
+			car_outside = !region.contains_point(previous_position[:latitude], previous_position[:longitude])
+
+			if car_outside == true
+
+				car_inside = region.contains_point(current_position[:latitude], current_position[:longitude])
+
+				if car_inside
+					Rails.logger.info "[entered_an_area] car_inside = true"
 					return true
 				else
-					#Rails.logger.info "[entered_an_area] new_distance > radius"
+					Rails.logger.info "[entered_an_area] car_inside = false"
 					return false
 				end
+				
 			else
-				#Rails.logger.info "[entered_an_area] previous_distance < radius"
+				Rails.logger.info "[entered_an_area] car_outside = true"
 				return false
 			end
 		end
 
 		# TODO : Vehicle leaves an area
 		def left_an_area(car_id, params)
+		
 			# get the current coordinate of the car
 			car = Car.find(car_id)
-			last_2_positions = car.device.last_positions
-			
-			previous_position = last_2_positions[1]
-			current_position  = last_2_positions[0]
 
-			# Rails.logger.info "[entered_an_area] area_position = #{params['latitude']},#{params['longitude']} }"
-			# Rails.logger.info "[entered_an_area] previous_position = #{previous_position[:latitude]},#{previous_position[:longitude]} }"
+			current_position, previous_position = car.device.last_positions
 
-			# check if the car was inside that area in the first place
-			previous_distance = Geocoder::Calculations.distance_between([previous_position[:latitude],previous_position[:longitude]], [params["latitude"],params["longitude"]])
-			# Rails.logger.info "[entered_an_area] previous_distance = #{previous_distance}"
+			# TODO : put real region
+			region = Region.find(params["region_id"].to_i)
 
-			if previous_distance <= params["radius"].to_i
-				new_distance = Geocoder::Calculations.distance_between([current_position[:latitude],current_position[:longitude]], [params["latitude"],params["longitude"]])
-				if new_distance > params["radius"].to_i
-					#Rails.logger.info "[entered_an_area] new_distance <= radius"
-					return true # vehicle just got outisde the radius
+			car_inside = region.contains_point(previous_position[:latitude], previous_position[:longitude])
+
+			if car_inside == true
+
+				car_outside = !region.contains_point(current_position[:latitude], current_position[:longitude])
+
+				if car_outside == true
+					Rails.logger.info "[left_an_area] car_outside = true"
+					return true
 				else
-					#Rails.logger.info "[entered_an_area] new_distance > radius"
-					return false # vehicle is still inside the radius
+					Rails.logger.info "[left_an_area] car_outside = false"
+					return false
 				end
+				
 			else
-				#Rails.logger.info "[entered_an_area] previous_distance < radius"
-				return false # vehicle wasn't the in the area in the first place
+				Rails.logger.info "[left_an_area] car_inside = false"
+				return false
 			end
 		end
 
