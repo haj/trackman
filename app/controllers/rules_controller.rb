@@ -12,6 +12,11 @@ class RulesController < ApplicationController
     @rules = Rule.all
   end
 
+  def regions
+    @regions = Region.all
+    render json: @regions.to_json(:include => :vertices)
+  end
+
   # GET /rules/1
   # GET /rules/1.json
   def show

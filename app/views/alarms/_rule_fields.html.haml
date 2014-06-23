@@ -1,7 +1,6 @@
 .panel.panel-default
 	.panel-body
 		.nested-fields
-
 			.field 
 				= f.fields_for :conjunction do |c|
 					= c.select :value, ['And', 'Or'] 

@@ -18,7 +18,9 @@ $(document).ready ->
 
 			request.done (response, textStatus, jqXHR) ->
   				console.log(response)
-  				return
+  				
+  				
+
 			
 			
 

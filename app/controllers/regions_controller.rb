@@ -24,11 +24,9 @@ class RegionsController < ApplicationController
   # POST /regions
   # POST /regions.json
   def create
-    # render text: vertices_params
-    # return 
+
     @region = Region.new(name: vertices_params['name'])
 
-    respond_to do |format|
       if @region.save
         vertices = vertices_params['vertices'].values
 
@@ -36,13 +34,12 @@ class RegionsController < ApplicationController
           new_vertex = Vertex.create(latitude: vertex['latitude'], longitude: vertex['longitude'], region_id: @region.id)
         end
 
-        format.html { redirect_to @region, notice: 'Region was successfully created.' }
-        format.json { render :show, status: :created, location: @region }
+        flash[:notice] = 'Region was successfully created !'
+        flash.keep(:notice)
+        render js: "window.location = '#{regions_path}'"
       else
-        format.html { render :new }
-        format.json { render json: @region.errors, status: :unprocessable_entity }
+        render js: "window.location = '#{new_region_path}'"
       end
-    end
   end
 
   # PATCH/PUT /regions/1
