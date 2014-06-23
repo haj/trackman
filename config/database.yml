@@ -25,6 +25,13 @@ test:
   pool: 5
   timeout: 5000
 
+secondary_test:
+  adapter: mysql2
+  database: traccar_test
+  username: root
+  password: <%= ENV['db_password'] %>
+  host: localhost
+
 production:
   adapter: sqlite3
   database: db/production.sqlite3
