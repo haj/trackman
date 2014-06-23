@@ -167,7 +167,7 @@ class Rule < ActiveRecord::Base
 		# TODO : Vehicle enters an area 
 		def entered_an_area(car_id, params)
 
-			# get the current coordinate of the car
+			# Get the current coordinate of the car
 			car = Car.find(car_id)
 
 			current_position, previous_position = car.device.last_positions
