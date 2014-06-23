@@ -97,7 +97,7 @@ $(document).ready ->
     request = $.ajax { url: '/work_schedules', type: 'post', data: { shifts: super_awesome_array,  work_schedule:  work_schedule_params } }
     request.done (response, textStatus, jqXHR) ->
         console.log(response)
-        return
+        
     
     return
 
