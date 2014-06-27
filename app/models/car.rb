@@ -185,6 +185,7 @@ class Car < ActiveRecord::Base
 				self.alarms.all.each do |alarm|
 					result = alarm.verify(self.id)
 					puts "#{alarm.name} : #{result}"
+					self.capture_state
 					if result == true
 						subject =  "Alarm : #{alarm.name}"
 						body = alarm.name
@@ -198,15 +199,13 @@ class Car < ActiveRecord::Base
 		# Generate state card
 			def capture_state
 				state = State.new
-
+				puts "State"
 				state.moving = self.moving? 
 				state.no_data = self.no_data?
 				state.speed = self.speed
-
 				state.car_id = self.id 
 				state.driver_id = self.driver.id if self.has_driver?
-				#state.device_id = self.device.id
-
+				state.device_id = self.device.id if self.has_device?
 				state.save!
 			end
 

@@ -96,13 +96,30 @@ class Rule < ActiveRecord::Base
 		#  
 		def driving_consecutive_hours(car_id, params) # params = {time_scope, duration}
 			car = Car.find(car_id)
+
+			puts "params['scope'] : #{params['time_scope']}"
+
+
 			# get states created in the last X minutes
-			states = car.states.where(created_at > params["time_scope"].to_i.minutes.ago).order("created_at ASC")
-			duration_threshold = params["duration"].to_i
+			states = car.states.where("created_at > ?" , params["time_scope"].to_i.minutes.ago).where(:no_data => false).order("created_at ASC")
+			
+			puts "states.count : #{states.count}"
+
+			duration_threshold = params["duration"].to_i #in minutes
 			previous_state = states.first
+			duration_sum = 0 
+
+
+
 			states.each do |car_current_state| 
 				if car_current_state.moving == true #car is moving
-					duration_sum += ( car_current_state.created_at  - previous_state.created_at)/60
+					
+					duration_sum += (car_current_state.created_at  - previous_state.created_at)/60 #convert to minutes
+					
+					puts "duration_sum : #{duration_sum}"
+					puts "duration_threshold : #{duration_threshold}"
+
+
 					if duration_sum >= duration_threshold
 						return true
 					end
