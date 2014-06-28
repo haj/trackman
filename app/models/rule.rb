@@ -68,27 +68,36 @@ class Rule < ActiveRecord::Base
 		def stopped_for_more_than(car_id, params)
 			car = Car.find(car_id)
 
-			states = car.states.where(created_at > params["time_scope"].to_i.minutes.ago).order("created_at ASC")
+			states = car.states.where(" created_at > ? " , params["scope"].to_i.minutes.ago).where(:no_data => false).order("created_at ASC")
 
-			duration_threshold = params["duration"].to_i
+			duration_threshold = params["threshold"].to_i
+
+			
+			puts states.count
 
 			previous_state = states.first
+			duration_sum = 0 
 
 			states.each do |car_current_state| 
 
 				if car_current_state.moving == false #car not moving
 					duration_sum += ( car_current_state.created_at  - previous_state.created_at)/60
 					if duration_sum >= duration_threshold
+						puts "final duration_sum : #{duration_sum}"
+						puts "final duration_threshold : #{duration_threshold}"
 						return true
 					end
 				else #car started moving again
 					duration_sum = 0
 				end
 
+				puts "duration_sum : #{duration_sum}"
 				previous_state = car_current_state
 
 			end
 
+			puts "final duration_sum : #{duration_sum}"
+			puts "final duration_threshold : #{duration_threshold}"
 			return false
 		end
 
@@ -97,19 +106,13 @@ class Rule < ActiveRecord::Base
 		def driving_consecutive_hours(car_id, params) # params = {time_scope, duration}
 			car = Car.find(car_id)
 
-			puts "params['scope'] : #{params['time_scope']}"
-
-
 			# get states created in the last X minutes
-			states = car.states.where("created_at > ?" , params["time_scope"].to_i.minutes.ago).where(:no_data => false).order("created_at ASC")
-			
-			puts "states.count : #{states.count}"
+			states = car.states.where("created_at > ?" , params["scope"].to_i.minutes.ago).where(:no_data => false).order("created_at ASC")
 
-			duration_threshold = params["duration"].to_i #in minutes
+			duration_threshold = params["threshold"].to_i #in minutes
+
 			previous_state = states.first
 			duration_sum = 0 
-
-
 
 			states.each do |car_current_state| 
 				if car_current_state.moving == true #car is moving

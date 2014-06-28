@@ -49,34 +49,6 @@ class Car < ActiveRecord::Base
 
 	accepts_nested_attributes_for :alarms
 
-	#after_save :apply_group_work_hours
-	#after_create :generate_default_work_hours
-
-	# Work Hours 
-
-		# TODO : fix it (add work hours to schedule first)
-		def apply_group_work_hours
-			# car inherits group work hours if 
-			# 	car belongs to group and doesn't have work hours already defined
-			# if self.has_group? && self.work_hours.count == 0
-			# 	self.group.group_work_hours.each do |work_hour|
-			# 		new_work_shift = WorkHour.create(day_of_week: work_hour.day_of_week, starts_at: work_hour.starts_at, ends_at: work_hour.ends_at)
-			# 		self.work_hours << new_work_shift
-			# 	end
-			# end
-		end
-
-		# TODO : fix it (add work hours to schedule first)
-		def generate_default_work_hours
-			# if self.group.nil?
-			# 	(1..7).each do |day_of_week|
-			# 		starts_at = TimeOfDay.new 7 
-			# 		ends_at = TimeOfDay.parse "7pm" 
-			# 		new_work_shift = WorkHour.create(day_of_week: day_of_week, starts_at: starts_at, ends_at: ends_at) 
-			# 		self.work_hours << new_work_shift
-			# 	end
-			# end
-		end
 
 	# Virtual attributes
 
