@@ -1,0 +1,49 @@
+.grid-body-title{
+	border: 1px solid #DDD;
+	background-color: #FFF;
+	padding: 26px;
+	color: #6F7B8A;
+	color: #1b1b1b !important;
+	padding: 20px 20px 12px 30px !important;
+	h4{
+		font-size: 18px !important;
+		font-weight: bold !important;
+		width:auto !important;
+	}
+	.tools .collapse{
+		margin-top:15px;
+		margin-right: 10px;
+	}
+	.tools .expand{
+		margin-top:15px;
+		margin-right: 10px;
+	}
+}
+
+.transition-custom{
+	-webkit-transition: all .1s ease-in-out;
+	-moz-transition: all .1s ease-in-out;
+	-ms-transition: all .1s ease-in-out;
+	-o-transition: all .1s ease-in-out;
+	transition: all .1s ease-in-out;
+}
+
+.body-login{
+	background-image: image-url('work.jpg');
+}
+
+.header .chat-toggler {
+	min-width: 190px !important;
+	a{
+		display: block;
+		font-size: 13px !important;
+		float: none;
+		margin: 3px;
+		color:#1B1E24;
+	}
+	ul{
+		z-index: -999;
+		margin-top: 8px;
+		min-width: 140px;
+	}
+}

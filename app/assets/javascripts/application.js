@@ -10,12 +10,50 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
+// Framework Requires.
+//= require ./framework/jquery-1.8.3.min
+//= require ./framework/jquery-ui-1.10.1.custom.min
+//= require ./framework/bootstrap.min
+//= require ./framework/breakpoints
+//= require ./framework/jquery.unveil.min
+//= require ./framework/jqueryblockui
+//= require ./page/select2.min
+//
+// Page Requires for a blank_template.
+//= require ./page/jquery.sidr.min
+//= require ./page/jquery.slimscroll.min
+//= require ./page/pace.min
+//= require ./page/jquery.animateNumbers
+//= require messenger.min
+//= require messenger-theme-future
+//= require notifications
+//
+// Page Require for other pages.
+//= require ./page/jquery.dataTables.min
+//= require ./page/TableTools.min
+//= require ./page/datatables.responsive
+//= require_directory ./page
+//
+// Before Core Require
+//= require datatables
+//= require messages_notifications
+//
+// Core Require.
+//= require ./template/core
+//= require ./template/chat
+//= require ./template/demo
+//
+//
+// Our stuff Require.
+//= require jquery_nested_form
+//= require facebox
+//= require 'best_in_place'
+//
 //= require jquery_ujs
-//= require twitter/bootstrap
-//= require_tree .
 //= require underscore
+//= require regions
 //= require gmaps/google
 //= require cocoon
 //= require jquery.regex-selector
 //= require jquery.timetable
+//
