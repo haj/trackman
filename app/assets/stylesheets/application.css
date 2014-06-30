@@ -36,4 +36,5 @@
  *= require ./template/custom-icon-set
  *= require self
  *= require regions
+ *= require work_schedules
  */

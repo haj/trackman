@@ -56,4 +56,5 @@
 //= require cocoon
 //= require jquery.regex-selector
 //= require jquery.timetable
+//= require work_schedules
 //
