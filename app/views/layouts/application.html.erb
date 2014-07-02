@@ -10,6 +10,494 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="error-body">
-<%= yield %>
+
+<!-- BEGIN HEADER -->
+<div class="header navbar navbar-inverse"> 
+	<!-- BEGIN TOP NAVIGATION BAR -->
+	<div class="navbar-inner">
+		<!-- BEGIN NAVIGATION HEADER -->
+		<div class="header-seperation"> 
+			<!-- BEGIN MOBILE HEADER -->
+			<ul class="nav pull-left notifcation-center" id="main-menu-toggle-wrapper" style="display:none">	
+				<li class="dropdown">
+					<a id="main-menu-toggle" href="#main-menu" class="">
+						<div class="iconset top-menu-toggle-white"></div>
+					</a>
+				</li>		 
+			</ul>
+			<!-- END MOBILE HEADER -->
+			<!-- BEGIN LOGO -->	
+			<a href="#">
+				<%= image_tag "logo.png", :class => "logo-image logo" %>
+			</a>
+			<!-- END LOGO --> 
+			<!-- BEGIN LOGO NAV BUTTONS -->
+			<ul class="nav pull-right notifcation-center">	
+				<li class="dropdown" id="header_task_bar">
+					<a href="<%= root_path %>" class="dropdown-toggle active" data-toggle="">
+						<div class="iconset top-home"></div>
+					</a>
+				</li>
+				<li class="dropdown" id="header_inbox_bar">
+					<a href="<%= conversations_user_path(current_user) %>" class="dropdown-toggle">
+						<div class="iconset top-messages"></div>
+						<span class="badge" id="msgs-badge"><%= conversations_count(current_user) %></span>
+						</a>
+				</li>
+				<!-- BEGIN MOBILE CHAT TOGGLER -->
+				<li class="dropdown" id="portrait-chat-toggler" style="display:none">
+					<a href="#sidr" class="chat-menu-toggle">
+						<div class="iconset top-chat-white"></div>
+					</a>
+				</li>
+				<!-- END MOBILE CHAT TOGGLER -->				        
+			</ul>
+			<!-- END LOGO NAV BUTTONS -->
+		</div>
+		<!-- END NAVIGATION HEADER -->
+		<!-- BEGIN CONTENT HEADER -->
+		<div class="header-quick-nav"> 
+			<!-- BEGIN HEADER LEFT SIDE SECTION -->
+			<div class="pull-left"> 
+				<!-- BEGIN SLIM NAVIGATION TOGGLE -->
+				<ul class="nav quick-section">
+					<li class="quicklinks">
+						<a href="#" class="" id="layout-condensed-toggle">
+							<div class="iconset top-menu-toggle-dark"></div>
+						</a>
+					</li>
+				</ul>
+				<!-- END SLIM NAVIGATION TOGGLE -->				
+				<!-- BEGIN HEADER QUICK LINKS -->
+				<ul class="nav quick-section">
+					<li class="quicklinks"><a href="#" class=""><div class="iconset top-reload"></div></a></li>
+					<li class="quicklinks"><span class="h-seperate"></span></li>
+					<li class="quicklinks"><a href="#" class=""><div class="iconset top-tiles"></div></a></li>
+					<!-- BEGIN SEARCH BOX -->
+					<li class="m-r-10 input-prepend inside search-form no-boarder">
+						<span class="add-on"><span class="iconset top-search"></span></span>
+						<input name="" type="text" class="no-boarder" placeholder="Search Dashboard" style="width:250px;">
+					</li>
+					<!-- END SEARCH BOX -->
+				</ul>
+				<!-- BEGIN HEADER QUICK LINKS -->				
+			</div>
+			<!-- END HEADER LEFT SIDE SECTION -->
+			<!-- BEGIN HEADER RIGHT SIDE SECTION -->
+			<div class="pull-right"> 
+				<div class="chat-toggler">	
+					<!-- BEGIN NOTIFICATION CENTER -->
+					<a href="#" class="dropdown-toggle" id="my-task-list" data-placement="bottom" data-content="" data-toggle="dropdown" data-original-title="Notifications">
+						<div class="user-details"> 
+							<div class="username">
+								<span class="badge badge-important"><%= notifications_count(current_user) %></span>
+								&nbsp;<%= current_user.first_name %><span class="bold">&nbsp;<%= current_user.last_name %></span>									
+							</div>						
+						</div> 
+						<div class="iconset top-down-arrow"></div>
+					</a>	
+					<div id="notification-list" style="display:none">
+						<div style="width:300px">
+							<!-- BEGIN NOTIFICATION MESSAGE -->
+							<div class="notification-messages info">
+								<div class="user-profile">
+									<%= image_tag "profiles/d.jpg", :class => "profile-image" %>			
+								</div>
+								<div class="message-wrapper">
+									<div class="heading">Title of Notification</div>
+									<div class="description">Description...</div>
+									<div class="date pull-left">A min ago</div>										
+								</div>
+								<div class="clearfix"></div>									
+							</div>
+							<!-- END NOTIFICATION MESSAGE -->	
+						</div>				
+					</div>
+					<!-- END NOTIFICATION CENTER -->
+					<!-- BEGIN PROFILE PICTURE -->
+					<div class="profile-pic"> 
+						<%= image_tag "profiles/avatar_small.jpg", :class => "profile-image" %>
+						 
+					</div>  
+					<!-- END PROFILE PICTURE -->     			
+				</div>
+				<!-- BEGIN HEADER NAV BUTTONS -->
+				<ul class="nav quick-section">
+					<!-- BEGIN SETTINGS -->
+					<li class="quicklinks"> 
+						<a data-toggle="dropdown" class="dropdown-toggle pull-right" href="#" id="user-options">						
+							<div class="iconset top-settings-dark"></div> 	
+						</a>
+						<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="user-options">
+							<li><a href="#">Normal Link</a></li>
+							<li><a href="#">Badge Link&nbsp;&nbsp;<span class="badge badge-important animated bounceIn">2</span></a></li>
+							<li class="divider"></li>                
+							<li><a href=""><i class="fa fa-power-off"></i>&nbsp;&nbsp;Separated Link</a></li>
+						</ul>
+					</li>
+					<!-- END SETTINGS -->
+					<li class="quicklinks"><span class="h-seperate"></span></li> 
+					<!-- BEGIN CHAT SIDEBAR TOGGLE -->
+					<li class="quicklinks"> 	
+						<a id="chat-menu-toggle" href="#sidr" class="chat-menu-toggle">
+							<div class="iconset top-chat-dark"><span class="badge badge-important hide" id="chat-message-count">1</span></div>
+						</a> 
+						<!-- BEGIN OPTIONAL RECENT CHAT POP UP NOTIFICATION -->
+						<div class="simple-chat-popup chat-menu-toggle hide">
+							<div class="simple-chat-popup-arrow"></div>
+							<div class="simple-chat-popup-inner">
+								<div style="width:100px">
+									<div class="semi-bold">Name</div>
+									<div class="message">Message...</div>
+								</div>
+							</div>
+						</div>
+						<!-- END OPTIONAL RECENT CHAT POP UP NOTIFICATION -->
+					</li>
+					<!-- END CHAT SIDEBAR TOGGLE --> 
+				</ul>
+				<!-- END HEADER NAV BUTTONS -->
+			</div>
+			<!-- END HEADER RIGHT SIDE SECTION -->
+		</div> 
+		<!-- END CONTENT HEADER --> 
+	</div>
+	<!-- END TOP NAVIGATION BAR --> 
+</div>
+<!-- END HEADER -->
+	
+<!-- BEGIN CONTENT -->
+<div class="page-container row-fluid">
+	<!-- BEGIN SIDEBAR -->
+	<!-- BEGIN MENU -->
+	<div class="page-sidebar" id="main-menu"> 
+		  <div class="page-sidebar-wrapper" id="main-menu-wrapper">
+		<!-- BEGIN MINI-PROFILE -->
+		<div class="user-info-wrapper">	
+			<div class="profile-wrapper">
+				<%= image_tag "profiles/avatar.jpg", :class => "avatar" %>
+				
+			</div>
+			<div class="user-info">
+				<div class="greeting">Welcome</div>
+				<div class="username"><%= current_user.first_name %> <span class="semi-bold"><%= current_user.last_name %></span></div>
+			</div>
+		</div>
+		<!-- END MINI-PROFILE -->
+		<!-- BEGIN SIDEBAR MENU -->	
+		<p class="menu-title">MANAGE<span class="pull-right"><a href="javascript:;"><i class="fa fa-refresh"></i></a></span></p>
+		<ul>	
+			<!-- BEGIN SELECTED LINK -->
+			<li class="">
+				<a href="<%= cars_path %>" >
+					<%= fa_icon "location-arrow" %>
+					<span class="title">Cars</span>
+				</a>
+			</li>
+			<li class="">
+				<a href="<%= devices_path %>">
+					<%= fa_icon "bullseye" %>
+					<span class="title">Devices</span>
+				</a>
+			</li>
+			<li class="">
+				<a href="<%= simcards_path %>">
+					<%= fa_icon "ticket" %>
+					<span class="title">Simcards</span>
+				</a>
+			</li>
+			<li class="">
+				<a href="<%= groups_path %>">
+					<%= fa_icon "sitemap" %>
+					<span class="title">Groups</span>
+				</a>
+			</li>
+			<li class="">
+				<a href="<%= users_path %>">
+					<%= fa_icon "users" %>
+					<span class="title">Employees</span>
+				</a>
+			</li>
+			<li class="">
+				<a href="<%= alarms_path %>">
+					<%= fa_icon "bullhorn" %>
+					<span class="title">Alarms</span>
+				</a>
+			</li>
+			<% if current_user && current_user.has_role?(:admin) %>
+			
+			<!-- BEGIN TWO LEVEL MENU -->
+			<li class="">
+				<a href="javascript:;">
+					<%= fa_icon "gears" %>
+					<span class="title">Administration</span>
+					<span class="arrow"></span>
+				</a>
+				<ul class="sub-menu">
+					<li><%= link_to "Companies", companies_path %></li>
+					<li>
+						<a href="javascript:;"><span class="title">Cars</span><span class="arrow "></span></a>
+						<ul class="sub-menu">
+							<li><%= link_to "Car Manufacturers", car_manufacturers_path %></li>
+	                		<li><%= link_to "Car Models", car_models_path %></li>
+	                		<li><%= link_to "Car Types", car_types_path %></li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:;"><span class="title">Devices</span><span class="arrow "></span></a>
+						<ul class="sub-menu">
+							<li><%= link_to "Device Manufacturers", device_manufacturers_path %></li>
+	                		<li><%= link_to "Device Models", device_models_path %></li>
+	                		<li><%= link_to "Device Types", device_types_path %></li>
+	                		<li><%= link_to "Teleproviders", teleproviders_path %></li>
+						</ul>
+					</li>
+					<li><%= link_to "Rules", rules_path %></li>
+				</ul>
+			</li>
+			<% end %>
+			<!-- END TWO LEVEL MENU -->			
+		</ul>
+		<!-- END SIDEBAR MENU -->
+		<!-- BEGIN SIDEBAR WIDGETS -->
+		<div class="side-bar-widgets">
+			<!-- BEGIN FOLDER WIDGET -->
+			<p class="menu-title">FOLDER<span class="pull-right"><a href="#" class="create-folder"><i class="icon-plus"></i></a></span></p>
+			<ul class="folders">
+				<li><a href="#"><div class="status-icon green"></div>Task 1</a></li>
+				<!-- BEGIN HIDDEN INPUT BOX (FOR ADD FOLDER LINK) -->
+				<li class="folder-input" style="display:none">
+					<input type="text" placeholder="Name of folder" class="no-boarder folder-name" name="" id="folder-name">
+				</li>
+				<!-- END HIDDEN INPUT BOX (FOR ADD FOLDER LINK) -->
+			</ul>
+			<!-- END FOLDER WIDGET -->
+			<!-- BEGIN PROJECTS WIDGET -->
+			<p class="menu-title">PROJECTS</p>
+			<!-- BEGIN EXAMPLE 1 -->
+			<div class="status-widget">
+				<div class="status-widget-wrapper">
+					<div class="title">Project Title<a href="#" class="remove-widget"><i class="icon-custom-cross"></i></a></div>
+					<p>Project Description</p>
+				</div>
+			</div>
+			<!-- END EXAMPLE 1 -->
+			<!-- END PROJECTS WIDGET -->
+		</div>
+		<div class="clearfix"></div>
+		<!-- END SIDEBAR WIDGETS --> 
+	</div>
+	</div>
+	<!-- BEGIN SCROLL UP HOVER -->
+	<a href="#" class="scrollup">Scroll</a>
+	<!-- END SCROLL UP HOVER -->
+	<!-- END MENU -->
+	<!-- BEGIN SIDEBAR FOOTER WIDGET -->
+	<div class="footer-widget">		
+		<div class="progress transparent progress-small no-radius no-margin">
+			<div data-percentage="79%" class="progress-bar progress-bar-success animate-progress-bar"></div>		
+		</div>
+		<div class="pull-right">
+			<div class="details-status">
+				<span data-animation-duration="560" data-value="86" class="animate-number"></span>%
+			</div>	
+			<%= link_to destroy_user_session_path, method: :delete do %>
+				<i class="fa fa-power-off"></i>
+			<% end %>
+		</div>
+	</div>
+	<!-- END SIDEBAR FOOTER WIDGET -->
+	<!-- END SIDEBAR --> 
+	<!-- BEGIN PAGE CONTAINER-->
+	<div class="page-content"> 
+		<div class="content">  
+			<!-- BEGIN PAGE TITLE -->
+			<!-- <div class="page-title">	
+				<h3>Master Page</h3>		
+			</div> -->
+			<!-- END PAGE TITLE -->
+			<!-- BEGIN PlACE PAGE CONTENT HERE -->
+			<%= yield %>
+			<!-- END PLACE PAGE CONTENT HERE -->
+		</div>
+	</div>
+	<!-- END PAGE CONTAINER -->
+</div>
+<!-- END CONTENT --> 
+
+<!-- BEGIN CHAT --> 
+<div id="sidr" class="chat-window-wrapper">
+	<div id="main-chat-wrapper">
+		<div class="chat-window-wrapper fadeIn" id="chat-users">
+			<!-- BEGIN CHAT HEADER -->
+			<div class="chat-header">	
+				<!-- BEGIN CHAT SEARCH BAR -->
+				<div class="pull-left">
+					<input type="text" placeholder="search">
+				</div>
+				<!-- END CHAT SEARCH BAR -->
+				<!-- BEGIN CHAT QUICKLINKS -->		
+				<div class="pull-right">
+					<a href="#" class=""><div class="iconset top-settings-dark"></div></a>
+				</div>
+				<!-- END CHAT QUICKLINKS -->			
+			</div>
+			<!-- END CHAT HEADER -->	
+			<!-- BEGIN GROUP WIDGET -->
+			<div class="side-widget">
+				<div class="side-widget-title">group chats</div>
+				<div class="side-widget-content">
+					<div id="groups-list">
+						<ul class="groups">
+							<li><a href="#"><div class="status-icon green"></div>Group Chat 1</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- END GROUP WIDGET -->
+			<!-- BEGIN FAVORITES WIDGET -->
+			<div class="side-widget fadeIn">
+				<div class="side-widget-title">favorites</div>
+				<div class="side-widget-content">
+					<!-- BEGIN SAMPLE CHAT -->
+					<%= image_tag "profiles/d.jpg" %>
+				
+						<!-- BEGIN PROFILE PIC -->
+						<div class="user-profile">
+								<%= image_tag "profiles/d.jpg", :class => "profile-image" %>
+								
+							</div>
+						<!-- END PROFILE PIC -->
+						<!-- BEGIN MESSAGE -->
+						<div class="user-details">
+								<div class="user-name">Jane Smith</div>
+								<div class="user-more">Message...</div>
+							</div>
+						<!-- END MESSAGE -->
+						<!-- BEGIN MESSAGES BADGE -->
+						<div class="user-details-status-wrapper">
+								<span class="badge badge-important">3</span>
+							</div>
+						<!-- END MESSAGES BADGE -->
+						<!-- BEGIN STATUS -->
+						<div class="user-details-count-wrapper">
+								<div class="status-icon green"></div>
+							</div>
+						<!-- END STATUS -->
+						<div class="clearfix"></div>
+					</div>
+					<!-- END SAMPLE CHAT -->	
+				</div>
+			</div>
+			<!-- END FAVORITES WIDGET -->
+			<!-- BEGIN MORE FRIENDS WIDGET -->
+			<div class="side-widget">
+				<div class="side-widget-title">more friends</div>
+				<div class="side-widget-content" id="friends-list">
+					<!-- BEGIN SAMPLE CHAT -->
+					<%= image_tag "profiles/d.jpg" %>
+					>
+						<!-- BEGIN PROFILE PIC -->
+						<div class="user-profile">
+							<%= image_tag "profiles/d.jpg", :class => "profile-image" %>
+						</div>
+						<!-- END PROFILE PIC -->
+						<!-- BEGIN MESSAGE -->
+						<div class="user-details">
+							<div class="user-name">Jane Smith</div>
+							<div class="user-more">Message...</div>
+						</div>
+						<!-- END MESSAGE -->
+						<!-- BEGIN MESSAGES BADGE -->
+						<div class="user-details-status-wrapper">
+							<span class="badge badge-important">3</span>
+						</div>
+						<!-- END MESSAGES BADGE -->
+						<!-- BEGIN STATUS -->
+						<div class="user-details-count-wrapper">
+							<div class="status-icon green"></div>
+						</div>
+						<!-- END STATUS -->
+						<div class="clearfix"></div>
+					</div>
+					<!-- END SAMPLE CHAT -->
+				</div>		
+			</div>
+			<!-- END MORE FRIENDS WIDGET -->
+		</div>		
+		<!-- BEGIN DUMMY CHAT CONVERSATION -->
+		<div class="chat-window-wrapper fadeIn" id="messages-wrapper" style="display:none">
+			<!-- BEGIN CHAT HEADER BAR -->
+			<div class="chat-header">	
+				<!-- BEGIN SEARCH BAR -->
+				<div class="pull-left">
+					<input type="text" placeholder="search">
+				</div>		
+				<!-- END SEARCH BAR -->
+				<!-- BEGIN CLOSE TOGGLE -->
+				<div class="pull-right">
+					<a href="#" class=""><div class="iconset top-settings-dark"></div></a>
+				</div>	
+				<!-- END CLOSE TOGGLE -->				
+			</div>
+			<div class="clearfix"></div>
+			<!-- END CHAT HEADER BAR -->
+			<!-- BEGIN CHAT BODY -->
+			<div class="chat-messages-header">
+				<div class="status online"></div>
+				<span class="semi-bold">Jane Smith(Typing..)</span>
+				<a href="#" class="chat-back"><i class="icon-custom-cross"></i></a>
+			</div>
+			<!-- BEGIN CHAT MESSAGES CONTAINER -->
+			<div class="chat-messages">
+				<!-- BEGIN TIME STAMP EXAMPLE -->
+				<div class="sent_time">Yesterday 11:25pm</div>
+				<!-- END TIME STAMP EXAMPLE -->
+				<!-- BEGIN EXAMPLE CHAT MESSAGE -->
+				<div class="user-details-wrapper">
+					<!-- BEGIN MESSENGER PROFILE -->
+					<div class="user-profile">
+						<%= image_tag "profiles/d.jpg", :class => "profile-image" %>
+					</div>
+					<!-- END MESSENGER PROFILE -->
+					<!-- BEGIN MESSENGER MESSAGE -->
+					<div class="user-details">
+						<div class="bubble">Hello, You there?</div>
+					</div>
+					<!-- END MESSENGER MESSAGE -->					
+					<div class="clearfix"></div>
+					<!-- BEGIN TIMESTAMP ON CLICK TOGGLE -->
+					<div class="sent_time off">Yesterday 11:25pm</div>
+					<!-- END TIMESTAMP ON CLICK TOGGLE -->
+				</div>
+				<!-- END EXAMPLE CHAT MESSAGE -->
+				<!-- BEGIN TIME STAMP EXAMPLE -->
+				<div class="sent_time">Today 11:25pm</div>
+				<!-- BEGIN TIME STAMP EXAMPLE -->				
+				<!-- BEGIN EXAMPLE CHAT MESSAGE (FROM SELF) -->
+				<div class="user-details-wrapper pull-right">
+					<!-- BEGIN MESSENGER MESSAGE -->
+					<div class="user-details">
+						<div class="bubble sender">Let me know when you free</div>
+					</div>					
+					<!-- END MESSENGER MESSAGE -->
+					<div class="clearfix"></div>
+					<!-- BEGIN TIMESTAMP ON CLICK TOGGLE -->
+					<div class="sent_time off">Sent On Tue, 2:45pm</div>
+					<!-- END TIMESTAMP ON CLICK TOGGLE -->
+				</div>	
+				<!-- END EXAMPLE CHAT MESSAGE (FROM SELF) -->	
+			</div>
+			<!-- END CHAT MESSAGES CONTAINER -->
+		</div>
+		<div class="chat-input-wrapper" style="display:none">
+			<textarea id="chat-message-input" rows="1" placeholder="Type your message"></textarea>
+		</div>
+		<div class="clearfix"></div>
+		<!-- END DUMMY CHAT CONVERSATION -->
+	</div>
+</div>
+
+
 </body>
 </html>

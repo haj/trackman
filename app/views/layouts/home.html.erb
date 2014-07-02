@@ -36,8 +36,7 @@
                 <li><%= link_to "Devices", devices_path %></li>
                 <li><%= link_to "Simcards", simcards_path %></li>
                 <li><%= link_to "Car Groups", groups_path %></li>
-                <li><%= link_to "Users", users_path %></li>
-                <li><%= link_to "Alarms", alarms_path %></li> 
+                <li><%= link_to "Users", users_path %></li> 
               <% end %>        
               <% if current_user && current_user.has_role?(:admin) %>
                 <li class="divider"></li>
@@ -53,7 +52,7 @@
                 <li><%= link_to "Teleproviders", teleproviders_path %></li>
                 <li class="divider"></li>
                 <li><%= link_to "Rules", rules_path %></li>
-                
+                <li><%= link_to "Alarms", alarms_path %></li>
               <% end %>
             </ul>
           </li> 

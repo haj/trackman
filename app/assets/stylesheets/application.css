@@ -27,7 +27,7 @@
  * Framework Css Require.
  *= require ./framework/bootstrap.min
  *= require ./framework/bootstrap-theme.min
- *= require ./framework/font-awesome
+ *= require font-awesome
  *= require ./framework/animate.min
  *
  * Template Css Require.
@@ -38,3 +38,5 @@
  *= require regions
  *= require work_schedules
  */
+
+

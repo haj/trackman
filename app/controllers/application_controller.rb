@@ -15,4 +15,16 @@ class ApplicationController < ActionController::Base
 		params[resource] &&= send(method) if respond_to?(method, true)
 	end
 
+  layout :another_by_method
+
+  private
+
+    def another_by_method
+      if current_user.nil?
+        "home"
+      else
+        "application"
+      end
+    end
+
 end

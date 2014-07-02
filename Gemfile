@@ -110,3 +110,7 @@ gem 'annotate', ">=2.6.0"
 
 gem 'pinp', github: 'kimhunter/PointInPolygon'
 
+gem 'retina_tag'
+
+gem "font-awesome-rails"
+
