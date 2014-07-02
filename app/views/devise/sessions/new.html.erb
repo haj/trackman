@@ -1,17 +1,89 @@
-<h2>Sign in</h2>
+  <div class="container">
+    <div class="row login-container column-seperation">  
+      <div class="col-md-5 col-md-offset-1">
+        <h2>Sign in to webarch</h2>
+        <p>Use Facebook, Twitter or your email to sign in.<br>
+          <a href="#">Sign up Now!</a> for a webarch account,It's free and always will be..</p>
+          <br>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-group"><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
 
-  <div class="form-group"><%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
+          <button class="btn btn-block btn-info col-md-8" type="button">
+            <span class="pull-left"><i class="icon-facebook"></i></span>
+            <span class="bold">Login with Facebook</span> </button>
+            <button class="btn btn-block btn-success col-md-8" type="button">
+              <span class="pull-left"><i class="icon-twitter"></i></span>
+              <span class="bold">Login with Twitter</span>
+            </button>
+          </div>
+          <div class="col-md-5 "> <br>
+            <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
+            <div class="row">
+             <div class="form-group col-md-10">
 
-  <div><%= f.submit "Sign in", class: "btn btn-success" %></div>
-<% end %>
-<br/>
-<%= render "devise/shared/links" %>
+              <div class="form-group">    
+              </div>
+              <%= f.label :email, :class => "form-label" %>
+              <div class="controls">
+                <div class="input-with-icon  right">                                       
+                  <i class=""></i>
+                  <%= f.email_field :email, autofocus: true, :class => "form-control" %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-10">
+              <%= f.label :password, :class => "form-label" %>
+              <span class="help"></span>
+              <div class="controls">
+                <div class="input-with-icon  right">                                       
+                  <i class=""></i>
+                   <%= f.password_field :password, autocomplete: "off" , :class => "form-control" %>                                 
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="control-group  col-md-10">
+              <div class="checkbox checkbox check-success"> 
+
+              	<% if devise_mapping.rememberable? -%>
+                	<%= f.check_box :remember_me %>
+                	<%= f.label :remember_me %>
+                <% end -%>
+
+
+  				
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-10">
+            	<%= f.submit "Login", class: "btn btn-primary btn-cons pull-right" %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="control-group  col-md-10">
+              <div class="checkbox checkbox check-success"> 
+
+              	<%= render "devise/shared/links" %>
+
+  				
+              </div>
+            </div>
+          </div>
+          <% end %>
+
+
+
+
+        </div>
+
+
+      </div>
+    </div>
+
+
+

@@ -58,7 +58,7 @@
   %h2 Alarms
   = f.select :alarm_ids, Alarm.all.collect {|x| [x.name, x.id]}, {}, :multiple => true
 
-  %h2 Alarms
+  %h2 Work Schedule
   = f.label :work_schedule_id, "Work Schedule"
   = f.collection_select(:work_schedule_id, WorkSchedule.all, :id, :name)
 

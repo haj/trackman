@@ -49,34 +49,6 @@ class Car < ActiveRecord::Base
 
 	accepts_nested_attributes_for :alarms
 
-	#after_save :apply_group_work_hours
-	#after_create :generate_default_work_hours
-
-	# Work Hours 
-
-		# TODO : fix it (add work hours to schedule first)
-		def apply_group_work_hours
-			# car inherits group work hours if 
-			# 	car belongs to group and doesn't have work hours already defined
-			# if self.has_group? && self.work_hours.count == 0
-			# 	self.group.group_work_hours.each do |work_hour|
-			# 		new_work_shift = WorkHour.create(day_of_week: work_hour.day_of_week, starts_at: work_hour.starts_at, ends_at: work_hour.ends_at)
-			# 		self.work_hours << new_work_shift
-			# 	end
-			# end
-		end
-
-		# TODO : fix it (add work hours to schedule first)
-		def generate_default_work_hours
-			# if self.group.nil?
-			# 	(1..7).each do |day_of_week|
-			# 		starts_at = TimeOfDay.new 7 
-			# 		ends_at = TimeOfDay.parse "7pm" 
-			# 		new_work_shift = WorkHour.create(day_of_week: day_of_week, starts_at: starts_at, ends_at: ends_at) 
-			# 		self.work_hours << new_work_shift
-			# 	end
-			# end
-		end
 
 	# Virtual attributes
 
@@ -185,6 +157,7 @@ class Car < ActiveRecord::Base
 				self.alarms.all.each do |alarm|
 					result = alarm.verify(self.id)
 					puts "#{alarm.name} : #{result}"
+					self.capture_state
 					if result == true
 						subject =  "Alarm : #{alarm.name}"
 						body = alarm.name
@@ -198,15 +171,13 @@ class Car < ActiveRecord::Base
 		# Generate state card
 			def capture_state
 				state = State.new
-
+				puts "State"
 				state.moving = self.moving? 
 				state.no_data = self.no_data?
 				state.speed = self.speed
-
 				state.car_id = self.id 
 				state.driver_id = self.driver.id if self.has_driver?
-				#state.device_id = self.device.id
-
+				state.device_id = self.device.id if self.has_device?
 				state.save!
 			end
 

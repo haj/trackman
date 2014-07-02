@@ -48,8 +48,6 @@ gem 'debugger', group: [:development, :test]
 gem 'devise'
 gem 'acts_as_tenant'
 gem 'devise_invitable', '~> 1.3.4'
-
-
 gem 'hirb'
 gem "cancan"
 gem 'role_model', github: 'andrewhubbs/role_model'
@@ -119,5 +117,10 @@ gem "cocoon"
 gem 'annotate', ">=2.6.0"
 
 gem 'pinp', github: 'kimhunter/PointInPolygon'
+
+
+gem 'retina_tag'
+
+gem "font-awesome-rails"
 
 

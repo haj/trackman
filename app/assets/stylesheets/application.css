@@ -10,6 +10,33 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
+ * Before all.
+ *= require pace-theme-flash
+ *= require select2
+ *= require jquery.sidr.light
+ *
+ *= require messenger
+ *= require messenger-theme-flat
+ *= require messenger-spinner
+ *
+ * Before Framework.
+ *= require jquery.dataTables
+ *= require bootstrap-checkbox
+ *=	require datatables.responsive
+ *
+ * Framework Css Require.
+ *= require ./framework/bootstrap.min
+ *= require ./framework/bootstrap-theme.min
+ *= require font-awesome
+ *= require ./framework/animate.min
+ *
+ * Template Css Require.
+ *= require ./template/style
+ *= require ./template/responsive
+ *= require ./template/custom-icon-set
+ *= require self
+ *= require regions
+ *= require work_schedules
  */
+
+
