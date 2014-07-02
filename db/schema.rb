@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140628202609) do
+ActiveRecord::Schema.define(version: 20140702230606) do
 
   create_table "alarms", force: true do |t|
     t.string   "name"
@@ -94,12 +94,6 @@ ActiveRecord::Schema.define(version: 20140628202609) do
     t.datetime "updated_at"
   end
 
-  create_table "conversations", force: true do |t|
-    t.string   "subject",    default: ""
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
     t.integer  "attempts",   default: 0, null: false
@@ -167,7 +161,13 @@ ActiveRecord::Schema.define(version: 20140628202609) do
     t.integer  "work_schedule_id"
   end
 
-  create_table "notifications", force: true do |t|
+  create_table "mailboxer_conversations", force: true do |t|
+    t.string   "subject",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "mailboxer_notifications", force: true do |t|
     t.string   "type"
     t.text     "body"
     t.string   "subject",              default: ""
@@ -185,17 +185,9 @@ ActiveRecord::Schema.define(version: 20140628202609) do
     t.datetime "expires"
   end
 
-  add_index "notifications", ["conversation_id"], name: "index_notifications_on_conversation_id"
+  add_index "mailboxer_notifications", ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id"
 
-  create_table "parameters", force: true do |t|
-    t.string   "name"
-    t.string   "data_type"
-    t.integer  "rule_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "receipts", force: true do |t|
+  create_table "mailboxer_receipts", force: true do |t|
     t.integer  "receiver_id"
     t.string   "receiver_type"
     t.integer  "notification_id",                            null: false
@@ -207,7 +199,15 @@ ActiveRecord::Schema.define(version: 20140628202609) do
     t.datetime "updated_at",                                 null: false
   end
 
-  add_index "receipts", ["notification_id"], name: "index_receipts_on_notification_id"
+  add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id"
+
+  create_table "parameters", force: true do |t|
+    t.string   "name"
+    t.string   "data_type"
+    t.integer  "rule_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "regions", force: true do |t|
     t.string   "name"
