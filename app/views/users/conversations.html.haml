@@ -7,10 +7,10 @@
 		%th
 		%th
 
-	- @conversations.each do |conversation|
+	- @conversations.each do |user_conversation|
 		%tr
-			%td= link_to conversation.subject, conversation
-			%td= link_to 'Remove', conversation, :method => :delete, :data => { :confirm => 'Are you sure?' }
+			%td= link_to user_conversation.subject, conversation_path(user_conversation.id)
+			%td= link_to 'Remove', conversation_path(user_conversation.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 

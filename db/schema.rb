@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140702230606) do
+ActiveRecord::Schema.define(version: 20140702234718) do
 
   create_table "alarms", force: true do |t|
     t.string   "name"
@@ -159,6 +159,12 @@ ActiveRecord::Schema.define(version: 20140702230606) do
     t.datetime "updated_at"
     t.integer  "company_id"
     t.integer  "work_schedule_id"
+  end
+
+  create_table "mailboxer_conversation_opt_outs", force: true do |t|
+    t.integer "unsubscriber_id"
+    t.string  "unsubscriber_type"
+    t.integer "conversation_id"
   end
 
   create_table "mailboxer_conversations", force: true do |t|

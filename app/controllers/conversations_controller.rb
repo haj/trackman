@@ -2,7 +2,7 @@ class ConversationsController < ApplicationController
 
 
   def new
-    @conversation = Mailbox::Conversation.new
+    @conversation = Mailboxer::Conversation.new
   end
 
   # Create a brand new conversation
