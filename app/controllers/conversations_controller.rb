@@ -2,6 +2,8 @@ class ConversationsController < ApplicationController
 
 
   def new
+    # render text: params
+    # return 
     @conversation = Mailboxer::Conversation.new
   end
 
@@ -12,7 +14,7 @@ class ConversationsController < ApplicationController
     
     recipient = User.find(conversation_params['recipient_id'])
     @conversation = current_user.send_message(recipient, conversation_params["body"], conversation_params["subject"]).conversation
-    redirect_to @conversation
+    redirect_to conversation_path(@conversation)
   end
 
   # Reply to an existing conversation
