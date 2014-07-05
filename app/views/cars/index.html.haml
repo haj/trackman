@@ -51,32 +51,47 @@
 
 %br
 
-%table.table
-  %tr
-    = content_tag :th, sort_link(@q, :mileage)
-    = content_tag :th, sort_link(@q, :numberplate)
-    = content_tag :th, sort_link(@q, :car_model)
-    = content_tag :th, sort_link(@q, :car_type)
-    %th Registration no
-    = content_tag :th, sort_link(@q, :year)
-    = content_tag :th, sort_link(@q, 'Movement')
-    %th
-    %th
-    %th
 
-  - @cars.each do |car|
-    %tr
-      %td= car.mileage
-      %td= car.numberplate
-      %td= car.car_model.name
-      %td= car.car_type.name
-      %td= car.registration_no
-      %td= car.year
-      %td= render_movement_status(car)
-      %td= link_to 'Show', car
-      %td= link_to 'Edit', edit_car_path(car)
-      %td= link_to 'Destroy', car, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          &nbsp;
+        .tools
+          %a.collapse{href: "javascript:;"}
+          %a.config{"data-toggle" => "modal", href: "#grid-config"}
+          %a.reload{href: "javascript:;"}
+      .grid-body.no-border
+        %h3
+          Cars
+        %table.table.no-more-tables
+          %thead
+            %tr
+              %th{style: "width:9%"}= content_tag :th, sort_link(@q, :mileage)
+              %th{style: "width:9%"}= content_tag :th, sort_link(@q, :numberplate)
+              %th{style: "width:9%"}= content_tag :th, sort_link(@q, :car_model)
+              %th{style: "width:9%"}= content_tag :th, sort_link(@q, :car_type)
+              %th{style: "width:9%"} Registration no
+              %th{style: "width:9%"}= content_tag :th, sort_link(@q, :year)
+              %th{style: "width:9%"}= content_tag :th, sort_link(@q, 'Movement')
+              %th
+              %th
+              %th
+          %tbody
+            - @cars.each do |car|
+              %tr
+                %td= car.mileage
+                %td= car.numberplate
+                %td= car.car_model.name
+                %td= car.car_type.name
+                %td= car.registration_no
+                %td= car.year
+                %td= render_movement_status(car)
+                %td= link_to 'Show', car
+                %td= link_to 'Edit', edit_car_path(car)
+                %td= link_to 'Destroy', car, :method => :delete, :data => { :confirm => 'Are you sure?' }
+              
 %br
 
 = link_to 'New Car', new_car_path, :class => "btn btn-primary"
