@@ -1,55 +1,57 @@
-%h1 Listing cars
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          &nbsp;
 
-= form_tag '', :method => :get, :class => "form-horizontal" do
-  
-  %br  
-  
-  %br 
-  .panel.panel-default
-    .panel-body
-      .row
-        .col-sm-3
-          %h4= "Car model"
-          .form-group
-            .row
-              .col-sm-8.col-sm-offset-1
-                = select_tag('by_car_model', content_tag(:option,'Car Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'), :class => "form-control")
-        .col-sm-3
-          %h4= "Car type"
-          .form-group
-            .row
-              .col-sm-8.col-sm-offset-1
-                = select_tag('by_car_type', content_tag(:option,'Car Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'), :class => "form-control")
-        .col-sm-3
-          %h4= "Traceable"
-          .radio 
-            = radio_button_tag 'trackable', 'true' ,false
-            = "traceable" 
-          .radio
-            = radio_button_tag 'trackable', 'false' ,false
-            = "Not traceable"
-          .radio
-            = radio_button_tag 'trackable', 'all' , true
-            = "All"
+        = form_tag '', :method => :get, :class => "form-horizontal" do
+ 
+          .panel.panel-default
+            .panel-body
+              .row
+                .col-sm-3
+                  %h4= "Car model"
+                  .form-group
+                    .row
+                      .col-sm-8.col-sm-offset-1
+                        = select_tag('by_car_model', content_tag(:option,'Car Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'), :class => "form-control")
+                .col-sm-3
+                  %h4= "Car type"
+                  .form-group
+                    .row
+                      .col-sm-8.col-sm-offset-1
+                        = select_tag('by_car_type', content_tag(:option,'Car Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'), :class => "form-control")
+                .col-sm-3
+                  %h4= "Traceable"
+                  .radio 
+                    = radio_button_tag 'trackable', 'true' ,false
+                    = "traceable" 
+                  .radio
+                    = radio_button_tag 'trackable', 'false' ,false
+                    = "Not traceable"
+                  .radio
+                    = radio_button_tag 'trackable', 'all' , true
+                    = "All"
 
-        .col-sm-3
-          %h4= "Driver"
-          .radio 
-            = radio_button_tag 'has_driver', 'true' ,false
-            = "With driver" 
-          .radio
-            = radio_button_tag 'has_driver', 'false' ,false
-            = "Without driver"
-          .radio
-            = radio_button_tag 'has_driver', 'all' , true
-            = "All"
-      %br
-      .row
-        .col-sm-12
-          = submit_tag 'Apply filters', :class => "btn btn-default"
-  
+                .col-sm-3
+                  %h4= "Driver"
+                  .radio 
+                    = radio_button_tag 'has_driver', 'true' ,false
+                    = "With driver" 
+                  .radio
+                    = radio_button_tag 'has_driver', 'false' ,false
+                    = "Without driver"
+                  .radio
+                    = radio_button_tag 'has_driver', 'all' , true
+                    = "All"
+              %br
+              .row
+                .col-sm-12
+                  = submit_tag 'Apply filters', :class => "btn btn-default"
+          
 
-%br
+        %br
 
 
 .row
@@ -68,26 +70,23 @@
         %table.table.no-more-tables
           %thead
             %tr
-              %th{style: "width:9%"}= content_tag :th, sort_link(@q, :mileage)
-              %th{style: "width:9%"}= content_tag :th, sort_link(@q, :numberplate)
-              %th{style: "width:9%"}= content_tag :th, sort_link(@q, :car_model)
-              %th{style: "width:9%"}= content_tag :th, sort_link(@q, :car_type)
-              %th{style: "width:9%"} Registration no
-              %th{style: "width:9%"}= content_tag :th, sort_link(@q, :year)
-              %th{style: "width:9%"}= content_tag :th, sort_link(@q, 'Movement')
+              = content_tag :th, sort_link(@q, :numberplate)
+              = content_tag :th, sort_link(@q, :car_model)
+              = content_tag :th, sort_link(@q, :car_type)
+              %th= "Registration no"
+              = content_tag :th, sort_link(@q, :year)
               %th
               %th
               %th
           %tbody
+            
             - @cars.each do |car|
               %tr
-                %td= car.mileage
                 %td= car.numberplate
                 %td= car.car_model.name
                 %td= car.car_type.name
                 %td= car.registration_no
                 %td= car.year
-                %td= render_movement_status(car)
                 %td= link_to 'Show', car
                 %td= link_to 'Edit', edit_car_path(car)
                 %td= link_to 'Destroy', car, :method => :delete, :data => { :confirm => 'Are you sure?' }
