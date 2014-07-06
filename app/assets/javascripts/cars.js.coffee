@@ -3,6 +3,8 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
+	$('.page-sidebar').css('height',$('.page-content').css('height'))
+	
 	if (typeof gon != "undefined") && gon.resource == "cars"
 		handler = Gmaps.build('Google')
 		handler.buildMap { provider: { zoom: 10 }, internal: {id: gon.map_id}}, ->
@@ -20,6 +22,7 @@ $(document).ready ->
 				window.markers = handler.addMarkers(data)
 		gon.watch('data', interval: 3000, refreshCarsMap)
 
+	
 
 				
 
