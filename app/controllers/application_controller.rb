@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
 		params[resource] &&= send(method) if respond_to?(method, true)
 	end
 
+  before_filter do 
+    @notifications = User.find(current_user.id).mailbox.notifications
+  end
+
   layout :another_by_method
 
   private
