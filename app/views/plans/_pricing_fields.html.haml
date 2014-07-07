@@ -1,0 +1,16 @@
+.nested-fields
+	.field
+		= f.label :name
+		%br
+		= f.text_field :name
+	.field
+		= f.label :billable_days
+		%br
+		= f.text_field :billable_days
+
+	.field
+		= f.label :amount
+		%br
+		= f.text_field :amount
+
+	= link_to_remove_association "remove pricing", f

@@ -9,5 +9,15 @@
   .field
     = f.label :name
     = f.text_field :name
+
+
+  %h3 Pricing
+
+  #pricings
+  = f.fields_for :pricings do |pricing|
+    = render 'pricing_fields', :f => pricing
+  .links
+    = link_to_add_association 'add pricing', f, :pricings
+
   .actions
     = f.submit 'Save'
