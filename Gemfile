@@ -123,4 +123,5 @@ gem 'retina_tag'
 
 gem "font-awesome-rails"
 
+gem 'activemerchant'
 
