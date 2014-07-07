@@ -99,17 +99,19 @@
 					<div id="notification-list" style="display:none">
 						<div style="width:300px">
 							<!-- BEGIN NOTIFICATION MESSAGE -->
-							<div class="notification-messages info">
-								<div class="user-profile">
-									<%= image_tag "profiles/d.jpg", :class => "profile-image" %>			
+							<% @notifications.each do |user_notification| %>
+								<div class="notification-messages info">
+									<div class="user-profile">
+										<%= image_tag "profiles/d.jpg", :class => "profile-image" %>	
+									</div>
+									<div class="message-wrapper">
+										<div class="heading"><%= notification_title(user_notification) %></div>
+										<div class="description"><%= notification_desc(user_notification) %></div>
+										<div class="date pull-left"><%= time_ago_in_words(user_notification.created_at) %></div>										
+									</div>
+									<div class="clearfix"></div>									
 								</div>
-								<div class="message-wrapper">
-									<div class="heading">Title of Notification</div>
-									<div class="description">Description...</div>
-									<div class="date pull-left">A min ago</div>										
-								</div>
-								<div class="clearfix"></div>									
-							</div>
+							<% end %>
 							<!-- END NOTIFICATION MESSAGE -->	
 						</div>				
 					</div>

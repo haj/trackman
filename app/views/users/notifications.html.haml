@@ -1,16 +1,31 @@
-%h1 Listing notifications
+.row
+	.col-md-12
+		.grid.simple
+			.grid-title.no-border
+				%h4
+					&nbsp;
+				.tools
+					%a.collapse{href: "javascript:;"}
+					%a.config{"data-toggle" => "modal", href: "#grid-config"}
+					%a.reload{href: "javascript:;"}
+			.grid-body.no-border
+				%h3
+					Notifications
+				%table.table.no-more-tables
+					%thead
+						%tr
+							%th Name
+							%th
+							%th
+							%th
 
-%table.table
-	%tr
-		%th Name
-		%th
-		%th
-		%th
-
-	- @notifications.each do |notification|
-		%tr
-			%td= link_to notification.subject, notification
-			%td= link_to 'Mark as read', notification, :method => :delete, :data => { :confirm => 'Are you sure?' }
+					%tbody           
+						- @notifications.each do |user_notification|
+							%tr
+								%td= link_to user_notification.subject, notification_path(user_notification.id)
+								%td= link_to 'Mark as read', notification_path(user_notification.id), :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
+
+
 
