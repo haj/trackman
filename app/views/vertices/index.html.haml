@@ -1,23 +1,38 @@
-%h1 Listing vertices
 
-%table
-  %tr
-    %th Latitude
-    %th Longitude
-    %th Region
-    %th
-    %th
-    %th
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          &nbsp;
+        .tools
+          %a.collapse{href: "javascript:;"}
+          %a.config{"data-toggle" => "modal", href: "#grid-config"}
+          %a.reload{href: "javascript:;"}
+      .grid-body.no-border
+        %h3
+          Vertices
+        %table.table.no-more-tables
+          %thead
+            %tr
+              %th Latitude
+              %th Longitude
+              %th Region
+              %th
+              %th
+              %th
 
-  - @vertices.each do |vertex|
-    %tr
-      %td= vertex.latitude
-      %td= vertex.longitude
-      %td= vertex.region_id
-      %td= link_to 'Show', vertex
-      %td= link_to 'Edit', edit_vertex_path(vertex)
-      %td= link_to 'Destroy', vertex, :method => :delete, :data => { :confirm => 'Are you sure?' }
+          %tbody           
+            - @vertices.each do |vertex|
+              %tr
+                %td= link_to vertex.latitude, vertex
+                %td= vertex.longitude
+                %td= vertex.region_id
+                %td= link_to 'Edit', edit_vertex_path(vertex)
+                %td= link_to 'Destroy', vertex, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
+
+
 
 = link_to 'New Vertex', new_vertex_path

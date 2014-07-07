@@ -1,4 +1,3 @@
-%h1 Listing Car Models
 
 = search_form_for @q, :class => "form-inline" do |f| 
   = f.search_field :name_cont, :placeholder => "search with name" 
@@ -12,22 +11,38 @@
 
 %br
 
-%table.table
-  %tr
-    %th Name
-    %th Car manufacturer
-    %th
-    %th
-    %th
-
-  - @car_models.each do |car_model|
-    %tr
-      %td= car_model.name
-      %td= car_model.car_manufacturer.name
-      %td= link_to 'Show', car_model
-      %td= link_to 'Edit', edit_car_model_path(car_model)
-      %td= link_to 'Destroy', car_model, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          &nbsp;
+        .tools
+          %a.collapse{href: "javascript:;"}
+          %a.config{"data-toggle" => "modal", href: "#grid-config"}
+          %a.reload{href: "javascript:;"}
+      .grid-body.no-border
+        %h3
+          Car Models
+        %table.table.no-more-tables
+          %thead
+            %tr
+              %th Name
+              %th Car manufacturer
+              %th
+              %th
+              %th
+          %tbody
+            
+            - @car_models.each do |car_model|
+              %tr
+                %td= car_model.name
+                %td= car_model.car_manufacturer.name
+                %td= link_to 'Show', car_model
+                %td= link_to 'Edit', edit_car_model_path(car_model)
+                %td= link_to 'Destroy', car_model, :method => :delete, :data => { :confirm => 'Are you sure?' }
 %br
+
+
 
 = link_to 'New Car model', new_car_model_path

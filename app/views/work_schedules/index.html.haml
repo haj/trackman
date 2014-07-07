@@ -1,21 +1,36 @@
-%h1 Listing work_schedules
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          &nbsp;
+        .tools
+          %a.collapse{href: "javascript:;"}
+          %a.config{"data-toggle" => "modal", href: "#grid-config"}
+          %a.reload{href: "javascript:;"}
+      .grid-body.no-border
+        %h3
+          Work Schedules
+        %table.table.no-more-tables
+          %thead
+            %tr
+              %th Name
+              %th Car
+              %th
+              %th
+              %th
 
-%table.table
-  %tr
-    %th Car
-    %th Name
-    %th
-    %th
-    %th
-
-  - @work_schedules.each do |work_schedule|
-    %tr
-      %td= work_schedule.car_id
-      %td= work_schedule.name
-      %td= link_to 'Show', work_schedule
-      %td= link_to 'Edit', edit_work_schedule_path(work_schedule)
-      %td= link_to 'Destroy', work_schedule, :method => :delete, :data => { :confirm => 'Are you sure?' }
+          %tbody           
+            - @work_schedules.each do |work_schedule|
+              %tr
+                %td= link_to work_schedule.name, work_schedule
+                %td= work_schedule.car_id
+                %td= link_to 'Show', work_schedule
+                %td= link_to 'Edit', edit_work_schedule_path(work_schedule)
+                %td= link_to 'Destroy', work_schedule, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
+
+
 
 = link_to 'New Work schedule', new_work_schedule_path

@@ -1,19 +1,32 @@
-%h1 Listing alarms
 
-%table.table
-  %tr
-    %th Name
-    %th
-    %th
-    %th
-
-  - @alarms.each do |alarm|
-    %tr
-      %td= alarm.name
-      %td= link_to 'Show', alarm
-      %td= link_to 'Edit', edit_alarm_path(alarm)
-      %td= link_to 'Destroy', alarm, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          &nbsp;
+        .tools
+          %a.collapse{href: "javascript:;"}
+          %a.config{"data-toggle" => "modal", href: "#grid-config"}
+          %a.reload{href: "javascript:;"}
+      .grid-body.no-border
+        %h3
+          Alarms
+        %table.table.no-more-tables
+          %thead
+            %tr
+              %th Name
+              %th
+              %th
+              %th
+          %tbody
+            
+            - @alarms.each do |alarm|
+              %tr
+                %td= alarm.name
+                %td= link_to 'Show', alarm
+                %td= link_to 'Edit', edit_alarm_path(alarm)
+                %td= link_to 'Destroy', alarm, :method => :delete, :data => { :confirm => 'Are you sure?' }
 %br
 
 = link_to 'New Alarm', new_alarm_path
