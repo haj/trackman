@@ -19,5 +19,8 @@
   .links
     = link_to_add_association 'add pricing', f, :pricings
 
+  %h2 Features
+  = f.select :feature_ids, Feature.all.collect {|x| [x.name, x.id]}, {}, :multiple => true
+
   .actions
     = f.submit 'Save'
