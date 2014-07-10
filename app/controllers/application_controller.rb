@@ -16,7 +16,9 @@ class ApplicationController < ActionController::Base
 	end
 
   before_filter do 
-    @notifications = User.find(current_user.id).mailbox.notifications
+    if current_user
+      @notifications = User.find(current_user.id).mailbox.notifications
+    end
   end
 
   layout :another_by_method
