@@ -214,7 +214,7 @@
 			<li class="">
 				<a href="javascript:;">
 					<%= fa_icon "gears" %>
-					<span class="title">Administration</span>
+					<span class="title">Advanced</span>
 					<span class="arrow"></span>
 				</a>
 				<ul class="sub-menu">
@@ -237,40 +237,19 @@
 						</ul>
 					</li>
 					<li><%= link_to "Rules", rules_path %></li>
-					<li><%= link_to "Plans", plans_path %></li>
+					<li>
+						<a href="javascript:;"><span class="title">Billing</span><span class="arrow "></span></a>
+						<ul class="sub-menu">
+							<li><%= link_to "Plans", plans_path %></li>
+	                		<li><%= link_to "Features", features_path %></li>
+						</ul>
+					</li>
 				</ul>
 			</li>
 			<% end %>
 			<!-- END TWO LEVEL MENU -->			
 		</ul>
 		<!-- END SIDEBAR MENU -->
-		<!-- BEGIN SIDEBAR WIDGETS -->
-		<div class="side-bar-widgets">
-			<!-- BEGIN FOLDER WIDGET -->
-			<p class="menu-title">FOLDER<span class="pull-right"><a href="#" class="create-folder"><i class="icon-plus"></i></a></span></p>
-			<ul class="folders">
-				<li><a href="#"><div class="status-icon green"></div>Task 1</a></li>
-				<!-- BEGIN HIDDEN INPUT BOX (FOR ADD FOLDER LINK) -->
-				<li class="folder-input" style="display:none">
-					<input type="text" placeholder="Name of folder" class="no-boarder folder-name" name="" id="folder-name">
-				</li>
-				<!-- END HIDDEN INPUT BOX (FOR ADD FOLDER LINK) -->
-			</ul>
-			<!-- END FOLDER WIDGET -->
-			<!-- BEGIN PROJECTS WIDGET -->
-			<p class="menu-title">PROJECTS</p>
-			<!-- BEGIN EXAMPLE 1 -->
-			<div class="status-widget">
-				<div class="status-widget-wrapper">
-					<div class="title">Project Title<a href="#" class="remove-widget"><i class="icon-custom-cross"></i></a></div>
-					<p>Project Description</p>
-				</div>
-			</div>
-			<!-- END EXAMPLE 1 -->
-			<!-- END PROJECTS WIDGET -->
-		</div>
-		<div class="clearfix"></div>
-		<!-- END SIDEBAR WIDGETS --> 
 	</div>
 	</div>
 	<!-- BEGIN SCROLL UP HOVER -->

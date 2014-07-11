@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
   resources :regions
 
+  resources :features
+
   resources :conversations do 
     member do 
       post 'reply'
