@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @feature.name
+%p
+  %b Role:
+  = @feature.role
+
+= link_to 'Edit', edit_feature_path(@feature)
+\|
+= link_to 'Back', features_path

@@ -1,15 +1,10 @@
 Rails.application.routes.draw do
 
   resources :plans
-
   resources :notifications
-
   resources :vertices
-
   resources :regions
-
   resources :features
-
   resources :conversations do 
     member do 
       post 'reply'
@@ -17,15 +12,12 @@ Rails.application.routes.draw do
   end
 
   resources :work_schedules
-
   resources :parameters
-
   resources :alarms do 
     collection do 
       get 'region'
     end
   end
-
   resources :rules do 
     member do 
       get 'rule_params_list'
@@ -35,37 +27,25 @@ Rails.application.routes.draw do
     end
 
   end
-
   resources :work_hours
-
   resources :simcards
-
   resources :teleproviders
-
   resources :device_types
-
   resources :device_models
-
   resources :device_manufacturers
-
   resources :groups do 
     member do 
       get 'live'
     end
   end
-
   resources :cars do 
     collection do 
       get 'live'
     end
   end
-
   resources :car_types
-
   resources :car_models
-
   resources :car_manufacturers
-
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   
   resources :devices do 

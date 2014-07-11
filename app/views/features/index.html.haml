@@ -1,0 +1,39 @@
+.page-title
+  %h3
+    Listing features
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          &nbsp;
+        .tools
+          %a.collapse{href: "javascript:;"}
+          %a.config{"data-toggle" => "modal", href: "#grid-config"}
+          %a.reload{href: "javascript:;"}
+      .grid-body.no-border
+        %h3
+          All features
+        %table.table.no-more-tables
+          %thead
+            %tr
+              %th Name
+              %th Role
+              %th
+              %th
+              %th
+
+          %tbody
+            - @features.each do |feature|
+              %tr
+                %td= feature.name
+                %td= feature.role
+                %td= link_to 'Show', feature
+                %td= link_to 'Edit', edit_feature_path(feature)
+                %td= link_to 'Destroy', feature, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+        = link_to 'New Feature', new_feature_path
+
+  
+
+          
