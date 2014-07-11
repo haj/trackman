@@ -27,3 +27,8 @@
 # stopped_more_than = Rule.create(name: "Stopped for more than", method_name: "stopped_for_more_than")
 # Parameter.create(name: "threshold", data_type: "integer", rule_id: stopped_more_than.id)
 # Parameter.create(name: "scope", data_type: "integer", rule_id: stopped_more_than.id)
+
+# SEED PLANS
+
+Plan.create(name: "Free")
+Plan.create(name: "Premium")
