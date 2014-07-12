@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
 
   resources :plans
+
+  resources :billings do 
+    member do 
+      get 'confirm'
+      post 'apply'
+    end
+  end
+  
   resources :notifications
   resources :vertices
   resources :regions

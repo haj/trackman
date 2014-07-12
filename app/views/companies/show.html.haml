@@ -1,0 +1,14 @@
+%p#notice= notice
+%p
+  %strong Name:
+  = @company.name
+%p
+  %strong Subdomain:
+  = @company.subdomain
+%p
+  %strong Billing plan:
+  = @company.plan.name
+  = link_to "(Change)", plans_path
+= link_to 'Edit', edit_company_path(@company)
+|
+\#{link_to 'Back', companies_path}

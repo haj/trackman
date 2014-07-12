@@ -1,0 +1,17 @@
+= form_for(@company) do |f|
+  - if @company.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@company.errors.count, "error")
+        prohibited this company from being saved:
+      %ul
+        - @company.errors.full_messages.each do |message|
+          %li= message
+  .form-group
+    = f.label :name, :class => "form-label"
+    = f.text_field :name, :class => "form-control"
+  .form-group
+    = f.label :subdomain, :class => "form-label"
+    = f.text_field :subdomain, :class => "form-control"
+  .form-group
+    = f.submit "Save", :class => "btn btn-primary"

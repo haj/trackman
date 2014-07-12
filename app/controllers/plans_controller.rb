@@ -1,10 +1,14 @@
 class PlansController < ApplicationController
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
 
+  def confirm
+    # check if it's free plan
+
+  end
+
   # GET /plans
   # GET /plans.json
   def index
-    
     @plans = Plan.all
   end
 

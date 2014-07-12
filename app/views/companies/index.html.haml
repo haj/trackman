@@ -1,4 +1,3 @@
-
 .row
   .col-md-12
     .grid.simple
@@ -11,23 +10,21 @@
           %a.reload{href: "javascript:;"}
       .grid-body.no-border
         %h3
-          Plans
+          Companies
         %table.table.no-more-tables
           %thead
             %tr
               %th Name
               %th
               %th
-
-          %tbody           
-            - @plans.each do |plan|
+              %th
+          %tbody
+            - @companies.each do |company|
               %tr
-                %td= link_to plan.name, plan
-                %td= link_to 'Upgrade', confirm_billing_path(plan.id)
-                %td= link_to 'Edit', edit_plan_path(plan)
-                %td= link_to 'Destroy', plan, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
+                %td= link_to company.name, company
+                %td= link_to 'Edit', edit_company_path(company)
+                %td= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' }
 
 
-= link_to 'New Plan', new_plan_path, class: "btn btn-success"
+%br/
+= link_to 'New Company', new_company_path, class: "btn btn-success"
