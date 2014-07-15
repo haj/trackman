@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140715054235) do
+ActiveRecord::Schema.define(version: 20140715074256) do
 
   create_table "alarms", force: true do |t|
     t.string   "name"
@@ -246,7 +246,7 @@ ActiveRecord::Schema.define(version: 20140715054235) do
   create_table "plans", force: true do |t|
     t.integer  "plan_type_id"
     t.string   "interval"
-    t.string   "current"
+    t.string   "currency"
     t.float    "price"
     t.string   "paymill_id"
     t.datetime "created_at"

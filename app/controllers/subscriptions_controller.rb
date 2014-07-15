@@ -20,7 +20,7 @@ class SubscriptionsController < ApplicationController
   # POST /subscriptions.json
   def create
     @subscription = Subscription.new(params[:subscription])
-    if @subscription.save_with_payment
+    if false #@subscription.save_with_payment
       redirect_to @subscription, :notice => "Thank you for subscribing!"
     else
       render :new
@@ -59,6 +59,6 @@ class SubscriptionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def subscription_params
-      params.require(:subscription).permit(:email, :name, :paymill_id)
+      params.require(:subscription).permit(:email, :name, :paymill_id, :paymill_card_token, :plan_id)
     end
 end

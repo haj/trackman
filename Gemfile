@@ -125,4 +125,3 @@ gem "font-awesome-rails"
 
 gem 'paymill'
 
-gem 'protected_attributes'

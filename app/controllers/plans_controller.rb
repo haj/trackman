@@ -24,6 +24,7 @@ class PlansController < ApplicationController
   # POST /plans
   # POST /plans.json
   def create
+
     @plan = Plan.new(plan_params)
 
     respond_to do |format|
@@ -69,6 +70,6 @@ class PlansController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def plan_params
-      params[:plan]
+      params.require(:plan).permit(:interval, :plan_type_id, :price, :currency)
     end
 end
