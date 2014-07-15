@@ -1,0 +1,32 @@
+
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          &nbsp;
+        .tools
+          %a.collapse{href: "javascript:;"}
+          %a.config{"data-toggle" => "modal", href: "#grid-config"}
+          %a.reload{href: "javascript:;"}
+      .grid-body.no-border
+        %h3
+          Plan Types
+        %table.table.no-more-tables
+          %thead
+            %tr
+              %th Name
+              %th
+              %th
+
+          %tbody           
+            - @plan_types.each do |plan_type|
+              %tr
+                %td= link_to plan_type.name, plan_type
+                %td= link_to 'Edit', edit_plan_path(plan_type)
+                %td= link_to 'Destroy', plan_type, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+
+= link_to 'New Plan Type', new_plan_type_path, class: "btn btn-success"

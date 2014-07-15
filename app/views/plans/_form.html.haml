@@ -6,21 +6,5 @@
         - @plan.errors.full_messages.each do |msg|
           %li= msg
 
-  .form-group
-    = f.label :name, :class => "form-label"
-    = f.text_field :name, :class => "form-control"
-
-  .form-group
-    %h4 Pricing
-    #pricings
-    = f.fields_for :pricings do |pricing|
-      = render 'pricing_fields', :f => pricing
-    .links
-      = link_to_add_association 'add pricing', f, :pricings
-
-  .form-group
-    %h4 Features
-    = f.select :feature_ids, Feature.all.collect {|x| [x.name, x.id]}, {}, :multiple => true
-
-  .form-group
-    = f.submit 'Save', class: "btn btn-primary"
+  .actions
+    = f.submit 'Save'

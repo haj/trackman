@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707110843) do
+ActiveRecord::Schema.define(version: 20140715054235) do
 
   create_table "alarms", force: true do |t|
     t.string   "name"
@@ -152,13 +152,13 @@ ActiveRecord::Schema.define(version: 20140707110843) do
     t.datetime "updated_at"
   end
 
-  create_table "features_plans", force: true do |t|
-    t.integer "feature_id", null: false
-    t.integer "plan_id",    null: false
+  create_table "features_plan_types", force: true do |t|
+    t.integer "feature_id",   null: false
+    t.integer "plan_type_id", null: false
     t.string  "active"
   end
 
-  add_index "features_plans", ["feature_id", "plan_id"], name: "index_features_plans_on_feature_id_and_plan_id", unique: true
+  add_index "features_plan_types", ["feature_id", "plan_type_id"], name: "index_features_plan_types_on_feature_id_and_plan_type_id", unique: true
 
   create_table "group_work_hours", force: true do |t|
     t.integer  "day_of_week"
@@ -237,17 +237,18 @@ ActiveRecord::Schema.define(version: 20140707110843) do
     t.datetime "updated_at"
   end
 
-  create_table "plans", force: true do |t|
+  create_table "plan_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "pricings", force: true do |t|
-    t.string   "name"
-    t.integer  "billable_days"
-    t.float    "amount"
-    t.integer  "plan_id"
+  create_table "plans", force: true do |t|
+    t.integer  "plan_type_id"
+    t.string   "interval"
+    t.string   "current"
+    t.float    "price"
+    t.string   "paymill_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -290,6 +291,15 @@ ActiveRecord::Schema.define(version: 20140707110843) do
     t.float    "speed",      default: 0.0
     t.integer  "driver_id"
     t.integer  "device_id"
+  end
+
+  create_table "subscriptions", force: true do |t|
+    t.string   "email"
+    t.string   "name"
+    t.string   "paymill_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "plan_id"
   end
 
   create_table "teleproviders", force: true do |t|

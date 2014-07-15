@@ -2,6 +2,10 @@
 
 FactoryGirl.define do
   factory :plan do
-    name "MyString"
+    plan_type_id 1
+    interval "MyString"
+    current "MyString"
+    price 1.5
+    paymill_id "MyString"
   end
 end

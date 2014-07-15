@@ -23,7 +23,7 @@ describe PlansController do
   # This should return the minimal set of attributes required to create a valid
   # Plan. As you add validations to Plan, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { {  } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -85,14 +85,14 @@ describe PlansController do
       it "assigns a newly created but unsaved plan as @plan" do
         # Trigger the behavior that occurs when invalid params are submitted
         Plan.any_instance.stub(:save).and_return(false)
-        post :create, {:plan => { "name" => "invalid value" }}, valid_session
+        post :create, {:plan => {  }}, valid_session
         assigns(:plan).should be_a_new(Plan)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Plan.any_instance.stub(:save).and_return(false)
-        post :create, {:plan => { "name" => "invalid value" }}, valid_session
+        post :create, {:plan => {  }}, valid_session
         response.should render_template("new")
       end
     end
@@ -106,8 +106,8 @@ describe PlansController do
         # specifies that the Plan created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Plan.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => plan.to_param, :plan => { "name" => "MyString" }}, valid_session
+        Plan.any_instance.should_receive(:update).with({ "these" => "params" })
+        put :update, {:id => plan.to_param, :plan => { "these" => "params" }}, valid_session
       end
 
       it "assigns the requested plan as @plan" do
@@ -128,7 +128,7 @@ describe PlansController do
         plan = Plan.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Plan.any_instance.stub(:save).and_return(false)
-        put :update, {:id => plan.to_param, :plan => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => plan.to_param, :plan => {  }}, valid_session
         assigns(:plan).should eq(plan)
       end
 
@@ -136,7 +136,7 @@ describe PlansController do
         plan = Plan.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Plan.any_instance.stub(:save).and_return(false)
-        put :update, {:id => plan.to_param, :plan => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => plan.to_param, :plan => {  }}, valid_session
         response.should render_template("edit")
       end
     end

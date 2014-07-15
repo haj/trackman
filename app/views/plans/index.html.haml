@@ -1,33 +1,19 @@
+%h1 Listing plans
 
-.row
-  .col-md-12
-    .grid.simple
-      .grid-title.no-border
-        %h4
-          &nbsp;
-        .tools
-          %a.collapse{href: "javascript:;"}
-          %a.config{"data-toggle" => "modal", href: "#grid-config"}
-          %a.reload{href: "javascript:;"}
-      .grid-body.no-border
-        %h3
-          Plans
-        %table.table.no-more-tables
-          %thead
-            %tr
-              %th Name
-              %th
-              %th
+%table
+  %tr
+    %th
+    %th
+    %th
+    %th
 
-          %tbody           
-            - @plans.each do |plan|
-              %tr
-                %td= link_to plan.name, plan
-                %td= link_to 'Upgrade', confirm_billing_path(plan.id)
-                %td= link_to 'Edit', edit_plan_path(plan)
-                %td= link_to 'Destroy', plan, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  - @plans.each do |plan|
+    %tr
+      %td= link_to 'Show', plan
+      %td= link_to 'Upgrade to this plan', new_subscription_path(:plan_id => plan.id)
+      %td= link_to 'Edit', edit_plan_path(plan)
+      %td= link_to 'Destroy', plan, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-
-= link_to 'New Plan', new_plan_path, class: "btn btn-success"
+= link_to 'New Plan', new_plan_path

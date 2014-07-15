@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @plan_type.name
+
+= link_to 'Edit', edit_plan_type_path(@plan_type)
+\|
+= link_to 'Back', plan_types_path

@@ -2,9 +2,7 @@ require 'spec_helper'
 
 describe "plans/new" do
   before(:each) do
-    assign(:plan, stub_model(Plan,
-      :name => "MyString"
-    ).as_new_record)
+    assign(:plan, stub_model(Plan).as_new_record)
   end
 
   it "renders new plan form" do
@@ -12,7 +10,6 @@ describe "plans/new" do
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form[action=?][method=?]", plans_path, "post" do
-      assert_select "input#plan_name[name=?]", "plan[name]"
     end
   end
 end

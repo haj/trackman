@@ -1,11 +1,6 @@
 class PlansController < ApplicationController
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
 
-  def confirm
-    # check if it's free plan
-
-  end
-
   # GET /plans
   # GET /plans.json
   def index
@@ -29,7 +24,6 @@ class PlansController < ApplicationController
   # POST /plans
   # POST /plans.json
   def create
-
     @plan = Plan.new(plan_params)
 
     respond_to do |format|
@@ -75,6 +69,6 @@ class PlansController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def plan_params
-      params.require(:plan).permit!
+      params[:plan]
     end
 end

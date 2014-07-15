@@ -58,6 +58,7 @@
 //= require jquery.timetable
 //= require work_schedules
 //= require cars
+//= require subscriptions
 //= require retina_tag
 //
 
