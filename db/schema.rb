@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140715074256) do
+ActiveRecord::Schema.define(version: 20140715083056) do
 
   create_table "alarms", force: true do |t|
     t.string   "name"
@@ -300,6 +300,8 @@ ActiveRecord::Schema.define(version: 20140715074256) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "plan_id"
+    t.integer  "company_id"
+    t.boolean  "active"
   end
 
   create_table "teleproviders", force: true do |t|

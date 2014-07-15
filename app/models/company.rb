@@ -19,5 +19,11 @@ class Company < ActiveRecord::Base
 	has_many :simcards, :dependent => :destroy
 	has_many :groups, :dependent => :destroy
 	belongs_to :plan
+	has_many :subscriptions
+
+	def cancel_active_subscriptions
+		# get the active subscription
+		self.subscriptions.where(active: true).each { |subscription| subscription.cancel }
+	end
 
 end

@@ -8,8 +8,21 @@ class SubscriptionsController < ApplicationController
 
   # GET /subscriptions/new
   def new
+
     plan = Plan.find(params[:plan_id])
-    @subscription = plan.subscriptions.build
+    if plan.plan_type.id == PlanType.first.id
+      # if it's the free plan, cancel previous active subscriptions 
+      company = current_user.company
+      company.cancel_active_subscriptions
+
+      # and switch to new free plan
+      plan.companies << company
+
+      redirect_to company
+    else
+      @subscription = plan.subscriptions.build
+    end
+    
   end
 
   # GET /subscriptions/1/edit
@@ -19,8 +32,19 @@ class SubscriptionsController < ApplicationController
   # POST /subscriptions
   # POST /subscriptions.json
   def create
-    @subscription = Subscription.new(params[:subscription])
-    if false #@subscription.save_with_payment
+    @subscription = Subscription.new(params[:subscription]) 
+    company = current_user.company
+    
+    if @subscription.save_with_payment
+      # switch the current company plan
+      @subscription.plan.companies << company
+
+      # schedule to cancel all active subscriptions
+      company.cancel_active_subscriptions
+
+      # Add this subscriptions to the company list of subscriptions
+      company.subscriptions << @subscription
+
       redirect_to @subscription, :notice => "Thank you for subscribing!"
     else
       render :new
