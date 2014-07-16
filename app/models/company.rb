@@ -21,6 +21,14 @@ class Company < ActiveRecord::Base
 	belongs_to :plan
 	has_many :subscriptions
 
+	before_save :setup_plan
+
+  	def setup_plan
+    	if !Plan.first.nil?
+			self.plan_id = Plan.first.id
+		end	
+  	end
+
 	def cancel_active_subscriptions
 		# get the active subscription
 		self.subscriptions.where(active: true).each { |subscription| subscription.cancel }
