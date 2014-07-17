@@ -39,7 +39,7 @@ production:
     database: trackman_production
     pool: 5
     username: demo
-    password: <%= ENV['db_production_password'] %>
+    password: <%= ENV['db_password'] %>
 
 secondary_production:
   adapter: mysql2
