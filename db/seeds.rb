@@ -21,7 +21,7 @@ Parameter.create!(name: "region_id", data_type: "integer", rule_id: left_area.id
 # Rule : Driver been using the car for long hours
 long_hours = Rule.create!(name: "Driver using car for long hours", method_name: "driving_consecutive_hours")
 Parameter.create!(name: "scope", data_type: "integer", rule_id: long_hours.id)
-Parameter.create!(name: "threshold", data_type: "integer", rule_id: stopped_more_than.id)
+Parameter.create!(name: "threshold", data_type: "integer", rule_id: long_hours.id)
 
 # Rule : Driver stopped for more than X minutes in the last Y hours
 stopped_more_than = Rule.create!(name: "Stopped for more than", method_name: "stopped_for_more_than")
