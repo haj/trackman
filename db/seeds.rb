@@ -1,4 +1,7 @@
 
+
+
+
 # Rule : Car starts moving
 car_moving = Rule.create!(name: "Is Moving", method_name: "starts_moving")
 

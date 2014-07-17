@@ -125,3 +125,5 @@ gem "font-awesome-rails"
 
 gem 'paymill'
 
+gem 'seed-fu', '~> 2.3'
+
