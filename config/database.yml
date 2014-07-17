@@ -43,7 +43,7 @@ production:
 
 secondary_production:
   adapter: mysql2
-  database: traccar_production
+  database: traccar
   username: root
-  password: <%= ENV['db_production_password'] %>
+  password: <%= ENV['db_password'] %>
   host: localhost
