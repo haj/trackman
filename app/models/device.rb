@@ -22,11 +22,11 @@ class Device < ActiveRecord::Base
 	scope :by_device_model, -> device_model_id { where(:device_model_id => device_model_id) }
 	scope :by_device_type, -> device_type_id { where(:device_type_id => device_type_id) }
 
-	scope :with_simcard, -> { where("id IN (SELECT device_id FROM Simcards WHERE device_id NOT NULL)") }
-	scope :without_simcard, -> { where("id NOT IN (SELECT device_id FROM Simcards WHERE device_id NOT NULL)") }
+	scope :with_simcard, -> { where("id IN (SELECT device_id FROM Simcards WHERE device_id IS NOT NULL)") }
+	scope :without_simcard, -> { where("id NOT IN (SELECT device_id FROM Simcards WHERE device_id IS NOT NULL)") }
 	
 	scope :available, -> { where(:car_id => nil) }
-	scope :used, -> { where("car_id NOT NULL") }
+	scope :used, -> { where("car_id IS NOT NULL") }
 
 	acts_as_tenant(:company)
 
@@ -43,9 +43,9 @@ class Device < ActiveRecord::Base
 
 	def self.devices_without_simcards(device_id)
 		if device_id.nil?
-			Device.where("id NOT IN (SELECT device_id FROM Simcards WHERE device_id NOT NULL)")
+			Device.where("id NOT IN (SELECT device_id FROM Simcards WHERE device_id IS NOT NULL)")
 		else
-			Device.where("id NOT IN (SELECT device_id FROM Simcards WHERE device_id NOT NULL) OR id = #{device_id}")
+			Device.where("id NOT IN (SELECT device_id FROM Simcards WHERE device_id IS NOT NULL) OR id = #{device_id}")
 		end
 	end
 
