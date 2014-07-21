@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
 
     def another_by_method
       if current_user.nil?
-        "home"
+        "guest"
       else
         "application"
       end

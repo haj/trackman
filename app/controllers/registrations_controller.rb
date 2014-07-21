@@ -8,14 +8,13 @@ class RegistrationsController < Devise::RegistrationsController
 			company.save!
 			resource.company_id = company.id
 			resource.roles << :manager
-    	end	
+ 	  end	
 	end
 
 	def company_params
       params.require(:company).permit(:name, :subdomain)
     end
 
- 
 	protected
 
 	def configure_permitted_parameters
@@ -28,5 +27,10 @@ class RegistrationsController < Devise::RegistrationsController
 		    :email, :password, :password_confirmation, :current_password)
 		end
 	end
+
+	private
+  	def after_sign_up_fails_path_for(resource)
+   		new_user_registration_path
+  	end
 
 end

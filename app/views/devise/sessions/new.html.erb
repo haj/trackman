@@ -1,89 +1,60 @@
-  <div class="container">
-    <div class="row login-container column-seperation">  
-      <div class="col-md-5 col-md-offset-1">
-        <h2>Sign in to webarch</h2>
-        <p>Use Facebook, Twitter or your email to sign in.<br>
-          <a href="#">Sign up Now!</a> for a webarch account,It's free and always will be..</p>
-          <br>
-
-
-          <button class="btn btn-block btn-info col-md-8" type="button">
-            <span class="pull-left"><i class="icon-facebook"></i></span>
-            <span class="bold">Login with Facebook</span> </button>
-            <button class="btn btn-block btn-success col-md-8" type="button">
-              <span class="pull-left"><i class="icon-twitter"></i></span>
-              <span class="bold">Login with Twitter</span>
-            </button>
-          </div>
-          <div class="col-md-5 "> <br>
-            <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-
-            <div class="row">
-             <div class="form-group col-md-10">
-
-              <div class="form-group">    
-              </div>
-              <%= f.label :email, :class => "form-label" %>
-              <div class="controls">
-                <div class="input-with-icon  right">                                       
-                  <i class=""></i>
-                  <%= f.email_field :email, autofocus: true, :class => "form-control" %>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-10">
-              <%= f.label :password, :class => "form-label" %>
-              <span class="help"></span>
-              <div class="controls">
-                <div class="input-with-icon  right">                                       
-                  <i class=""></i>
-                   <%= f.password_field :password, autocomplete: "off" , :class => "form-control" %>                                 
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="control-group  col-md-10">
-              <div class="checkbox checkbox check-success"> 
-
-              	<% if devise_mapping.rememberable? -%>
-                	<%= f.check_box :remember_me %>
-                	<%= f.label :remember_me %>
-                <% end -%>
-
-
-  				
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-10">
-            	<%= f.submit "Login", class: "btn btn-primary btn-cons pull-right" %>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="control-group  col-md-10">
-              <div class="checkbox checkbox check-success"> 
-
-              	<%= render "devise/shared/links" %>
-
-  				
-              </div>
-            </div>
-          </div>
-          <% end %>
-
-
-
-
-        </div>
-
-
-      </div>
+<div class="row login-container animated fadeInUp">
+  <div class="col-md-7 col-md-offset-2 tiles white no-padding">
+    <div class="p-t-30 p-l-40 p-b-20 xs-p-t-10 xs-p-l-10 xs-p-b-10">
+      <h2 class="normal">Sign in to Trackman</h2>
+      <p class="p-b-20">Sign up Now! for Trackman accounts.</p>
+      
+      <%= link_to "Login", root_path, {:class => "btn btn-primary btn-cons", :id => "login_toggle"} %>
+      or&nbsp;&nbsp;
+      <%= link_to "Create an account", new_user_registration_path, {:class => "btn btn-info btn-cons", :id => "register_toggle"} %>
     </div>
-
-
-
+    <div class="tiles grey p-t-20 p-b-20 text-black">
+      <form id="frm_login" class="animated fadeIn">
+        <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+          <div class="col-md-6 col-sm-6 ">
+            <input name="login_username" id="login_username" type="text" class="form-control" placeholder="Username">
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <input name="login_pass" id="login_pass" type="password" class="form-control" placeholder="Password">
+          </div>
+        </div>
+        <div class="row p-t-10 m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+          <div class="control-group  col-md-10">
+            <div class="checkbox checkbox check-success"> <a href="#">Trouble login in?</a>&nbsp;&nbsp;
+              <input type="checkbox" id="checkbox1" value="1">
+              <label for="checkbox1">Keep me reminded</label>
+            </div>
+          </div>
+        </div>
+      </form>
+      <form id="frm_register" class="animated fadeIn" style="display:none">
+        <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+          <div class="col-md-6 col-sm-6">
+            <input name="reg_username" id="reg_username" type="text" class="form-control" placeholder="Username">
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <input name="reg_pass" id="reg_pass" type="password" class="form-control" placeholder="Password">
+          </div>
+        </div>
+        <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+          <div class="col-md-12">
+            <input name="reg_mail" id="reg_mail" type="text" class="form-control" placeholder="Mailing Address">
+          </div>
+        </div>
+        <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+          <div class="col-md-6 col-sm-6">
+            <input name="reg_first_Name" id="reg_first_Name" type="text" class="form-control" placeholder="First Name">
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <input name="reg_first_Name" id="reg_first_Name" type="password" class="form-control" placeholder="Last Name">
+          </div>
+        </div>
+        <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+          <div class="col-md-12 ">
+            <input name="reg_email" id="reg_email" type="text" class="form-control" placeholder="Email">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

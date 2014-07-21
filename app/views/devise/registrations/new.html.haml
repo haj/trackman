@@ -1,38 +1,43 @@
-%h2 Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = devise_error_messages!
-
-  .form-group
-    = f.label :first_name, :class => "form-label"
-    = f.text_field :first_name, autofocus: true, :class => "form-control"
-
-  .form-group
-    = f.label :last_name, :class => "form-label"
-    = f.text_field :last_name, :class => "form-control"
-
-  .form-group
-    = f.label :email, :class => "form-label"
-    = f.email_field :email, :class => "form-control"
-
-  .form-group
-    = f.label :password, :class => "form-label"
-    = f.password_field :password, autocomplete: "off", :class => "form-control"
-
-  .form-group
-    = f.label :password_confirmation, :class => "form-label"
-    = f.password_field :password_confirmation, autocomplete: "off", :class => "form-control"
-
-  %h3 Company details
-
-  = fields_for(:company) do |w|
-    .form-group
-      = w.label :name, "Company name", :class => "form-label"
-      %br/
-      = w.text_field :name, :class => "form-control"
-    .form-group
-      = w.label :subdomain, :class => "form-label"
-      = w.text_field :subdomain, :class => "form-control"
-
-  %div= f.submit "Sign up", class: "btn btn-success"
-%br/
-= render "devise/shared/links"
+.row.login-container.animated.fadeInUp
+  .col-md-7.col-md-offset-2.tiles.white.no-padding
+    .p-t-30.p-l-40.p-b-20.xs-p-t-10.xs-p-l-10.xs-p-b-10
+      %h2.normal Sign up to Trackman
+      %p.p-b-20 Sign up Now! for Trackman accounts.
+      = link_to "Login", root_path, {:class => "btn btn-primary btn-cons", :id => "login_toggle"}
+      or  
+      \#{link_to "Create an account", new_user_registration_path, {:class => "btn btn-info btn-cons", :id => "register_toggle"}}
+    .tiles.grey.p-t-20.p-b-20.text-black
+      %div#frm_login.animated.fadeIn
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10.errors
+          .col-md-6.col-sm-6
+            = devise_error_messages!
+        .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+          .col-md-6.col-sm-6
+            = f.text_field :first_name, class: "form-control", placeholder: "First name"
+          .col-md-6.col-sm-6
+            = f.text_field :last_name, class: "form-control", placeholder: "Last Name"
+        .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+          .col-md-12
+            = f.email_field :email, :class => "form-control", placeholder: "Email"
+        .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+          .col-md-6.col-sm-6
+            = f.password_field :password, class: "form-control", placeholder: "Password"
+          .col-md-6.col-sm-6
+            = f.password_field :password_confirmation, class: "form-control", placeholder: "Password Confirmation"
+        .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+          .col-md-12
+            %h4 Company details
+        
+        .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+          = fields_for(:company) do |w|
+            .col-md-6.col-sm-6
+              = w.text_field :name, class: "form-control", placeholder: "Name"
+            .col-md-6.col-sm-6
+              = w.text_field :subdomain, class: "form-control", placeholder: "domain" 
+        .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+          .col-md-12
+            = f.submit "Sign up", class: "btn btn-success"
+        
+        
+        
