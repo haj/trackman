@@ -7,12 +7,13 @@
           %li= msg
 
   .field
-    = f.label :mileage
-    = f.text_field :mileage
-  .field
     = f.label :numberplate
     = f.text_field :numberplate
 
+  .field
+    = f.label :mileage
+    = f.text_field :mileage
+  
   .field
     = f.label :car_model
     = f.collection_select(:car_model_id, CarModel.all, :id, :name)
