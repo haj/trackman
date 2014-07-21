@@ -1,6 +1,6 @@
 class AlarmsController < ApplicationController
   before_action :set_alarm, only: [ :edit, :update, :destroy]
-
+  load_and_authorize_resource
   # GET /alarms
   # GET /alarms.json
   def index

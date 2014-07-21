@@ -1,6 +1,7 @@
 class RulesController < ApplicationController
   before_action :set_rule, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
+  
   def rule_params_list
     rule = Rule.find(params[:id])
     render json: rule.params

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :destroy, :update, :edit]
-
+  load_and_authorize_resource
 
   has_scope :by_role
   

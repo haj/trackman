@@ -1,6 +1,7 @@
 class WorkSchedulesController < ApplicationController
   before_action :set_work_schedule, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
+  
   # GET /work_schedules
   # GET /work_schedules.json
   def index

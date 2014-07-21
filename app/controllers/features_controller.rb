@@ -1,6 +1,6 @@
 class FeaturesController < ApplicationController
   before_action :set_feature, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
   # GET /features
   # GET /features.json
   def index

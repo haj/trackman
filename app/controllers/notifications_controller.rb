@@ -1,5 +1,5 @@
 class NotificationsController < ApplicationController
-
+  load_and_authorize_resource
 
   def trash
     notification.move_to_trash(current_user)

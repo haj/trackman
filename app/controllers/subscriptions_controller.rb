@@ -1,6 +1,7 @@
 class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
+  
   # GET /subscriptions/1
   # GET /subscriptions/1.json
   def show

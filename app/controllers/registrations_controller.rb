@@ -1,7 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
 	
 	before_filter :configure_permitted_parameters
-
+	
 	def create
 		super do |resource|
 			company = Company.new(company_params)

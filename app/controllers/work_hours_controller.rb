@@ -1,6 +1,7 @@
 class WorkHoursController < ApplicationController
   before_action :set_work_hour, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
+  
   # GET /work_hours
   # GET /work_hours.json
   def index

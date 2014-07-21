@@ -1,6 +1,6 @@
 class DevicesController < ApplicationController
   before_action :set_device, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
   
   has_scope :by_device_model
   has_scope :by_device_type

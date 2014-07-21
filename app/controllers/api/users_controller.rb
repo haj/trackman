@@ -1,6 +1,7 @@
 class Api::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   
+
   skip_before_filter  :verify_authenticity_token
   #before_filter :restrict_access_for_a_valid_token , :except => [:search]
   respond_to :json

@@ -1,6 +1,6 @@
 class PlanTypesController < ApplicationController
   before_action :set_plan_type, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
   # GET /plan_types
   # GET /plan_types.json
   def index

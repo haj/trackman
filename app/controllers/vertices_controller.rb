@@ -1,6 +1,7 @@
 class VerticesController < ApplicationController
   before_action :set_vertex, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
+  
   # GET /vertices
   # GET /vertices.json
   def index

@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:edit, :update, :destroy]
-
+  load_and_authorize_resource
   # GET /groups
   # GET /groups.json
   def index

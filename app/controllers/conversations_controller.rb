@@ -1,5 +1,5 @@
 class ConversationsController < ApplicationController
-
+  load_and_authorize_resource
 
   def new
     # render text: params
