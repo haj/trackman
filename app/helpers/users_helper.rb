@@ -1,6 +1,7 @@
 module UsersHelper
+
 	def all_roles
-		return Role.all.collect {|a| [ a.name, a.name ] }
+		return Role.all.collect {|a| [ a.name.capitalize, a.name ] }
 	end
 
 	def conversations_count(user)
