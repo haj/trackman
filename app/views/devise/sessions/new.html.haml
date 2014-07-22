@@ -16,9 +16,9 @@
               = content_tag(:div, flash[:alert], :class => "alert alert-error") if flash[:alert]
           .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
             .col-md-6.col-sm-6
-              = f.email_field :email, :class => "form-control", :placeholder => "Email"
+              = f.email_field :email, :class => "form-control email", :placeholder => "Email"
             .col-md-6.col-sm-6
-              = f.password_field :password, autocomplete: "off" , :class => "form-control", :placeholder => "Password"
+              = f.password_field :password, autocomplete: "off" , :class => "form-control password", :placeholder => "Password"
           .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
             .control-group.col-md-12
               .checkbox.checkbox.check-success
@@ -27,6 +27,6 @@
                   = f.label :remember_me
           .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
             .col-md-12
-              = f.submit "Login", class: "btn btn-primary btn-cons pull-right"
+              = f.submit "Sign in", class: "btn btn-primary btn-cons pull-right", id: "sign-in"
           
           

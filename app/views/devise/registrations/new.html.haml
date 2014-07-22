@@ -21,12 +21,12 @@
             = f.text_field :last_name, class: "form-control", placeholder: "Last Name"
         .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
           .col-md-12
-            = f.email_field :email, :class => "form-control", placeholder: "Email address"
+            = f.email_field :email, :class => "form-control email", placeholder: "Email address"
         .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
           .col-md-6.col-sm-6
-            = f.password_field :password, class: "form-control", placeholder: "Password"
+            = f.password_field :password, class: "form-control password", placeholder: "Password"
           .col-md-6.col-sm-6
-            = f.password_field :password_confirmation, class: "form-control", placeholder: "Password Confirmation"
+            = f.password_field :password_confirmation, class: "form-control password_confirmation", placeholder: "Password Confirmation"
         .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
           .col-md-12
             %h4 Company details
@@ -34,9 +34,9 @@
         .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
           = fields_for(:company) do |w|
             .col-md-6.col-sm-6
-              = w.text_field :name, class: "form-control", placeholder: "Name"
+              = w.text_field :name, class: "form-control company_name", placeholder: "Name"
             .col-md-6.col-sm-6
-              = w.text_field :subdomain, class: "form-control", placeholder: "domain" 
+              = w.text_field :subdomain, class: "form-control company_subdomain", placeholder: "Subdomain" 
         .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
           .col-md-12
             = f.submit "Sign up", class: "btn btn-success"

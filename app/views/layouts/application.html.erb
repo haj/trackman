@@ -137,7 +137,11 @@
 							<li><%= link_to "Company", company_path(current_user.company.id) %></li>
 							<li><a href="#">Badge Link&nbsp;&nbsp;<span class="badge badge-important animated bounceIn">2</span></a></li>
 							<li class="divider"></li>                
-							<li><a href=""><i class="fa fa-power-off"></i>&nbsp;&nbsp;Separated Link</a></li>
+							<li>
+								<%= link_to destroy_user_session_path, method: :delete do %>
+									<i class="fa fa-power-off"></i>&nbsp;&nbsp;Sign out
+								<% end %>								
+							</li>
 						</ul>
 					</li>
 					<!-- END SETTINGS -->
@@ -278,6 +282,8 @@
 	<!-- BEGIN PAGE CONTAINER-->
 	<div class="page-content"> 
 		<div class="content">  
+			<p class="notice"><%= notice %></p>
+			<p class="alert"><%= alert %></p>
 			<!-- BEGIN PlACE PAGE CONTENT HERE -->
 			<%= yield %>
 			<!-- END PLACE PAGE CONTENT HERE -->

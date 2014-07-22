@@ -12,30 +12,18 @@ describe "user sign in" do
 
   it "should allow a valid email password combination" do 
     visit "users/sign_in"
-    fill_in "Email", :with => @user.email
-    fill_in "Password", :with => @user.password
-    click_button "Sign in"
-    page.should have_content('Logout')
+    fill_in "user_email", :with => @user.email
+    fill_in "user_password", :with => @user.password
+    click_button "sign-in"
+    page.should have_content('Sign out')
   end
 
   it "shouldn't allow an invalid email password combination" do 
     visit "users/sign_in"
-    fill_in "Email", :with => "@user.email"
-    fill_in "Password", :with => "@user.password"
-    click_button "Sign in"
-    page.should_not have_content('Logout')
-  end
-
-
-  it "should have email input field" do 
-  	visit "users/sign_in"
-  	page.should have_content('Email')
-  end
-
-
-  it "should have password input field" do 
-  	visit "users/sign_in"
-  	page.should have_content('Password')
+    fill_in "user_email", :with => "@user.email"
+    fill_in "user_password", :with => "@user.password"
+    click_button "sign-in"
+    page.should_not have_content('Sign out')
   end
 
 
