@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140722181003) do
+ActiveRecord::Schema.define(version: 20140715083056) do
 
   create_table "alarms", force: true do |t|
     t.string   "name"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20140722181003) do
     t.string  "params"
   end
 
-  add_index "alarms_rules", ["alarm_id", "rule_id"], name: "index_alarms_rules_on_alarm_id_and_rule_id"
+  add_index "alarms_rules", ["alarm_id", "rule_id"], name: "index_alarms_rules_on_alarm_id_and_rule_id", unique: true
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -86,13 +86,6 @@ ActiveRecord::Schema.define(version: 20140722181003) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "plan_id"
-  end
-
-  create_table "conditions", force: true do |t|
-    t.string   "name"
-    t.string   "method_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "delayed_jobs", force: true do |t|

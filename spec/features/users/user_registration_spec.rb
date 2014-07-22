@@ -5,8 +5,8 @@ describe "user registration" do
   it "allows new users to register companies" do
     visit "/users/sign_up"
 
-    fill_in "Email",                 :with => "test@example.com"
-    fill_in "Password",              :with => "testpassword"
+    fill_in "email",                 :with => "test@example.com"
+    fill_in "password",              :with => "testpassword"
     fill_in "user_password_confirmation", :with => "testpassword"
     fill_in "Company name", :with => "corp"
     fill_in "Subdomain", :with => "corp"
