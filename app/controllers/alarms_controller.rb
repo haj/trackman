@@ -1,6 +1,8 @@
 class AlarmsController < ApplicationController
-  before_action :set_alarm, only: [ :edit, :update, :destroy]
-  load_and_authorize_resource
+  before_action :set_alarm, only: [:edit, :update, :destroy]
+
+  #load_and_authorize_resource
+
   # GET /alarms
   # GET /alarms.json
   def index
@@ -27,15 +29,13 @@ class AlarmsController < ApplicationController
   # POST /alarms
   # POST /alarms.json
   def create
-     
-    # render text: params
-    # return
 
-    hash = {name: alarm_params['name']}
+    hash = { name: alarm_params['name'] }
+
     @alarm = Alarm.new(hash)
 
     if @alarm.save
-
+      logger.debug "[ALARMS] alarm saved"
       rules = alarm_params['rules_attributes']
 
       rules.each_with_index do |(key,value),index| 

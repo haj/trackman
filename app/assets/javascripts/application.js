@@ -59,6 +59,7 @@
 //= require work_schedules
 //= require cars
 //= require subscriptions
+//= require alarms
 //= require retina_tag
 //
 

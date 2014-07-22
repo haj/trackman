@@ -27,9 +27,9 @@ class Ability
         # https://github.com/ryanb/cancan/wiki/Defining-Abilities
   end
 
-  def admin 
-    manager 
-    can :manage, :all
+  def admin
+    can :manage, :all 
+    manager  
   end
 
   def manager
@@ -41,6 +41,7 @@ class Ability
     can :show, Company, :id => @user.company_id
     can :update, Company, :id => @user.company_id
     can :destroy, Company, :id => @user.company_id
+    can :manage, [Alarm, Rule]
   end
 
   def employee

@@ -49,7 +49,7 @@ gem 'devise'
 gem 'acts_as_tenant'
 gem 'devise_invitable', '~> 1.3.4'
 gem 'hirb'
-gem "cancan"
+gem 'cancancan', '~> 1.9'
 gem 'role_model', github: 'andrewhubbs/role_model'
 gem 'nested_form'
 gem "jquery-ui-rails"

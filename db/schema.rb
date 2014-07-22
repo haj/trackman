@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140715083056) do
+ActiveRecord::Schema.define(version: 20140722181003) do
 
   create_table "alarms", force: true do |t|
     t.string   "name"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20140715083056) do
     t.string  "params"
   end
 
-  add_index "alarms_rules", ["alarm_id", "rule_id"], name: "index_alarms_rules_on_alarm_id_and_rule_id", unique: true
+  add_index "alarms_rules", ["alarm_id", "rule_id"], name: "index_alarms_rules_on_alarm_id_and_rule_id"
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
