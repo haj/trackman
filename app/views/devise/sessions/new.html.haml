@@ -1,0 +1,32 @@
+.row.login-container.animated.fadeInUp
+  .col-md-7.col-md-offset-2.tiles.white.no-padding
+    .p-t-30.p-l-40.p-b-20.xs-p-t-10.xs-p-l-10.xs-p-b-10
+      %h2.normal Sign in to Trackman
+      %p.p-b-20 Sign up Now! for Trackman accounts.
+      = link_to "Login", root_path, {:class => "btn btn-primary btn-cons", :id => "login_toggle"}
+      or  
+      \#{link_to "Create an account", new_user_registration_path, {:class => "btn btn-info btn-cons", :id => "register_toggle"}}
+    .tiles.grey.p-t-20.p-b-20.text-black
+      %div#frm_login.animated.fadeIn
+        = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10.errors
+            .col-md-12
+              = content_tag(:div, flash[:error], :class => "alert alert-error") if flash[:error]  
+              = content_tag(:div, flash[:notice], :class => "alert alert-info") if flash[:notice]  
+              = content_tag(:div, flash[:alert], :class => "alert alert-error") if flash[:alert]
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+            .col-md-6.col-sm-6
+              = f.email_field :email, :class => "form-control", :placeholder => "Email"
+            .col-md-6.col-sm-6
+              = f.password_field :password, autocomplete: "off" , :class => "form-control", :placeholder => "Password"
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+            .control-group.col-md-12
+              .checkbox.checkbox.check-success
+                - if devise_mapping.rememberable?
+                  = f.check_box :remember_me
+                  = f.label :remember_me
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+            .col-md-12
+              = f.submit "Login", class: "btn btn-primary btn-cons pull-right"
+          
+          
