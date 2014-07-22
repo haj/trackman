@@ -1,20 +1,29 @@
-%p#notice= notice
 
-%div{ :style => "width: 800px;" }
-  %div#devices_show{ :style => "width: 800px; height: 400px;"}
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          &nbsp;
+        .tools
+          %a.collapse{href: "javascript:;"}
+          %a.config{"data-toggle" => "modal", href: "#grid-config"}
+          %a.reload{href: "javascript:;"}
+      .grid-body.no-border
+        %h3
+          &nbsp;
+        %p#notice= notice
 
-%br
+        %p
+          %b Name:
+          = @device.name
+        %p
+          %b Emei:
+          = @device.emei
+        %p
+          %b Cost price:
+          = @device.cost_price
 
-%p
-  %b Name:
-  = @device.name
-%p
-  %b Emei:
-  = @device.emei
-%p
-  %b Cost price:
-  = @device.cost_price
-
-= link_to 'Edit', edit_device_path(@device)
-\|
-= link_to 'Back', devices_path
+        = link_to 'Edit', edit_device_path(@device)
+        \|
+        = link_to 'Back', devices_path
