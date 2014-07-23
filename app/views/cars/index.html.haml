@@ -5,7 +5,7 @@
         %h4
           &nbsp;
 
-        = form_tag '', :method => :get, :class => "form-horizontal" do
+        = form_tag '', :method => :get do
  
           .panel.panel-default
             .panel-body
@@ -23,28 +23,30 @@
                       .col-sm-8.col-sm-offset-1
                         = select_tag('by_car_type', content_tag(:option,'Car Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'), :class => "form-control")
                 .col-sm-3
-                  %h4= "Traceable"
-                  .radio 
-                    = radio_button_tag 'trackable', 'true' ,false
-                    = "traceable" 
-                  .radio
-                    = radio_button_tag 'trackable', 'false' ,false
-                    = "Not traceable"
+                  %h4= "Traceability"
                   .radio
                     = radio_button_tag 'trackable', 'all' , true
                     = "All"
+                  .radio 
+                    = radio_button_tag 'trackable', 'true' ,false
+                    = "Traceabe" 
+                  .radio
+                    = radio_button_tag 'trackable', 'false' ,false
+                    = "Not Traceable"
+                  
 
                 .col-sm-3
                   %h4= "Driver"
+                  .radio
+                    = radio_button_tag 'has_driver', 'all' , true
+                    = "All"
                   .radio 
                     = radio_button_tag 'has_driver', 'true' ,false
                     = "With driver" 
                   .radio
                     = radio_button_tag 'has_driver', 'false' ,false
                     = "Without driver"
-                  .radio
-                    = radio_button_tag 'has_driver', 'all' , true
-                    = "All"
+                  
               %br
               .row
                 .col-sm-12

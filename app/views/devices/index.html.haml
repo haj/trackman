@@ -5,37 +5,56 @@
 
 %br
 
-= form_tag '', :method => :get, :class => "form-inline" do
-  .form-group
-    = "Device model"
-    = select_tag( :by_device_mode, options_for_select(all_device_models, params[:by_device_mode]), :include_blank => true)
-  %br 
-  .form-group
-    = "Device type"
-    = select_tag( :by_device_type, options_for_select(all_device_types, params[:by_device_type]), :include_blank => true)
-  %br 
-  .form-group
-    = radio_button_tag 'has_simcard', 'all' , true
-    = "All"
-    = radio_button_tag 'has_simcard', 'true' , params["has_simcard"] == 'true' ? true : false
-    = "With Simcard" 
-    = radio_button_tag 'has_simcard', 'false' , params["has_simcard"] == 'false' ? true : false
-    = "Without Simcard"
-    
-  %br
-  .form-group
-    = radio_button_tag 'available', 'all' , true
-    = "All"
-    = radio_button_tag 'available', 'true' , params["available"] == 'true' ? true : false
-    = "Available" 
-  .form-group
-    = radio_button_tag 'available', 'false' , params["available"] == 'false' ? true : false
-    = "Used"
-  .form-group
-    
-  %br
-  = submit_tag 'Filter', :class => "btn btn-primary"
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          &nbsp;
+        = form_tag '', :method => :get do 
+          .panel.panel-default
+            .panel-body
+              .row
+                .col-sm-3
+                  %h4= "Device model"
+                  .form-group
+                    .row
+                      .col-sm-8.col-sm-offset-1
+                        = select_tag( :by_device_model, options_for_select(all_device_models, params[:by_device_model]), :include_blank => true, :class => "form-control")
+                .col-sm-3
+                  %h4= "Device type"
+                  .form-group
+                    .row
+                      .col-sm-8.col-sm-offset-1
+                        = select_tag( :by_device_type, options_for_select(all_device_types, params[:by_device_type]), :include_blank => true, :class => "form-control")
+                .col-sm-3
+                  %h4= "Traceable"
+                  %br
+                  = radio_button_tag 'has_simcard', 'all' , true
+                  = "All"
+                  %br
+                  = radio_button_tag 'has_simcard', 'true' , params["has_simcard"] == 'true' ? true : false
+                  = "With Simcard" 
+                  %br
+                  = radio_button_tag 'has_simcard', 'false' , params["has_simcard"] == 'false' ? true : false
+                  = "Without Simcard"
 
+                .col-sm-3
+                  %h4
+                    Driver
+                  %br
+                  = radio_button_tag 'available', 'all' , true
+                  = "All"
+                  %br
+                  = radio_button_tag 'available', 'true' , params["available"] == 'true' ? true : false
+                  = "Available" 
+                  %br
+                  = radio_button_tag 'available', 'false' , params["available"] == 'false' ? true : false
+                  = "Used"
+              %br
+              .row
+                .col-sm-12
+                  = submit_tag 'Apply filters', :class => "btn btn-default"
 %br
 
 .row

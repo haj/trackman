@@ -74,7 +74,7 @@ transition: border 0.2s linear 0s;
 }
 
 .radio input[type=radio] {
-	display: none;
+	/*display: none;*/
 }
 .radio label:before {
 	content: "";

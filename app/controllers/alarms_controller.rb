@@ -1,7 +1,7 @@
 class AlarmsController < ApplicationController
   before_action :set_alarm, only: [:edit, :update, :destroy]
 
-  #load_and_authorize_resource
+ load_and_authorize_resource :except => [:create]
 
   # GET /alarms
   # GET /alarms.json

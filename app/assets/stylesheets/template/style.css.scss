@@ -3062,7 +3062,7 @@ textarea[class*="span"] {
   border: 1px solid #6f7b8a;
 }
 .radio input[type=radio] {
-  display: none;
+  /*display: none;*/
 }
 .radio input[type=radio][disabled] + label {
   opacity: 0.65;
