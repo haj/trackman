@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
 	def mailboxer_email(object)
 	  #Check if an email should be sent for that object
 	  #if true
-	  return "define_email@on_your.model"
+	  return self.email
 	  #if false
 	  #return nil
 	end

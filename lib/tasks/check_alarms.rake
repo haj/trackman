@@ -3,7 +3,7 @@ namespace :check do
   	Company.all.each do |company|
   		puts "Company : #{company.name} => "
   		company.cars.each do |car|
-  			puts car.check_alarms
+  			car.check_alarms
   		end
   	end
   end
