@@ -7,7 +7,7 @@ $(document).ready ->
 		
 		#param_field = $(this).parent().next('div[.params]').children('input')
 
-		#console.log(param_field)
+		console.log("Alarms.js works")
 		
 		rule_id = $(this).attr('id').match(regex_numbers)
 
