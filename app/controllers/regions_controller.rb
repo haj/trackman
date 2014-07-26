@@ -24,7 +24,6 @@ class RegionsController < ApplicationController
   # POST /regions
   # POST /regions.json
   def create
-
     @region = Region.new(name: vertices_params['name'])
 
       if @region.save
@@ -78,6 +77,6 @@ class RegionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def region_params
-      params.require(:region).permit(:name)
+      params.permit(:name)
     end
 end
