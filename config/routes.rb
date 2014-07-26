@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+
+  map.connect 'test_exception_notifier', :controller => 'application', :action => 'test_exception_notifier'
+
   resources :subscriptions do 
     member do 
       get 'generate'

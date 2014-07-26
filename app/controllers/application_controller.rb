@@ -23,6 +23,10 @@ class ApplicationController < ActionController::Base
 
   layout :another_by_method
 
+  def test_exception_notifier
+    raise 'This is a test. This is only a test.'
+  end
+
   private
 
     def another_by_method
