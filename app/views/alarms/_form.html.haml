@@ -1,30 +1,35 @@
-= form_for @alarm do |f|
-	- if @alarm.errors.any?
-		#error_explanation
-			%h2= "#{pluralize(@alarm.errors.count, "error")} prohibited this alarm from being saved:"
-			%ul
-				- @alarm.errors.full_messages.each do |msg|
-					%li= msg
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          &nbsp;
+        = form_for @alarm do |f|
+          - if @alarm.errors.any?
+            #error_explanation
+              %h2= "#{pluralize(@alarm.errors.count, "error")} prohibited this alarm from being saved:"
+              %ul
+                - @alarm.errors.full_messages.each do |msg|
+                  %li= msg
 
-	.field
-		= f.label :name
-		= f.text_field :name
+          .field
+            = f.label :name
+            = f.text_field :name, class: "form-control"
 
-	%h3 Rules
-	#rules
-		= f.fields_for :rules do |rule|
-			= render 'rule_fields', :f => rule
-		%p 
+          %h3 Rules
+          #rules
+            = f.fields_for :rules do |rule|
+              = render 'rule_fields', :f => rule
+            %p 
 
-			.links
-				= link_to_add_association 'add rule', f, :rules, :class => "btn btn-primary"
+              .links
+                = link_to_add_association 'add rule', f, :rules, :class => "btn btn-info"
+          %br
+          
+            = f.submit 'Save', class: "btn btn-primary"
 
-	%br
-	%br
-	%br
-	.actions
-		= f.submit 'Save'
+          %br
 
 
 %div.some{ :style => "width: 800px;" }
-	%div#multi_overlays.some{ :style => "width: 800px; height: 400px;" }
+  %div#multi_overlays.some{ :style => "width: 800px; height: 400px;" }

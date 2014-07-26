@@ -18,14 +18,12 @@
               %th Name
               %th
               %th
-              %th
           %tbody
             
             - @alarms.each do |alarm|
               %tr
                 %td= alarm.name
                 %td= link_to 'Show', alarm
-                %td= link_to 'Edit', edit_alarm_path(alarm)
                 %td= link_to 'Destroy', alarm, :method => :delete, :data => { :confirm => 'Are you sure?' }
 %br
 
