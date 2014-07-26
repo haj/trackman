@@ -127,3 +127,5 @@ gem 'paymill'
 
 gem 'seed-fu', '~> 2.3'
 
+gem 'exception_notification'
+

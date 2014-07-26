@@ -24,6 +24,13 @@ Rails.application.configure do
     :enable_starttls_auto => true
   }
 
+  config.middleware.use ExceptionNotification::Rack,
+    :email => {
+      :email_prefix => "[Trackman Exceptions] ",
+      :sender_address => %{"notifier" <notifier@braksa.com>},
+      :exception_recipients => %w{zakaria.braksa@gmail.com}
+    }
+
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
