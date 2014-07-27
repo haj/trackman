@@ -5,10 +5,12 @@ class ApplicationController < ActionController::Base
 
   set_current_tenant_by_subdomain(:company, :subdomain)
 
+  # cancan
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
   end
 
+  # devise
   before_filter do
 		resource = controller_name.singularize.to_sym
 		method = "#{resource}_params"
