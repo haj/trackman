@@ -21,6 +21,14 @@ class ApplicationController < ActionController::Base
 		params[resource] &&= send(method) if respond_to?(method, true)
 	end
 
+  before_filter do   
+    if current_user && ActsAsTenant.current_tenant.nil?
+      ActsAsTenant.current_tenant = current_user.company
+      logger.debug "[TENANT] #{ActsAsTenant.current_tenant.subdomain}"
+      redirect_to root_url(subdomain: ActsAsTenant.current_tenant.subdomain)
+    end
+  end
+
   before_filter do 
     if current_user
       @notifications = User.find(current_user.id).mailbox.notifications
