@@ -3,16 +3,47 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  set_current_tenant_by_subdomain(:company, :subdomain)
+  helper_method :current_tenant
+
+  # set_current_tenant
+  before_filter do
+
+
+    if subdomain_present?
+      ActsAsTenant.current_tenant = Company.where(subdomain: request.subdomains.last).first
+    elsif current_user_present?
+      ActsAsTenant.current_tenant = current_user.company
+      redirect_to root_url(subdomain: ActsAsTenant.current_tenant.subdomain)
+    else
+
+    end
+
+    # # if user not logged in and no subdomain -> current_tenant should be nil
+    # if !current_user_present? && !subdomain_present?
+    #   ActsAsTenant.current_tenant = nil
+    #   logger.warn "user not logged in and no subdomain"
+    # end
+
+    # # if user not logged in and subdomain present -> current_tenant should be subdomain
+    # if !current_user_present? && subdomain_present?
+    #   ActsAsTenant.current_tenant = Company.where(subdomain: request.subdomains.last).first
+    #   logger.warn "user not logged in and subdomain present / subdomain: #{request.subdomains.last}"
+    # end
+
+  end
+
+  def subdomain_present?
+    !request.subdomains.last.nil?
+  end
+
+  def current_user_present?
+    !current_user.nil?
+  end
 
   # cancan
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
   end
-
-  # rescue_from ActsAsTenant::Errors::NoTenantSe do |exception|
-  #   redirect_to root_url, :alert => exception.message
-  # end
 
   # devise
   before_filter do
@@ -20,14 +51,6 @@ class ApplicationController < ActionController::Base
 		method = "#{resource}_params"
 		params[resource] &&= send(method) if respond_to?(method, true)
 	end
-
-  before_filter do   
-    if current_user && ActsAsTenant.current_tenant.nil?
-      ActsAsTenant.current_tenant = current_user.company
-      logger.debug "[TENANT] #{ActsAsTenant.current_tenant.subdomain}"
-      redirect_to root_url(subdomain: ActsAsTenant.current_tenant.subdomain)
-    end
-  end
 
   before_filter do 
     if current_user
@@ -49,6 +72,10 @@ class ApplicationController < ActionController::Base
       else
         "application"
       end
+    end
+
+    def current_tenant
+      ActsAsTenant.current_tenant
     end
 
 end

@@ -63,6 +63,10 @@ class User < ActiveRecord::Base
 
 	# These methods are required by the mailboxer gem
 
+	def subdomain
+		self.company.subdomain
+	end
+
 	def name 
 		"#{self.first_name} #{self.last_name}"
 	end
