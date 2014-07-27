@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
 		params[resource] &&= send(method) if respond_to?(method, true)
 	end
 
+  # acts_as_tenant
   before_filter do   
     if current_user && ActsAsTenant.current_tenant.nil?
       ActsAsTenant.current_tenant = current_user.company
@@ -29,21 +30,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # fetching current user notifications for all controllers
   before_filter do 
     if current_user
       @notifications = User.find(current_user.id).mailbox.notifications
     end
   end
 
-  layout :another_by_method
-
   def test_exception_notifier
-    raise 'This is a test. This is only a test.'
+    raise 'This is for testing exception notification gem.'
   end
+
+  layout :guest_user_layout
 
   private
 
-    def another_by_method
+    def guest_user_layout
       if current_user.nil?
         "guest"
       else
