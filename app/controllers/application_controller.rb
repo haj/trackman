@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, :alert => exception.message
   end
 
+  # rescue_from ActsAsTenant::Errors::NoTenantSe do |exception|
+  #   redirect_to root_url, :alert => exception.message
+  # end
+
   # devise
   before_filter do
 		resource = controller_name.singularize.to_sym
