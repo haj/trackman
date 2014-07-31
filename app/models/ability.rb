@@ -43,6 +43,8 @@ class Ability
     can :destroy, Company, :id => @user.company_id
     can :manage, [Alarm, Rule]
     can :manage, Region
+    can :read, Plan
+    can :manage, Subscription
   end
 
   def employee
@@ -59,7 +61,5 @@ class Ability
   def driver
     can :manage, User, :id => @user.id
   end
-
-
 
 end

@@ -23,6 +23,7 @@ RSpec.configure do |config|
   # config.mock_with :rr
 
   config.include Devise::TestHelpers, :type => :controller
+
   config.extend ControllerMacros, :type => :controller
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
