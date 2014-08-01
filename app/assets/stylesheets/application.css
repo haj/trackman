@@ -39,4 +39,11 @@
  *= require work_schedules
  */
 
+.custom_marker_content {
+	background-color:white;
+}
+
+.custom_infowindow_content{
+	background-color:white;
+}
 

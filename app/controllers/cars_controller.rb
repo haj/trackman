@@ -118,23 +118,23 @@ class CarsController < ApplicationController
     end
   end
 
-  def live
-    @cars = Car.all
-    @positions = Car.all_positions(@cars)    
-    @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
-      marker.lat position[:latitude].to_s
-      marker.lng position[:longitude].to_s
-    end
+  # def live
+  #   @cars = Car.all
+  #   @positions = Car.all_positions(@cars)    
+  #   @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
+  #     marker.lat position[:latitude].to_s
+  #     marker.lng position[:longitude].to_s
+  #   end
 
-    gon.watch.data = @hash
+  #   gon.watch.data = @hash
 
-    gon.push({
-      :url => "/cars",
-      :map_id => "cars_index",
-      :resource => "cars", 
-      :query_params => request.query_parameters
-    })
-  end
+  #   gon.push({
+  #     :url => "/cars",
+  #     :map_id => "cars_index",
+  #     :resource => "cars", 
+  #     :query_params => request.query_parameters
+  #   })
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
