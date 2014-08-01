@@ -2,14 +2,11 @@ class HomeController < ApplicationController
   def index
   	if !current_user.nil?
 	    @cars = Car.all
-	    #@positions = Car.all_positions(@cars)  
-
-	    @positions = [{:longitude=>-7.5967916666666655, :latitude=>33.543096666666656}]
-
+	    @positions = Car.all_positions(@cars)  
 	    @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
 	      marker.lat position[:latitude].to_s
 	      marker.lng position[:longitude].to_s
-	      marker.infowindow "Example"
+	      marker.infowindow "Vehicle"
 	    end
 
 	    gon.watch.data = @hash
