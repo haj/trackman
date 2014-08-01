@@ -6,7 +6,7 @@
 $(document).ready ->
 
     $('.page-sidebar').css('height',$('.page-content').css('height'))
-    
+
     if (typeof gon != "undefined") && gon.resource == "cars"
         handler = Gmaps.build('Google')
 
