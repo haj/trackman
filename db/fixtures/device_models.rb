@@ -1,13 +1,17 @@
-Teleprovider.seed(:id,
-  { id: 1, name: "T-Mobile", apn: "apn1" },
-  { id: 2, name: "Spring", apn: "apn2" },
-  { id: 3, name: "AT&T", apn: "apn3" },
-  { id: 4, name: "Verizon", apn: "apn4" }
+DeviceType.seed(:id,
+  { id: 1, name: "DeviceType 1" },
+  { id: 2, name: "DeviceType 2" },
+  { id: 3, name: "DeviceType 3" }
 )
-
 
 DeviceModel.seed(:id,
   { id: 1, name: "DeviceModel A", device_manufacturer_id: 1, protocol: "Protocol1" },
   { id: 2, name: "DeviceModel Pro", device_manufacturer_id: 2, protocol: "Protocol2" },
-  { id: 3, name: "DeviceModel Ultra", device_manufacturer_id: 4, protocol: "Protocol4" }
+  { id: 3, name: "DeviceModel Ultra", device_manufacturer_id: 2, protocol: "Protocol4" }
+)
+
+DeviceManufacturer.seed(:id,
+  { id: 1, name: "DeviceManufacturer A" },
+  { id: 2, name: "DeviceManufacturer Pro" },
+  { id: 3, name: "DeviceManufacturer Ultra" }
 )
