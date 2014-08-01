@@ -129,3 +129,7 @@ gem 'seed-fu', '~> 2.3'
 
 gem 'exception_notification'
 
+gem 'database_cleaner', :group => [:test]
+
+gem 'ci_reporter_rspec'
+

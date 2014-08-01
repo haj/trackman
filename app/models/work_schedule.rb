@@ -19,8 +19,7 @@ class WorkSchedule < ActiveRecord::Base
 		
 		if work_schedule.save
 			self.work_hours.each do |wh|
-				new_work_hour = WorkHour.create(day_of_week: wh.day_of_week, starts_at: wh.starts_at, ends_at: wh.ends_at , work_schedule_id: work_schedule.id)
-				work_schedule.work_hours << new_work_hour
+				WorkHour.create(day_of_week: wh.day_of_week, starts_at: DateTime.parse(wh.starts_at.to_s).to_s(:db), ends_at: DateTime.parse(wh.starts_at.to_s).to_s(:db) , work_schedule_id: work_schedule.id)
 			end 
 
 			return work_schedule

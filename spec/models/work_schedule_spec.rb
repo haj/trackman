@@ -12,17 +12,16 @@
 require 'spec_helper'
 
 describe WorkSchedule do
-  pending "add some examples to (or delete) #{__FILE__}"
-
 
   describe ".clone_record" do 
 
   	before (:each) do
-      	@work_schedule = WorkSchedule.create(name: "some_random_work_schedule")
-		4.times do 
-			new_work_hour = WorkHour.create(day_of_week: 4, starts_at: Time.now, ends_at: Time.now , work_schedule_id: @work_schedule.id)
-			@work_schedule.work_hours << new_work_hour
-		end
+
+      @work_schedule = WorkSchedule.create(name: "some_random_work_schedule")
+  		4.times do 
+  			new_work_hour = WorkHour.create(day_of_week: 4, starts_at: DateTime.now.to_s(:db), ends_at: DateTime.now.to_s(:db) , work_schedule_id: @work_schedule.id)
+  		end
+
     end
 
   	it "should return a new record of type WorkSchedule" do 
