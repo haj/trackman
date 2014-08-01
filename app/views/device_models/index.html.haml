@@ -39,7 +39,7 @@
             - @device_models.each do |device_model|
               %tr
                 %td= device_model.name
-                %td= device_model.device_manufacturer.name
+                %td= device_model.try(:device_manufacturer).try(:name)
                 %td= device_model.protocol
                 %td= link_to 'Show', device_model
                 %td= link_to 'Edit', edit_device_model_path(device_model)

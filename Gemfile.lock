@@ -247,7 +247,6 @@ GEM
       slop (~> 3.4, >= 3.4.5)
     paymill (0.4.0)
       json
-    pg (0.17.1)
     polyamorous (1.0.0)
       activerecord (>= 3.0)
     polyglot (0.3.4)
@@ -375,7 +374,6 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
-    sqlite3 (1.3.9)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -446,7 +444,6 @@ DEPENDENCIES
   mysql2
   nested_form
   paymill
-  pg
   pinp!
   pry-rails
   rails (= 4.1.1)
@@ -465,7 +462,6 @@ DEPENDENCIES
   simplecov (~> 0.7.1)
   spring
   spring-commands-rspec
-  sqlite3
   therubyracer
   tod
   twitter-bootstrap-rails!
