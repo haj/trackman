@@ -3,14 +3,16 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
 
-group :development do 
-    gem 'sqlite3'
-    gem 'mysql2', :group => [:development, :test, :production]
-end
+# group :development do 
+#     gem 'sqlite3'
+#     gem 'mysql2', :group => [:development, :test, :production]
+# end
 
-group :production do
-  gem 'pg'
-end
+gem 'mysql2'
+
+# group :production do
+#   gem 'pg'
+# end
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
