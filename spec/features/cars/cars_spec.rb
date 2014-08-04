@@ -5,39 +5,43 @@ Warden.test_mode!
 describe "device management" do
 
     before (:each) do
+      # seed a car model and a car type
+      CarModel.create( id: 1, name: "Audi A2" )
+      CarType.create( id: 1, name: "Sports Car" )
+
+      # sign in manager
       @user = FactoryGirl.create(:manager) 
       login_as @user, scope: :user
       @user
     end
 
-  it "should allow to create new device" do 
-    visit '/devices/new'
-    page.should have_css('#device_name')
-
-    fill_in "device_name", :with => "device1"
-    fill_in "device_emei", :with => "testemei"
-    fill_in "device_name", :with => "device1"
+  it "should allow to create new car" do 
+    visit new_car_path
+    page.should have_content("Add car")
+    fill_in "car_numberplate", :with => "211849"
+    select  "Audi A2", :from => "car_car_model_id"
+    select  "Sports Car", :from => "car_car_type_id"
+    fill_in "car_registration_no", :with => "1"
+    fill_in "car_year", :with => "1"
     click_button "Save"
 
-    Device.where(emei: "testemei").should exist
-    Traccar::Device.where(uniqueId: "testemei").should exist
-
-    page.should have_content("Device was successfully created")
+    Car.where(numberplate: "211849").should exist
+    page.should have_content("Car was successfully created")
 
   end
 
-  it "should allow to destroy a device" do 
-    visit devices_path
+  it "should allow to destroy a car" do 
+    visit cars_path
     page.should have_content('Sign out')
   end
 
-  it "should allow to list all devices" do 
-    visit devices_path
+  it "should allow to list all cars" do 
+    visit cars_path
     page.should have_content('Sign out')
   end
 
-  it "should allow to edit a device" do 
-    visit devices_path
+  it "should allow to edit a car" do 
+    visit cars_path
     page.should have_content('Sign out')
   end
 

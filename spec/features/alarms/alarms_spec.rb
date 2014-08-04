@@ -2,7 +2,7 @@ require "spec_helper"
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "device management" do
+describe "Alarms management" do
 
     before (:each) do
       @user = FactoryGirl.create(:manager) 
@@ -10,8 +10,8 @@ describe "device management" do
       @user
     end
 
-  it "should allow to create new device" do 
-    visit '/devices/new'
+  it "should allow to create a new alarm" do 
+    visit '/alarms/new'
     page.should have_css('#device_name')
 
     fill_in "device_name", :with => "device1"
@@ -26,18 +26,18 @@ describe "device management" do
 
   end
 
-  it "should allow to destroy a device" do 
-    visit devices_path
+  it "should allow to destroy a alarm" do 
+    visit alarms_path
     page.should have_content('Sign out')
   end
 
-  it "should allow to list all devices" do 
-    visit devices_path
+  it "should allow to list all alarms" do 
+    visit alarms_path
     page.should have_content('Sign out')
   end
 
-  it "should allow to edit a device" do 
-    visit devices_path
+  it "should allow to edit a alarm" do 
+    visit alarms_path
     page.should have_content('Sign out')
   end
 

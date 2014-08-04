@@ -10,9 +10,9 @@ describe "device management" do
       @user
     end
 
-  it "should allow to create new device" do 
-    visit '/devices/new'
-    page.should have_css('#device_name')
+  it "should allow to create new plan type" do 
+    visit '/plan_types/new'
+    page.should have_css('#plan_type_name')
 
     fill_in "device_name", :with => "device1"
     fill_in "device_emei", :with => "testemei"
@@ -26,18 +26,18 @@ describe "device management" do
 
   end
 
-  it "should allow to destroy a device" do 
-    visit devices_path
+  it "should allow to destroy a plan type" do 
+    visit plan_types_path
     page.should have_content('Sign out')
   end
 
-  it "should allow to list all devices" do 
-    visit devices_path
+  it "should allow to list all plan types" do 
+    visit plan_types_path
     page.should have_content('Sign out')
   end
 
-  it "should allow to edit a device" do 
-    visit devices_path
+  it "should allow to edit a plan type" do 
+    visit plan_types_path
     page.should have_content('Sign out')
   end
 
