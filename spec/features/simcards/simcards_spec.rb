@@ -2,7 +2,7 @@ require "spec_helper"
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "device management" do
+describe "Simcards management" do
 
     before (:each) do
       @user = FactoryGirl.create(:manager) 
@@ -10,9 +10,9 @@ describe "device management" do
       @user
     end
 
-  it "should allow to create new device" do 
-    visit new_device_path
-    page.should have_css('#device_name')
+  it "should allow to create new simcard" do 
+    visit new_simcard_path
+    page.should have_css('#simcard_name')
 
     fill_in "device_name", :with => "device1"
     fill_in "device_emei", :with => "testemei"
@@ -26,18 +26,18 @@ describe "device management" do
 
   end
 
-  it "should allow to destroy a device" do 
-    visit devices_path
+  it "should allow to list all simcards" do 
+    visit simcards_path
     page.should have_content('Sign out')
   end
 
-  it "should allow to list all devices" do 
-    visit devices_path
+  it "should allow to destroy a simcard" do 
+    visit simcards_path
     page.should have_content('Sign out')
   end
 
-  it "should allow to edit a device" do 
-    visit devices_path
+  it "should allow to edit a simcard" do 
+    visit simcards_path
     page.should have_content('Sign out')
   end
 
