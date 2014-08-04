@@ -24,10 +24,10 @@ class Car < ActiveRecord::Base
 
 		scope :by_car_model, -> car_model_id { where(:car_model_id => car_model_id) }
 		scope :by_car_type, -> car_type_id { where(:car_type_id => car_type_id) }
-		scope :traceable, -> { where("id IN (SELECT car_id FROM Devices WHERE car_id IS NOT NULL)") }
-		scope :untraceable, -> { where("id NOT IN (SELECT car_id FROM Devices WHERE car_id IS NOT NULL)") }
-		scope :with_driver, -> { where("id IN (SELECT car_id FROM Users WHERE car_id IS NOT NULL)") }
-		scope :without_driver, -> { where("id NOT IN (SELECT car_id FROM Users WHERE car_id IS NOT NULL)") }
+		scope :traceable, -> { where("id IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL)") }
+		scope :untraceable, -> { where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL)") }
+		scope :with_driver, -> { where("id IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)") }
+		scope :without_driver, -> { where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)") }
 
 	acts_as_tenant(:company)
 
@@ -64,17 +64,17 @@ class Car < ActiveRecord::Base
 
 		def self.cars_without_devices(car_id)
 			if car_id.nil?
-				Car.where("id NOT IN (SELECT car_id FROM Devices WHERE car_id IS NOT NULL)")
+				Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL)")
 			else
-				Car.where("id NOT IN (SELECT car_id FROM Devices WHERE car_id IS NOT NULL AND car_id != #{car_id})")
+				Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL AND car_id != #{car_id})")
 			end
 		end
 
 		def self.cars_without_drivers(car_id)
 			if car_id.nil?
-				Car.where("id NOT IN (SELECT car_id FROM Users WHERE car_id IS NOT NULL)")
+				Car.where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)")
 			else
-				Car.where("id NOT IN (SELECT car_id FROM Users WHERE car_id IS NOT NULL AND car_id != #{car_id})")
+				Car.where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL AND car_id != #{car_id})")
 			end
 		end
 
