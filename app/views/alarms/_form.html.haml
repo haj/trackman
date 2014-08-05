@@ -23,7 +23,7 @@
             %p 
 
               .links
-                = link_to_add_association 'add rule', f, :rules, :class => "btn btn-info"
+                = link_to_add_association 'add rule', f, :rules, :class => "btn btn-info", id: "new_alarm"
           %br
           
             = f.submit 'Save', class: "btn btn-primary"

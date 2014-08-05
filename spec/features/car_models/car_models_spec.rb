@@ -5,40 +5,42 @@ Warden.test_mode!
 describe "device management" do
 
     before (:each) do
-      @user = FactoryGirl.create(:manager) 
-      login_as @user, scope: :user
-      @user
+      car_model = FactoryGirl.create(:car_model)
+      user = FactoryGirl.create(:manager) 
+      login_as user, scope: :user
+      user
     end
 
-  it "should allow to create new device" do 
-    visit '/devices/new'
-    page.should have_css('#device_name')
+  it "should allow to create new car model" do     
+    visit new_car_model_path
+    page.should have_css('#car_model_name')
 
-    fill_in "device_name", :with => "device1"
-    fill_in "device_emei", :with => "testemei"
-    fill_in "device_name", :with => "device1"
+    fill_in "car_model_name", :with => "NewCarModel"
     click_button "Save"
 
-    Device.where(emei: "testemei").should exist
-    Traccar::Device.where(uniqueId: "testemei").should exist
-
-    page.should have_content("Device was successfully created")
-
+    CarModel.where(name: "NewCarModel").should exist
+    page.should have_content("Car model was successfully created")
   end
 
-  it "should allow to destroy a device" do 
-    visit devices_path
-    page.should have_content('Sign out')
+  pending "should allow to destroy a car model" do 
+    visit car_models_path 
+    expect { click_link 'Destroy' }.to change(CarModel, :count).by(-1)
   end
 
-  it "should allow to list all devices" do 
-    visit devices_path
-    page.should have_content('Sign out')
+  it "should allow to list all car models" do 
+    visit car_models_path
+    page.should have_content('CarModel')
   end
 
-  it "should allow to edit a device" do 
-    visit devices_path
-    page.should have_content('Sign out')
+  it "should allow to edit a car model" do 
+    visit edit_car_model_path(CarModel.first)
+    page.should have_css('#car_model_name')
+
+    fill_in "car_model_name", :with => "NewCarModel2"
+    click_button "Save"
+
+    CarModel.where(name: "NewCarModel").should_not exist
+    CarModel.where(name: "NewCarModel2").should exist
   end
 
 

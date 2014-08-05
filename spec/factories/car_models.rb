@@ -13,7 +13,6 @@
 
 FactoryGirl.define do
   factory :car_model do
-    name "MyString"
-    car_manufacturer_id 1
+    name "CarModel"
   end
 end

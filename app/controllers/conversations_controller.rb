@@ -1,9 +1,10 @@
 class ConversationsController < ApplicationController
-  load_and_authorize_resource
+  
+  #load_and_authorize_resource
 
   def new
-    # render text: params
-    # return 
+    # render text: "yo"
+    # return
     @conversation = Mailboxer::Conversation.new
   end
 

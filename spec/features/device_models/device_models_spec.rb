@@ -5,42 +5,42 @@ Warden.test_mode!
 describe "device management" do
 
     before (:each) do
-      @user = FactoryGirl.create(:manager) 
-      login_as @user, scope: :user
-      @user
+      device_model = FactoryGirl.create(:device_model)
+      user = FactoryGirl.create(:manager) 
+      login_as user, scope: :user
+      user
     end
 
-  it "should allow to create new device" do 
-    visit '/devices/new'
-    page.should have_css('#device_name')
+  it "should allow to create new device model" do     
+    visit new_device_model_path
+    page.should have_css('#device_model_name')
 
-    fill_in "device_name", :with => "device1"
-    fill_in "device_emei", :with => "testemei"
-    fill_in "device_name", :with => "device1"
+    fill_in "device_model_name", :with => "NewDeviceModel"
     click_button "Save"
 
-    Device.where(emei: "testemei").should exist
-    Traccar::Device.where(uniqueId: "testemei").should exist
-
-    page.should have_content("Device was successfully created")
-
+    DeviceModel.where(name: "NewDeviceModel").should exist
+    page.should have_content("Device model was successfully created")
   end
 
-  it "should allow to destroy a device" do 
-    visit devices_path
-    page.should have_content('Sign out')
+  it "should allow to destroy a device model" do 
+    visit device_models_path
+    expect { click_link 'Destroy' }.to change(DeviceModel, :count).by(-1)
   end
 
-  it "should allow to list all devices" do 
-    visit devices_path
-    page.should have_content('Sign out')
+  it "should allow to list all device models" do 
+    visit device_models_path
+    page.should have_content('NewDeviceModel')
   end
 
-  it "should allow to edit a device" do 
-    visit devices_path
-    page.should have_content('Sign out')
+  it "should allow to edit a device model" do 
+    visit edit_device_model_path(DeviceModel.first)
+    page.should have_css('#device_model_name')
+
+    fill_in "device_model_name", :with => "NewDeviceModel2"
+    click_button "Save"
+
+    DeviceModel.where(name: "NewDeviceModel").should_not exist
+    DeviceModel.where(name: "NewDeviceModel2").should exist
   end
-
-
 
 end

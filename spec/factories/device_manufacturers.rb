@@ -12,6 +12,6 @@
 
 FactoryGirl.define do
   factory :device_manufacturer do
-    name "MyString"
+    name "NewDeviceManufacturer"
   end
 end

@@ -2,33 +2,8 @@
 
 %p
   %b Name:
-  = @device.name
-%p
-  %b Emei:
-  = @device.emei
-%p
-  %b Cost price:
-  = @device.cost_price
-%p
-  %b Device model:
-  = link_to @device.device_model.name, @device.device_model
-%p
-  %b Device type:
-  = link_to @device.device_type.name, @device.device_type
-%p
-  %b Car:
-  - if !@device.car_id.nil?
-    = link_to Car.find(@device.car_id).name, Car.find(@device.car_id)
-  - else 
-    = "This device isn't associated with a car yet"
+  = @car_model.try(:name)
 
-%p
-  %b Simcard:
-  - if @device.simcard
-    = link_to @device.simcard.name, @device.simcard 
-  - else
-    = "This device doesn't have a simcard yet"
-
-= link_to 'Edit', edit_device_path(@device)
+= link_to 'Edit', edit_car_model_path(@car_model)
 \|
-= link_to 'Back', devices_path
+= link_to 'Back', car_models_path

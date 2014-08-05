@@ -16,9 +16,9 @@
 
 FactoryGirl.define do
   factory :simcard do
-    telephone_number "MyString"
-    teleprovider_id 1
-    monthly_price 1.5
-    device_id 1
+    telephone_number "NewSimcard"
+    # teleprovider_id 1
+    # monthly_price 1.5
+    # device_id 1
   end
 end

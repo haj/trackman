@@ -27,6 +27,7 @@ class SimcardsController < ApplicationController
   # GET /simcards/1
   # GET /simcards/1.json
   def show
+    
   end
 
   # GET /simcards/new

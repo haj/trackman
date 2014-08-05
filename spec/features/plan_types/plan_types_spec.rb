@@ -2,45 +2,45 @@ require "spec_helper"
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "device management" do
+describe "Plan types management" do
 
     before (:each) do
-      @user = FactoryGirl.create(:manager) 
-      login_as @user, scope: :user
-      @user
+      plan_type = FactoryGirl.create(:plan_type)
+      user = FactoryGirl.create(:manager) 
+      login_as user, scope: :user
+      user
     end
 
-  it "should allow to create new plan type" do 
-    visit '/plan_types/new'
+  it "should allow to create new plan_type" do     
+    visit new_plan_type_path
     page.should have_css('#plan_type_name')
 
-    fill_in "device_name", :with => "device1"
-    fill_in "device_emei", :with => "testemei"
-    fill_in "device_name", :with => "device1"
+    fill_in "plan_type_name", :with => "NewPlanType"
     click_button "Save"
 
-    Device.where(emei: "testemei").should exist
-    Traccar::Device.where(uniqueId: "testemei").should exist
-
-    page.should have_content("Device was successfully created")
-
+    PlanType.where(name: "NewPlanType").should exist
+    page.should have_content("Plan type was successfully created")
   end
 
   it "should allow to destroy a plan type" do 
     visit plan_types_path
-    page.should have_content('Sign out')
+    expect { click_link 'Destroy' }.to change(PlanType, :count).by(-1)
   end
 
   it "should allow to list all plan types" do 
     visit plan_types_path
-    page.should have_content('Sign out')
+    page.should have_content('NewPlanType')
   end
 
   it "should allow to edit a plan type" do 
-    visit plan_types_path
-    page.should have_content('Sign out')
+    visit edit_plan_type_path(PlanType.first)
+    page.should have_css('#plan_type_name')
+
+    fill_in "plan_type_name", :with => "NewPlanType"
+    click_button "Save"
+
+    PlanType.where(name: "NewPlanType").should_not exist
+    PlanType.where(name: "NewPlanType2").should exist
   end
-
-
 
 end

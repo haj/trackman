@@ -51,10 +51,10 @@
             - @simcards.each do |simcard|
               %tr
                 %td= simcard.telephone_number
-                %td= simcard.teleprovider.name
+                %td= simcard.try(:teleprovider).try(:name)
                 %td= simcard.monthly_price
                 - if simcard.device
-                  %td= link_to simcard.device.name, simcard.device
+                  %td= link_to simcard.try(:device).try(:name), simcard.try(:device)
                 - else 
                   %td= "No device"
                 %td= link_to 'Show', simcard

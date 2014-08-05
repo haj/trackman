@@ -5,42 +5,42 @@ Warden.test_mode!
 describe "device management" do
 
     before (:each) do
-      @user = FactoryGirl.create(:manager) 
-      login_as @user, scope: :user
-      @user
+      device_type = FactoryGirl.create(:device_type)
+      user = FactoryGirl.create(:manager) 
+      login_as user, scope: :user
+      user
     end
 
-  it "should allow to create new device" do 
-    visit '/devices/new'
-    page.should have_css('#device_name')
+  it "should allow to create new device type" do     
+    visit new_device_type_path
+    page.should have_css('#device_type_name')
 
-    fill_in "device_name", :with => "device1"
-    fill_in "device_emei", :with => "testemei"
-    fill_in "device_name", :with => "device1"
+    fill_in "device_type_name", :with => "NewDeviceType"
     click_button "Save"
 
-    Device.where(emei: "testemei").should exist
-    Traccar::Device.where(uniqueId: "testemei").should exist
-
-    page.should have_content("Device was successfully created")
-
+    DeviceType.where(name: "NewDeviceType").should exist
+    page.should have_content("Device type was successfully created")
   end
 
-  it "should allow to destroy a device" do 
-    visit devices_path
-    page.should have_content('Sign out')
+  it "should allow to destroy a device type" do 
+    visit device_types_path
+    expect { click_link 'Destroy' }.to change(DeviceType, :count).by(-1)
   end
 
-  it "should allow to list all devices" do 
-    visit devices_path
-    page.should have_content('Sign out')
+  it "should allow to list all device types" do 
+    visit device_types_path
+    page.should have_content('NewDeviceType')
   end
 
-  it "should allow to edit a device" do 
-    visit devices_path
-    page.should have_content('Sign out')
+  it "should allow to edit a device type" do 
+    visit edit_device_type_path(DeviceType.first)
+    page.should have_css('#device_type_name')
+
+    fill_in "device_type_name", :with => "NewDeviceType2"
+    click_button "Save"
+
+    DeviceType.where(name: "NewDeviceType").should_not exist
+    DeviceType.where(name: "NewDeviceType2").should exist
   end
-
-
 
 end

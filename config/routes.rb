@@ -69,6 +69,7 @@ Rails.application.routes.draw do
   resources :companies
 
   devise_for :users, controllers: { registrations: "registrations", :invitations => 'invitations' }
+  
   resources :users do 
     member do 
       get 'conversations'

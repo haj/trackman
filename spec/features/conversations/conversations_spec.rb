@@ -11,8 +11,8 @@ describe "device management" do
     end
 
   it "should allow to create new device" do 
-    visit '/devices/new'
-    page.should have_css('#device_name')
+    visit new_conversation_path
+    page.should have_css('#conversation_name')
 
     fill_in "device_name", :with => "device1"
     fill_in "device_emei", :with => "testemei"

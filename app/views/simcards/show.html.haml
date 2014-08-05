@@ -5,7 +5,7 @@
   = @simcard.telephone_number
 %p
   %b Teleprovider:
-  = link_to @simcard.teleprovider.name, @simcard.teleprovider
+  = link_to @simcard.try(:teleprovider).try(:name), @simcard.teleprovider
 %p
   %b Monthly price:
   = @simcard.monthly_price

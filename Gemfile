@@ -135,3 +135,5 @@ gem 'database_cleaner', :group => [:test]
 
 gem 'ci_reporter_rspec'
 
+gem 'selenium-webdriver'
+

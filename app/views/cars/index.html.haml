@@ -85,8 +85,8 @@
             - @cars.each do |car|
               %tr
                 %td= car.numberplate
-                %td= car.car_model.name
-                %td= car.car_type.name
+                %td= car.try(:car_model).try(:name)
+                %td= car.try(:car_type).try(:name)
                 %td= car.registration_no
                 %td= car.year
                 %td= link_to 'Show', car
