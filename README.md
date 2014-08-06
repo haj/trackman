@@ -20,15 +20,9 @@ The `db_password` is used to connect to the MySQL database used by Traccar! (see
 
 ## Creating the admin user 
 
-1.Sign up through the web interface (and create a dummy company when asked)
- 
-2.Then add the admin role to the user you just create (here we're searching for the user by email so make sure you put the correct email in the where clause)
+Run : 
 
-```ruby
-admin = User.where(email: "<type the email address here>") 
-admin.roles << :admin
-admin.save!
-```
+    RAILS_ENV=production rake:seed_fu
 
 ## Traccar server configuration file 
 
