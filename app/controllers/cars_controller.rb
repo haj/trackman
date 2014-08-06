@@ -37,20 +37,48 @@ class CarsController < ApplicationController
   # GET /cars/1
   # GET /cars/1.json
   def show
-    @position = Car.find(params[:id]).last_position
-    @collection =  [@position]
-    @hash = Gmaps4rails.build_markers(@collection) do |position, marker|
-      marker.lat position[:latitude].to_s
-      marker.lng position[:longitude].to_s
+    if !params[:scope].nil?
+      # correctly parse dates
+      logger.warn params[:scope][:start_date]
+
+      start_date = Date.parse(params[:scope][:start_date]).strftime("%m/%d/%Y")
+      end_date = Date.parse(params[:scope][:end_date]).strftime("%m/%d/%Y")
+
+      @positions = Car.find(params[:id]).positions_between_dates(start_date, end_date)
+
+      logger.warn @positions.count
+
+      @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
+        marker.lat position[:latitude].to_s
+        marker.lng position[:longitude].to_s
+        marker.infowindow position[:time].to_s
+      end
+
+      gon.watch.data = @hash
+
+      gon.push({
+        :url => "/cars/#{@car.id}",
+        :map_id => "cars_show",
+        :resource => "cars"
+      })
+    else
+      @position = Car.find(params[:id]).last_position
+      @collection =  [@position]
+      @hash = Gmaps4rails.build_markers(@collection) do |position, marker|
+        marker.lat position[:latitude].to_s
+        marker.lng position[:longitude].to_s
+      end
+
+      gon.watch.data = @hash
+
+      gon.push({
+        :url => "/cars/#{@car.id}",
+        :map_id => "cars_show",
+        :resource => "cars"
+      })
     end
 
-    gon.watch.data = @hash
-
-    gon.push({
-      :url => "/cars/#{@car.id}",
-      :map_id => "cars_show",
-      :resource => "cars"
-    })
+    
   end
 
   # GET /cars/new

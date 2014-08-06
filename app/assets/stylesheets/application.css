@@ -37,6 +37,8 @@
  *= require self
  *= require regions
  *= require work_schedules
+ *= require jquery.ui.datepicker
+ *= require jquery.timepicker.css
  */
 
 .custom_marker_content {

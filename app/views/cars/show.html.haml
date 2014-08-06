@@ -1,3 +1,19 @@
+
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Filter by time
+      .grid-body.no-border
+        = form_tag '', :method => :get, :id => "filter_by_date" do
+          = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date"
+          = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time"
+          To
+          = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time"
+          = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date"
+          = submit_tag 'Apply filters', :class => "btn btn-default"
+
 .row
   .col-md-12
     .grid.simple

@@ -5,9 +5,24 @@
 
 $(document).ready ->
 
+    # $('#scope_start_date').datepicker()
+    # $('#scope_end_date').datepicker()
+
+    $(".time").timepicker
+      showDuration: true
+      timeFormat: "g:ia"
+
+    $(".date").datepicker
+      format: "m/d/yyyy"
+      autoclose: true
+
+    # initialize datepair
+    basicExampleEl = document.getElementById("filter_by_date")
+    datepair = new Datepair(basicExampleEl)
+
     $('.page-sidebar').css('height',$('.page-content').css('height'))
 
-    if (typeof gon != "undefined") && gon.resource == "cars"
+    if (typeof gon != "undefined") && gon.resource == "cars" && gon.map_id == "cars_show"
         handler = Gmaps.build('Google')
 
         handler.buildMap { provider: { zoom: 1 }, internal: { id: gon.map_id }}, ->
@@ -15,8 +30,23 @@ $(document).ready ->
             window.markers = markers
             handler.bounds.extendWith(markers)
             handler.fitMapToBounds()
-            refresh_rate = 3000
+            
+        refreshCarsMap = (data) ->
+            console.log "Refreshing cars"
+            console.log(data)
+            handler.removeMarkers(window.markers)
+            window.markers = handler.addMarkers(data)
+        gon.watch('data', interval: 30000, refreshCarsMap)
 
+
+    else if (typeof gon != "undefined") && gon.resource == "cars"
+        handler = Gmaps.build('Google')
+
+        handler.buildMap { provider: { zoom: 1 }, internal: { id: gon.map_id }}, ->
+            markers = handler.addMarkers(gon.data)
+            window.markers = markers
+            handler.bounds.extendWith(markers)
+            handler.fitMapToBounds()
             
         refreshCarsMap = (data) ->
             console.log "Refreshing cars"
@@ -24,6 +54,7 @@ $(document).ready ->
             handler.removeMarkers(window.markers)
             window.markers = handler.addMarkers(data)
         gon.watch('data', interval: 3000, refreshCarsMap)
+
 
 
 ###

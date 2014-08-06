@@ -137,3 +137,5 @@ gem 'ci_reporter_rspec'
 
 gem 'selenium-webdriver'
 
+gem 'jquery-timepicker-rails'
+

@@ -60,7 +60,7 @@ class Car < ActiveRecord::Base
 			end
 		end
 
-	# Cars without ... 
+	# Cars for devices 
 
 		def self.cars_without_devices(car_id)
 			if car_id.nil?
@@ -100,6 +100,18 @@ class Car < ActiveRecord::Base
 			else
 				self.device.last_position
 			end
+		end
+
+		def positions_between_dates(start_date, end_date)
+			start_time = DateTime.parse(start_date).to_s(:db)
+			end_time = DateTime.parse(end_date).to_s(:db)
+			positions = Array.new
+			car_positions = self.device.traccar_device.positions.where("time > ? AND time < ?", start_time, end_time).take(20)
+
+			car_positions.each do |position|
+				positions << { latitude: position.latitude, longitude: position.longitude, time: position.time }
+			end
+			positions
 		end
 
 	# Has?
