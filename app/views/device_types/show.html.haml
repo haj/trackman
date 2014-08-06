@@ -1,9 +1,14 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Device type
+      .grid-body.no-border
+        %p
+          %b Name:
+          = @device_type.name
 
-%p
-  %b Name:
-  = @device_type.name
-
-= link_to 'Edit', edit_device_type_path(@device_type)
-\|
-= link_to 'Back', device_types_path
+        = link_to 'Edit', edit_device_type_path(@device_type)
+        \|
+        = link_to 'Back', device_types_path

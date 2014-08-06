@@ -1,14 +1,20 @@
-%p#notice= notice
-%p
-  %strong Name:
-  = @company.name
-%p
-  %strong Subdomain:
-  = @company.subdomain
-%p
-  %strong Billing plan:
-  = @company.plan.name
-  = link_to "(Change)", plans_path
-= link_to 'Edit', edit_company_path(@company)
-|
-\#{link_to 'Back', companies_path}
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Company
+      .grid-body.no-border
+        %p
+          %strong Name:
+          = @company.name
+        %p
+          %strong Subdomain:
+          = @company.subdomain
+        %p
+          %strong Billing plan:
+          = @company.plan.name
+          = link_to "(Change)", plans_path
+        = link_to 'Edit', edit_company_path(@company)
+        |
+        \#{link_to 'Back', companies_path}

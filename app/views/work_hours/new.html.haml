@@ -1,5 +1,22 @@
-%h1 New work_hour
+.page-title
+  %h3
+    New work hours
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          Work hours 
+          %span.semi-bold details
+        .tools
+          %a.collapse{href: "javascript:;"}
+          %a.config{"data-toggle" => "modal", href: "#grid-config"}
+          %a.reload{href: "javascript:;"}
+          %a.remove{href: "javascript:;"}
+      .grid-body.no-border
+        %br/
+        .row
+          .col-md-8.col-sm-8.col-xs-8
+            = render 'form'
 
-= render 'form'
-
-= link_to 'Back', work_hours_path
+            = link_to 'Back', work_hours_path

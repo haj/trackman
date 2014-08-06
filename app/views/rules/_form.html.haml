@@ -6,20 +6,21 @@
                 - @rule.errors.full_messages.each do |msg|
                     %li= msg
 
-    .field
-        = f.label :name
-        = f.text_field :name
-    .field
-        = f.label :method_name
-        = f.text_field :method_name
+    .form-group
+        = f.label :name, :class => "form-label"
+        = f.text_field :name, :class => "form-control"
+    .form-group
+        = f.label :method_name, :class => "form-label"
+        = f.text_field :method_name, :class => "form-control"
 
     %h3 Parameters
 
-    #parameters
-    = f.fields_for :parameters do |parameter|
-        = render 'parameter_fields', :f => parameter
-    .links
-        = link_to_add_association 'add parameter', f, :parameters
+    .form-group
+        #parameters
+        = f.fields_for :parameters do |parameter|
+            = render 'parameter_fields', :f => parameter
+        .links
+            = link_to_add_association 'add parameter', f, :parameters
 
-    .actions
-        = f.submit 'Save'
+    .form-group
+        = f.submit 'Save', class: "btn btn-primary"

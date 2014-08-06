@@ -1,6 +1,11 @@
-%p#notice= notice
-
-
-= link_to 'Edit', edit_plan_path(@plan)
-\|
-= link_to 'Back', plans_path
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Plan
+          %span.semi-bold= @plan.name
+      .grid-body.no-border
+        = link_to 'Edit', edit_plan_path(@plan)
+        \|
+        = link_to 'Back', plans_path

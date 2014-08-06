@@ -1,23 +1,28 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Conversation
+      .grid-body.no-border
+        %p
+          %h3= @conversation.subject
+        %p
+          - @conversation.messages.each do |message|
+            %p
+              %b= "#{message.sender_type.constantize.find(message.sender_id).name} :"
+              = message.body
+            %br
+            %br
 
-%p
-	%h3= @conversation.subject
-%p
-	- @conversation.messages.each do |message|
-		%p
-			%b= "#{message.sender_type.constantize.find(message.sender_id).name} :"
-			= message.body
-		%br
-		%br
+        = form_tag reply_conversation_path(@conversation) do
 
-= form_tag reply_conversation_path(@conversation) do
-
-	%p  
-		= "Message"  
-		= text_area_tag "conversation[body]"
-  
-	= submit_tag "Send"
+          %p  
+            = "Message"  
+            = text_area_tag "conversation[body]"
+          
+          = submit_tag "Send"
 
 
 
-= link_to 'Back', conversations_user_path(current_user) if current_user
+        = link_to 'Back', conversations_user_path(current_user) if current_user

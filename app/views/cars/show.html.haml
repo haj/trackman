@@ -1,39 +1,44 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Car
+      .grid-body.no-border
+        %div{ :style => "width: 800px;" }
+          %div#cars_show{ :style => "width: 800px; height: 400px;"}
 
-%div{ :style => "width: 800px;" }
-  %div#cars_show{ :style => "width: 800px; height: 400px;"}
+        %br
+        %br
 
-%br
-%br
+        %p
+          %b Mileage:
+          = @car.mileage
+        %p
+          %b Numberplate:
+          = @car.numberplate
+        %p
+          %b Device:
+          - if @car.device
+            = link_to @car.device.name, @car.device
+          - else
+            = "This car doesn't have a device attached to it yet"
+        %p
+          %b Car model:
+          = @car.car_model_id
+        %p
+          %b Car type:
+          = @car.car_type_id
+        %p
+          %b Registration no:
+          = @car.registration_no
+        %p
+          %b Year:
+          = @car.year
+        %p
+          %b Color:
+          = @car.color
 
-%p
-  %b Mileage:
-  = @car.mileage
-%p
-  %b Numberplate:
-  = @car.numberplate
-%p
-  %b Device:
-  - if @car.device
-    = link_to @car.device.name, @car.device
-  - else
-    = "This car doesn't have a device yet"
-%p
-  %b Car model:
-  = @car.car_model_id
-%p
-  %b Car type:
-  = @car.car_type_id
-%p
-  %b Registration no:
-  = @car.registration_no
-%p
-  %b Year:
-  = @car.year
-%p
-  %b Color:
-  = @car.color
-
-= link_to 'Edit', edit_car_path(@car)
-\|
-= link_to 'Back', cars_path
+        = link_to 'Edit', edit_car_path(@car)
+        \|
+        = link_to 'Back', cars_path

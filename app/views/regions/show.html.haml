@@ -1,9 +1,15 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Region
+          %span.semi-bold= @region.name
+      .grid-body.no-border
+        %p
+          %b Name:
+          = @region.name
 
-%p
-  %b Name:
-  = @region.name
-
-= link_to 'Edit', edit_region_path(@region)
-\|
-= link_to 'Back', regions_path
+        = link_to 'Edit', edit_region_path(@region)
+        \|
+        = link_to 'Back', regions_path

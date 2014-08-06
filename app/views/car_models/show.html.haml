@@ -1,9 +1,14 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Car model
+      .grid-body.no-border
+        %p
+          %b Name:
+          = @car_model.try(:name)
 
-%p
-  %b Name:
-  = @car_model.try(:name)
-
-= link_to 'Edit', edit_car_model_path(@car_model)
-\|
-= link_to 'Back', car_models_path
+        = link_to 'Edit', edit_car_model_path(@car_model)
+        \|
+        = link_to 'Back', car_models_path

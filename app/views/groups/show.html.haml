@@ -1,36 +1,41 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Group
+      .grid-body.no-border
+        %h1= "#{@group.name}"
 
-%h1= "#{@group.name} group"
+        %h3 Cars
 
-%h3 Cars
-
-%table.table
-	%tr
-		%th= "Name"
-
-
-	- @group.cars.each do |car|
-		%tr
-			%td= link_to car.name, car
-
-%br
-
-%h3 Alarms
-
-%table.table
-	%tr
-		%th= "Name"
-		%th= "Status"
-		%th= "Last alert"
-
-	- @alarms.each do |alarm|
-		%tr
-			%td= alarm.name
-			%td= @group.alarm_status(alarm)
-			%td= @group.alarm_last_alert(alarm)
-%br
+        %table.table
+          %tr
+            %th= "Name"
 
 
-= link_to 'Edit', edit_group_path(@group)
-\|
-= link_to 'Back', groups_path
+          - @group.cars.each do |car|
+            %tr
+              %td= link_to car.name, car
+
+        %br
+
+        %h3 Alarms
+
+        %table.table
+          %tr
+            %th= "Name"
+            %th= "Status"
+            %th= "Last alert"
+
+          - @alarms.each do |alarm|
+            %tr
+              %td= alarm.name
+              %td= @group.alarm_status(alarm)
+              %td= @group.alarm_last_alert(alarm)
+        %br
+
+
+        = link_to 'Edit', edit_group_path(@group)
+        \|
+        = link_to 'Back', groups_path

@@ -6,18 +6,19 @@
         - @group.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :name
-    = f.text_field :name
+  .form-group
+    = f.label :name, class: "form-label"
+    = f.text_field :name, class: "form-control"
 
-  %h2 Alarms
-  = f.select :alarm_ids, Alarm.all.collect {|x| [x.name, x.id]}, {}, :multiple => true
+  .form-group
+    %h2 Alarms
+    = f.select :alarm_ids, Alarm.all.collect {|x| [x.name, x.id]}, {}, :multiple => true, class: "form-control"
 
-  %h2 Work Schedule
-  = f.label :work_schedule_id, "Work Schedule"
-  = f.collection_select(:work_schedule_id, WorkSchedule.all, :id, :name)
+  .form-group
+    %h2 Work Schedule
+    = f.collection_select(:work_schedule_id, WorkSchedule.all, :id, :name, {}, class: "form-control")
 
   %br
 
-  .actions
-    = f.submit 'Save'
+  .form-group
+    = f.submit 'Save', class: "btn btn-primary"

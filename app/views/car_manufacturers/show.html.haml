@@ -1,9 +1,14 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Car manufacturer
+      .grid-body.no-border
+        %p
+          %b Name:
+          = @car_manufacturer.name
 
-%p
-  %b Name:
-  = @car_manufacturer.name
-
-= link_to 'Edit', edit_car_manufacturer_path(@car_manufacturer)
-\|
-= link_to 'Back', car_manufacturers_path
+        = link_to 'Edit', edit_car_manufacturer_path(@car_manufacturer)
+        \|
+        = link_to 'Back', car_manufacturers_path

@@ -1,22 +1,27 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Simcard
+      .grid-body.no-border
+        %p
+          %b Telephone no:
+          = @simcard.telephone_number
+        %p
+          %b Teleprovider:
+          = link_to @simcard.try(:teleprovider).try(:name), @simcard.teleprovider
+        %p
+          %b Monthly price:
+          = @simcard.monthly_price
+        %p
+          %b Device:
+          - if @simcard.device_id.nil?
+            = "This simcard has no devices associated with it"
+          - else 
+            = link_to Device.find(@simcard.device_id).name, Device.find(@simcard.device_id)
 
-%p
-  %b Telephone no:
-  = @simcard.telephone_number
-%p
-  %b Teleprovider:
-  = link_to @simcard.try(:teleprovider).try(:name), @simcard.teleprovider
-%p
-  %b Monthly price:
-  = @simcard.monthly_price
-%p
-  %b Device:
-  - if @simcard.device_id.nil?
-    = "This simcard has no devices associated with it"
-  - else 
-    = link_to Device.find(@simcard.device_id).name, Device.find(@simcard.device_id)
 
-
-= link_to 'Edit', edit_simcard_path(@simcard)
-\|
-= link_to 'Back', simcards_path
+        = link_to 'Edit', edit_simcard_path(@simcard)
+        \|
+        = link_to 'Back', simcards_path

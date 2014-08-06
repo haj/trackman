@@ -1,12 +1,17 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Work schedule
+      .grid-body.no-border
+        %p
+          %b Car:
+          = link_to @work_schedule.try(:car).try(:numberplate), car_path(@work_schedule.try(:car))
+        %p
+          %b Name:
+          = @work_schedule.name
 
-%p
-  %b Car:
-  = @work_schedule.car_id
-%p
-  %b Name:
-  = @work_schedule.name
-
-= link_to 'Edit', edit_work_schedule_path(@work_schedule)
-\|
-= link_to 'Back', work_schedules_path
+        = link_to 'Edit', edit_work_schedule_path(@work_schedule)
+        \|
+        = link_to 'Back', work_schedules_path

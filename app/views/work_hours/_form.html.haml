@@ -6,17 +6,17 @@
         - @work_hour.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :day_of_week
-    = f.number_field :day_of_week
-  .field
-    = f.label :starts_at
-    = f.time_select :starts_at
-  .field
-    = f.label :ends_at
-    = f.time_select :ends_at
-  .field
-    = f.label :device_id
-    = f.number_field :device_id
-  .actions
-    = f.submit 'Save'
+  .form-group
+    = f.label :day_of_week, :class => "form-label"
+    = f.number_field :day_of_week, :class => "form-control"
+  .form-group
+    = f.label :starts_at, :class => "form-label"
+    = f.time_select :starts_at, :class => "form-control"
+  .form-group
+    = f.label :ends_at, :class => "form-label"
+    = f.time_select :ends_at, :class => "form-control"
+  .form-group
+    = f.label :device_id, :class => "form-label"
+    = f.number_field :device_id, :class => "form-control"
+  .form-group
+    = f.submit 'Save', class: "btn btn-primary"

@@ -1,7 +1,24 @@
-%h1 Editing Car Manufacturer
+.page-title
+  %h3
+    Editing car manufacturer
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h4
+          Car manufacturer 
+          %span.semi-bold details
+        .tools
+          %a.collapse{href: "javascript:;"}
+          %a.config{"data-toggle" => "modal", href: "#grid-config"}
+          %a.reload{href: "javascript:;"}
+          %a.remove{href: "javascript:;"}
+      .grid-body.no-border
+        %br/
+        .row
+          .col-md-8.col-sm-8.col-xs-8
+            = render 'form'
 
-= render 'form'
-
-= link_to 'Show', @car_manufacturer
-\|
-= link_to 'Back', car_manufacturers_path
+            = link_to 'Show', @car_manufacturer
+            \|
+            = link_to 'Back', car_manufacturers_path

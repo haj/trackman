@@ -1,12 +1,17 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Feature
+      .grid-body.no-border
+        %p
+          %b Name:
+          = @feature.name
+        %p
+          %b Role:
+          = @feature.role
 
-%p
-  %b Name:
-  = @feature.name
-%p
-  %b Role:
-  = @feature.role
-
-= link_to 'Edit', edit_feature_path(@feature)
-\|
-= link_to 'Back', features_path
+        = link_to 'Edit', edit_feature_path(@feature)
+        \|
+        = link_to 'Back', features_path

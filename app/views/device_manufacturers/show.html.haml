@@ -1,9 +1,14 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Device manufacturer
+      .grid-body.no-border
+        %p
+          %b Name:
+          = @device_manufacturer.name
 
-%p
-  %b Name:
-  = @device_manufacturer.name
-
-= link_to 'Edit', edit_device_manufacturer_path(@device_manufacturer)
-\|
-= link_to 'Back', device_manufacturers_path
+        = link_to 'Edit', edit_device_manufacturer_path(@device_manufacturer)
+        \|
+        = link_to 'Back', device_manufacturers_path

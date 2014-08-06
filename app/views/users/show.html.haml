@@ -1,0 +1,20 @@
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          User
+          %span.semi-bold= @user.name
+      .grid-body.no-border
+        %p
+          %strong First name:
+          = @user.first_name
+        %p
+          %strong Last name:
+          = @user.last_name
+        %p
+          %strong Email:
+          = @user.email
+        = link_to 'Edit', edit_user_path(@user)
+        |
+        \#{link_to 'Back', users_path}

@@ -1,12 +1,18 @@
-%p#notice= notice
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Teleprovider
+          %span.semi-bold= @teleprovider.name
+      .grid-body.no-border
+        %p
+          %b Name:
+          = @teleprovider.name
+        %p
+          %b Apn:
+          = @teleprovider.apn
 
-%p
-  %b Name:
-  = @teleprovider.name
-%p
-  %b Apn:
-  = @teleprovider.apn
-
-= link_to 'Edit', edit_teleprovider_path(@teleprovider)
-\|
-= link_to 'Back', teleproviders_path
+        = link_to 'Edit', edit_teleprovider_path(@teleprovider)
+        \|
+        = link_to 'Back', teleproviders_path
