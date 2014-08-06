@@ -20,9 +20,11 @@ The `db_password` is used to connect to the MySQL database used by Traccar! (see
 
 ## Creating the admin user 
 
-Run : 
-
-    RAILS_ENV=production rake:seed_fu
+Run :
+ 
+```
+RAILS_ENV=production rake:seed_fu
+```
 
 ## Traccar server configuration file 
 
