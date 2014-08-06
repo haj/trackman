@@ -45,6 +45,7 @@ class Ability
     can :manage, Region
     can :read, Plan
     can :manage, Subscription
+    can :manage, WorkHour
   end
 
   def employee

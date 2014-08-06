@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :plan do
     plan_type_id 1
     interval "MyString"
-    current "MyString"
+    currency "MyString"
     price 1.5
     paymill_id "MyString"
   end

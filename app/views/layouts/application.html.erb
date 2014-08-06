@@ -136,8 +136,9 @@
 							<div class="iconset top-settings-dark"></div> 	
 						</a>
 						<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="user-options">
-							<li><%= link_to "Company", company_path(current_user.company.id) %></li>
-							<li><a href="#">Badge Link&nbsp;&nbsp;<span class="badge badge-important animated bounceIn">2</span></a></li>
+							<% if current_user.company %> 
+							<li><%= link_to "Company settings", company_path(current_user.company.id) %></li>
+							<% end %>
 							<li class="divider"></li>                
 							<li>
 								<%= link_to destroy_user_session_path, method: :delete do %>

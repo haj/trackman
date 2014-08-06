@@ -11,6 +11,6 @@
     = f.text_field :name, :class => "form-control"
   .form-group
     = f.label :car_manufacturer, :class => "form-label"
-    = f.collection_select(:car_manufacturer_id, CarManufacturer.all, :id, :name, {}, , :class => "form-control")
+    = f.collection_select(:car_manufacturer_id, CarManufacturer.all, :id, :name, {}, :class => "form-control")
   .form-group
     = f.submit 'Save', class: "btn btn-primary"

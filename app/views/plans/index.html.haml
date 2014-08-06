@@ -23,7 +23,7 @@
           %tbody
             - @plans.each do |plan|
               %tr
-                %td= link_to plan.plan_type.name, plan
+                %td= link_to plan.try(:plan_type).try(:name), plan
                 %td= link_to 'Switch', new_subscription_path(:plan_id => plan.id)
                 %td= link_to 'Edit', edit_plan_path(plan)
                 %td= link_to 'Destroy', plan, :method => :delete, :data => { :confirm => 'Are you sure?' }
