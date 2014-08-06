@@ -102,11 +102,16 @@ class Car < ActiveRecord::Base
 			end
 		end
 
-		def positions_between_dates(start_date, end_date)
-			start_time = DateTime.parse(start_date).to_s(:db)
-			end_time = DateTime.parse(end_date).to_s(:db)
+		def positions_between_dates(user_start_date, user_end_date)
+			start_date = user_start_date.in_time_zone.to_datetime.to_s(:db)
+			end_date = user_end_date.in_time_zone.to_datetime.to_s(:db)
+
+			logger.warn start_date
+			logger.warn user_end_date.in_time_zone
+			logger.warn user_end_date.to_time.utc
+
 			positions = Array.new
-			car_positions = self.device.traccar_device.positions.where("time > ? AND time < ?", start_time, end_time).take(20)
+			car_positions = self.device.traccar_device.positions.where("time > ? AND time < ?", start_date, end_date).take(20)
 
 			car_positions.each do |position|
 				positions << { latitude: position.latitude, longitude: position.longitude, time: position.time }

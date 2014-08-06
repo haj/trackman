@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140715083056) do
+ActiveRecord::Schema.define(version: 20140806211621) do
 
   create_table "alarms", force: true do |t|
     t.string   "name"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20140715083056) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "plan_id"
+    t.string   "time_zone"
   end
 
   create_table "conditions", force: true do |t|
@@ -160,10 +161,10 @@ ActiveRecord::Schema.define(version: 20140715083056) do
 
   add_index "features_plan_types", ["feature_id", "plan_type_id"], name: "index_features_plan_types_on_feature_id_and_plan_type_id", unique: true, using: :btree
 
-  create_table "ra", force: true do |t|
+  create_table "group_work_hours", force: true do |t|
     t.integer  "day_of_week"
-    t.time     "starts_at"
-    t.time     "ends_at"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -358,8 +359,8 @@ ActiveRecord::Schema.define(version: 20140715083056) do
 
   create_table "work_hours", force: true do |t|
     t.integer  "day_of_week"
-    t.time     "starts_at"
-    t.time     "ends_at"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "work_schedule_id"

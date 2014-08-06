@@ -8,21 +8,24 @@ $(document).ready ->
     # $('#scope_start_date').datepicker()
     # $('#scope_end_date').datepicker()
 
-    $(".time").timepicker
-      showDuration: true
-      timeFormat: "g:ia"
-
-    $(".date").datepicker
-      format: "m/d/yyyy"
-      autoclose: true
-
-    # initialize datepair
-    basicExampleEl = document.getElementById("filter_by_date")
-    datepair = new Datepair(basicExampleEl)
+    
 
     $('.page-sidebar').css('height',$('.page-content').css('height'))
 
     if (typeof gon != "undefined") && gon.resource == "cars" && gon.map_id == "cars_show"
+
+        $(".time").timepicker
+          showDuration: true
+          timeFormat: "g:ia"
+
+        $(".date").datepicker
+          format: "m/d/yyyy"
+          autoclose: true
+
+        # initialize datepair
+        basicExampleEl = document.getElementById("filter_by_date")
+        datepair = new Datepair(basicExampleEl)
+        
         handler = Gmaps.build('Google')
 
         handler.buildMap { provider: { zoom: 1 }, internal: { id: gon.map_id }}, ->

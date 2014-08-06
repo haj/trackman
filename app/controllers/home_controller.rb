@@ -17,6 +17,8 @@ class HomeController < ApplicationController
 	      :resource => "cars", 
 	      :query_params => request.query_parameters
 	    })
+
+	    @time = Time.zone.now
   	else
   		redirect_to new_user_session_path
   	end

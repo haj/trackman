@@ -31,12 +31,15 @@
           .col-md-12
             %h4 Company details
         
-        .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
-          = fields_for(:company) do |w|
+        = fields_for(:company) do |w|
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
             .col-md-6.col-sm-6
               = w.text_field :name, class: "form-control company_name", placeholder: "Name"
             .col-md-6.col-sm-6
-              = w.text_field :subdomain, class: "form-control company_subdomain", placeholder: "Subdomain" 
+              = w.text_field :subdomain, class: "form-control company_subdomain", placeholder: "Subdomain"
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+            .col-md-12
+              = w.time_zone_select :time_zone, nil, {}, {:class => 'form-control'}          
         .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
           .col-md-12
             = f.submit "Sign up", class: "btn btn-success"

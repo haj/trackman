@@ -31,7 +31,7 @@ class RegistrationsController < Devise::RegistrationsController
 	end
 
 	def company_params
-      params.require(:company).permit(:name, :subdomain)
+      params.require(:company).permit(:name, :subdomain, :time_zone)
     end
 
     def after_sign_in_path_for(resource)
