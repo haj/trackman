@@ -1,5 +1,6 @@
 require "rvm/capistrano"
 require 'bundler/capistrano'
+set :application, 'app'
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 
@@ -28,10 +29,12 @@ set :rvm_type, :user  # Don't use system-wide RVM
  
 # roles (servers) 
 
-role :web, domain
+#role :web, domain
 role :app, domain
-role :db,  domain, :primary => true
+#role :db,  domain, :primary => true
  
+ 
+
 # deploy config
 set :deploy_to, applicationdir
 set :deploy_via, :remote_cache #previously :copy
