@@ -1,6 +1,7 @@
 require "rvm/capistrano"
 require 'bundler/capistrano'
-
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
 
 set :user, 'demo'
 set :domain, '198.199.108.58'
