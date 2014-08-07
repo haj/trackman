@@ -29,11 +29,11 @@ set :rvm_type, :user  # Don't use system-wide RVM
  
 # roles (servers) 
 
-#role :web, domain
+role :web, domain
 role :app, domain
-#role :db,  domain, :primary => true
+role :db,  domain, :primary => true
  
- 
+set :whenever_roles, [:db, :app]
 
 # deploy config
 set :deploy_to, applicationdir

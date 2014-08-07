@@ -28,15 +28,16 @@ $(document).ready ->
         
         handler = Gmaps.build('Google')
 
-        handler.buildMap { provider: { zoom: 1 }, internal: { id: gon.map_id }}, ->
+        handler.buildMap { provider: { zoom: 3 }, internal: { id: gon.map_id }}, ->
             markers = handler.addMarkers(gon.data)
             window.markers = markers
             handler.bounds.extendWith(markers)
             handler.fitMapToBounds()
+            handler.getMap().setZoom(12)
             
         refreshCarsMap = (data) ->
-            console.log "Refreshing cars"
-            console.log(data)
+            #console.log "Refreshing cars"
+            #console.log(data)
             handler.removeMarkers(window.markers)
             window.markers = handler.addMarkers(data)
         gon.watch('data', interval: 30000, refreshCarsMap)

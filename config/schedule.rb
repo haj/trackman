@@ -27,7 +27,7 @@
 
 
 every 2.minute do 
-	rake "check:alarms"
+	rake "check_alarms"
 end
 
 every 2.minute do 

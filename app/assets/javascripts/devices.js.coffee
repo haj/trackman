@@ -10,6 +10,7 @@ $(document).ready ->
 			window.markers = markers
 			handler.bounds.extendWith(markers)
 			handler.fitMapToBounds()
+			handler.getMap().setZoom(12)
 
 		refreshDevicesMap = (data) ->
  			console.log "Refreshing devices"
