@@ -102,6 +102,17 @@ class Car < ActiveRecord::Base
 			end
 		end
 
+		def positions
+			if self.device.nil?
+				# if this car doesn't have a device attached to it 
+				#   then just send an empty hash for the position
+				return Hash.new
+			else
+				self.device.traccar_device.positions
+			end
+		end
+
+
 		def positions_between_dates(user_dates)
 			user_start_date = "#{Date.parse(user_dates[:start_date]).strftime("%m/%d/%Y").to_s} #{user_dates[:start_time]}"
       		user_end_date = "#{Date.parse(user_dates[:end_date]).strftime("%m/%d/%Y").to_s} #{user_dates[:end_time]}"
@@ -116,7 +127,7 @@ class Car < ActiveRecord::Base
 
 
 			positions = Array.new
-			car_positions = self.device.traccar_device.positions.where("time > ? AND time < ?", start_date, end_date).take(user_dates[:limit_results].to_i)
+			car_positions = self.device.traccar_device.positions.where("time > ? AND time < ?", start_date, end_date).order(:time).take(user_dates[:limit_results].to_i)
 
 			car_positions.each do |position|
 				positions << { latitude: position.latitude, longitude: position.longitude, time: position.time }

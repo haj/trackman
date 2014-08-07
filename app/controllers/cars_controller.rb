@@ -62,6 +62,8 @@ class CarsController < ApplicationController
         marker.lng position[:longitude].to_s
       end
 
+      @positions = Car.find(params[:id]).positions
+
       gon.watch.data = @hash
 
       gon.push({
