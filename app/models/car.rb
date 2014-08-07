@@ -108,7 +108,7 @@ class Car < ActiveRecord::Base
 				#   then just send an empty hash for the position
 				return Hash.new
 			else
-				self.device.traccar_device.positions
+				self.device.traccar_device.positions.order("time DESC")
 			end
 		end
 
@@ -127,7 +127,7 @@ class Car < ActiveRecord::Base
 
 
 			positions = Array.new
-			car_positions = self.device.traccar_device.positions.where("time > ? AND time < ?", start_date, end_date).order(:time).take(user_dates[:limit_results].to_i)
+			car_positions = self.device.traccar_device.positions.where("time > ? AND time < ?", start_date, end_date).order("time DESC").take(user_dates[:limit_results].to_i)
 
 			car_positions.each do |position|
 				positions << { latitude: position.latitude, longitude: position.longitude, time: position.time }
