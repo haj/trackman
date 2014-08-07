@@ -36,6 +36,8 @@ class Device < ActiveRecord::Base
 	belongs_to :car
 	belongs_to :company
 
+	has_many :states
+
 
 	def self.available_devices
 		Device.where(:car_id => nil)
@@ -78,6 +80,10 @@ class Device < ActiveRecord::Base
 	# check if the device is reporting that the car is moving (or not)
 	def moving?(precision = 0.0001)
 		last_positions = self.last_positions(2).to_a
+
+		# find last state for this car
+
+
 		if last_positions.count == 2
 			latitude1 = last_positions[0].latitude 
 			longitude1 = last_positions[0].longitude
