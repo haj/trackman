@@ -35,6 +35,6 @@ every 2.minute do
 end
 
 # this recurring task is here just for testing purposes-only and should be removed later
-every 1.minute do 
-	rake "simulate:random_cars"
-end
+# every 1.minute do 
+# 	rake "simulate:random_cars"
+# end
