@@ -82,9 +82,11 @@ class Device < ActiveRecord::Base
 		last_positions = self.last_positions(2).to_a
 
 		# find last state for this car
+		last_state = device.states.last
 
-
-		if last_positions.count == 2
+		if last_state.moving = true
+			return false
+		elsif last_positions.count == 2
 			latitude1 = last_positions[0].latitude 
 			longitude1 = last_positions[0].longitude
 			latitude2 = last_positions[1].latitude
