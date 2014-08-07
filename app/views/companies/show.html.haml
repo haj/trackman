@@ -12,6 +12,9 @@
           %strong Subdomain:
           = @company.subdomain
         %p
+          %strong Time zone:
+          = @company.time_zone
+        %p
           %strong Billing plan:
           = @company.plan.name
           = link_to "(Change)", plans_path
