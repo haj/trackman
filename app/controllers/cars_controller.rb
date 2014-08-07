@@ -39,14 +39,7 @@ class CarsController < ApplicationController
   def show
     if !params[:scope].nil?
       # correctly parse dates
-      logger.warn params[:scope][:start_date]
-
-      start_date = Date.parse(params[:scope][:start_date]).strftime("%m/%d/%Y")
-      end_date = Date.parse(params[:scope][:end_date]).strftime("%m/%d/%Y")
-
-      @positions = Car.find(params[:id]).positions_between_dates(start_date, end_date)
-
-      logger.warn @positions.count
+      @positions = Car.find(params[:id]).positions_between_dates(params[:scope])
 
       @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
         marker.lat position[:latitude].to_s

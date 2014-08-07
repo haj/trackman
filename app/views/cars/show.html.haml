@@ -4,15 +4,23 @@
     .grid.simple
       .grid-title.no-border
         %h3
-          Filter by time
+          Filter by date
       .grid-body.no-border
         = form_tag '', :method => :get, :id => "filter_by_date" do
-          = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date"
-          = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time"
-          To
-          = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time"
-          = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date"
-          = submit_tag 'Apply filters', :class => "btn btn-default"
+          .form-group
+            = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date"
+            = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time"
+          .form-group
+            To
+          .form-group
+            = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date"
+            = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time"
+          .form-group
+            Number of results
+          .form-group
+            = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results)
+          .form-group
+            = submit_tag 'Apply filters', :class => "btn btn-default"
 
 .row
   .col-md-12
@@ -58,3 +66,30 @@
         = link_to 'Edit', edit_car_path(@car)
         \|
         = link_to 'Back', cars_path
+
+- if !@positions.nil?
+  .row
+    .col-md-12
+      .grid.simple
+        .grid-title.no-border
+          %h4
+            Positions
+          .tools
+            %a.collapse{href: "javascript:;"}
+        .grid-body.no-border
+          %h4
+            &nbsp;
+          %table.table.no-more-tables
+            %thead
+              %tr
+                %th Latitude, Longitude
+                %th Time
+            %tbody
+              
+              - @positions.each do |position|
+                %tr
+                  %td= "#{position[:latitude]},#{position[:longitude]}"
+                  %td= position[:time]
+                 
+                
+  %br
