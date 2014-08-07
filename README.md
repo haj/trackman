@@ -44,7 +44,9 @@ Run the seed_fu stuff, it'll take care of the rest :
 RAILS_ENV=production rake:seed_fu
 ```
 
+## DROP a foreign key that creates a loop when trying to delete a device from the Traccar database 
 
+    ALTER TABLE devices DROP FOREIGN KEY `FK5CF8ACDD7C6208C3`;
 
 
 
