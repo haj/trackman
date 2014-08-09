@@ -84,9 +84,12 @@ class Car < ActiveRecord::Base
 			positions = Array.new
 			cars.each do |car|
 	      		if car.last_position.count != 0 
-	        		positions << car.last_position
+	      			last_position = car.last_position
+	      			last_position[:car] = car.numberplate
+	        		positions << last_position
 	      		end
 	    	end
+
 	    	return positions
 		end
 
