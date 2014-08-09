@@ -21,7 +21,7 @@ class Traccar::Device < ActiveRecord::Base
   		if position.nil?
   			return Hash.new
   		else 
-  			return {longitude: position.longitude, latitude: position.latitude }
+  			return {longitude: position.longitude, latitude: position.latitude, time: position.time }
   		end
   	end
 

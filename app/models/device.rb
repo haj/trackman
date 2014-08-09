@@ -65,10 +65,11 @@ class Device < ActiveRecord::Base
 
 	def last_position
 		device = Traccar::Device.where(uniqueId: self.emei).first
+
 		if device.nil?
 			return Hash.new
 		else
-			Traccar::Device.where(uniqueId: self.emei).first.last_position
+			return Traccar::Device.where(uniqueId: self.emei).first.last_position
 		end
 	end
 
