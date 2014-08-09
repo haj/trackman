@@ -46,18 +46,16 @@ class CarsController < ApplicationController
 
     end
 
-      
-
     gmaps_positions = Array.new
 
     @positions.each do |position|
-    gmaps_positions << { latitude: position.latitude, longitude: position.longitude, time: position.time }
+      gmaps_positions << { latitude: position.latitude, longitude: position.longitude, time: position.time }
     end
 
     @hash = Gmaps4rails.build_markers(gmaps_positions) do |position, marker|
       marker.lat position[:latitude].to_s
       marker.lng position[:longitude].to_s
-      marker.infowindow "Vehicle"
+      marker.infowindow position[:time].to_s
     end
 
     gon.watch.data = @hash

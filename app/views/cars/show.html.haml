@@ -21,45 +21,46 @@
             = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results)
           .form-group
             = submit_tag 'Apply filters', :class => "btn btn-default"
+.row
+  .col-md-12
+    .row.tiles-container.tiles.white.hidden-xlg.m-b-20
+      %div
+        %div#cars_show{ :style => "width: 100%; height: 400px;"}
+
 
 .row
   .col-md-12
     .grid.simple
       .grid-title.no-border
-        %h3
-          Car
+        .form-group
+          %h3
+            Information Card
       .grid-body.no-border
-        %div{ :style => "width: 800px;" }
-          %div#cars_show{ :style => "width: 800px; height: 400px;"}
-
-        %br
-        %br
-
-        %p
+        .form-group
           %b Mileage:
           = @car.mileage
-        %p
+        .form-group
           %b Numberplate:
           = @car.numberplate
-        %p
+        .form-group
           %b Device:
           - if @car.device
             = link_to @car.device.name, @car.device
           - else
             = "This car doesn't have a device attached to it yet"
-        %p
+        .form-group
           %b Car model:
           = @car.car_model_id
-        %p
+        .form-group
           %b Car type:
           = @car.car_type_id
-        %p
+        .form-group
           %b Registration no:
           = @car.registration_no
-        %p
+        .form-group
           %b Year:
           = @car.year
-        %p
+        .form-group
           %b Color:
           = @car.color
 
@@ -72,13 +73,12 @@
     .col-md-12
       .grid.simple
         .grid-title.no-border
-          %h4
-            Positions
           .tools
             %a.collapse{href: "javascript:;"}
-        .grid-body.no-border
-          %h4
-            &nbsp;
+        .grid-title.no-border
+          .form-group
+            %h3
+              Positions History
           %table.table.no-more-tables
             %thead
               %tr
