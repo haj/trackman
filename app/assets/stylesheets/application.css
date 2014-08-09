@@ -37,15 +37,13 @@
  *= require self
  *= require regions
  *= require work_schedules
- *= require jquery.ui.datepicker
- *= require jquery.timepicker.css
+ *= require datepicker3
+ *= require jquery.timepicker
  */
 
-.custom_marker_content {
-	background-color:white;
-}
 
-.custom_infowindow_content{
+
+.custom_infowindow{
 	background-color:white;
 }
 

@@ -5,27 +5,35 @@
 
 $(document).ready ->
 
-    # $('#scope_start_date').datepicker()
-    # $('#scope_end_date').datepicker()
-
-    
-
     $('.page-sidebar').css('height',$('.page-content').css('height'))
 
     if (typeof gon != "undefined") && gon.resource == "cars" && gon.map_id == "cars_show"
 
-        $(".time").timepicker
-          showDuration: true
-          timeFormat: "g:ia"
+        $('#filter_by_date .time').timepicker({
+            'showDuration': true,
+            'timeFormat': 'H:i',
+        });
 
-        $(".date").datepicker
-          format: "m/d/yyyy"
-          autoclose: true
+        date = new Date();
+        date.setHours(6,0,0,0);
 
-        # initialize datepair
-        basicExampleEl = document.getElementById("filter_by_date")
-        datepair = new Datepair(basicExampleEl)
-        
+        #$('#filter_by_date .start_time').timepicker('setTime', date);
+        #$('#filter_by_date .end_time').timepicker('setTime', new Date());
+
+
+
+        $('#filter_by_date .date').datepicker({
+            'format': 'd/m/yyyy',
+            'autoclose': true
+        });
+
+        #$('#filter_by_date .date').datepicker('setDate', new Date())
+
+        basicExampleEl = document.getElementById('filter_by_date');
+        datepair = new Datepair(basicExampleEl);
+
+
+        ###      
         handler = Gmaps.build('Google')
 
         handler.buildMap { provider: { zoom: 3 }, internal: { id: gon.map_id }}, ->
@@ -58,10 +66,9 @@ $(document).ready ->
             handler.removeMarkers(window.markers)
             window.markers = handler.addMarkers(data)
         gon.watch('data', interval: 3000, refreshCarsMap)
+        ###
 
 
-
-###
 $(document).ready ->
     class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
       create_marker: ->
@@ -70,36 +77,59 @@ $(document).ready ->
 
       rich_marker_options: ->
         marker = document.createElement("div")
-        marker.setAttribute('class', 'custom_marker_content')
+        marker.setAttribute('class', 'custom_marker')
         marker.innerHTML = this.args.custom_marker
+        _.extend(@marker_options(), { flat: true })
         { content: marker }
 
       create_infowindow: ->
         return null unless _.isString @args.custom_infowindow
 
         boxText = document.createElement("div")
-        boxText.setAttribute("class", 'custom_infowindow_content')
+        boxText.setAttribute("class", 'custom_infowindow')
         boxText.innerHTML = @args.custom_infowindow
         @infowindow = new InfoBox(@infobox(boxText))
 
       infobox: (boxText)->
         content: boxText
-        pixelOffset: new google.maps.Size(-140, 0)
+        pixelOffset: new google.maps.Size(30,-20)
         boxStyle:
-          width: "280px"
+          width: "90px"
 
 
     handler = Gmaps.build("Google", builders: { Marker: CustomMarkerBuilder } )
     handler.buildMap { internal: id: gon.map_id }, ->
-      marker = handler.addMarker
-        lat:               40.689167
-        lng:               -74.044444
-        custom_marker:     "<b>Statue of Liberty</b>"
-        custom_infowindow: "The Statue of Liberty is a colossal neoclassical sculpture on Liberty Island in the middle of New York"
+        #markers = handler.addMarkers(gon.data)
 
-      handler.map.centerOn marker
-      handler.getMap().setZoom(15)
-###
+        for one_marker, i in gon.data
+
+            if i == 0 
+                title = "<img width='36px' height='36px' src='http://www.clker.com/cliparts/W/0/g/a/W/E/map-pin-red-md.png'>"
+            else if gon.data.length - 1 == i
+                title = "<img width='36px' height='36px' src='http://www.clker.com/cliparts/G/e/o/0/f/m/map-pin-red-hi.png'>"
+            else
+                title = "<img width='36px' height='36px' src='<%= image_path('yellow_pin.png') %>'>"
+
+            content = "<div style='color:red; height: 80px'>" + one_marker.infowindow + "</div>"
+            
+            marker = handler.addMarker
+                lat:               one_marker.lat
+                lng:               one_marker.lng
+                custom_marker:     title
+                custom_infowindow: content
+            handler.bounds.extendWith(marker)
+            
+
+        handler.fitMapToBounds()
+        handler.getMap().setZoom(12)
+
+        # window.markers = markers
+        # handler.bounds.extendWith(markers)
+        # handler.fitMapToBounds()
+        # handler.getMap().setZoom(12)
+
+
+      
 				
 
 

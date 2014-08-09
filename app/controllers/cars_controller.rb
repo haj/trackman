@@ -38,42 +38,37 @@ class CarsController < ApplicationController
   # GET /cars/1.json
   def show
     if !params[:scope].nil?
-      # correctly parse dates
       @positions = Car.find(params[:id]).positions_between_dates(params[:scope])
 
-      @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
-        marker.lat position[:latitude].to_s
-        marker.lng position[:longitude].to_s
-        marker.infowindow position[:time].to_s
-      end
-
-      gon.watch.data = @hash
-
-      gon.push({
-        :url => "/cars/#{@car.id}",
-        :map_id => "cars_show",
-        :resource => "cars"
-      })
     else
-      @position = Car.find(params[:id]).last_position
-      @collection =  [@position]
-      @hash = Gmaps4rails.build_markers(@collection) do |position, marker|
-        marker.lat position[:latitude].to_s
-        marker.lng position[:longitude].to_s
-      end
 
-      @positions = Car.find(params[:id]).positions
+      @positions = Car.find(params[:id]).positions_between_dates_with_default()
 
-      gon.watch.data = @hash
-
-      gon.push({
-        :url => "/cars/#{@car.id}",
-        :map_id => "cars_show",
-        :resource => "cars"
-      })
     end
 
-    
+      
+
+    gmaps_positions = Array.new
+
+    @positions.each do |position|
+    gmaps_positions << { latitude: position.latitude, longitude: position.longitude, time: position.time }
+    end
+
+    @hash = Gmaps4rails.build_markers(gmaps_positions) do |position, marker|
+      marker.lat position[:latitude].to_s
+      marker.lng position[:longitude].to_s
+      marker.infowindow "Vehicle"
+    end
+
+    gon.watch.data = @hash
+
+    gon.push({
+      :url => "/cars/#{@car.id}",
+      :map_id => "cars_show",
+      :resource => "cars"
+    })
+
+ 
   end
 
   # GET /cars/new
@@ -141,24 +136,6 @@ class CarsController < ApplicationController
     end
   end
 
-  # def live
-  #   @cars = Car.all
-  #   @positions = Car.all_positions(@cars)    
-  #   @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
-  #     marker.lat position[:latitude].to_s
-  #     marker.lng position[:longitude].to_s
-  #   end
-
-  #   gon.watch.data = @hash
-
-  #   gon.push({
-  #     :url => "/cars",
-  #     :map_id => "cars_index",
-  #     :resource => "cars", 
-  #     :query_params => request.query_parameters
-  #   })
-  # end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_car
@@ -173,4 +150,5 @@ class CarsController < ApplicationController
     def device_params
       params.permit(:device_id)
     end
+
 end

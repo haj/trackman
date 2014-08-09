@@ -24,7 +24,16 @@ class Traccar::Position < ActiveRecord::Base
 
   	belongs_to :device, :class_name => 'Traccar::Device'
 
+  	has_one :location, :class_name => "Traccar::Location"
+
   	bad_attribute_names :valid?
   	#validates_presence_of :valid?
+
+  	reverse_geocoded_by :latitude, :longitude do |obj,results|
+	  if geo = results.first
+	  	obj.location = Traccar::Location.create(address: geo.address)
+	  end
+	end
+	after_validation :reverse_geocode
   	
 end

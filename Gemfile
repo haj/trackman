@@ -137,5 +137,5 @@ gem 'ci_reporter_rspec'
 
 gem 'selenium-webdriver'
 
-gem 'jquery-timepicker-rails'
+#gem 'jquery-timepicker-rails', github: 'cover/jquery-timepicker-rails'
 

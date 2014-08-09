@@ -61,9 +61,9 @@
 //= require subscriptions
 //= require alarms
 //= require retina_tag
-//= require jquery.ui.datepicker
-//= require jquery.timepicker.js
-//= require jquery.datepair.js
+//= require bootstrap-datepicker
+//= require jquery.timepicker
+//= require datepair
 //
 
 
