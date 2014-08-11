@@ -38,8 +38,8 @@ class Api::CarsController < ApplicationController
     @position = Car.find(params[:id]).last_position
     @collection =  [@position]
     @hash = Gmaps4rails.build_markers(@collection) do |position, marker|
-      marker.lat position[:latitude].to_s
-      marker.lng position[:longitude].to_s
+      marker.lat position.latitude.to_s
+      marker.lng position.longitude.to_s
     end
     gon.data = @hash
     gon.url = "/cars/#{@car.id}"

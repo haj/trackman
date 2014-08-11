@@ -7,8 +7,16 @@ class Subscription < ActiveRecord::Base
 	def save_with_payment
 		if valid?
 			client = Paymill::Client.create(email: email, description: name)
+
+			logger.warn "card_token : #{paymill_card_token}"
+
 			payment = Paymill::Payment.create(token: paymill_card_token, client: client.id)
+			
+			logger.warn "payment : #{payment}"
+
 			subscription = Paymill::Subscription.create(offer: plan.paymill_id, client: client.id, payment: payment.id)
+
+			logger.warn "subscription : #{subscription}"
 
 			self.paymill_id = subscription.id
 			self.active = true

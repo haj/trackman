@@ -3,7 +3,9 @@ class Plan < ActiveRecord::Base
 	has_many :companies
 	has_many :subscriptions
 
-	def create_offer
+	after_save :create_paymill_offer
+
+	def create_paymill_offer
 		if paymill_id.nil? && self.price > 0
 			offer = Paymill::Offer.create amount: self.price.to_i*100, currency: self.currency, interval: "#{self.interval} DAY", name: self.name
 			if offer

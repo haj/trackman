@@ -81,12 +81,12 @@ class Car < ActiveRecord::Base
 	# Positions
 		
 		def self.all_positions(cars)
+			
 			positions = Array.new
+
 			cars.each do |car|
-	      		if car.last_position.count != 0 
-	      			last_position = car.last_position
-	      			last_position[:car] = car.numberplate
-	        		positions << last_position
+	      		if !car.last_position.nil? 
+	        		positions << car.last_position
 	      		end
 	    	end
 
@@ -96,12 +96,8 @@ class Car < ActiveRecord::Base
 		# Generate a hash with latitude and longitude of the car (fetched through the device GPS data)
 		#   Also for this hash to be non-empty, the car must have a device associated with it in the database
 		def last_position
-			if self.device.nil?
-				# if this car doesn't have a device attached to it 
-				#   then just send an empty hash for the position
-				return Hash.new
-			else
-				self.device.last_position
+			if !self.device.nil?
+				return self.device.last_position
 			end
 		end
 

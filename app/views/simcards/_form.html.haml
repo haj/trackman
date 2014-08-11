@@ -19,12 +19,12 @@
   .form-group
     = f.label :device, :class => "form-label"
     - if @simcard.device.nil?
-      - if Device.devices_without_simcards(nil).count != 0 
-        = f.collection_select(:device_id, Device.devices_without_simcards(nil), :id, :name, { :include_blank => "Pick a device" } , :class => "form-control"  )
+      - if Device.without_simcards(nil).count != 0 
+        = f.collection_select(:device_id, Device.without_simcards(nil), :id, :name, { :include_blank => "Pick a device" } , :class => "form-control"  )
       - else
-        = f.collection_select(:device_id, Device.devices_without_simcards(nil), :id, :name, { :include_blank => "No devices available at this moment" }, :class => "form-control")
+        = f.collection_select(:device_id, Device.without_simcards(nil), :id, :name, { :include_blank => "No devices available at this moment" }, :class => "form-control")
     - else 
-      = f.collection_select(:device_id, Device.devices_without_simcards(@simcard.device_id), :id, :name, {} , :class => "form-control")
+      = f.collection_select(:device_id, Device.without_simcards(@simcard.device_id), :id, :name, {} , :class => "form-control")
 
   .form-group
     = f.submit 'Save', class: "btn btn-primary"

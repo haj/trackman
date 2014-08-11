@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
 
   around_filter :user_time_zone
 
+  before_filter do
+    gon.resource = nil
+  end
+
   # set_current_tenant
   before_filter do
 

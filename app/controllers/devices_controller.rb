@@ -34,20 +34,6 @@ class DevicesController < ApplicationController
   # GET /devices/1
   # GET /devices/1.json
   def show
-    @position = Device.find(params[:id]).last_position
-    @collection =  [@position]
-    @hash = Gmaps4rails.build_markers(@collection) do |position, marker|
-      marker.lat position[:latitude].to_s
-      marker.lng position[:longitude].to_s
-    end
-
-    gon.watch.data = @hash
-
-    gon.push({
-      :url => "/devices/#{@device.id}",
-      :map_id => "devices_show", 
-      :resource => "devices"
-    })
   end
 
   # GET /devices/new
@@ -91,6 +77,7 @@ class DevicesController < ApplicationController
     # get traccar:device using device's emei
     traccar_user = Traccar::User.first
     traccar_device = Traccar::Device.where(uniqueId: @device.emei).first
+    
     # remove join record 
     if traccar_device.users.delete(traccar_user)
       traccar_device.positions.delete_all

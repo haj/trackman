@@ -184,7 +184,7 @@ class Rule < ActiveRecord::Base
 			return false
 		end
 
-		# TODO : Vehicle enters an area 
+		# Vehicle enters an area 
 		def entered_an_area(car_id, params)
 
 			# Get the current coordinate of the car
@@ -195,11 +195,11 @@ class Rule < ActiveRecord::Base
 			# TODO : put real region
 			region = Region.find(params["region_id"].to_i)
 
-			car_outside = !region.contains_point(previous_position[:latitude], previous_position[:longitude])
+			car_outside = !region.contains_point(previous_position.latitude, previous_position.longitude)
 
 			if car_outside == true
 
-				car_inside = region.contains_point(current_position[:latitude], current_position[:longitude])
+				car_inside = region.contains_point(current_position.latitude, current_position.longitude)
 
 				if car_inside
 					Rails.logger.info "[entered_an_area] car_inside = true"
@@ -226,11 +226,11 @@ class Rule < ActiveRecord::Base
 			# TODO : put real region
 			region = Region.find(params["region_id"].to_i)
 
-			car_inside = region.contains_point(previous_position[:latitude], previous_position[:longitude])
+			car_inside = region.contains_point(previous_position.latitude, previous_position.longitude)
 
 			if car_inside == true
 
-				car_outside = !region.contains_point(current_position[:latitude], current_position[:longitude])
+				car_outside = !region.contains_point(current_position.latitude, current_position.longitude)
 
 				if car_outside == true
 					Rails.logger.info "[left_an_area] car_outside = true"

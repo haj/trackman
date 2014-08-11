@@ -43,7 +43,7 @@ class Device < ActiveRecord::Base
 		Device.where(:car_id => nil)
 	end
 
-	def self.devices_without_simcards(device_id)
+	def self.without_simcards(device_id)
 		if device_id.nil?
 			Device.where("id NOT IN (SELECT device_id FROM simcards WHERE device_id IS NOT NULL)")
 		else
@@ -51,9 +51,7 @@ class Device < ActiveRecord::Base
 		end
 	end
 
-	def traccar_device
-		Traccar::Device.where(uniqueId: self.emei).first
-	end
+	
 
 	def has_car?
 		!self.car_id.nil?
@@ -64,18 +62,11 @@ class Device < ActiveRecord::Base
 	end
 
 	def last_position
-		device = Traccar::Device.where(uniqueId: self.emei).first
-
-		if device.nil?
-			return Hash.new
-		else
-			return Traccar::Device.where(uniqueId: self.emei).first.last_position
-		end
+		self.traccar_device.last_position
 	end
 
 	def last_positions(number=2)
-		traccar_device = Traccar::Device.where(:uniqueId => self.emei).first
-		return traccar_device.last_positions(number)
+		self.traccar_device.last_positions(number)
 	end
 
 	# check if the device is reporting that the car is moving (or not)
@@ -122,25 +113,11 @@ class Device < ActiveRecord::Base
 	
 	# return the speed of the vehicle associated with the last position
 	def speed
-		self.traccar_device.positions.last.speed
+		self.traccar_device.try(:positions).try(:last).try(:speed)
 	end
 
-	
-
-	def stolen?
-		# check if the engine off (but the car is still moving)
+	def traccar_device
+		Traccar::Device.where(uniqueId: self.emei).first
 	end
-
-	def long_hours?
-		# check when was the last pause 
-		# 	(let's say a pause is 15 minutes for now)
-	end
-
-	def long_pause? 
-		# check when was the last the vehicle was moving 
-		# 	(that way we can deduce the duration of the current pause and decide if it's too long or not)
-	end
-
-	
 	
 end

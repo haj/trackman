@@ -1,14 +1,15 @@
 class HomeController < ApplicationController
   def index
   	if !current_user.nil?
-	    @positions = Car.all_positions(Car.all)  
-	    @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
-	      marker.lat position[:latitude].to_s
-	      marker.lng position[:longitude].to_s
-	      marker.infowindow "numberplate : #{position[:car]}"
+  		@cars = Car.all
+	    @positions = Car.all_positions(@cars) 
+	    @markers = Gmaps4rails.build_markers(@positions) do |position, marker|
+	      marker.lat position.latitude.to_s
+	      marker.lng position.longitude.to_s
+	      marker.infowindow "#{position.car.numberplate}"
 	    end
 
-	    gon.watch.data = @hash
+	    gon.watch.data = @markers
 
 	    gon.push({
 	      :url => "/cars",

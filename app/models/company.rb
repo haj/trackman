@@ -29,6 +29,10 @@ class Company < ActiveRecord::Base
 		end	
   	end
 
+  	def current_plan
+  		self.subscriptions.where(active: true).first.plan
+  	end
+
 	def cancel_active_subscriptions
 		# get the active subscription
 		self.subscriptions.where(active: true).each { |subscription| subscription.cancel }

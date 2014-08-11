@@ -17,16 +17,11 @@ class Traccar::Device < ActiveRecord::Base
     has_many :users, :through => :users_devices
 
   	def last_position
-  		position = self.positions.last
-  		if position.nil?
-  			return Hash.new
-  		else 
-  			return {longitude: position.longitude, latitude: position.latitude, time: position.time }
-  		end
+  		self.positions.last
   	end
 
     def last_positions(number)
-      return self.positions.order("time DESC").limit(number)
+      self.positions.order("time DESC").limit(number)
     end
 
 end

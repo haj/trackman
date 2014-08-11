@@ -27,11 +27,6 @@ class CarsController < ApplicationController
   def index
     @q = apply_scopes(Car).all.search(params[:q])
     @cars = @q.result(distinct: true)
-    @positions = Car.all_positions(@cars)    
-    @hash = Gmaps4rails.build_markers(@positions) do |position, marker|
-      marker.lat position[:latitude].to_s
-      marker.lng position[:longitude].to_s
-    end
   end
 
   # GET /cars/1
@@ -39,11 +34,8 @@ class CarsController < ApplicationController
   def show
     if !params[:scope].nil?
       @positions = Car.find(params[:id]).positions_between_dates(params[:scope])
-
     else
-
-      @positions = Car.find(params[:id]).positions_between_dates_with_default()
-
+      @positions = Car.find(params[:id]).positions_between_dates_with_default
     end
 
     gmaps_positions = Array.new
@@ -52,20 +44,19 @@ class CarsController < ApplicationController
       gmaps_positions << { latitude: position.latitude, longitude: position.longitude, time: position.time }
     end
 
-    @hash = Gmaps4rails.build_markers(gmaps_positions) do |position, marker|
-      marker.lat position[:latitude].to_s
-      marker.lng position[:longitude].to_s
-      marker.infowindow position[:time].to_s
+    @markers = Gmaps4rails.build_markers(gmaps_positions) do |position, marker|
+      marker.lat position.latitude.to_s
+      marker.lng position.longitude.to_s
+      marker.infowindow position.time.to_s
     end
 
-    gon.watch.data = @hash
+    gon.watch.data = @markers
 
     gon.push({
       :url => "/cars/#{@car.id}",
       :map_id => "cars_show",
       :resource => "cars"
     })
-
  
   end
 
