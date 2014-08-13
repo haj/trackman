@@ -8,12 +8,12 @@
       .grid-body.no-border
         = form_tag '', :method => :get, :id => "filter_by_date" do
           .form-group
-            = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date"
+            = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date start_date"
             = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time start_time"
           .form-group
             To
           .form-group
-            = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date"
+            = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date end_date"
             = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time end_time"
           .form-group
             Number of results

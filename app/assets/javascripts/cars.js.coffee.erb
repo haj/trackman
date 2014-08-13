@@ -46,8 +46,11 @@ $(document).ready ->
             date = new Date();
             date.setHours(6,0,0,0);
 
-            $('#filter_by_date .start_time').timepicker('setTime', date);
-            $('#filter_by_date .end_time').timepicker('setTime', new Date());
+            if $('.start_time').val().length == 0
+                $('#filter_by_date .start_time').timepicker('setTime', date);
+
+            if $('.end_time').val().length == 0
+                $('#filter_by_date .end_time').timepicker('setTime', new Date());
 
 
             $('#filter_by_date .date').datepicker({
@@ -55,7 +58,8 @@ $(document).ready ->
                 'autoclose': true
             });
 
-            $('#filter_by_date .date').datepicker('setDate', new Date())
+            if $('.date').val().length == 0
+                $('#filter_by_date .date').datepicker('setDate', new Date())
 
             basicExampleEl = document.getElementById('filter_by_date');
             datepair = new Datepair(basicExampleEl);
