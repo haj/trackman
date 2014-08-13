@@ -11,15 +11,14 @@
   .col-md-12
     .grid.simple
       .grid-title.no-border
-        %h4
-          &nbsp;
         .tools
           %a.collapse{href: "javascript:;"}
-          %a.config{"data-toggle" => "modal", href: "#grid-config"}
-          %a.reload{href: "javascript:;"}
-      .grid-body.no-border
-        %h3
+      .grid-title.no-border
+        %h4
           Car Types
+          = link_to 'Add', new_car_type_path, class: "btn btn-success btn-small"
+        
+      .grid-body.no-border
         %table.table.no-more-tables
           %thead
             %tr
@@ -27,16 +26,12 @@
               %th
               %th
               %th
-          %tbody
-            
+          %tbody      
             - @car_types.each do |car_type|
               %tr
                 %td= car_type.name
                 %td= link_to 'Show', car_type
                 %td= link_to 'Edit', edit_car_type_path(car_type)
                 %td= link_to 'Destroy', car_type, :method => :delete, :data => { :confirm => 'Are you sure?' }
-%br
 
 
-
-= link_to 'New Car type', new_car_type_path, class: "btn btn-success"

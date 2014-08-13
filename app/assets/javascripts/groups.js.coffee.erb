@@ -1,0 +1,69 @@
+# Place all the behaviors and hooks related to the matching controller here.
+# All this logic will automatically be available in application.js.
+# You can use CoffeeScript in this file: http://coffeescript.org/
+
+$(document).ready ->
+
+  $('.page-sidebar').css('height',$('.page-content').css('height'))
+
+  if (typeof gon != "undefined") && gon.resource == "groups" && gon.map_id == "groups_show"
+
+    class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
+      create_marker: ->
+        options = _.extend @marker_options(), @rich_marker_options()
+        @serviceObject = new RichMarker options
+
+      rich_marker_options: ->
+        marker = document.createElement("div")
+        marker.setAttribute('class', 'custom_marker')
+        marker.innerHTML = this.args.custom_marker
+        _.extend(@marker_options(), { flat: true })
+        { content: marker }
+
+      create_infowindow: ->
+        return null unless _.isString @args.custom_infowindow
+
+        boxText = document.createElement("div")
+        boxText.setAttribute("class", 'custom_infowindow')
+        boxText.innerHTML = @args.custom_infowindow
+        @infowindow = new InfoBox(@infobox(boxText))
+
+      infobox: (boxText)->
+        content: boxText
+        pixelOffset: new google.maps.Size(30,-20)
+        boxStyle:
+          width: "130px"
+
+
+    handler = Gmaps.build("Google", builders: { Marker: CustomMarkerBuilder } )
+    handler.buildMap { internal: id: gon.map_id }, -> 
+      for one_marker, i in gon.data
+        pin = "<img width='36px' height='36px' src='<%= image_path('red_pin.png') %>'>"
+        content = "<div style='height:100%;'>" + one_marker.infowindow + "</div>"
+        
+        marker = handler.addMarker
+          lat:               one_marker.lat
+          lng:               one_marker.lng
+          custom_marker:     pin
+          custom_infowindow: content
+
+        handler.bounds.extendWith(marker)
+          
+      handler.fitMapToBounds()
+      handler.getMap().setZoom(3)
+
+
+
+
+
+
+      
+
+
+
+
+
+      
+
+
+

@@ -4,10 +4,10 @@
       .grid-title.no-border
         %h2
           = @alarm.name
-
-        %p          
+      .grid-body.no-border
+        .form-group         
           %b Rules :
-        %p
+        .form-group
           %ul
             - @alarm.rules.each do |rule|
               %li= rule_with_params(rule,@alarm)

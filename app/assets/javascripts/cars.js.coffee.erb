@@ -7,7 +7,6 @@ $(document).ready ->
     $('.page-sidebar').css('height',$('.page-content').css('height'))
 
     if (typeof gon != "undefined") && gon.resource == "cars" 
-        #console.log gon
 
         class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
           create_marker: ->
@@ -47,11 +46,9 @@ $(document).ready ->
             date.setHours(6,0,0,0);
 
             if $('.start_time').val().length == 0
-                console.log "start_timegit  is empty"
                 $('#filter_by_date .start_time').timepicker('setTime', date);
 
             if $('.end_time').val().length == 0
-                console.log "end_time is empty"
                 $('#filter_by_date .end_time').timepicker('setTime', new Date());
 
 
@@ -64,11 +61,9 @@ $(document).ready ->
                 $('.limit_results').val('20')
 
             if $('.start_date').val().length == 0
-                console.log "start_date is empty"
                 $('.start_date').datepicker('setDate', new Date())
 
             if $('.end_date').val().length == 0
-                console.log "end_date is empty"
                 $('.end_date').datepicker('setDate', new Date())
 
             basicExampleEl = document.getElementById('filter_by_date');
@@ -77,8 +72,6 @@ $(document).ready ->
             handler = Gmaps.build("Google", builders: { Marker: CustomMarkerBuilder } )
             handler.buildMap { internal: id: gon.map_id }, ->
                 #markers = handler.addMarkers(gon.data)
-
-                console.log gon.data
 
                 for one_marker, i in gon.data
 

@@ -1,16 +1,27 @@
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        .tools
+          %a.collapse{href: "javascript:;"}
+      .grid-title.no-border
+        %h4
+          Search        
+      .grid-body.no-border
+        = search_form_for @q do |f| 
+          .form-group
+            = f.search_field :name_cont, :placeholder => "Search with name"
+          .form-group
+            = f.submit "Search", :class => "btn btn-default"
 
-= search_form_for @q do |f| 
-  = f.search_field :name_cont, :placeholder => "Search with name"
-  = f.submit "Search", :class => "btn btn-default"
 
-%br
 
 .row
   .col-md-12
     .grid.simple
       .grid-title.no-border
         %h4
-          &nbsp;
+          Filter
         = form_tag '', :method => :get do 
           .panel.panel-default
             .panel-body
@@ -55,21 +66,19 @@
               .row
                 .col-sm-12
                   = submit_tag 'Apply filters', :class => "btn btn-default"
-%br
 
 .row
   .col-md-12
     .grid.simple
       .grid-title.no-border
-        %h4
-          &nbsp;
         .tools
           %a.collapse{href: "javascript:;"}
-          %a.config{"data-toggle" => "modal", href: "#grid-config"}
-          %a.reload{href: "javascript:;"}
-      .grid-body.no-border
-        %h3
+      .grid-title.no-border
+        %h4
           Devices
+          = link_to 'Add', new_device_path, class: "btn btn-success btn-small"
+        
+      .grid-body.no-border
         %table.table.no-more-tables
           %thead
             %tr
@@ -87,7 +96,6 @@
                 %td= link_to 'Show', device
                 %td= link_to 'Edit', edit_device_path(device)
                 %td= link_to 'Destroy', device, :method => :delete, :data => { :confirm => 'Are you sure?' }
-%br
 
 
-= link_to 'New Device', new_device_path, class: "btn btn-success"
+

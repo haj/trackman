@@ -2,15 +2,12 @@
   .col-md-12
     .grid.simple
       .grid-title.no-border
-        %h4
-          &nbsp;
         .tools
           %a.collapse{href: "javascript:;"}
-          %a.config{"data-toggle" => "modal", href: "#grid-config"}
-          %a.reload{href: "javascript:;"}
-      .grid-body.no-border
+      .grid-title.no-border
         %h3
           Companies
+      .grid-body.no-border
         %table.table.no-more-tables
           %thead
             %tr
@@ -24,7 +21,3 @@
                 %td= link_to company.name, company
                 %td= link_to 'Edit', edit_company_path(company)
                 %td= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' }
-
-
-%br/
-= link_to 'New Company', new_company_path, class: "btn btn-success"

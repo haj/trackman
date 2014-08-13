@@ -1,26 +1,38 @@
-
 .row
   .col-md-12
     .grid.simple
+      .grid-title.no-border
+        .tools
+          %a.collapse{href: "javascript:;"}
       .grid-title.no-border
         %h3
           Filter by date
       .grid-body.no-border
         = form_tag '', :method => :get, :id => "filter_by_date" do
-          .form-group
-            = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date start_date"
-            = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time start_time"
-          .form-group
-            To
-          .form-group
-            = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date end_date"
-            = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time end_time"
-          .form-group
-            Number of results
-          .form-group
-            = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results), class: "limit_results"
-          .form-group
-            = submit_tag 'Apply filters', :class => "btn btn-default"
+          .row         
+            .col-md-12
+              .form-group
+                = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date start_date"
+                = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time start_time"
+              .form-group
+                To
+              .form-group
+                = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date end_date"
+                = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time end_time"
+              
+              .form-group
+                Number of results
+              .form-group
+                = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results), class: "limit_results"
+
+          .row
+            .col-md-12
+              .form-group
+                = submit_tag 'Apply filters', :class => "btn btn-default"
+              
+
+
+
 .row
   .col-md-12
     .row.tiles-container.tiles.white.hidden-xlg.m-b-20

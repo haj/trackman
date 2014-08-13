@@ -1,34 +1,48 @@
+.row
+  .col-md-6
+    .grid.simple
+      .grid-title.no-border
+        .tools
+          %a.collapse{href: "javascript:;"}
+      .grid-title.no-border
+        %h3
+          Filter by Roles
+      .grid-body.no-border
+        = form_tag '', :method => :get do
+          .form-group
+            Roles
+          .form-group
+            = select_tag( :by_role, options_for_select(all_roles, params[:by_role]), :include_blank => true)
+          .form-group
+            = submit_tag 'Filter', :class => "btn btn-primary"
+  .col-md-6
+    .grid.simple
+      .grid-title.no-border
+        .tools
+          %a.collapse{href: "javascript:;"}
+      .grid-title.no-border
+        %h3
+          Search
+      .grid-body.no-border
+        = search_form_for @q do |f| 
+          .form-group
+            = f.search_field :email_cont, :placeholder => "Search with email"
+          .form-group
+            = f.submit "Search", :class => "btn btn-default"
+  
 
-= search_form_for @q do |f| 
-  = f.search_field :email_cont, :placeholder => "Search with email"
-  = f.submit "Search", :class => "btn btn-default"
-
-%br
-
-= form_tag '', :method => :get, :class => "form-inline" do
-  .form-group
-    = "Roles"
-    = select_tag( :by_role, options_for_select(all_roles, params[:by_role]), :include_blank => true)
-    
-  %br
-  %br
-  = submit_tag 'Filter', :class => "btn btn-primary"
-
-%br
 
 .row
   .col-md-12
     .grid.simple
       .grid-title.no-border
-        %h4
-          &nbsp;
         .tools
           %a.collapse{href: "javascript:;"}
-          %a.config{"data-toggle" => "modal", href: "#grid-config"}
-          %a.reload{href: "javascript:;"}
-      .grid-body.no-border
+      .grid-title.no-border
         %h3
           Users
+          = link_to 'Invite user', new_user_invitation_path, class: "btn btn-success btn-small"
+      .grid-body.no-border      
         %table.table.no-more-tables
           %thead
             %tr
@@ -45,8 +59,5 @@
                 %td= link_to 'Edit', edit_user_path(user)
                 %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-%br
 
 
-
-= link_to 'Invite user', new_user_invitation_path, class: "btn btn-success"

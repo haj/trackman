@@ -1,5 +1,5 @@
 class CarsController < ApplicationController
-  before_action :set_car, only: [:show, :edit, :update, :destroy]
+  before_action :set_car, only: [:edit, :update, :destroy]
   load_and_authorize_resource
 
   has_scope :by_car_model
@@ -33,26 +33,32 @@ class CarsController < ApplicationController
   # GET /cars/1.json
   def show
 
-    if !params[:scope].nil?
-      @positions = Car.find(params[:id]).positions_between_dates(params[:scope])
+    @car = Car.find(params[:id])
+
+    if @car.has_device?
+      if !params[:scope].nil?
+        @positions = Car.find(params[:id]).positions_between_dates(params[:scope])
+      else
+        @positions = Car.find(params[:id]).positions_between_dates_with_default
+      end
+
+      @markers = Gmaps4rails.build_markers(@positions) do |position, marker|
+        marker.lat position.latitude.to_s
+        marker.lng position.longitude.to_s
+        marker.infowindow position.time.to_s
+      end
+
+      gon.watch.data = @markers
+
+      gon.push({
+        :url => "/cars/#{@car.id}",
+        :map_id => "cars_show",
+        :resource => "cars"
+      })
     else
-      @positions = Car.find(params[:id]).positions_between_dates_with_default
+
     end
 
-    @markers = Gmaps4rails.build_markers(@positions) do |position, marker|
-      marker.lat position.latitude.to_s
-      marker.lng position.longitude.to_s
-      marker.infowindow position.time.to_s
-    end
-
-    gon.watch.data = @markers
-
-    gon.push({
-      :url => "/cars/#{@car.id}",
-      :map_id => "cars_show",
-      :resource => "cars"
-    })
- 
   end
 
   # GET /cars/new

@@ -8,11 +8,30 @@ class GroupsController < ApplicationController
     @groups = @q.result(distinct: true)
   end
 
-  # GET /groups/1
-  # GET /groups/1.json
   def show
+
     @group = Group.find(params[:id])
     @alarms = @group.alarms
+    @cars = @group.cars
+
+    @positions = Car.all_positions(@cars) 
+
+    @markers = Gmaps4rails.build_markers(@positions) do |position, marker|
+      marker.lat position.latitude.to_s
+      marker.lng position.longitude.to_s
+      marker.infowindow "#{position.car.numberplate}"
+    end
+
+    gon.watch.data = @markers
+
+    gon.push({
+      :url => "/groups",
+      :map_id => "groups_show",
+      :resource => "groups", 
+      :query_params => request.query_parameters
+    })
+  
+
   end
 
   # GET /groups/new
@@ -40,6 +59,7 @@ class GroupsController < ApplicationController
       :resource => "groups"
     })
   end
+
   # POST /groups
   # POST /groups.json
   def create

@@ -120,10 +120,8 @@ class Car < ActiveRecord::Base
 			if user_dates[:limit_results].to_i == 0 
 				user_dates[:limit_results] = 20
 			end
-	
-			positions = self.device.traccar_device.positions.where("time > ? AND time < ?", start_date.to_s, end_date.to_s).order("time DESC").take(user_dates[:limit_results].to_i)
 
-			return positions
+			return self.device.traccar_device.positions.where("time > ? AND time < ?", start_date.to_s, end_date.to_s).order("time DESC").take(user_dates[:limit_results].to_i)
 			
 		end
 

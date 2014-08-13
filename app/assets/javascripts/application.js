@@ -60,6 +60,7 @@
 //= require cars
 //= require subscriptions
 //= require alarms
+//= require groups
 //= require retina_tag
 //= require bootstrap-datepicker
 //= require jquery.timepicker
