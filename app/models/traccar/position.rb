@@ -48,6 +48,7 @@ class Traccar::Position < ActiveRecord::Base
       if position.location.nil?
         position.reverse_geocode
       end
+      sleep(2)
     end
   end
 
