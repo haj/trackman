@@ -23,6 +23,6 @@
                   %br
                   = position.time
                   %br
-                  = position.location.address
+                  = position.try(:location).try(:address)
 
 
