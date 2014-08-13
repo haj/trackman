@@ -47,9 +47,11 @@ $(document).ready ->
             date.setHours(6,0,0,0);
 
             if $('.start_time').val().length == 0
+                console.log "start_timegit  is empty"
                 $('#filter_by_date .start_time').timepicker('setTime', date);
 
             if $('.end_time').val().length == 0
+                console.log "end_time is empty"
                 $('#filter_by_date .end_time').timepicker('setTime', new Date());
 
 
@@ -58,8 +60,16 @@ $(document).ready ->
                 'autoclose': true
             });
 
-            if $('.date').val().length == 0
-                $('#filter_by_date .date').datepicker('setDate', new Date())
+            if $('.limit_results').val().length == 0
+                $('.limit_results').val('20')
+
+            if $('.start_date').val().length == 0
+                console.log "start_date is empty"
+                $('.start_date').datepicker('setDate', new Date())
+
+            if $('.end_date').val().length == 0
+                console.log "end_date is empty"
+                $('.end_date').datepicker('setDate', new Date())
 
             basicExampleEl = document.getElementById('filter_by_date');
             datepair = new Datepair(basicExampleEl);

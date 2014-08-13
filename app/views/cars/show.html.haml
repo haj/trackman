@@ -18,7 +18,7 @@
           .form-group
             Number of results
           .form-group
-            = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results)
+            = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results), class: "limit_results"
           .form-group
             = submit_tag 'Apply filters', :class => "btn btn-default"
 .row

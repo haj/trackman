@@ -12,8 +12,6 @@
         %table.table
           %tr
             %th= "Name"
-
-
           - @group.cars.each do |car|
             %tr
               %td= link_to car.name, car
