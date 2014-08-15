@@ -16,7 +16,7 @@
           = @company.time_zone
         %p
           %strong Billing plan:
-          = @company.current_plan.name
+          = @company.try(:current_plan).try(:name)
           = link_to "(Change)", plans_path
         = link_to 'Edit', edit_company_path(@company)
         |

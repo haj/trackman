@@ -30,7 +30,10 @@ class Company < ActiveRecord::Base
   	end
 
   	def current_plan
-  		self.subscriptions.where(active: true).first.plan
+  		subscription = self.subscriptions.where(active: true).first
+  		if subscription
+  			return subscription.plan
+  		end
   	end
 
 	def cancel_active_subscriptions
