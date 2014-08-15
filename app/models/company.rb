@@ -33,6 +33,8 @@ class Company < ActiveRecord::Base
   		subscription = self.subscriptions.where(active: true).first
   		if subscription
   			return subscription.plan
+  		else 
+  			Plan.first
   		end
   	end
 

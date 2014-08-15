@@ -9,7 +9,6 @@ class SubscriptionsController < ApplicationController
 
   # GET /subscriptions/new
   def new
-
     plan = Plan.find(params[:plan_id])
     if plan.plan_type.id == PlanType.first.id
       # if it's the free plan, cancel previous active subscriptions 
@@ -18,6 +17,8 @@ class SubscriptionsController < ApplicationController
 
       # and switch to new free plan
       plan.companies << company
+
+      logger.warn "switching to free plan"
 
       redirect_to company
     else
