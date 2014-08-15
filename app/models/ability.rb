@@ -36,6 +36,7 @@ class Ability
     can :access, :rails_admin
     can :dashboard
     can :invite, User
+    can :manage, User
     employee 
     can :manage, [Device, Car, Simcard]
     can :show, Company, :id => @user.company_id
