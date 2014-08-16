@@ -1,0 +1,43 @@
+<div style='width: 800px;'>
+    <div id="directions" style='width: 800px; height: 400px;'></div>
+  </div>
+
+
+<script>
+var directionsDisplay = new google.maps.DirectionsRenderer();
+var directionsService = new google.maps.DirectionsService();
+
+
+
+function calcRoute() {
+  var origin      = new google.maps.LatLng(37.331665,-122.031294);
+  var destination = new google.maps.LatLng(37.330224,-122.033772);
+
+  var waypts = [];
+
+  waypts.push({
+          location: new google.maps.LatLng(37.331367,-122.03241),
+          stopover:false
+      });
+
+  var request = {
+      origin:      origin,
+      destination: destination,
+      waypoints: waypts,
+      travelMode:  google.maps.TravelMode.DRIVING
+  };
+
+  directionsService.route(request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    }
+  });
+}
+
+calcRoute();
+
+var handler = Gmaps.build('Google');
+handler.buildMap({ internal: {id: 'directions'}}, function(){
+  directionsDisplay.setMap(handler.getMap());
+});
+</script>

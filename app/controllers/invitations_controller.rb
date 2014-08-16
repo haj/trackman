@@ -52,8 +52,8 @@ class InvitationsController < DeviseController
     if resource.errors.empty?
       yield resource if block_given?
       flash_message = resource.active_for_authentication? ? :updated : :updated_not_active                                                                                        
-      set_flash_message :notice, flash_message
-      sign_in(resource_name, resource)
+      #set_flash_message :notice, flash_message
+      #sign_in(resource_name, resource)
       respond_with resource, :location => after_accept_path_for(resource)
     else
       respond_with_navigational(resource){ render :edit }
@@ -94,6 +94,10 @@ class InvitationsController < DeviseController
       set_flash_message(:alert, :invitation_token_invalid)
       redirect_to after_sign_out_path_for(resource_name)
     end
+  end
+
+  def after_accept_path_for(resource)
+    root_url(subdomain: resource.subdomain)
   end
 
   def invite_params

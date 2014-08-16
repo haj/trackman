@@ -66,6 +66,8 @@ Rails.application.routes.draw do
 
   get 'home/index'
 
+  get 'home/test'
+
   resources :companies
 
   devise_for :users, controllers: { registrations: "registrations", :invitations => 'invitations' }
