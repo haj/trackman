@@ -6,15 +6,26 @@
           User
           %span.semi-bold= @user.name
       .grid-body.no-border
-        %p
+
+        .form-group
           %strong First name:
           = @user.first_name
-        %p
+
+        .form-group
           %strong Last name:
           = @user.last_name
-        %p
+
+        .form-group
           %strong Email:
           = @user.email
+
+        .form-group
+          %strong Roles:
+          %ul
+            - @user.roles.each do |role| 
+              %li= role.capitalize
+
+
         = link_to 'Edit', edit_user_path(@user)
         |
         \#{link_to 'Back', users_path}
