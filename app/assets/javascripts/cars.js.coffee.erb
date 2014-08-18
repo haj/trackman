@@ -8,9 +8,6 @@ $(document).ready ->
 
     if (typeof gon != "undefined") && gon.resource == "cars" 
 
-        
-
-
         if gon.map_id == "cars_show"
 
             $('#filter_by_date .time').timepicker({
@@ -45,32 +42,65 @@ $(document).ready ->
             basicExampleEl = document.getElementById('filter_by_date');
             datepair = new Datepair(basicExampleEl);
 
-            calcRoute = ->
-                origin = new google.maps.LatLng(37.331665, -122.031294)
-                destination = new google.maps.LatLng(37.330224, -122.033772)
-                waypts = []
-                waypts.push
-                    location: new google.maps.LatLng(37.331367, -122.03241)
-                    stopover: false
 
-                request =
-                    origin: origin
-                    destination: destination
-                    waypoints: waypts
-                    travelMode: google.maps.TravelMode.DRIVING
+            # Implement directions map
+            directionsDisplay = new google.maps.DirectionsRenderer()
+            directionsService = new google.maps.DirectionsService()
 
-                directionsService.route request, (response, status) ->
-                directionsDisplay.setDirections response  if status is google.maps.DirectionsStatus.OK
-                return
-
-                return
-                directionsDisplay = new google.maps.DirectionsRenderer()
-                directionsService = new google.maps.DirectionsService()
-
-            calcRoute()
             handler = Gmaps.build("Google")
             handler.buildMap { internal: id: gon.map_id }, ->
                 directionsDisplay.setMap handler.getMap()
+
+            window.data = gon.data
+        
+            array_length = gon.data.length
+
+            first_position = gon.data[array_length - 1]
+            last_position = gon.data[0]
+
+
+            sliced_array = gon.data.slice(1, array_length - 1)
+
+            origin = new google.maps.LatLng(first_position.lat, first_position.lng)
+            destination = new google.maps.LatLng(last_position.lat, last_position.lng)
+            waypts = []
+
+            if sliced_array.length <= 8
+
+                waypoints_positions = sliced_array
+
+            else 
+
+                steps = Math.round(sliced_array.length/6) - 1
+
+                index_to_fetch = 0
+                waypoints_positions = new Array
+
+                for i in [0...8]
+                    waypoints_positions[i] = sliced_array[index_to_fetch]
+                    index_to_fetch += steps
+                
+
+            
+            for waypoint in waypoints_positions.reverse()
+                waypts.push
+                    location: new google.maps.LatLng(waypoint.lat, waypoint.lng)
+                    stopover: true
+
+            window.points = waypts
+            
+
+            request =
+                origin: origin
+                destination: destination
+                waypoints: waypts
+                travelMode: google.maps.TravelMode.DRIVING
+
+            directionsService.route request, (response, status) ->
+                directionsDisplay.setDirections response  if status is google.maps.DirectionsStatus.OK
+            
+            
+            
             
         else 
 

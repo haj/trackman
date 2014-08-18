@@ -36,7 +36,7 @@ class Traccar::Position < ActiveRecord::Base
     end
   end
 
-  after_validation :reverse_geocode
+  #after_validation :reverse_geocode
 
 
   def car

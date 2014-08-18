@@ -11,7 +11,7 @@ Geocoder.configure(
   #:api_key => "...",
 
   # geocoding service request timeout, in seconds (default 3):
-  #:timeout => 5,
+  :timeout => 10,
 
   # set default units to kilometers:
   :units => :km,
