@@ -1,6 +1,6 @@
 task :simulate_route => :environment do
 
-	Traccar::Position.destroy_all
+	Device.where(emei:"621184901").first.traccar_device.positions.destroy_all
 
 	positions = [
 		[37.331863,-122.032445],
