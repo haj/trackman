@@ -47,3 +47,12 @@
 	background-color:white;
 }
 
+.map-tooltip{
+	height: 100%;
+	margin: 1px;
+	padding: 4px;
+	margin: 0 0 -18px 0;
+	border-top-color: rgba(0, 0, 0, 0.8);
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+

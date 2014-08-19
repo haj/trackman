@@ -6,7 +6,7 @@ class HomeController < ApplicationController
 	    @markers = Gmaps4rails.build_markers(@positions) do |position, marker|
 	      marker.lat position.latitude.to_s
 	      marker.lng position.longitude.to_s
-	      marker.infowindow "#{position.car.numberplate}"
+	      marker.infowindow "#{position.car.numberplate}/#{position.car.driver.to_s}/#{position.time}"
 	    end
 
 	    gon.watch.data = @markers
