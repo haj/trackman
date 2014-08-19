@@ -102,7 +102,7 @@ $(document).ready ->
         for waypoint in waypoints_positions.reverse()
             waypts.push
                 location: new google.maps.LatLng(waypoint.lat, waypoint.lng)
-                stopover: true
+                stopover: false
 
         window.points = waypts    
 
