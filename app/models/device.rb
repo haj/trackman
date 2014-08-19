@@ -74,7 +74,7 @@ class Device < ActiveRecord::Base
 		last_positions = self.last_positions(2).to_a
 
 		# find last state for this car
-		last_state = device.states.last
+		last_state = self.states.last
 
 		if last_state.moving = true
 			return false

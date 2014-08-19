@@ -215,7 +215,7 @@ class Rule < ActiveRecord::Base
 			end
 		end
 
-		# TODO : Vehicle leaves an area
+		# Vehicle leaves an area
 		def left_an_area(car_id, params)
 		
 			# get the current coordinate of the car
@@ -234,21 +234,74 @@ class Rule < ActiveRecord::Base
 
 				if car_outside == true
 					Rails.logger.info "[left_an_area] car_outside = true"
-					return true
+					return true#, "[left_an_area] car_outside = true"
 				else
 					Rails.logger.info "[left_an_area] car_outside = false"
-					return false
+					return false#, "[left_an_area] car_outside = false"
 				end
 				
 			else
 				Rails.logger.info "[left_an_area] car_inside = false"
-				return false
+				return false#, "[left_an_area] car_inside = false"
 			end
 		end
 
 		# TODO : Vehicle outside planned route
 		def left_planned_route(car_id, params)
 
+		end
+
+		def self.test_method
+
+			Rule.destroy_all
+			Car.destroy_all
+			Device.destroy_all
+			Region.destroy_all
+			Vertex.destroy_all
+			Alarm.destroy_all
+			AlarmRule.destroy_all
+			Traccar::Position.destroy_all
+			Traccar::Device.destroy_all
+
+
+			# create rule + parameter for leaving area
+			rule = Rule.create!(name: "Left area", method_name: "left_an_area")
+			Parameter.create!(name: "region_id", data_type: "integer", rule_id: rule.id)
+
+			# Create Car, Device, Traccar::Device
+			car = Car.create!(numberplate: "44444")
+			
+			device = Device.create!(name: "Device", emei: "44444", car_id: car.id)
+			traccar_device = Traccar::Device.create(name: "Device", uniqueId: "44444")
+
+			# Create region with vertices 
+			region = Region.create!(name: "Statue of Liberty")
+			Vertex.create!([
+				{latitude: 40.69121432764299, longitude: -74.0477442741394, region_id: region.id},
+				{latitude: 40.68931071707278, longitude: -74.04714345932007, region_id: region.id},
+				{latitude: 40.688480921087525, longitude: -74.04557704925537, region_id: region.id},
+				{latitude: 40.68838329735111, longitude: -74.04416084289551, region_id: region.id},
+				{latitude: 40.68896903762434, longitude: -74.04300212860107, region_id: region.id},
+				{latitude: 40.690368285214454, longitude: -74.04360294342041, region_id: region.id},
+				{latitude: 40.69121432764299, longitude: -74.04600620269775, region_id: region.id}
+			])
+
+			# create new alarm
+			alarm = Alarm.create!(name: "Car Left the Statue of liberty area")
+			AlarmRule.create!(rule_id: rule.id, alarm_id: alarm.id, conjunction: nil, params: "{'region_id'=>'#{region.id}'}")
+			car.alarms << alarm
+
+			# simulate being inside that area
+			liberty_statue = { :latitude => 40.689249, :longitude => -74.0445 }
+	  		inside_position = Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: liberty_statue[:latitude], longitude: liberty_statue[:longitude], other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.now, valid: true, device_id: traccar_device.id)
+	  		traccar_device.positions << inside_position
+	  		traccar_device.save!
+	  		# simulate being outside
+			outside_position = Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.now, valid: true, device_id: traccar_device.id)
+	  		traccar_device.positions << outside_position
+	  		traccar_device.save!
+
+	  		Rule.first.left_an_area(car.id, { "region_id" => region.id })
 		end
 
 
