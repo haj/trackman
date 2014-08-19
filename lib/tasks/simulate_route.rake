@@ -8,7 +8,7 @@ task :simulate_route => :environment do
 
 
 	positions.reverse.each do |position|
-		Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: position[0], longitude: position[1], other: "<info><protocol>t55</protocol></info>", speed: 0.0, time: Time.now, valid: true, device_id: device.id)
+		Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: position[0], longitude: position[1], other: "<info><protocol>t55</protocol></info>", speed: 0.0, time: Time.now, valid: true, device_id: device.traccar_device.id)
 	end
 
 end
