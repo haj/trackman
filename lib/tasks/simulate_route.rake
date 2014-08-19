@@ -1,6 +1,8 @@
 task :simulate_route => :environment do
 
-	device = Device.where(emei:"621184901").first.traccar_device.positions.destroy_all
+	device = Device.where(emei:"621184901").first
+
+	device.traccar_device.positions.destroy_all
 
 	positions = [[37.331863,-122.032445], [37.328714,-122.032426], [37.325451,-122.032402], [37.320387,-122.032415]]
 
