@@ -80,12 +80,21 @@ class CarsController < ApplicationController
   def create
     @car = Car.new(car_params)
     if @car.save
+
+      # assign device to this car
       if device_params.has_key?('device_id') && !device_params['device_id'].empty?
         device = Device.find(device_params['device_id'])
         if !device.nil?
           device.update_attribute(:car_id, @car.id)
         end
       end
+
+      # assign driver to this car 
+      if user_params.has_key?('user_id')
+        user = User.find(user_params[:user_id]) 
+        user.update_attribute(:car_id, @car.id)
+      end
+
       redirect_to @car, notice: 'Car was successfully created.'
     else
       render action: 'new'
@@ -95,20 +104,31 @@ class CarsController < ApplicationController
   # PATCH/PUT /cars/1
   # PATCH/PUT /cars/1.json
   def update
+
     respond_to do |format|
       if @car.update(car_params)
+
         if device_params.has_key?('device_id') && !device_params['device_id'].empty?
-          # release other device 
+          
+          # release previous device 
           if @car.has_device?
             @car.device.update_attribute(:car_id, nil)
           end
-          # attach new device 
+
+          # assign new device 
           device = Device.find(device_params['device_id'])
           device.update_attribute(:car_id, @car.id)
+
         elsif device_params.has_key?('device_id')
           if @car.has_device?
             @car.device.update_attribute(:car_id, nil)
           end 
+        end
+
+         # assign driver to this car
+        if user_params.has_key?('user_id')
+          user = User.find(user_params[:user_id]) 
+          user.update_attribute(:car_id, @car.id)
         end
 
         format.html { redirect_to @car, notice: 'Car was successfully updated.' }
@@ -138,11 +158,15 @@ class CarsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_params
-      params.require(:car).permit(:mileage, :numberplate, :work_schedule_id, :car_model_id, :car_type_id, :registration_no, :year, :color, :group_id, :user_id, alarm_ids: [])
+      params.require(:car).permit(:mileage, :numberplate, :work_schedule_id, :car_model_id, :car_type_id, :registration_no, :year, :color, :group_id, alarm_ids: [])
     end
 
     def device_params
       params.permit(:device_id)
+    end
+
+    def user_params
+      params.permit(:user_id)
     end
 
 end

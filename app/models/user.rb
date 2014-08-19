@@ -79,6 +79,10 @@ class User < ActiveRecord::Base
 	  #return nil
 	end
 
+	def list_roles
+		self.roles.join(",")
+	end
+
 	def self.recipients(user)
 		User.where.not(:id => user.id)
 	end

@@ -48,6 +48,7 @@
             %tr
               = content_tag :th, sort_link(@q, :name)
               = content_tag :th, sort_link(@q, :email)
+              %th Roles
               %th
               %th
 
@@ -56,6 +57,7 @@
               %tr
                 %td= link_to user.name, user
                 %td= user.email
+                %td= user.roles.to_a.join(', ')
                 %td= link_to 'Edit', edit_user_path(user)
                 %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
