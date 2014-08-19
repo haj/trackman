@@ -1,3 +1,4 @@
+
 .row
   .col-md-12
     .grid.simple
@@ -6,7 +7,7 @@
           %a.collapse{href: "javascript:;"}
       .grid-title.no-border
         %h3
-          Filter by date
+          Filters
       .grid-body.no-border
         = form_tag '', :method => :get, :id => "filter_by_date" do
           .row         
@@ -29,8 +30,18 @@
             .col-md-12
               .form-group
                 = submit_tag 'Apply filters', :class => "btn btn-default"
-              
 
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        .tools
+          %a.collapse{href: "javascript:;"}
+      .grid-title.no-border
+        %h3
+          Switch map viewing mode
+      .grid-body.no-border
+        = button_tag "Switch", :class => "switch_map_mode btn"
 
 
 .row
