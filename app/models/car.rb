@@ -121,8 +121,11 @@ class Car < ActiveRecord::Base
 				user_dates[:limit_results] = 20
 			end
 
-			return self.device.traccar_device.positions.where("time > ? AND time < ?", start_date.to_s, end_date.to_s).order("time DESC").take(user_dates[:limit_results].to_i)
-			
+		 	# logger.warn Time.zone
+			# logger.warn "last position : #{Traccar::Position.last.created_at}"
+			# logger.warn "end date : #{end_date.to_s(:db)}"
+			return self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC").take(user_dates[:limit_results].to_i)
+
 		end
 
 		def positions_between_dates_with_default
@@ -153,9 +156,7 @@ class Car < ActiveRecord::Base
 				user_dates[:limit_results] = 20
 			end
 
-			positions = self.device.traccar_device.positions.where("time > ? AND time < ?", start_date.to_s, end_date.to_s).order("time DESC").take(user_dates[:limit_results].to_i)
-
-			return positions
+			return self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC").take(user_dates[:limit_results].to_i)
 			
 		end
 
@@ -213,8 +214,7 @@ class Car < ActiveRecord::Base
 			def check_alarms
 				self.alarms.all.each do |alarm|
 					result = alarm.verify(self.id)
-					puts "#{alarm.name} : #{result}"
-					self.capture_state
+					puts "#{self.numberplate} #{alarm.name} : #{result}"		
 					if result == true
 						subject =  "Alarm : #{alarm.name}"
 						body = alarm.name
@@ -223,12 +223,15 @@ class Car < ActiveRecord::Base
 						#AlarmMailer.alarm_email(self.company.users.first, self, alarm).deliver
 					end
 				end
+
+				# capture the current car state
+				self.capture_state
 			end
 
 		# Generate state card
 			def capture_state
 				state = State.new
-				puts "State"
+				#puts "Capture State"
 				state.moving = self.moving? 
 				state.no_data = self.no_data?
 				state.speed = self.speed

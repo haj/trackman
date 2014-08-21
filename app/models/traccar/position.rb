@@ -16,15 +16,13 @@
 #  device_id :integer
 #
 
-class Traccar::Position < ActiveRecord::Base
-  
+class Traccar::Position < ActiveRecord::Base 
   establish_connection "secondary_#{Rails.env}".to_sym
   self.table_name = "positions"
 
   include SafeAttributes::Base
 
   belongs_to :device, :class_name => 'Traccar::Device'
-
   has_one :location, :class_name => "Traccar::Location"
 
   bad_attribute_names :valid?
@@ -36,7 +34,7 @@ class Traccar::Position < ActiveRecord::Base
     end
   end
 
-  #after_validation :reverse_geocode
+  after_validation :reverse_geocode
 
   def car
     Device.where(emei: self.device.uniqueId).first.car
@@ -51,6 +49,8 @@ class Traccar::Position < ActiveRecord::Base
     end
   end
 
+
+  
 
   	
 end

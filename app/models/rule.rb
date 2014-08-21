@@ -71,7 +71,6 @@ class Rule < ActiveRecord::Base
 			states = car.states.where(" created_at > ? " , params["scope"].to_i.minutes.ago).where(:no_data => false).order("created_at ASC")
 
 			duration_threshold = params["threshold"].to_i
-
 			
 			puts states.count
 
@@ -293,11 +292,11 @@ class Rule < ActiveRecord::Base
 
 			# simulate being inside that area
 			liberty_statue = { :latitude => 40.689249, :longitude => -74.0445 }
-	  		inside_position = Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: liberty_statue[:latitude], longitude: liberty_statue[:longitude], other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.now, valid: true, device_id: traccar_device.id)
+	  		inside_position = Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: liberty_statue[:latitude], longitude: liberty_statue[:longitude], other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.zone.now, valid: true, device_id: traccar_device.id)
 	  		traccar_device.positions << inside_position
 	  		traccar_device.save!
 	  		# simulate being outside
-			outside_position = Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.now, valid: true, device_id: traccar_device.id)
+			outside_position = Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.zone.now, valid: true, device_id: traccar_device.id)
 	  		traccar_device.positions << outside_position
 	  		traccar_device.save!
 

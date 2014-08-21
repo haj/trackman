@@ -76,7 +76,7 @@ class Device < ActiveRecord::Base
 		# find last state for this car
 		last_state = self.states.last
 
-		if last_state.moving = true
+		if last_state != nil && last_state.moving == true
 			return false
 		elsif last_positions.count == 2
 			latitude1 = last_positions[0].latitude 
@@ -86,10 +86,10 @@ class Device < ActiveRecord::Base
 
 			threshold = precision
 			if (latitude1 - latitude2).abs < threshold && (longitude1 - longitude2).abs < threshold
-				self.update_attributes(:movement => false, :last_checked => DateTime.now)
+				self.update_attributes(:movement => false, :last_checked => DateTime.parse(Time.zone.now))
 				return false
 			else 
-				self.update_attributes(:movement => true, :last_checked => DateTime.now)
+				self.update_attributes(:movement => true, :last_checked => DateTime.parse(Time.zone.now))
 				return true
 			end 
 		else

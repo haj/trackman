@@ -4,7 +4,6 @@
       .grid-title.no-border
         %h3
           = Device
-          %span.semi-bold= @device.name
       .grid-body.no-border
         .form-group
           %b Emei:
@@ -12,7 +11,15 @@
         .form-group
           %b Cost price:
           = @device.cost_price
-
+        .form-group
+          %b Device Model:
+          = @device.try(:device_model).try(:name)
+        .form-group
+          %b Device Type:
+          = @device.try(:device_type).try(:name)
+        .form-group
+          %b Car:
+          = link_to @device.try(:car).try(:numberplate), @device.try(:car) 
         = link_to 'Edit', edit_device_path(@device)
         \|
         = link_to 'Back', devices_path

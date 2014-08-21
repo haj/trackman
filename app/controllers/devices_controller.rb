@@ -48,11 +48,18 @@ class DevicesController < ApplicationController
   # POST /devices
   # POST /devices.json
   def create
+    render text: simcard_params[:simcard_id]
+    return 
+
     @device = Device.new(device_params)
     #create the device in Traccar db
     device = Traccar::Device.create(name: device_params['name'], uniqueId: device_params['emei'])
     # attach the newly created device to the admin user of the traccar db
     device.users << Traccar::User.first
+
+    if !simcard_params[:simcard_id].empty?
+      simcard = Simcard.find(simcard_params[:simcard_id])
+    end
 
     if @device.save
       redirect_to @device, notice: 'Device was successfully created.'
@@ -97,8 +104,12 @@ class DevicesController < ApplicationController
       @device = Device.find(params[:id])
     end
 
+    def simcard_params
+      params.permit(:simcard_id)
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def device_params
-      params.require(:device).permit(:name, :emei, :cost_price)
+      params.require(:device).permit(:name, :emei, :cost_price, :car_id, :device_model_id, :device_type_id)
     end
 end
