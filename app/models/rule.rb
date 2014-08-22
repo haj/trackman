@@ -89,14 +89,16 @@ class Rule < ActiveRecord::Base
 		# Vehicle moving faster than params["speed"]
 		def speed_limit(car_id, params)
 			car = Car.find(car_id)
-			if car.device.speed > params["speed"].to_i # in km/h
+			if car.no_data?
+				return false
+			elsif car.device.speed > params["speed"].to_i # in km/h
 				return true
 			else
 				return false
 			end	
 		end
 
-		# NOT TESTED
+		# 
 		# Vehicle moving slower than params["speed"]
 		def going_slower_than(car_id, params)
 			car = Car.find(car_id)
@@ -110,18 +112,24 @@ class Rule < ActiveRecord::Base
 
 		# NOT TESTED
 		# Vehicle moving during (or not) work hours
-		def movement_authorized(car_id, params)
+		def movement_not_authorized(car_id, params)
 			car = Car.find(car_id)
-			current_time = Time.zone.now.to_time_of_day
-			current_day_of_week = Time.zone.now.wday
-			current_day_of_week = 7 if current_day_of_week == 0 
-			car.work_schedule.work_hours.each do |work_hour|
-				shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
-				if shift.include?(current_time) && work_hour.day_of_week == current_day_of_week
-					return true
+			if car.moving? && car.no_data? == false
+				last_position = car.positions.last
+				current_time = last_position.created_at.to_time_of_day
+				current_day_of_week = last_position.created_at.wday
+				current_day_of_week = 7 if current_day_of_week == 0 
+				car.work_schedule.work_hours.each do |work_hour|
+					shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
+					if shift.include?(current_time) && work_hour.day_of_week == current_day_of_week
+						return false
+					end
 				end
+				return true
+			else
+				return false
 			end
-			return false
+			
 		end
 
 		# TESTED

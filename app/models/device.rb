@@ -100,6 +100,8 @@ class Device < ActiveRecord::Base
 	def no_data?
 		last_position = self.traccar_device.positions.last
 
+		return true if last_position.nil?
+
 		seconds = Time.zone.now - last_position.time.in_time_zone
 
 		#return "#{time_ago_in_words(last_position.time)} ago OR #{since} seconds"
