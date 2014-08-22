@@ -29,7 +29,7 @@ Rule.seed(:id,
 # Too Fast
 
 Rule.seed(:id,
-  { id: 2, name: "Is Goin Faster Than", method_name: "going_faster_than" }
+  { id: 2, name: "Is Goin Faster Than", method_name: "speed_limit" }
 )
 
 Parameter.seed(:id,
@@ -38,18 +38,18 @@ Parameter.seed(:id,
 
 # Too Slow
 
-Rule.seed(:id,
-  { id: 3, name: "Going slower than", method_name: "going_slower_than" }
-)
+# Rule.seed(:id,
+#   { id: 3, name: "Going slower than", method_name: "going_slower_than" }
+# )
 
-Parameter.seed(:id,
-  { id: 2, name: "speed", data_type: "integer", rule_id: 3 }
-)
+# Parameter.seed(:id,
+#   { id: 2, name: "speed", data_type: "integer", rule_id: 3 }
+# )
 
 # In
 
 Rule.seed(:id,
-  { id: 4, name: "Entered area", method_name: "entered_an_area" }
+  { id: 4, name: "Entered area", method_name: "enter_area" }
 )
 
 Parameter.seed(:id,
@@ -59,7 +59,7 @@ Parameter.seed(:id,
 # Out 
 
 Rule.seed(:id,
-  { id: 5, name: "Car Left Area", method_name: "left_an_area" }
+  { id: 5, name: "Car Left Area", method_name: "leave_area" }
 )
 
 Parameter.seed(:id,
