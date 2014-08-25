@@ -20,6 +20,11 @@ require 'spec_helper'
 
 describe Car do
 
+	describe "Alarms" do
+		it "should trigger alarm only one time" do 
+  			# set up car
+  		end 
+	end
 	
 
 	

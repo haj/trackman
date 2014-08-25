@@ -98,7 +98,7 @@ class Rule < ActiveRecord::Base
 			end	
 		end
 
-		# 
+		# NOT TESTED/ NOT ACTIVE 
 		# Vehicle moving slower than params["speed"]
 		def going_slower_than(car_id, params)
 			car = Car.find(car_id)
@@ -128,8 +128,7 @@ class Rule < ActiveRecord::Base
 				return true
 			else
 				return false
-			end
-			
+			end		
 		end
 
 		# TESTED
