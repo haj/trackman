@@ -40,11 +40,11 @@ class Rule < ActiveRecord::Base
 			end
 		end
 
-		# NOT TESTED
+		# TESTED
 		# Vehicle stopped for more than params["duration"] minutes in the last params["time_scope"] minutes
 		def stopped_for_more_than(car_id, params)
 			car = Car.find(car_id)
-			states = car.states.where(" created_at > ? " , params["scope"].to_i.minutes.ago).where(:no_data => false).order("created_at ASC")
+			states = car.states.where(" created_at >= ? " , params["scope"].to_i.minutes.ago).where(:no_data => false).order("created_at ASC")
 			duration_threshold = params["threshold"].to_i
 			puts states.count
 			previous_state = states.first
@@ -63,7 +63,7 @@ class Rule < ActiveRecord::Base
 			return false
 		end
 
-		# NOT TESTED
+		# TESTED
 		# Vehicle driving for more than consecutive params["threshold"] (duration) minutes in the last params["scope"] (time_scope)
 		def driving_consecutive_hours(car_id, params) # params = {scope, threshold}
 			car = Car.find(car_id)
