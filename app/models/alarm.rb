@@ -14,6 +14,8 @@ class Alarm < ActiveRecord::Base
 	has_and_belongs_to_many :rules
 	has_many :alarm_rules
 
+	has_many :alarm_notifications
+
 	#alarms -> groups
 	has_many :group_alarms
 	has_and_belongs_to_many :groups

@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140821211153) do
+ActiveRecord::Schema.define(version: 20140825200641) do
+
+  create_table "alarm_notifications", force: true do |t|
+    t.integer  "car_id"
+    t.integer  "driver_id"
+    t.integer  "alarm_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "alarms", force: true do |t|
     t.string   "name"
