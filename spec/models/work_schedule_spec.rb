@@ -16,7 +16,7 @@ describe WorkSchedule do
   describe ".clone_record" do 
 
   	before (:each) do
-      Time.zone = "UTC"
+      Time.zone = "Casablanca"
       @work_schedule = WorkSchedule.create(name: "some_random_work_schedule")
   		4.times do 
   			new_work_hour = WorkHour.create(day_of_week: 4, starts_at: 2.days.ago.to_s(:db), ends_at: Time.zone.now.to_s(:db) , work_schedule_id: @work_schedule.id)
