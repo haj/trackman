@@ -48,17 +48,13 @@ class DevicesController < ApplicationController
   # POST /devices
   # POST /devices.json
   def create
-    render text: simcard_params[:simcard_id]
-    return 
-
     @device = Device.new(device_params)
-    #create the device in Traccar db
     device = Traccar::Device.create(name: device_params['name'], uniqueId: device_params['emei'])
-    # attach the newly created device to the admin user of the traccar db
     device.users << Traccar::User.first
 
     if !simcard_params[:simcard_id].empty?
       simcard = Simcard.find(simcard_params[:simcard_id])
+      simcard.update_attribute(:device_id, @device.id)
     end
 
     if @device.save
@@ -68,10 +64,12 @@ class DevicesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /devices/1
-  # PATCH/PUT /devices/1.json
   def update
     if @device.update(device_params)
+      if !simcard_params[:simcard_id].empty?
+        simcard = Simcard.find(simcard_params[:simcard_id])
+        simcard.update_attribute(:device_id, @device.id)
+      end
       redirect_to @device, notice: 'Device was successfully updated.'
     else
       render :edit

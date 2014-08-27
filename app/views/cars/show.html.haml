@@ -61,6 +61,9 @@
             Information Card
       .grid-body.no-border
         .form-group
+          %b Driver:
+          = @car.try(:driver).try(:name)
+        .form-group
           %b Mileage:
           = @car.mileage
         .form-group

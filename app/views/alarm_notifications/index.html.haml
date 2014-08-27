@@ -1,0 +1,25 @@
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        %h3
+          Alarm notifications
+        
+      .grid-body.no-border
+        %table.table.no-more-tables
+          %thead
+            %tr
+              %th
+              %th
+              %th
+          %tbody
+            
+            - @alarm_notifications.each do |alarm_notification|
+              %tr
+                %td= alarm_notification.car
+                %td= alarm_notification.alarm
+                %td= alarm_notification.create_at
+                %td= link_to 'Destroy', car_manufacturer, :method => :delete, :data => { :confirm => 'Are you sure?' }
+%br
+
+

@@ -47,6 +47,7 @@ class Ability
     can :read, Plan
     can :manage, Subscription
     can :manage, WorkHour
+    can :manage, AlarmNotification
   end
 
   def employee

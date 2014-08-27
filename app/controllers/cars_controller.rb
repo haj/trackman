@@ -90,12 +90,12 @@ class CarsController < ApplicationController
       end
 
       # assign driver to this car 
-      if user_params.has_key?('user_id')
+      if !user_params['user_id'].empty?
         user = User.find(user_params[:user_id]) 
         user.update_attribute(:car_id, @car.id)
       end
 
-      redirect_to @car, notice: 'Car was successfully created.'
+      redirect_to @car, notice: 'Vehicle was successfully created.'
     else
       render action: 'new'
     end
@@ -126,12 +126,12 @@ class CarsController < ApplicationController
         end
 
          # assign driver to this car
-        if user_params.has_key?('user_id')
+        if !user_params['user_id'].empty?
           user = User.find(user_params[:user_id]) 
           user.update_attribute(:car_id, @car.id)
         end
 
-        format.html { redirect_to @car, notice: 'Car was successfully updated.' }
+        format.html { redirect_to @car, notice: 'Vehicle was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

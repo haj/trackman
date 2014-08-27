@@ -11,9 +11,9 @@
 
   - @simcards.each do |simcard|
     %tr
-      %td= simcard.telephone_no
-      %td= simcard.teleprovider.name
-      %td= simcard.monthly_price
+      %td= simcard.try(:telephone_number)
+      %td= simcard.try(:teleprovider).try(:name)
+      %td= simcard.try(:monthly_price)
       %td= link_to 'Show', simcard
       %td= link_to 'Edit', edit_simcard_path(simcard)
       %td= link_to 'Destroy', simcard, :method => :delete, :data => { :confirm => 'Are you sure?' }

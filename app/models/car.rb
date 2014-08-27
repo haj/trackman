@@ -214,8 +214,8 @@ class Car < ActiveRecord::Base
 			def check_alarms
 				self.alarms.all.each do |alarm|
 					result = alarm.verify(self.id)
-					puts "#{self.numberplate} #{alarm.name} : #{result}"		
 					if result == true
+						AlarmNotification.create(alarm_id: alarm.id, car_id: self.id)
 						subject =  "Alarm : #{alarm.name}"
 						body = alarm.name
 						self.company.users.first.notify(subject, body, self)
@@ -231,7 +231,6 @@ class Car < ActiveRecord::Base
 		# Generate state card
 			def capture_state
 				state = State.new
-				#puts "Capture State"
 				state.moving = self.moving? 
 				state.no_data = self.no_data?
 				state.speed = self.speed

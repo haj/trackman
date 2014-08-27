@@ -13,13 +13,17 @@
           = @device.cost_price
         .form-group
           %b Device Model:
-          = @device.try(:device_model).try(:name)
+          = link_to @device.try(:device_model).try(:name), @device.try(:device_model)
         .form-group
           %b Device Type:
-          = @device.try(:device_type).try(:name)
+          = link_to @device.try(:device_type).try(:name), @device.try(:device_type)
         .form-group
           %b Car:
           = link_to @device.try(:car).try(:numberplate), @device.try(:car) 
+        .form-group
+          %b Simcard:
+          = link_to @device.try(:simcard).try(:telephone_number), @device.try(:simcard)
+
         = link_to 'Edit', edit_device_path(@device)
         \|
         = link_to 'Back', devices_path

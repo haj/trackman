@@ -9,17 +9,17 @@
             .panel-body
               .row
                 .col-sm-3
-                  %h4= "Car model"
+                  %h4= "Vehicle model"
                   .form-group
                     .row
                       .col-sm-8.col-sm-offset-1
-                        = select_tag('by_car_model', content_tag(:option,'Car Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'), :class => "form-control")
+                        = select_tag('by_car_model', content_tag(:option,'Vehicle Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'), :class => "form-control")
                 .col-sm-3
-                  %h4= "Car type"
+                  %h4= "Vehicle type"
                   .form-group
                     .row
                       .col-sm-8.col-sm-offset-1
-                        = select_tag('by_car_type', content_tag(:option,'Car Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'), :class => "form-control")
+                        = select_tag('by_car_type', content_tag(:option,'Vehicle Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'), :class => "form-control")
                 .col-sm-3
                   %h4= "Traceability"
                   .radio

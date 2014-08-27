@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :alarm_notifications
+
   resources :plans
   resources :plan_types
 

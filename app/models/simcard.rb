@@ -28,6 +28,6 @@ class Simcard < ActiveRecord::Base
 	end 
 
 	def name
-		return "##{self.id} #{self.telephone_no} (#{self.teleprovider.name})"
+		return "##{self.id} #{self.telephone_number} (#{self.teleprovider.name})"
 	end
 end
