@@ -1487,7 +1487,7 @@ function ResourceDayView(element, calendar) {
 	function render() {
 		var date = new Date();
 		var start = addMinutes(cloneDate(date, true),opt('minTime')*60);
-		var end = addMinutes(cloneDate(start), (opt('maxTime')-opt('minTime'))*60);
+		var end = addMinutes(cloneDate(start), (opt('maxTime')-opt('minTime')-0.01)*60);
 		var visStart = cloneDate(start);
 		var visEnd = cloneDate(end);
 		t.title = ''

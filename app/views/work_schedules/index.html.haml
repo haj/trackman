@@ -6,7 +6,7 @@
           %a.collapse{href: "javascript:;"}
       .grid-title.no-border
         %h4
-          &nbsp;
+          Work Schedules
           = link_to 'Add', new_work_schedule_path, class: "btn btn-success btn-small"
 
         
@@ -15,7 +15,6 @@
           %thead
             %tr
               %th Name
-              %th Car
               %th
               %th
               %th
@@ -24,7 +23,6 @@
             - @work_schedules.each do |work_schedule|
               %tr
                 %td= link_to work_schedule.name, work_schedule
-                %td= work_schedule.car_id
                 %td= link_to 'Show', work_schedule
                 %td= link_to 'Edit', edit_work_schedule_path(work_schedule)
                 %td= link_to 'Destroy', work_schedule, :method => :delete, :data => { :confirm => 'Are you sure?' }

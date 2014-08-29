@@ -1,7 +1,8 @@
 class WorkSchedulesController < ApplicationController
   before_action :set_work_schedule, only: [:show, :edit, :update, :destroy]
-  load_and_authorize_resource
+  #load_and_authorize_resource
   
+
   # GET /work_schedules
   # GET /work_schedules.json
   def index
@@ -18,23 +19,19 @@ class WorkSchedulesController < ApplicationController
     @work_schedule = WorkSchedule.new
   end
 
-  # GET /work_schedules/1/edit
-  def edit
-  end
 
   # POST /work_schedules
   # POST /work_schedules.json
   def create
 
     @work_schedule = WorkSchedule.new(work_schedule_params)
-
       if @work_schedule.save
 
         shifts_params.values.each do |shift| 
           start_time = shift['start'].to_time
           end_time = shift['end'].to_time
           wday_index = shift['wday']
-          new_work_hour = WorkHour.create(starts_at: start_time , ends_at: end_time , day_of_week: wday_index)
+          new_work_hour = WorkHour.create(starts_at: start_time.to_s(:db) , ends_at: end_time.to_s(:db) , day_of_week: wday_index)
           @work_schedule.work_hours << new_work_hour
         end
 
@@ -44,20 +41,6 @@ class WorkSchedulesController < ApplicationController
       else
         render js: "window.location = '#{new_work_schedule_path}'"
       end
-  end
-
-  # PATCH/PUT /work_schedules/1
-  # PATCH/PUT /work_schedules/1.json
-  def update
-    respond_to do |format|
-      if @work_schedule.update(work_schedule_params)
-        format.html { redirect_to @work_schedule, notice: 'Work schedule was successfully updated.' }
-        format.json { render :show, status: :ok, location: @work_schedule }
-      else
-        format.html { render :edit }
-        format.json { render json: @work_schedule.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # DELETE /work_schedules/1

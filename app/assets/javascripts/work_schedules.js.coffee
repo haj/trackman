@@ -4,26 +4,28 @@
 
 $(document).ready ->
   
+  $('.page-sidebar').css('height',$('.page-content').css('height'))
+  
   # console.log("start : " + midnight);
   # console.log("end : " + start);
   # make the event "stick"
   calcCalendarHeight = ->
     h = $(window).height() - 40
-    
-    #console.log(h);
     h
+    
   date = new Date()
   d = date.getDate()
   m = date.getMonth()
   y = date.getFullYear()
+
   calendar = $("#calendar").timetable(
     header: {}
     editable: true
     selectable: true
-    minTime: 8
-    maxTime: 20
-    slotMinutes: 30
-    selectHelper: true
+    minTime: 0
+    maxTime: 24
+    slotMinutes: 60
+    selectHelper: false
     events: [
       {
         title: ""
@@ -83,7 +85,7 @@ $(document).ready ->
     return
 
   $("#submit_calendar").click (ev) ->
-    console.log calendar.timetable("clientEvents")
+    #console.log calendar.timetable("clientEvents")
     super_awesome_array = []
     i = 0
 
@@ -96,7 +98,7 @@ $(document).ready ->
     
     request = $.ajax { url: '/work_schedules', type: 'post', data: { shifts: super_awesome_array,  work_schedule:  work_schedule_params } }
     request.done (response, textStatus, jqXHR) ->
-        console.log(response)
+        console.log("response" + response)
         
     
     return

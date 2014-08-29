@@ -5,12 +5,15 @@
         %h3
           Work schedule
       .grid-body.no-border
-        %p
-          %b Car:
-          = link_to @work_schedule.try(:car).try(:numberplate), car_path(@work_schedule.try(:car))
-        %p
+        .form-group
           %b Name:
           = @work_schedule.name
+        .form-group
+          - @work_schedule.work_hours.each do |work_hour|
+            = work_hour.day_of_week
+            = work_hour.starts_at
+            = work_hour.ends_at
+
 
         = link_to 'Edit', edit_work_schedule_path(@work_schedule)
         \|

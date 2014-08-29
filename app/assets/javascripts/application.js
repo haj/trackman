@@ -67,4 +67,7 @@
 //= require datepair
 //
 
+$(document).ready ->
+	$('.page-sidebar').css('height',$('.page-content').css('height'))
+
 

@@ -10,15 +10,15 @@ class Rule < ActiveRecord::Base
 
 	# Virtual attributes
 
-	def params
-		self.parameters
-	end
+		def params
+			self.parameters
+		end
 
-	def verify(alarm_id, car_id)
-		alarm_rule = AlarmRule.where(alarm_id: alarm_id, rule_id: self.id).first
-		params = alarm_rule.params
-		self.send(self.method_name, car_id, eval(params))
-	end
+		def verify(alarm_id, car_id)
+			alarm_rule = AlarmRule.where(alarm_id: alarm_id, rule_id: self.id).first
+			params = alarm_rule.params
+			self.send(self.method_name, car_id, eval(params))
+		end
 
 	### Triggers
 
@@ -55,6 +55,7 @@ class Rule < ActiveRecord::Base
 				if car_current_state.moving == false #car not moving
 					duration_sum += ( car_current_state.created_at  - previous_state.created_at)/60
 					if duration_sum >= duration_threshold
+						RuleNotification.create(rule_id: self.id, car_id: car_id)
 						return true
 					end
 				else #car started moving again
@@ -80,6 +81,7 @@ class Rule < ActiveRecord::Base
 				if car_current_state.moving == true #car is moving
 					duration_sum += (car_current_state.created_at  - previous_state.created_at)/60 #convert to minutes
 					if duration_sum >= duration_threshold
+						RuleNotification.create(rule_id: self.id, car_id: car_id)
 						return true
 					end
 				else #car stopped moving

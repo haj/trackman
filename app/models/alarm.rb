@@ -36,10 +36,6 @@ class Alarm < ActiveRecord::Base
 			conj = AlarmRule.where(rule_id: rule.id, alarm_id: self.id).first.conjunction
 			result = rule.verify(self.id, car_id)
 
-			if result == true
-				RuleNotification.create(rule_id: rule.id, car_id: car_id)
-			end
-
 			if conj.nil? || conj.downcase == "or"
 				trigger_alarm = trigger_alarm || result
 			elsif conj.downcase == "and"
