@@ -23,7 +23,6 @@ class WorkSchedulesController < ApplicationController
   # POST /work_schedules
   # POST /work_schedules.json
   def create
-
     @work_schedule = WorkSchedule.new(work_schedule_params)
       if @work_schedule.save
 
@@ -31,7 +30,11 @@ class WorkSchedulesController < ApplicationController
           start_time = shift['start'].to_time
           end_time = shift['end'].to_time
           wday_index = shift['wday']
-          new_work_hour = WorkHour.create(starts_at: start_time.to_s(:db) , ends_at: end_time.to_s(:db) , day_of_week: wday_index)
+          if end_time.hour == 0 && end_time.min == 0
+            new_work_hour = WorkHour.create(starts_at: start_time.to_s(:db) , ends_at: Time.parse("23:59").to_s(:db) , day_of_week: wday_index)
+          else
+            new_work_hour = WorkHour.create(starts_at: start_time.to_s(:db) , ends_at: end_time.to_s(:db) , day_of_week: wday_index)
+          end
           @work_schedule.work_hours << new_work_hour
         end
 
