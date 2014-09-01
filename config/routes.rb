@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :work_schedule_groups
+
   get 'test_exception_notifier' => 'application#test_exception_notifier'
 
   resources :subscriptions do 

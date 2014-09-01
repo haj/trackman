@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Company:
+  = @work_schedule_group.company_id
+%p
+  %b Work schedule:
+  = @work_schedule_group.work_schedule_id
+
+= link_to 'Edit', edit_work_schedule_group_path(@work_schedule_group)
+\|
+= link_to 'Back', work_schedule_groups_path

@@ -1,0 +1,21 @@
+%h1 Listing work_schedule_groups
+
+%table
+  %tr
+    %th Company
+    %th Work schedule
+    %th
+    %th
+    %th
+
+  - @work_schedule_groups.each do |work_schedule_group|
+    %tr
+      %td= work_schedule_group.company_id
+      %td= work_schedule_group.work_schedule_id
+      %td= link_to 'Show', work_schedule_group
+      %td= link_to 'Edit', edit_work_schedule_group_path(work_schedule_group)
+      %td= link_to 'Destroy', work_schedule_group, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Work schedule group', new_work_schedule_group_path

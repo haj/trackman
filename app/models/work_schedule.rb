@@ -13,6 +13,8 @@ class WorkSchedule < ActiveRecord::Base
 	has_many :cars
 	has_many :work_hours
 
+	acts_as_tenant(:company)
+
 	def create_clone
 		work_schedule = WorkSchedule.new
 		work_schedule.name = self.name

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140827192235) do
+ActiveRecord::Schema.define(version: 20140901195822) do
 
   create_table "alarm_notifications", force: true do |t|
     t.integer  "car_id"
@@ -386,14 +386,23 @@ ActiveRecord::Schema.define(version: 20140827192235) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "work_schedule_id"
+    t.integer  "company_id"
   end
 
   add_index "work_hours", ["work_schedule_id"], name: "index_work_hours_on_work_schedule_id", using: :btree
+
+  create_table "work_schedule_groups", force: true do |t|
+    t.integer  "company_id"
+    t.integer  "work_schedule_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "work_schedules", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "company_id"
   end
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
