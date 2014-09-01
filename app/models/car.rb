@@ -38,14 +38,14 @@ class Car < ActiveRecord::Base
 		belongs_to :car_type
 		has_one :device
 		has_one :driver, :class_name => "User", :foreign_key => "car_id"
-		has_many :states
+		has_many :states, :dependent => :destroy
 
 		#has_many :work_hours
 		belongs_to :work_schedule
 
 		belongs_to :group
 		has_and_belongs_to_many :alarms
-		has_many :alarm_cars
+		has_many :alarm_cars, :dependent => :destroy
 
 	accepts_nested_attributes_for :alarms
 
