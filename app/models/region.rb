@@ -1,6 +1,8 @@
 class Region < ActiveRecord::Base
 	has_many :vertices, dependent: :destroy
 
+	acts_as_tenant(:company)
+
 	# returns if point is inside a polygon
 	def contains_point(latitude, longitude)
 		points = []
