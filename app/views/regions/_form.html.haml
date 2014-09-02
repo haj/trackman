@@ -1,9 +1,10 @@
 
 .form-group
-	= label_tag :name
-	= text_field_tag :name
-%br/
-#map_canvas
+  = label_tag :name
+  = text_field_tag :name
 
 .form-group
-	%input{ :type=>"button", :value => "Submit", :id => "submit_polygon" , :required => true}
+  #map_canvas
+
+.form-group
+  %input{ :type=>"button", :value => "Submit", :id => "submit_polygon" , :required => true}
