@@ -30,7 +30,7 @@ class Device < ActiveRecord::Base
 
 	acts_as_tenant(:company)
 
-	has_one :simcard
+	has_one :simcard, :dependent => :nullify
 	belongs_to :device_model 
 	belongs_to :device_type
 	belongs_to :car

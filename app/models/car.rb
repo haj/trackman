@@ -36,7 +36,7 @@ class Car < ActiveRecord::Base
 		belongs_to :company
 		belongs_to :car_model
 		belongs_to :car_type
-		has_one :device
+		has_one :device, :dependent => :nullify
 		has_one :driver, :class_name => "User", :foreign_key => "car_id"
 		has_many :states, :dependent => :destroy
 

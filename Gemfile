@@ -113,28 +113,16 @@ gem 'chronic'
 gem 'tod'
 gem 'rubocop', require: false, :group => :development
 gem 'mailboxer'
-
 gem "cocoon"
-
 gem 'annotate', ">=2.6.0"
-
 gem 'pinp', github: 'kimhunter/PointInPolygon'
-
-
 gem 'retina_tag'
-
 gem "font-awesome-rails"
-
 gem 'paymill'
-
 gem 'seed-fu', '~> 2.3'
-
 gem 'exception_notification'
-
 gem 'database_cleaner', :group => [:test]
-
 gem 'ci_reporter_rspec'
-
 gem 'selenium-webdriver'
 
 #gem 'jquery-timepicker-rails', github: 'cover/jquery-timepicker-rails'

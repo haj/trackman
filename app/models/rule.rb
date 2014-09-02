@@ -116,7 +116,6 @@ class Rule < ActiveRecord::Base
 			end	
 		end
 
-		# NOT TESTED
 		# Vehicle moving during (or not) work hours
 		def movement_not_authorized(car_id, params)
 			car = Car.find(car_id)

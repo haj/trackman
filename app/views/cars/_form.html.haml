@@ -62,7 +62,7 @@
 
   %h3 Work Schedule
   .form-group
-    = f.collection_select(:work_schedule_id, WorkSchedule.all, :id, :name, {}, class: "form-control")
+    = f.collection_select(:work_schedule_id, WorkSchedule.all, :id, :name, { :include_blank => "Select work schedule" }, class: "form-control")
 
   .form-group
     = f.submit 'Save', class: "btn btn-primary"
