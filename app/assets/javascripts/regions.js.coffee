@@ -9,20 +9,13 @@ $(document).ready ->
 			region_name = $('#name').val()
 
 			for marker in markers 
-				super_awesome_array[i] = {latitude: marker.position['d'], longitude: marker.position['e'] }
-				#console.log(marker.position['d'] + " , " + marker.position['e'])
+				super_awesome_array[i] = {latitude: marker.position['A'], longitude: marker.position['k'] }
 				i++ 
 
-			
-			request = $.ajax { url: '/regions', type: 'post', data: { vertices: super_awesome_array, name: region_name  } }
-
+			console.log(super_awesome_array)
+			request = $.ajax { url: '/regions', type: 'post', data: { "vertices[markers]": super_awesome_array, "region[name]": region_name  } }
 			request.done (response, textStatus, jqXHR) ->
-  				console.log(response)
-  				
-  				
-
-			
-			
+  				#console.log(response)
 
 		addPoint = (event) ->
 			path.insertAt(path.length, event.latLng)

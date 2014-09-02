@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_tenant
 
-  around_filter :user_time_zone
+  #around_filter :user_time_zone
 
   before_filter do
     gon.resource = nil
@@ -76,7 +76,7 @@ class ApplicationController < ActionController::Base
       if current_user && !current_user.company.nil? && !current_user.company.time_zone.nil?
         Time.use_zone(current_user.company.time_zone, &block)
       else
-        Time.use_zone("London", &block)
+        Time.use_zone("UTC", &block)
       end      
     end
 

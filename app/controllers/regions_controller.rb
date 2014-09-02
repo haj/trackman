@@ -24,10 +24,14 @@ class RegionsController < ApplicationController
   # POST /regions
   # POST /regions.json
   def create
-    @region = Region.new(name: vertices_params['name'])
+    # logger.warn vertices_params
+    # render text: vertices_params
+    # return
+
+    @region = Region.new(name: region_params['name'])
 
       if @region.save
-        vertices = vertices_params['vertices'].values
+        vertices = vertices_params['markers'].values
 
         vertices.each do |vertex|
           new_vertex = Vertex.create(latitude: vertex['latitude'], longitude: vertex['longitude'], region_id: @region.id)
@@ -71,12 +75,12 @@ class RegionsController < ApplicationController
       @region = Region.find(params[:id])
     end
 
-    def vertices_params
-      params.permit!
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def region_params
-      params.permit(:name)
+      params.require(:region).permit(:name)
+    end
+
+    def vertices_params
+      params.require(:vertices).permit!
     end
 end
