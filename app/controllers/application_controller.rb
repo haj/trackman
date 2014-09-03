@@ -59,8 +59,8 @@ class ApplicationController < ActionController::Base
 	end
 
   before_filter do 
-    if current_user
-      @notifications = User.find(current_user.id).mailbox.notifications
+    if current_user && current_user.company
+      @notifications = current_user.try(:company).try(:alarm_notifications)
     end
   end
 

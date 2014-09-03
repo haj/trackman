@@ -119,7 +119,7 @@ class Rule < ActiveRecord::Base
 		# Vehicle moving during (or not) work hours
 		def movement_not_authorized(car_id, params)
 			car = Car.find(car_id)
-			if car.moving? && car.no_data? == false
+			if true #car.moving? && car.no_data? == false
 				last_position = car.positions.last
 				current_time = last_position.created_at.to_time_of_day
 				current_day_of_week = last_position.created_at.wday

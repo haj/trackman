@@ -85,7 +85,7 @@ class Device < ActiveRecord::Base
 			longitude2 = last_positions[1].longitude
 
 			threshold = precision
-			if (latitude1 - latitude2).abs < threshold && (longitude1 - longitude2).abs < threshold
+			if (latitude1 - latitude2).abs < threshold
 				self.update_attributes(:movement => false, :last_checked => Time.zone.now)
 				return false
 			else 

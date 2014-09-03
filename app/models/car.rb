@@ -215,12 +215,18 @@ class Car < ActiveRecord::Base
 				self.alarms.all.each do |alarm|
 					result = alarm.verify(self.id)
 					if result == true
+						if ActsAsTenant.current_tenant.nil?
+							ActsAsTenant.current_tenant = self.company
+						end
+						puts "alarm : #{alarm.name} - true"
 						AlarmNotification.create(alarm_id: alarm.id, car_id: self.id)
 						subject =  "Alarm : #{alarm.name}"
 						body = alarm.name
-						self.company.users.first.notify(subject, body, self)
+						#self.company.users.first.notify(subject, body, self)
 						#send email to user with name of the alarm triggered
 						#AlarmMailer.alarm_email(self.company.users.first, self, alarm).deliver
+					else
+						puts "alarm : #{alarm.name} - false"
 					end
 				end
 

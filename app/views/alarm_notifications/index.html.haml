@@ -9,15 +9,15 @@
         %table.table.no-more-tables
           %thead
             %tr
-              %th
-              %th
-              %th
+              %th Car
+              %th Alarm
+              %th Triggered at
           %tbody
             
             - @alarm_notifications.each do |alarm_notification|
               %tr
-                %td= alarm_notification.car
-                %td= alarm_notification.alarm
+                %td= link_to alarm_notification.car.numberplate, alarm_notification.car
+                %td= link_to alarm_notification.alarm.name, alarm_notification.alarm
                 %td= alarm_notification.created_at
 %br
 

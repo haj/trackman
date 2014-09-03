@@ -1,6 +1,6 @@
 module ApplicationHelper
 	def notifications_count(user)
-		user.mailbox.notifications.count
+		user.company.alarm_notifications.count
 	end
 
 	def notification_title(notification)
