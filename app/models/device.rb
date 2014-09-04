@@ -77,8 +77,6 @@ class Device < ActiveRecord::Base
 		# find last state for this car
 		last_state = self.states.last
 
-		# if last_state != nil && last_state.moving == true
-		# 	return false
 		if last_positions.count == 2
 			latitude1 = last_positions[0].latitude 
 			longitude1 = last_positions[0].longitude

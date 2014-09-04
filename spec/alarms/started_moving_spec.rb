@@ -23,13 +23,16 @@ describe "Started Moving Alarm" do
 		alarm = Alarm.create!(name: "Vehicle starts moving")
 		AlarmRule.create!(rule_id: @rule.id, alarm_id: alarm.id, conjunction: nil, params: "")
 		@car.alarms << alarm
-		Traccar::Position.destroy_all
+		
   	end
 
+  	before(:each) do
+  		Traccar::Position.destroy_all
+  	end
 
-	it "should take off when vehicle starts moving" do 
+	it "should take off when vehicle starts moving", focus: true do 
   		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
-		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 3.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
+		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 50.856614, longitude: 5.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
 		@rule.starts_moving(@car.id, nil).should equal(true)
 	end
 

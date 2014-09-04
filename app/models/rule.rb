@@ -31,13 +31,8 @@ class Rule < ActiveRecord::Base
 
 		# Vehicle started moving
 		def starts_moving(car_id, params)
-			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 5.minutes.ago).count != 0
-				false
-			elsif Rule.where(method_name: "stopped_for_more_than").first.stopped_for_more_than(car_id, { 'threshold' => '15' }) && car.device.moving?
-				true
-			else
-				false
-			end
+			@car = Car.find(car_id)
+			return Alarm::Movement.evaluate(@car, self)
 		end
 
 		# Vehicle stopped for more than params["duration"] minutes in the last params["time_scope"] minutes
