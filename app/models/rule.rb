@@ -31,22 +31,26 @@ class Rule < ActiveRecord::Base
 
 		# Vehicle started moving
 		def starts_moving(car_id, params)
-			car = Car.find(car_id)
-			if car.no_data?
-				return false
+			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 5.minutes.ago).count != 0
+				false
+			elsif Rule.where(method_name: "stopped_for_more_than").first.stopped_for_more_than(car_id, { 'threshold' => '15' }) && car.device.moving?
+				true
 			else
-				return car.device.moving?
+				false
 			end
 		end
 
 		# Vehicle stopped for more than params["duration"] minutes in the last params["time_scope"] minutes
 		def stopped_for_more_than(car_id, params)
 
-			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 60.minutes.ago).count != 0
+			scope = params["threshold"].to_i*2
+
+			# if a previous alarm of this type was triggered, then cancel this one
+			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, params["threshold"].to_i.minutes.ago).count != 0
 				return false
 			end
 
-			states = Car.find(car_id).states.where(" created_at >= ? " , 60.minutes.ago).where(:no_data => false).order("created_at ASC")
+			states = Car.find(car_id).states.where(" created_at >= ? " , scope.minutes.ago).where(:no_data => false).order("created_at ASC")
 			duration_threshold = params["threshold"].to_i
 			puts states.count
 			previous_state = states.first
@@ -69,11 +73,13 @@ class Rule < ActiveRecord::Base
 		# Vehicle driving for more than consecutive params["threshold"] (duration) minutes in the last params["scope"] (time_scope)
 		def driving_consecutive_hours(car_id, params)
 
-			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 60.minutes.ago).count != 0
+			scope = params["threshold"].to_i*2
+
+			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, params["threshold"].to_i.minutes.ago).count != 0
 				return false
 			end
 
-			states = Car.find(car_id).states.where("created_at > ?" , 60.minutes.ago).where(:no_data => false).order("created_at ASC")
+			states = Car.find(car_id).states.where("created_at > ?" , scope.minutes.ago).where(:no_data => false).order("created_at ASC")
 			duration_threshold = params["threshold"].to_i #in minutes
 			previous_state = states.first
 			duration_sum = 0 
@@ -118,9 +124,22 @@ class Rule < ActiveRecord::Base
 
 		# Vehicle moving during (or not) work hours
 		def movement_not_authorized(car_id, params)
+
+			# setup the car we can apply this rule to
 			car = Car.find(car_id)
-			if true #car.moving? && car.no_data? == false
-				last_position = car.positions.last
+
+			# if we raised an alarm like this in the last 30 minutes, then we don't have to raise another one again, so no need to even check if it's true
+			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 30.minutes.ago).count != 0
+				return false
+			end
+
+			# else we can proceed to check if car moving outside work hours
+			last_position = car.positions.where("created_at > ?", 5.minutes.ago).last
+
+			if last_position.nil? 
+				#if there was no movement in the last 5 minutes then we probably have a problem bigger than if the vehicle is moving during work hours or not
+				return false
+			else 
 				current_time = last_position.created_at.to_time_of_day
 				current_day_of_week = last_position.created_at.wday
 				current_day_of_week = 7 if current_day_of_week == 0 
@@ -131,9 +150,10 @@ class Rule < ActiveRecord::Base
 					end
 				end
 				return true
-			else
-				return false
-			end		
+			end
+
+			
+				
 		end
 
 		def enter_area(car_id, params)

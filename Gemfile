@@ -127,3 +127,4 @@ gem 'selenium-webdriver'
 
 #gem 'jquery-timepicker-rails', github: 'cover/jquery-timepicker-rails'
 
+gem 'timecop'

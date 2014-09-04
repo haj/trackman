@@ -30,7 +30,7 @@ class Alarm < ActiveRecord::Base
 
 		trigger_alarm = false
 
-		# get rules associated with this alarm 
+		# Go through rules associated with this alarm 
 		self.rules.all.each do |rule|
 
 			conj = AlarmRule.where(rule_id: rule.id, alarm_id: self.id).first.conjunction
