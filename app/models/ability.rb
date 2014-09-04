@@ -7,22 +7,6 @@ class Ability
   def initialize(user)
         @user = user || User.new # for guest
         @user.roles.each { |role| send(role) }
-
-        #can :read, Page
-        
-        if @user.has_role? :admin 
-          admin
-        
-        elsif @user.has_role? :manager 
-          manager
-
-        elsif @user.has_role? :employee 
-          employee
-
-        elsif @user.has_role? :driver
-          driver
-
-        end
         # See the wiki for details:
         # https://github.com/ryanb/cancan/wiki/Defining-Abilities
   end
