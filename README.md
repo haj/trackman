@@ -44,9 +44,21 @@ Run the seed_fu stuff, it'll take care of the rest :
 RAILS_ENV=production rake:seed_fu
 ```
 
-## DROP a foreign key that creates a loop when trying to delete a device from the Traccar database 
+## DROP all foreign keys on traccar tables
 
     ALTER TABLE devices DROP FOREIGN KEY `FK5CF8ACDD7C6208C3`;
+
+
+## Add a new column to the positions table in the traccar db : 
+
+```
+ALTER TABLE `positions` ADD `created_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+```
+
+## Set up MySQL timezone
+Usually it's best to setup MySQL Timezone to UTC.
+Or 
+Set the System Timezone to UTC. 
 
 
 

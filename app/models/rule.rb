@@ -105,18 +105,6 @@ class Rule < ActiveRecord::Base
 			end	
 		end
 
-		# NOT TESTED/ NOT ACTIVE 
-		# Vehicle moving slower than params["speed"]
-		def going_slower_than(car_id, params)
-			car = Car.find(car_id)
-
-			if car.device.speed <= params["speed"].to_i # in km/h
-				return true
-			else
-				return false
-			end	
-		end
-
 		# Vehicle moving during (or not) work hours
 		def movement_not_authorized(car_id, params)
 

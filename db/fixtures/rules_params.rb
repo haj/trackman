@@ -36,17 +36,7 @@ Parameter.seed(:id,
   { id: 1, name: "speed", data_type: "float", rule_id: 2 }
 )
 
-# Too Slow
-
-# Rule.seed(:id,
-#   { id: 3, name: "Going slower than", method_name: "going_slower_than" }
-# )
-
-# Parameter.seed(:id,
-#   { id: 2, name: "speed", data_type: "integer", rule_id: 3 }
-# )
-
-# In
+# Enters area
 
 Rule.seed(:id,
   { id: 4, name: "Entered area", method_name: "enter_area" }
