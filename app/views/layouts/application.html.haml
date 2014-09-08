@@ -88,14 +88,14 @@
               #notification-list{:style => "display:none"}
                 %div{:style => "width:300px"}
                   / BEGIN NOTIFICATION MESSAGE
-                  - @notifications.each do |user_notification|
+                  - @notifications.each do |notification|
                     .notification-messages.info
                       .user-profile
                         = image_tag "profiles/d.jpg", :class => "profile-image"
                       .message-wrapper
-                        .heading notification_title(user_notification)
-                        .description notification_desc(user_notification)
-                        .date.pull-left time_ago_in_words(user_notification.created_at)
+                        .heading= Alarm
+                        .description= notification.try(:alarm).try(:name)
+                        .date.pull-left= time_ago_in_words(notification.created_at)
                       .clearfix
                   / END NOTIFICATION MESSAGE
               / END NOTIFICATION CENTER
