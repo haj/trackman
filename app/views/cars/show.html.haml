@@ -1,4 +1,7 @@
-
+.page-title
+  %h3
+    Vehicle
+  
 .row
   .col-md-12
     .grid.simple
@@ -10,19 +13,34 @@
         = form_tag '', :method => :get, :id => "filter_by_date" do
           .row         
             .col-md-12
-              .form-group
+              .input-append.col-lg-2
                 = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date start_date"
+                %span.add-on
+                  %span.arrow
+                  %i.fa.fa-th
+              .input-append.col-lg-2.col-lg-offset-1
                 = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time start_time"
-              .form-group
-                To
-              .form-group
+                %span.add-on
+                  %span.arrow
+                  %i.fa.fa-th
+          %br/
+          .row         
+            .col-md-12
+              .input-append.col-lg-2
                 = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date end_date"
+                %span.add-on
+                  %span.arrow
+                  %i.fa.fa-th
+              .input-append.col-lg-2.col-lg-offset-1
                 = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time end_time"
-              
-              .form-group
-                Number of results
-              .form-group
-                = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results), class: "limit_results"
+                %span.add-on
+                  %span.arrow
+                  %i.fa.fa-clock-o
+          %br/   
+          .row         
+            .col-md-12     
+              Number of results
+              = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results), class: "limit_results"
 
           .row
             .col-md-12

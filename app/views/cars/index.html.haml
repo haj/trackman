@@ -1,9 +1,15 @@
+.page-title
+  %h3
+    Vehicles List
+
 .row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
-        %h4
-          &nbsp;
+      .grid-title
+        %h4 Filter vehicles
+        .tools
+          %a.collapse{href: "javascript:;"}
+      .grid-body
         = form_tag '', :method => :get do
           .panel.panel-default
             .panel-body
@@ -56,15 +62,14 @@
 
 .row
   .col-md-12
-    .grid.simple
-      .grid-title.no-border
+    .grid.simple.horizontal.green
+      .grid-title
+        %h4
+          Vehicles
+          = link_to 'Add', new_car_path, class: "btn btn-success btn-mini"
         .tools
           %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Cars
-          = link_to 'Add', new_car_path, class: "btn btn-success btn-small"
-      .grid-body.no-border
+      .grid-body
         %table.table.no-more-tables
           %thead
             %tr
