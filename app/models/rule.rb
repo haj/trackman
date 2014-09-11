@@ -20,7 +20,7 @@ class Rule < ActiveRecord::Base
 			self.send(self.method_name, car_id, eval(params))
 		end
 
-	### Triggers
+	### Rules/Triggers
 
 		# Vehicle stopped sending updates for at least params["duration"] minutes
 		def no_data?(car_id, params)
