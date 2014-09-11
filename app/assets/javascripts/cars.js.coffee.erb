@@ -34,7 +34,7 @@ $(document).ready ->
         window.current_mode = "pins"
 
         handler = Gmaps.build("Google", builders: { Marker: CustomMarkerBuilder } )
-        handler.buildMap { internal: id: gon.map_id}, ->
+        handler.buildMap { provider: { scrollwheel: false }, internal: { id: gon.map_id }}, ->
 
             for one_marker, i in gon.data
 
@@ -167,7 +167,7 @@ $(document).ready ->
         else 
 
             handler = Gmaps.build("Google", builders: { Marker: CustomMarkerBuilder } )
-            handler.buildMap { internal: id: gon.map_id }, ->
+            handler.buildMap { provider: { scrollwheel: false }, internal: { id: gon.map_id }}, ->
                 #markers = handler.addMarkers(gon.data)
 
                 for one_marker, i in gon.data

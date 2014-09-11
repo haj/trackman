@@ -1,24 +1,22 @@
-%h1 Live map of vehicles
+%h1 Vehicles (Live)
 .row
   .col-md-8
     .row.tiles-container.tiles.white.hidden-xlg.m-b-20
       %div
         %div#cars_index{ :style => "width: 100%; height: 400px;"}
   .col-md-4
-    .grid.simple
-      .grid-body.no-border
-        %table.table.no-more-tables
-          %thead
-            %tr
-              %th
-          %tbody          
-            - @positions.each do |position|
-              %tr
-                %td
-                  = link_to "Vehicle ##{position.car.numberplate}", position.car
-                  %br
-                  = position.time
-                  %br
-                  = position.try(:location).try(:address)
+    .tiles.white
+      .tiles-body
+        .tiles-title
+          Vehicles
+        %br/
+        - @positions.each do |position|
+          .notification-messages.info
+            .message-wrapper
+              .heading= link_to "Vehicle ##{position.car.numberplate}", position.car
+              .description= position.try(:location).try(:address)
+              .date.pull-left= "Last seen : #{time_ago_in_words(position.time)} ago"
+            .clearfix
+
 
 

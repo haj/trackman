@@ -95,7 +95,7 @@
                       .message-wrapper
                         .heading= Alarm
                         .description= notification.try(:alarm).try(:name)
-                        .date.pull-left= time_ago_in_words(notification.created_at)
+                        .date.pull-left= "#{time_ago_in_words(notification.created_at)} ago"
                       .clearfix
                   / END NOTIFICATION MESSAGE
               / END NOTIFICATION CENTER
