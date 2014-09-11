@@ -5,7 +5,7 @@ class AlarmNotificationsController < ApplicationController
 
 
   def index
-    @alarm_notifications = AlarmNotification.all
+    @alarm_notifications = AlarmNotification.where(archived: false).order("created_at DESC")
   end
 
   def show
@@ -14,6 +14,12 @@ class AlarmNotificationsController < ApplicationController
   def destroy
     @alarm_notification.destroy
     redirect_to alarm_notifications_url, notice: 'Alarm notification was successfully destroyed.'
+  end
+
+  def archive
+    @alarm_notification = AlarmNotification.find(params[:id])
+    @alarm_notification.update_attribute(:archived, true)
+    redirect_to alarm_notifications_path
   end
 
   private

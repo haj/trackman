@@ -10,7 +10,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :alarm_notifications
+  resources :alarm_notifications do 
+    member do 
+      get 'archive'
+    end
+  end
 
   resources :plans
   resources :plan_types
