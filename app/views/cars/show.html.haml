@@ -2,13 +2,11 @@
 .row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
+      .grid-title
+        %h4 Filter
         .tools
           %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h3
-          Filters
-      .grid-body.no-border
+      .grid-body
         = form_tag '', :method => :get, :id => "filter_by_date" do
           .row         
             .col-md-12
@@ -34,13 +32,11 @@
 .row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
+      .grid-title
+        %h4 Map viewing mode
         .tools
           %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Switch map viewing mode
-      .grid-body.no-border
+      .grid-body
         .form-group
           = button_tag "Switch", :class => "switch_map_mode btn"
 
@@ -53,13 +49,34 @@
 
 
 .row
-  .col-md-12
-    .grid.simple
-      .grid-title.no-border
-        .form-group
-          %h3
-            Information Card
-      .grid-body.no-border
+  .col-md-6
+    .grid.simple.horizontal.green
+      .grid-title
+        %h4 Positions History
+        .tools
+          %a.collapse{href: "javascript:;"}
+      .grid-body
+        - if !@positions.nil?
+          %table.table.no-more-tables
+            %thead
+              %tr
+                %th Latitude, Longitude
+                %th Address
+                %th Date
+            %tbody
+              
+              - @positions.each do |position|
+                %tr
+                  %td= "#{position.latitude},#{position.longitude}"
+                  %td= position.try(:location).try(:address)
+                  %td= position[:time]
+  .col-md-6
+    .grid.simple.horizontal.green
+      .grid-title
+        %h4 Information Card
+        .tools
+          %a.collapse{href: "javascript:;"}
+      .grid-body
         .form-group
           %b Driver:
           = @car.try(:driver).try(:name)
@@ -94,31 +111,7 @@
         = link_to 'Edit', edit_car_path(@car)
         \|
         = link_to 'Back', cars_path
-
-- if !@positions.nil?
-  .row
-    .col-md-12
-      .grid.simple
-        .grid-title.no-border
-          .tools
-            %a.collapse{href: "javascript:;"}
-        .grid-title.no-border
-          .form-group
-            %h3
-              Positions History
-          %table.table.no-more-tables
-            %thead
-              %tr
-                %th Latitude, Longitude
-                %th Address
-                %th Date
-            %tbody
-              
-              - @positions.each do |position|
-                %tr
-                  %td= "#{position.latitude},#{position.longitude}"
-                  %td= position.try(:location).try(:address)
-                  %td= position[:time]
+  
                  
                 
   %br
