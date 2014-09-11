@@ -15,7 +15,7 @@
         - @positions.each do |position|
           .notification-messages.info
             .message-wrapper
-              .heading= link_to "Vehicle ##{position.car.numberplate}", position.car
+              .heading= link_to "#{position.try(:car).try(:name)}", position.car
               .description= position.try(:location).try(:address)
               .date.pull-left= "Last seen : #{time_ago_in_words(position.time)} ago"
             .clearfix

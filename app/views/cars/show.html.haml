@@ -1,64 +1,53 @@
-.page-title
-  %h3
-    Vehicle
+.row
+  .col-md-8
+    .page-title
+      %h3
+        = @car.name.capitalize
+  .col-md-4
+    .pull-right= button_tag "Switch View Mode", :class => "switch_map_mode btn btn-success"
   
 .row
   .col-md-12
     .grid.simple
-      .grid-title
-        %h4 Filter
-        .tools
-          %a.collapse{href: "javascript:;"}
       .grid-body
         = form_tag '', :method => :get, :id => "filter_by_date" do
-          .row         
+          .row        
             .col-md-12
-              .input-append.col-lg-2
+              .input-append.col-md-1 
+                %div{style: "text-align: center; margin-top: 7px;"} From
+              .input-append.col-md-2
                 = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date start_date"
                 %span.add-on
                   %span.arrow
                   %i.fa.fa-th
-              .input-append.col-lg-2.col-lg-offset-1
+              .input-append.col-md-2{style: "width: 10.66666667% !important;"}
                 = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time start_time"
                 %span.add-on
                   %span.arrow
-                  %i.fa.fa-th
-          %br/
-          .row         
-            .col-md-12
-              .input-append.col-lg-2
+                  %i.fa.fa-clock-o 
+              .input-append.col-md-1
+                %div{style: "text-align: center; margin-top: 7px;"} Until
+              .input-append.col-md-2{style: "margin-left:0px !important;"}
                 = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date end_date"
                 %span.add-on
                   %span.arrow
                   %i.fa.fa-th
-              .input-append.col-lg-2.col-lg-offset-1
+              .input-append.col-md-1{style: "width: 10.66666667% !important;"}
                 = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time end_time"
                 %span.add-on
                   %span.arrow
                   %i.fa.fa-clock-o
           %br/   
           .row         
-            .col-md-12     
-              Number of results
-              = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results), class: "limit_results"
+            .col-md-12  
+              .form-group   
+                Number of results
+                = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results), class: "limit_results"
 
           .row
             .col-md-12
               .form-group
                 = submit_tag 'Apply filters', :class => "btn btn-default"
-
-.row
-  .col-md-12
-    .grid.simple
-      .grid-title
-        %h4 Map viewing mode
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-body
-        .form-group
-          = button_tag "Switch", :class => "switch_map_mode btn"
-
-
 .row
   .col-md-12
     .row.tiles-container.tiles.white.hidden-xlg.m-b-20
@@ -74,20 +63,21 @@
         .tools
           %a.collapse{href: "javascript:;"}
       .grid-body
-        - if !@positions.nil?
+        - if !@positions.nil? && @positions.count != 0
           %table.table.no-more-tables
             %thead
               %tr
-                %th Latitude, Longitude
                 %th Address
                 %th Date
             %tbody
               
               - @positions.each do |position|
                 %tr
-                  %td= "#{position.latitude},#{position.longitude}"
                   %td= position.try(:location).try(:address)
                   %td= position[:time]
+        - else 
+          No positions available, Try to pick another time period.
+
   .col-md-6
     .grid.simple.horizontal.green
       .grid-title
@@ -95,37 +85,40 @@
         .tools
           %a.collapse{href: "javascript:;"}
       .grid-body
-        .form-group
-          %b Driver:
-          = @car.try(:driver).try(:name)
-        .form-group
-          %b Mileage:
-          = @car.mileage
-        .form-group
-          %b Numberplate:
-          = @car.numberplate
-        .form-group
-          %b Device:
-          - if @car.device
-            = link_to @car.device.name, @car.device
-          - else
-            = "This car doesn't have a device attached to it yet"
-        .form-group
-          %b Car model:
-          = @car.car_model_id
-        .form-group
-          %b Car type:
-          = @car.car_type_id
-        .form-group
-          %b Registration no:
-          = @car.registration_no
-        .form-group
-          %b Year:
-          = @car.year
-        .form-group
-          %b Color:
-          = @car.color
-
+        %b Name:
+        = @car.try(:name)
+        %br/
+        %b Driver:
+        = @car.try(:driver).try(:name)
+        %br/
+        %b Mileage:
+        = @car.mileage
+        %br/
+        %b Numberplate:
+        = @car.numberplate
+        %br/
+        %b Device:
+        - if @car.device
+          = link_to @car.device.name, @car.device
+        - else
+          = "This car doesn't have a device attached to it yet"
+        %br/
+        %b Car model:
+        = @car.car_model_id
+        %br/
+        %b Car type:
+        = @car.car_type_id
+        %br/
+        %b Registration no:
+        = @car.registration_no
+        %br/
+        %b Year:
+        = @car.year
+        %br/
+        %b Color:
+        = @car.color
+        %br/
+        %br/
         = link_to 'Edit', edit_car_path(@car)
         \|
         = link_to 'Back', cars_path

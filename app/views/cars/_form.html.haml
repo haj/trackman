@@ -1,9 +1,9 @@
 = form_for @car do |f|
   .page-title
     %h3
-      Add Vehicle
+      Edit Vehicle
   .row
-    .col-md-12
+    .col-md-6
       .grid.simple
         .grid-title 
           %h4
@@ -20,6 +20,10 @@
                   %ul
                     - @car.errors.full_messages.each do |msg|
                       %li= msg
+
+              .form-group  
+                = f.label :name, class: "form-label"
+                = f.text_field :name, class: "form-control"
 
               .form-group  
                 = f.label :numberplate, class: "form-label"
@@ -70,36 +74,41 @@
               .form-group
                 = f.label :group, class: "form-label"
                 = f.collection_select(:group_id, Group.all, :id, :name, { :include_blank => "Select group" }, class: "form-control" )
+  
+    .col-md-6
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-title 
+              %h4
+                Select 
+                %span.semi-bold Alarms
+              .tools
+                %a.collapse{href: "javascript:;"}
+            .grid-body
+              .row
+                .col-md-8.col-sm-8.col-xs-8
+                  .form-group
+                    Alarm :
+                  .form-group
+                    = f.select :alarm_ids, Alarm.all.collect {|x| [x.name, x.id]}, {}, :multiple => true, class: "form-control"
+      .row  
+        .col-md-12
+          .grid.simple
+            .grid-title 
+              %h4
+                Select  
+                %span.semi-bold Work Schedule
+              .tools
+                %a.collapse{href: "javascript:;"}
+            .grid-body
+              .row
+                .col-md-8.col-sm-8.col-xs-8 
+                  .form-group
+                    Work Schedule :          
+                  .form-group
+                    = f.collection_select(:work_schedule_id, WorkSchedule.all, :id, :name, { :include_blank => "Select work schedule" }, class: "form-control")
   .row
     .col-md-12
-      .grid.simple
-        .grid-title 
-          %h4
-            Select 
-            %span.semi-bold Alarms
-          .tools
-            %a.collapse{href: "javascript:;"}
-        .grid-body
-          .row
-            .col-md-8.col-sm-8.col-xs-8
-            .form-group
-              = f.select :alarm_ids, Alarm.all.collect {|x| [x.name, x.id]}, {}, :multiple => true, class: "form-control"
-  .row
-    .col-md-12
-      .grid.simple
-        .grid-title 
-          %h4
-            Select  
-            %span.semi-bold Work Schedule
-          .tools
-            %a.collapse{href: "javascript:;"}
-        .grid-body
-          .row
-            .col-md-8.col-sm-8.col-xs-8             
-              .form-group
-                = f.collection_select(:work_schedule_id, WorkSchedule.all, :id, :name, { :include_blank => "Select work schedule" }, class: "form-control")
-
-              .form-group
-                = f.submit 'Save', class: "btn btn-primary"
-              .form-group
-                = link_to 'Back', cars_path
+      .form-group
+        = f.submit 'Save', class: "btn btn-primary"

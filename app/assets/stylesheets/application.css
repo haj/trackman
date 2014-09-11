@@ -39,6 +39,7 @@
  *= require work_schedules
  *= require datepicker3
  *= require jquery.timepicker
+ *= require cars
  */
 
 
@@ -59,4 +60,10 @@
 #calendar {
 	width: 100%;
 }
+
+.input-append{
+	margin-left: 10px;
+}
+
+
 

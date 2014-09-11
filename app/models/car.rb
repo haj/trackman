@@ -49,17 +49,6 @@ class Car < ActiveRecord::Base
 
 	accepts_nested_attributes_for :alarms
 
-
-	# Virtual attributes
-
-		def name
-			if self.id.nil?
-				return "Car"
-			else
-				return "##{id} - #{self.car_model.name} - #{self.car_type.name}"
-			end
-		end
-
 	# Cars for devices 
 
 		def self.cars_without_devices(car_id)
