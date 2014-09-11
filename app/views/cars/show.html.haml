@@ -13,8 +13,11 @@
     = form_tag '', :method => :get, :id => "filter_by_date" do
       .row
         .col-sm-9
-          .grid.simple
-            .grid-body
+          .tiles.white
+            .tiles-body
+              .tiles-title
+                Filter positions by choosing a start & end date 
+              %br/
               .row
                 .col-lg-3.col-md-12.col-sm-12.col-xs-12
                   .form-group
@@ -29,7 +32,7 @@
                         %i.fa.fa-clock-o
                       = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time start_time form-control"
                 .col-lg-2.col-md-12.col-sm-12.col-xs-12
-                  %div{style: "text-align:center; margin-top:10px; margin-bottom:20px;"} Until
+                  %div{style: "text-align:center; margin-top:10px; margin-bottom:20px;"}= fa_icon "arrow-right"
                 .col-lg-3.col-md-12.col-sm-12.col-xs-12
                   .form-group
                     .input-group

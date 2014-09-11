@@ -2,63 +2,57 @@
   %h3
     Vehicles List
 
-.row
-  .col-md-12
-    .grid.simple
-      .grid-title
-        %h4 Filter vehicles
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-body
-        = form_tag '', :method => :get do
-          .panel.panel-default
-            .panel-body
-              .row
-                .col-sm-3
-                  %h4= "Vehicle model"
-                  .form-group
-                    .row
-                      .col-sm-8.col-sm-offset-1
-                        = select_tag('by_car_model', content_tag(:option,'Vehicle Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'), :class => "form-control")
-                .col-sm-3
-                  %h4= "Vehicle type"
-                  .form-group
-                    .row
-                      .col-sm-8.col-sm-offset-1
-                        = select_tag('by_car_type', content_tag(:option,'Vehicle Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'), :class => "form-control")
-                .col-sm-3
-                  %h4= "Traceability"
-                  .radio
-                    = radio_button_tag 'trackable', 'all' , true
-                    = "All"
-                  .radio 
-                    = radio_button_tag 'trackable', 'true' ,false
-                    = "Traceabe" 
-                  .radio
-                    = radio_button_tag 'trackable', 'false' ,false
-                    = "Not Traceable"
-                  
 
-                .col-sm-3
-                  %h4= "Driver"
-                  .radio
-                    = radio_button_tag 'has_driver', 'all' , true
-                    = "All"
-                  .radio 
-                    = radio_button_tag 'has_driver', 'true' ,false
-                    = "With driver" 
-                  .radio
-                    = radio_button_tag 'has_driver', 'false' ,false
-                    = "Without driver"
-                  
-              %br
-              .row
-                .col-sm-12
-                  = submit_tag 'Apply filters', :class => "btn btn-default"
-          
+= form_tag '', :method => :get do
+  .row
+    .col-md-3
+      .grid.simple
+        .grid-title
+          %h4 Vehicle Model
+        .grid-body
+          = select_tag('by_car_model', content_tag(:option,'Vehicle Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'), :class => "form-control")
+    .col-md-3
+      .grid.simple
+        .grid-title
+          %h4 Vehicle Type
+        .grid-body
+          = select_tag('by_car_type', content_tag(:option,'Vehicle Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'), :class => "form-control")
+    .col-md-3
+      .grid.simple
+        .grid-title
+          %h4 Traceability
+        .grid-body
+          %label
+            = radio_button_tag 'trackable', 'all' , true
+            = "All"
+          %label 
+            = radio_button_tag 'trackable', 'true' ,false
+            = "Traceabe" 
+          %label
+            = radio_button_tag 'trackable', 'false' ,false
+            = "Not Traceable"
+    .col-md-3
+      .grid.simple
+        .grid-title
+          %h4 Driver
+        .grid-body
+          .row
+            .col-md-12
+              %label
+                = radio_button_tag 'has_driver', 'all' , true
+                = "All"
+              %label 
+                = radio_button_tag 'has_driver', 'true' ,false
+                = "With driver" 
+              %label
+                = radio_button_tag 'has_driver', 'false' ,false
+                = "Without driver"
 
-        %br
+  .row
+    .col-md-12
+      .pull-right= submit_tag 'Apply filters', :class => "btn btn-success"
 
+%br/      
 
 .row
   .col-md-12
