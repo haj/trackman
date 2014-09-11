@@ -1,53 +1,61 @@
 .row
-  .col-md-8
+  .col-md-8.col-lg-6.col-sm-6.col-xs-6
     .page-title
       %h3
         = @car.name.capitalize
-  .col-md-4
+  .col-md-4.col-lg-6.col-sm-6.col-xs-6
     .pull-right= button_tag "Switch Map view mode", :class => "switch_map_mode btn btn-success"
-  
+
+%br/
+
 .row
   .col-md-12
-    .grid.simple
-      .grid-body
-        = form_tag '', :method => :get, :id => "filter_by_date" do
-          .row        
-            .col-md-12
-              .input-append.col-md-1 
-                %div{style: "text-align: center; margin-top: 7px;"} From
-              .input-append.col-md-2
-                = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date start_date"
-                %span.add-on
-                  %span.arrow
-                  %i.fa.fa-th
-              .input-append.col-md-2{style: "width: 10.66666667% !important;"}
-                = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time start_time"
-                %span.add-on
-                  %span.arrow
-                  %i.fa.fa-clock-o 
-              .input-append.col-md-1
-                %div{style: "text-align: center; margin-top: 7px;"} Until
-              .input-append.col-md-2{style: "margin-left:0px !important;"}
-                = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date end_date"
-                %span.add-on
-                  %span.arrow
-                  %i.fa.fa-th
-              .input-append.col-md-1{style: "width: 10.66666667% !important;"}
-                = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time end_time"
-                %span.add-on
-                  %span.arrow
-                  %i.fa.fa-clock-o
-          %br/   
-          .row         
-            .col-md-12  
-              .form-group   
-                Number of results
-                = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results), class: "limit_results"
+    = form_tag '', :method => :get, :id => "filter_by_date" do
+      .row
+        .col-sm-9
+          .grid.simple
+            .grid-body
+              .row
+                .col-lg-3.col-md-12.col-sm-12.col-xs-12
+                  .form-group
+                    .input-group
+                      .input-group-addon
+                        %i.fa.fa-th
+                      = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date start_date form-control"                  
+                .col-lg-2.col-md-12.col-sm-12.col-xs-12
+                  .form-group
+                    .input-group
+                      .input-group-addon
+                        %i.fa.fa-clock-o
+                      = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time start_time form-control"
+                .col-lg-2.col-md-12.col-sm-12.col-xs-12
+                  %div{style: "text-align:center; margin-top:10px; margin-bottom:20px;"} Until
+                .col-lg-3.col-md-12.col-sm-12.col-xs-12
+                  .form-group
+                    .input-group
+                      .input-group-addon
+                        %i.fa.fa-th
+                      = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date end_date form-control"
+                .col-lg-2.col-md-12.col-sm-12.col-xs-12
+                  .form-group
+                    .input-group
+                      .input-group-addon
+                        %i.fa.fa-clock-o
+                      = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time end_time form-control"
+        .col-sm-3
+          .grid.simple
+            .grid-body
+              .row
+                .col-lg-12
+                  Number of results : 
+                  = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results), class: "limit_results form-control"
+      .row 
+        .col-md-12
+          .form-group
+            .pull-right= submit_tag 'Apply filters', :class => "btn btn-default btn-primary"
 
-          .row
-            .col-md-12
-              .form-group
-                = submit_tag 'Apply filters', :class => "btn btn-default"
+%br/
+
 .row
   .col-md-12
     .row.tiles-container.tiles.white.hidden-xlg.m-b-20
