@@ -2,7 +2,7 @@
   .col-md-8.col-lg-6.col-sm-6.col-xs-6
     .page-title
       %h3
-        = @car.name.capitalize
+        = @car.try(:name).capitalize
   .col-md-4.col-lg-6.col-sm-6.col-xs-6
     .pull-right= button_tag "Switch Map view mode", :class => "switch_map_mode btn btn-success"
 
