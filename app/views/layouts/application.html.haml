@@ -128,22 +128,9 @@
       / BEGIN MENU
       #main-menu.page-sidebar
         #main-menu-wrapper.page-sidebar-wrapper
-          / BEGIN MINI-PROFILE
-          .user-info-wrapper
-            .profile-wrapper
-              = image_tag "profiles/avatar.jpg", :class => "avatar"
-            .user-info
-              .greeting Welcome
-              .username
-                = current_user.first_name
-                %span.semi-bold= current_user.last_name
-          / END MINI-PROFILE
           / BEGIN SIDEBAR MENU
           %p.menu-title
-            MANAGE
-            %span.pull-right
-              %a{:href => "javascript:;"}
-                %i.fa.fa-refresh
+            ADMINISTRATION
           %ul
             / BEGIN SELECTED LINK
             %li
