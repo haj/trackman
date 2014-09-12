@@ -6,58 +6,61 @@
   .col-md-4.col-lg-6.col-sm-6.col-xs-6
     .pull-right= button_tag "Switch Map view mode", :class => "switch_map_mode btn btn-success"
 
-%br/
-
 .row
   .col-md-12
     = form_tag '', :method => :get, :id => "filter_by_date" do
       .row
-        .col-sm-9
-          .tiles.white
-            .tiles-body
-              .tiles-title
-                Filter positions by choosing a start & end date 
-              %br/
-              .row
-                .col-lg-3.col-md-12.col-sm-12.col-xs-12
-                  .form-group
-                    .input-group
-                      .input-group-addon
-                        %i.fa.fa-th
-                      = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date start_date form-control"                  
-                .col-lg-2.col-md-12.col-sm-12.col-xs-12
-                  .form-group
-                    .input-group
-                      .input-group-addon
-                        %i.fa.fa-clock-o
-                      = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time start_time form-control"
-                .col-lg-2.col-md-12.col-sm-12.col-xs-12
-                  %div{style: "text-align:center; margin-top:10px; margin-bottom:20px;"}= fa_icon "arrow-right"
-                .col-lg-3.col-md-12.col-sm-12.col-xs-12
-                  .form-group
-                    .input-group
-                      .input-group-addon
-                        %i.fa.fa-th
-                      = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date end_date form-control"
-                .col-lg-2.col-md-12.col-sm-12.col-xs-12
-                  .form-group
-                    .input-group
-                      .input-group-addon
-                        %i.fa.fa-clock-o
-                      = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time end_time form-control"
-        .col-sm-3
+        .col-lg-10.col-md-8.col-sm-8.col-xs-12
+          .row
+            .col-md-12
+              .tiles.white
+                .tiles-body
+                  .tiles-title
+                    Filter positions by choosing a start & end date 
+                  %br/
+                  .row
+                    .col-lg-3.col-md-12.col-sm-12.col-xs-12
+                      .form-group
+                        .input-group
+                          .input-group-addon
+                            %i.fa.fa-th
+                          = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date start_date form-control"                  
+                    .col-lg-2.col-md-12.col-sm-12.col-xs-12
+                      .form-group
+                        .input-group
+                          .input-group-addon
+                            %i.fa.fa-clock-o
+                          = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time start_time form-control"
+                    .col-lg-1.col-md-12.col-sm-12.col-xs-12
+                      %div{style: "text-align:center; margin-top:10px; margin-bottom:20px;"}= fa_icon "arrow-right"
+                    .col-lg-3.col-md-12.col-sm-12.col-xs-12
+                      .form-group
+                        .input-group
+                          .input-group-addon
+                            %i.fa.fa-th
+                          = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date end_date form-control"
+                    .col-lg-2.col-md-12.col-sm-12.col-xs-12
+                      .form-group
+                        .input-group
+                          .input-group-addon
+                            %i.fa.fa-clock-o
+                          = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time end_time form-control"
+          %br/
+          .row
+            .col-md-12
+              = submit_tag 'Apply filters', :class => "btn btn-default btn-primary"
+        .col-lg-2.col-md-4.col-sm-4.col-xs-12
           .grid.simple
             .grid-body
               .row
                 .col-lg-12
-                  Number of results : 
+                  .form-group 
+                    = 'Number of results' 
                   = number_field_tag "scope[limit_results]", params.try(:[], :scope).try(:[], :limit_results), class: "limit_results form-control"
       .row 
         .col-md-12
           .form-group
-            .pull-right= submit_tag 'Apply filters', :class => "btn btn-default btn-primary"
-
-%br/
+            .pull-right
 
 .row
   .col-md-12
@@ -67,7 +70,7 @@
 
 
 .row
-  .col-md-6
+  .col-md-7
     .grid.simple.horizontal.green
       .grid-title
         %h4 Positions History
@@ -89,7 +92,7 @@
         - else 
           No positions available, Try to pick another time period.
 
-  .col-md-6
+  .col-md-5
     .grid.simple.horizontal.green
       .grid-title
         %h4 Information Card
