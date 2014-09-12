@@ -67,6 +67,7 @@
         %table.table.no-more-tables
           %thead
             %tr
+              = content_tag :th, sort_link(@q, :name)
               = content_tag :th, sort_link(@q, :numberplate)
               = content_tag :th, sort_link(@q, :car_model)
               = content_tag :th, sort_link(@q, :car_type)
@@ -79,6 +80,7 @@
             
             - @cars.each do |car|
               %tr
+                %td= car.name
                 %td= car.numberplate
                 %td= car.try(:car_model).try(:name)
                 %td= car.try(:car_type).try(:name)
