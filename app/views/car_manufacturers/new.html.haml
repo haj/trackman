@@ -4,18 +4,6 @@
       = link_to raw("<i class='icon-custom-left'></i>"), car_manufacturers_path
       %h3
         New Car Manufacturer 
-
 .row
   .col-md-12
-    .grid.simple
-      .grid-title 
-        %h4
-          Car Manufacturer 
-          %span.semi-bold details
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-body 
-        %br/
-        .row
-          .col-md-8.col-sm-8.col-xs-8
-            = render 'form'
+    = render 'form'

@@ -1,46 +1,50 @@
 .row
-  .col-md-12
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Search
-      .grid-body.no-border
-        = search_form_for @q, :class => "form-inline" do |f| 
-          .form-group
-            = f.search_field :name_cont, :placeholder => "Search with name" 
-          .form-group
-            = f.submit "Search" ,:class => "btn btn-default"
+  .col-md-3
+    .row
+      .col-md-12
+        .page-title
+          %h3
+            &nbsp;
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-title 
+            %h4
+              Search
+            .tools
+              %a.collapse{href: "javascript:;"}
+          .grid-body 
+            = search_form_for @q do |f| 
+              .form-group
+                = f.search_field :name_cont, :placeholder => "Search with name" 
+              .form-group
+                = f.submit "Search" ,:class => "btn btn-default"
 
-.row
-  .col-md-12
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h3
-          Groups
-          = link_to 'Add', new_group_path, class: "btn btn-success btn-small"
+  .col-md-9
+    .row
+      .col-md-12
+        .page-title
+          %h3
+            Alarm groups List 
+            = link_to 'New', new_group_path, class: "btn btn-primary btn-small"
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-body 
+            %table.table.no-more-tables
+              %thead
+                %tr
+                  = content_tag :th, sort_link(@q, :name)
+                  %th
+                  %th
 
-      .grid-body.no-border
-        %table.table.no-more-tables
-          %thead
-            %tr
-              = content_tag :th, sort_link(@q, :name)
-              %th
-              %th
+              %tbody
+                
+                - @groups.each do |group|
+                  %tr
+                    %td= link_to group.name, group
+                    %td= link_to 'Edit', edit_group_path(group)
+                    %td= link_to 'Destroy', group, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-          %tbody
-            
-            - @groups.each do |group|
-              %tr
-                %td= link_to group.name, group
-                %td= link_to 'Edit', edit_group_path(group)
-                %td= link_to 'Destroy', group, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
 
 

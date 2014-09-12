@@ -1,20 +1,14 @@
-.page-title
-  %h3
-    Listing features
+.row
+  .col-md-12
+    .page-title
+      %h3
+        Features List 
+        = link_to 'New', new_feature_path, class: "btn btn-primary btn-small"
 
 .row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          All features
-          = link_to 'Add', new_feature_path, class: "btn btn-success btn-small"
-        
-
-      .grid-body.no-border
+      .grid-body 
         %table.table.no-more-tables
           %thead
             %tr
@@ -22,14 +16,12 @@
               %th Role
               %th
               %th
-              %th
 
           %tbody
             - @features.each do |feature|
               %tr
-                %td= feature.name
+                %td= link_to feature.name, feature
                 %td= feature.role
-                %td= link_to 'Show', feature
                 %td= link_to 'Edit', edit_feature_path(feature)
                 %td= link_to 'Destroy', feature, :method => :delete, :data => { :confirm => 'Are you sure?' }
 

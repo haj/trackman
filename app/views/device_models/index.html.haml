@@ -1,60 +1,50 @@
-
 .row
   .col-md-12
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Search
-        
-      .grid-body.no-border
-
-        = search_form_for @q, :class => "form-inline" do |f| 
-          = f.search_field :name_cont, :placeholder => "search with name" 
-          = f.submit "Search" ,:class => "btn btn-default"
-
+    .page-title
+      %h3
+        Device Models List 
+        = link_to 'New', new_device_model_path, class: "btn btn-primary btn-small"
 
 
 .row
-  .col-md-12
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Filter
-        
-      .grid-body.no-border
-        = form_tag '', :method => :get do
-          .form-group
-            = "Device Manufacturer"
-          .form-group
-            = select_tag( :by_device_manufacturer, options_for_select(all_device_manufacturers, params[:by_device_manufacturer]), :include_blank => true)
-          .form-group
-            = submit_tag 'Filter', :class => "btn btn-primary"
+  .col-md-4
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-title 
+            %h4
+              Search
+            .tools
+              %a.collapse{href: "javascript:;"}
+          .grid-body 
+            = search_form_for @q, :class => "form-inline" do |f| 
+              = f.search_field :name_cont, :placeholder => "Type name here" 
+              = f.submit "Search" ,:class => "btn btn-default"
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-title 
+            %h4
+              Filter by Device Manufacturer
+            .tools
+              %a.collapse{href: "javascript:;"}
+          .grid-body 
+            = form_tag '', :method => :get do
+              .form-group
+                = "Device Manufacturer"
+              %p
+                = select_tag( :by_device_manufacturer, options_for_select(all_device_manufacturers, params[:by_device_manufacturer]), :include_blank => true)
+              %p
+                = submit_tag 'Filter', :class => "btn btn-primary"
 
-
-
-.row
-  .col-md-12
+  .col-md-8
     .grid.simple 
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Device models
-          = link_to 'Add', new_device_model_path, class: "btn btn-success btn-small"
-      .grid-body.no-border
+      .grid-body 
         %table.table.no-more-tables
           %thead
             %tr
               = content_tag :th, sort_link(@q, :name)
               = content_tag :th, sort_link(@q, 'Device Manufacturer')
-              = content_tag :th, sort_link(@q, :protocol)
               %th
               %th
               %th
@@ -62,10 +52,8 @@
             
             - @device_models.each do |device_model|
               %tr
-                %td= device_model.name
+                %td= link_to device_model.name, device_model
                 %td= device_model.try(:device_manufacturer).try(:name)
-                %td= device_model.protocol
-                %td= link_to 'Show', device_model
                 %td= link_to 'Edit', edit_device_model_path(device_model)
                 %td= link_to 'Destroy', device_model, :method => :delete, :data => { :confirm => 'Are you sure?' }
 %br

@@ -1,80 +1,88 @@
 .row
-  .col-md-12
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Search
-      .grid-body.no-border
-        = search_form_for @q, :class => "form-inline" do |f| 
-          .form-group
-            = f.search_field :telephone_number_cont, :placeholder => "Search with telephone number" 
-          .form-group
-            = f.submit "Search" ,:class => "btn btn-default"
-
-.row
-  .col-md-12
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Filter
-      .grid-body.no-border
+  .col-md-3
+    .row
+      .col-md-12
+        .page-title
+          %h3
+            &nbsp;
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-title
+            %h4
+              Search
+            .tools
+              %a.collapse{href: "javascript:;"}
+          .grid-body 
+            = search_form_for @q  do |f| 
+              .form-group
+                = f.search_field :telephone_number_cont, :placeholder => " Type telephone number", class: "form-control"
+              .form-group
+                = f.submit "Search" ,:class => "btn btn-default"
+    .row
+      .col-md-12
         = form_tag '', :method => :get do
-          .form-group
-            Teleprovider
-          .form-group
-            = select_tag( :by_teleprovider, options_for_select(all_teleproviders, params[:by_teleprovider]), :include_blank => true)     
-          .form-group
-            = radio_button_tag 'available', 'all' , true
-            = "All"
-          .form-group
-            = radio_button_tag 'available', 'true' , params["available"] == 'true' ? true : false
-            = "Available" 
-          .form-group
-            = radio_button_tag 'available', 'false' , params["available"] == 'false' ? true : false
-            = "Used"
+          .row
+            .col-md-12
+              .grid.simple
+                .grid-title 
+                  %h4
+                    Teleproviders
+                  .tools
+                    %a.collapse{href: "javascript:;"}              
+                .grid-body 
+                  = select_tag( :by_teleprovider, options_for_select(all_teleproviders, params[:by_teleprovider]), :include_blank => true, class: "form-control")     
+          .row
+            .col-md-12
+              .grid.simple
+                .grid-title 
+                  %h4
+                    Availablity
+                  .tools
+                    %a.collapse{href: "javascript:;"}              
+                .grid-body
+                  %label
+                    = radio_button_tag 'available', 'all' , true
+                    = "All"
+                  %label
+                    = radio_button_tag 'available', 'true' , params["available"] == 'true' ? true : false
+                    = "Available" 
+                  %label
+                    = radio_button_tag 'available', 'false' , params["available"] == 'false' ? true : false
+                    = "Used"
           
           .form-group
-            = submit_tag 'Filter', :class => "btn btn-default"
+            = submit_tag 'Apply Filters', :class => "btn btn-default"
+        
+        .col-md-9
+          
+              
 
-.row
-  .col-md-12
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Simcards
-          = link_to 'Add', new_simcard_path, class: "btn btn-success btn-small"
-      .grid-body.no-border
-        %table.table.no-more-tables
-          %thead
-            %tr
-              = content_tag :th, sort_link(@q, :telephone_number)
-              = content_tag :th, sort_link(@q, 'Teleprovider name')
-              = content_tag :th, sort_link(@q, :monthly_price)
-              %th
-              %th
-              %th
+  .col-md-9
+    .row
+      .col-md-12
+        .page-title
+          %h3
+            Simcards List 
+            = link_to 'New', new_simcard_path, class: "btn btn-success btn-small"
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-body 
+            %table.table.no-more-tables
+              %thead
+                %tr
+                  = content_tag :th, sort_link(@q, :telephone_number)
+                  = content_tag :th, sort_link(@q, 'Teleprovider name')
+                  %th
+                  %th
 
-          %tbody           
-            - @simcards.each do |simcard|
-              %tr
-                %td= simcard.telephone_number
-                %td= simcard.try(:teleprovider).try(:name)
-                %td= simcard.monthly_price
-                - if simcard.device
-                  %td= link_to simcard.try(:device).try(:name), simcard.try(:device)
-                - else 
-                  %td= "No device"
-                %td= link_to 'Show', simcard
-                %td= link_to 'Edit', edit_simcard_path(simcard)
-                %td= link_to 'Destroy', simcard, :method => :delete, :data => { :confirm => 'Are you sure?' }
+              %tbody           
+                - @simcards.each do |simcard|
+                  %tr
+                    %td= link_to simcard.telephone_number, simcard
+                    %td= simcard.try(:teleprovider).try(:name)
+                    %td= link_to 'Edit', edit_simcard_path(simcard)
+                    %td= link_to 'Destroy', simcard, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 

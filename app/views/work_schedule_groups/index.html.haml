@@ -1,21 +1,30 @@
-%h1 Listing work_schedule_groups
+.row
+  .col-md-6
+    .page-title
+      %h3
+        Work schedule groups List 
+  .col-md-6
+    .pull-right= link_to 'New', new_work_schedule_group_path, class: "btn btn-success"
 
-%table
-  %tr
-    %th Company
-    %th Work schedule
-    %th
-    %th
-    %th
 
-  - @work_schedule_groups.each do |work_schedule_group|
-    %tr
-      %td= work_schedule_group.company_id
-      %td= work_schedule_group.work_schedule_id
-      %td= link_to 'Show', work_schedule_group
-      %td= link_to 'Edit', edit_work_schedule_group_path(work_schedule_group)
-      %td= link_to 'Destroy', work_schedule_group, :method => :delete, :data => { :confirm => 'Are you sure?' }
+.row
+  .col-md-12
+    .grid.simple
+      .grid-body  
+        %table.table.no-more-tables
+          %thead
+            %tr
+              %th Name
+              %th Work schedule
+              %th
+              %th
+              %th
+
+          - @work_schedule_groups.each do |work_schedule_group|
+            %tr
+              %td= link_to work_schedule_group.name, work_schedule_group
+              %td= work_schedule_group.try(:work_schedule).try(:name)
+              %td= link_to 'Edit', edit_work_schedule_group_path(work_schedule_group)
+              %td= link_to 'Destroy', work_schedule_group, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
-
-= link_to 'New Work schedule group', new_work_schedule_group_path

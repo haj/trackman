@@ -166,7 +166,11 @@
             %li
               %a{:href => groups_path}
                 = fa_icon "sitemap"
-                %span.title Groups
+                %span.title Alarm Groups
+            %li
+              %a{:href => work_schedule_groups_path}
+                = fa_icon "sitemap"
+                %span.title Work Schedule Groups
             %li
               %a{:href => users_path}
                 = fa_icon "users"
@@ -216,7 +220,7 @@
                   %li= link_to "Rules", rules_path
                   %li
                     %a{:href => "javascript:;"}
-                      %span.title Billing
+                      %span.title Billing/Plans
                       %span.arrow
                     %ul.sub-menu
                       %li= link_to "Plans", plans_path

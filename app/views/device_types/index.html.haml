@@ -1,34 +1,28 @@
 .row
   .col-md-12
+    .page-title
+      %h3
+        Device Types List 
+        = link_to 'New', new_device_type_path, class: "btn btn-primary btn-small"
+
+.row
+  .col-md-4
     .grid.simple
-      .grid-title.no-border
+      .grid-title
+        %h4
+          Search 
         .tools
           %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Search
-      .grid-body.no-border
+      .grid-body
         = search_form_for @q, :class => "form-inline" do |f| 
           .form-group
-            = f.search_field :name_cont, :placeholder => "Search with name"
+            = f.search_field :name_cont, :placeholder => "Type name here"
           .form-group 
             = f.submit "Search" ,:class => "btn btn-default"
 
-
-
-.row
-  .col-md-12
+  .col-md-8
     .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          &nbsp;
-          = link_to 'Add', new_device_type_path, class: "btn btn-success btn-small"
-      .grid-body.no-border
-        %h3
-          Device types
+      .grid-body
         %table.table.no-more-tables
           %thead
             %tr
@@ -40,8 +34,7 @@
             
             - @device_types.each do |device_type|
               %tr
-                %td= device_type.name
-                %td= link_to 'Show', device_type
+                %td= link_to device_type.name, device_type
                 %td= link_to 'Edit', edit_device_type_path(device_type)
                 %td= link_to 'Destroy', device_type, :method => :delete, :data => { :confirm => 'Are you sure?' }
 %br

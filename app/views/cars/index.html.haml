@@ -1,94 +1,96 @@
-.page-title
-  %h3
-    Vehicles List
+
 
 
 = form_tag '', :method => :get do
   .row
     .col-md-3
-      .grid.simple
-        .grid-title
-          %h4 Vehicle Model
-        .grid-body
-          = select_tag('by_car_model', content_tag(:option,'Vehicle Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'), :class => "form-control")
-    .col-md-3
-      .grid.simple
-        .grid-title
-          %h4 Vehicle Type
-        .grid-body
-          = select_tag('by_car_type', content_tag(:option,'Vehicle Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'), :class => "form-control")
-    .col-md-3
-      .grid.simple
-        .grid-title
-          %h4 Traceability
-        .grid-body
-          %label
-            = radio_button_tag 'trackable', 'all' , true
-            = "All"
-          %label 
-            = radio_button_tag 'trackable', 'true' ,false
-            = "Traceabe" 
-          %label
-            = radio_button_tag 'trackable', 'false' ,false
-            = "Not Traceable"
-    .col-md-3
-      .grid.simple
-        .grid-title
-          %h4 Driver
-        .grid-body
-          .row
-            .col-md-12
+      .row
+        .col-md-12
+          .page-title
+            %h3
+              &nbsp;
+      .row
+        .col-md-12
+          = submit_tag 'Apply Filters', :class => "btn btn-success"
+      %br/
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-title
+              %h4 Vehicle Model
+            .grid-body
+              = select_tag('by_car_model', content_tag(:option,'Vehicle Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'), :class => "form-control")
+      .row  
+        .col-md-12
+          .grid.simple
+            .grid-title
+              %h4 Vehicle Type
+            .grid-body
+              = select_tag('by_car_type', content_tag(:option,'Vehicle Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'), :class => "form-control")
+      .row  
+        .col-md-12
+          .grid.simple
+            .grid-title
+              %h4 Traceability
+            .grid-body
               %label
-                = radio_button_tag 'has_driver', 'all' , true
+                = radio_button_tag 'trackable', 'all' , true
                 = "All"
               %label 
-                = radio_button_tag 'has_driver', 'true' ,false
-                = "With driver" 
+                = radio_button_tag 'trackable', 'true' ,false
+                = "Traceabe" 
               %label
-                = radio_button_tag 'has_driver', 'false' ,false
-                = "Without driver"
+                = radio_button_tag 'trackable', 'false' ,false
+                = "Not Traceable"
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-title
+              %h4 Driver
+            .grid-body
+              .row
+                .col-md-12
+                  %label
+                    = radio_button_tag 'has_driver', 'all' , true
+                    = "All"
+                  %label 
+                    = radio_button_tag 'has_driver', 'true' ,false
+                    = "With driver" 
+                  %label
+                    = radio_button_tag 'has_driver', 'false' ,false
+                    = "Without driver"
+          
 
-  .row
-    .col-md-12
-      .pull-right= submit_tag 'Apply filters', :class => "btn btn-success"
+    .col-md-9
+      .row
+        .col-md-12
+          .page-title
+            %h3
+              Vehicles List 
+              = link_to 'New', new_car_path, class: "btn btn-primary btn-small"
+      .row
+        .col-md-12
+          .grid.simple 
+            .grid-body
+              %table.table.no-more-tables
+                %thead
+                  %tr
+                    = content_tag :th, sort_link(@q, :name)
+                    = content_tag :th, sort_link(@q, :numberplate)
+                    = content_tag :th, sort_link(@q, :car_model)
+                    = content_tag :th, sort_link(@q, :car_type)
+                    %th
+                    %th
+                    %th
+                %tbody
+                  
+                  - @cars.each do |car|
+                    %tr
+                      %td= link_to car.name, car
+                      %td= car.numberplate
+                      %td= car.try(:car_model).try(:name)
+                      %td= car.try(:car_type).try(:name)
+                      %td= link_to 'Edit', edit_car_path(car)
+                      %td= link_to 'Destroy', car, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-%br/      
-
-.row
-  .col-md-12
-    .grid.simple.horizontal.green
-      .grid-title
-        %h4
-          Vehicles
-          = link_to 'Add', new_car_path, class: "btn btn-success btn-mini"
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-body
-        %table.table.no-more-tables
-          %thead
-            %tr
-              = content_tag :th, sort_link(@q, :name)
-              = content_tag :th, sort_link(@q, :numberplate)
-              = content_tag :th, sort_link(@q, :car_model)
-              = content_tag :th, sort_link(@q, :car_type)
-              %th= "Registration no"
-              = content_tag :th, sort_link(@q, :year)
-              %th
-              %th
-              %th
-          %tbody
-            
-            - @cars.each do |car|
-              %tr
-                %td= car.name
-                %td= car.numberplate
-                %td= car.try(:car_model).try(:name)
-                %td= car.try(:car_type).try(:name)
-                %td= car.registration_no
-                %td= car.year
-                %td= link_to 'Show', car
-                %td= link_to 'Edit', edit_car_path(car)
-                %td= link_to 'Destroy', car, :method => :delete, :data => { :confirm => 'Are you sure?' }
-              
-%br
 

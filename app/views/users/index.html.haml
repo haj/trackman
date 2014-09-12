@@ -1,65 +1,70 @@
+
 .row
-  .col-md-6
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h3
-          Filter by Roles
-      .grid-body.no-border
-        = form_tag '', :method => :get do
-          .form-group
-            Roles
-          .form-group
-            = select_tag( :by_role, options_for_select(all_roles, params[:by_role]), :include_blank => true)
-          .form-group
-            = submit_tag 'Filter', :class => "btn btn-primary"
-  .col-md-6
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h3
-          Search
-      .grid-body.no-border
-        = search_form_for @q do |f| 
-          .form-group
-            = f.search_field :email_cont, :placeholder => "Search with email"
-          .form-group
-            = f.submit "Search", :class => "btn btn-default"
+  .col-md-3
+    .row
+      .col-md-12
+        .page-title
+          %h3
+            &nbsp;
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-title 
+            %h4
+              Search
+            .tools
+              %a.collapse{href: "javascript:;"}
+          .grid-body 
+            = search_form_for @q do |f| 
+              .form-group
+                = f.search_field :email_cont, :placeholder => "Type email here", class: "form-control"
+              .form-group
+                = f.submit "Search", :class => "btn btn-default"
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-title 
+            %h4
+              Filter by Roles
+            .tools
+              %a.collapse{href: "javascript:;"}
+          .grid-body
+            = form_tag '', :method => :get do
+              .form-group
+                = select_tag( :by_role, options_for_select(all_roles, params[:by_role]), :include_blank => true, class: "form-control")              
+              .form-group
+                = submit_tag 'Filter', :class => "btn btn-primary"
   
+  .col-md-9
+    .row
+      .col-md-6
+        .page-title
+          %h3
+            Employees List 
+      .col-md-6
+        .pull-right= link_to 'Invite Employee', new_user_invitation_path, class: "btn btn-success"
+    
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-body  
+            %table.table.no-more-tables
+              %thead
+                %tr
+                  = content_tag :th, sort_link(@q, :name)
+                  = content_tag :th, sort_link(@q, :email)
+                  %th Roles
+                  %th
+                  %th
 
-
-.row
-  .col-md-12
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h3
-          Users
-          = link_to 'Invite user', new_user_invitation_path, class: "btn btn-success btn-small"
-      .grid-body.no-border      
-        %table.table.no-more-tables
-          %thead
-            %tr
-              = content_tag :th, sort_link(@q, :name)
-              = content_tag :th, sort_link(@q, :email)
-              %th Roles
-              %th
-              %th
-
-          %tbody           
-            - @users.each do |user|
-              %tr
-                %td= link_to user.name, user
-                %td= user.email
-                %td= user.roles.to_a.join(', ')
-                %td= link_to 'Edit', edit_user_path(user)
-                %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
+              %tbody           
+                - @users.each do |user|
+                  %tr
+                    %td= link_to user.name, user
+                    %td= user.email
+                    %td= user.roles.to_a.join(', ')
+                    %td= link_to 'Edit', edit_user_path(user)
+                    %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 
 

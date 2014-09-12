@@ -1,18 +1,12 @@
-.page-title
-  %h3
-    Listing plans
-
 .row
   .col-md-12
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Plans
-          = link_to 'Add', new_plan_path, class: "btn btn-success btn-small"  
-      .grid-body.no-border
+    .page-title
+      %h3
+        Plans List 
+.row
+  .col-md-12
+    .grid.simple 
+      .grid-body
         %table.table.no-more-tables
           %thead
             %tr
@@ -26,6 +20,7 @@
               %tr
                 %td= link_to plan.try(:plan_type).try(:name), plan
                 %td= link_to 'Switch', new_subscription_path(:plan_id => plan.id)
-                %td= link_to 'Edit', edit_plan_path(plan)
-                %td= link_to 'Destroy', plan, :method => :delete, :data => { :confirm => 'Are you sure?' }
+                - if current_user.has_role?(:admin)
+                  %td= link_to 'Edit', edit_plan_path(plan)
+                  %td= link_to 'Destroy', plan, :method => :delete, :data => { :confirm => 'Are you sure?' }
 

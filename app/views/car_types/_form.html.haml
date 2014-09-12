@@ -5,10 +5,26 @@
       %ul
         - @car_type.errors.full_messages.each do |msg|
           %li= msg
-
-  .form-group
-    = f.label :name, :class => "form-label"
-    = f.text_field :name, :class => "form-control"
+  .row
+    .col-md-12
+      .grid.simple
+        .grid-title.no-border
+          %h4
+            Car type 
+            %span.semi-bold details
+          .tools
+            %a.collapse{href: "javascript:;"}
+            %a.config{"data-toggle" => "modal", href: "#grid-config"}
+            %a.reload{href: "javascript:;"}
+            %a.remove{href: "javascript:;"}
+        .grid-body.no-border
+          %br/
+          .row
+            .col-md-8.col-sm-8.col-xs-8
+              .form-group
+                = f.label :name, :class => "form-label"
+                = f.text_field :name, :class => "form-control"
     
-  .form-group
-    = f.submit 'Save', class: "btn btn-primary"
+  .row
+    .col-md-12
+      = f.submit 'Save', class: "btn btn-primary"

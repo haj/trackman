@@ -1,50 +1,47 @@
 .row
-  .col-md-6
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Filters
-      .grid-body.no-border
-        = form_tag '', :method => :get do
-          .form-group
-            = "Car Model"
-          .form-group
-            = select_tag( :by_car_manufacturer, options_for_select(all_car_manufacturers, params[:by_car_manufacturer]), :include_blank => true)
-          .form-group
-            = submit_tag 'Filter', :class => "btn btn-primary"
-  .col-md-6
-    .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Search
-      .grid-body.no-border
-        = search_form_for @q, :class => "form-inline" do |f| 
-          .form-group
-            = f.search_field :name_cont, :placeholder => "Search with name" 
-          .form-group
-            = f.submit "Search" ,:class => "btn btn-default"
+  .col-md-12
+    .page-title
+      %h3
+        Car Models List 
+        = link_to 'New', new_car_model_path, class: "btn btn-success btn-small"
 
-
-
-%br
 
 .row
-  .col-md-12
+  .col-md-4
+    .row 
+      .col-md-12
+        .grid.simple
+          .grid-title 
+            %h4
+              Search
+            .tools
+              %a.collapse{href: "javascript:;"}
+          .grid-body
+            = search_form_for @q, :class => "form-inline" do |f| 
+              .form-group
+                = f.search_field :name_cont, :placeholder => "Search with name" 
+              .form-group
+                = f.submit "Search" ,:class => "btn btn-default"
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-title
+            %h4
+              Filter by Car Models
+            .tools
+              %a.collapse{href: "javascript:;"}
+          .grid-body
+            = form_tag '', :method => :get do
+              %p
+                = select_tag( :by_car_manufacturer, options_for_select(all_car_manufacturers, params[:by_car_manufacturer]), :include_blank => "Car Models ...")
+              %p
+                = submit_tag 'Filter', :class => "btn btn-primary"
+    
+
+
+  .col-md-8
     .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Car Models
-          = link_to 'Add', new_car_model_path, class: "btn btn-success btn-small"
-      .grid-body.no-border
+      .grid-body 
         %table.table.no-more-tables
           %thead
             %tr
@@ -56,9 +53,8 @@
           %tbody  
             - @car_models.each do |car_model|
               %tr
-                %td= car_model.name
+                %td= link_to car_model.name, car_model
                 %td= car_model.try(:car_manufacturer).try(:name)
-                %td= link_to 'Show', car_model
                 %td= link_to 'Edit', edit_car_model_path(car_model)
                 %td= link_to 'Destroy', car_model, :method => :delete, :data => { :confirm => 'Are you sure?' }
 

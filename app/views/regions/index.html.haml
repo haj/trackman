@@ -1,28 +1,24 @@
-
+.row
+  .col-md-12
+    .page-title
+      %h3
+        Regions List 
+        = link_to 'New', new_region_path, class: "btn btn-success btn-small"
 .row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Regions
-          = link_to 'Add', new_region_path, class: "btn btn-success btn-small"
-      .grid-body.no-border
+      .grid-body
         %table.table.no-more-tables
           %thead
             %tr
               %th Name
               %th
               %th
-              %th
 
           %tbody           
             - @regions.each do |region|
               %tr
-                %td= region.name
-                %td= link_to 'Show', region
+                %td= link_to region.name, region
                 %td= link_to 'Edit', edit_region_path(region)
                 %td= link_to 'Destroy', region, :method => :delete, :data => { :confirm => 'Are you sure?' }
 

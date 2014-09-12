@@ -3,10 +3,10 @@
     .page-title
       %h3
         Car Manufacturers List 
-        = link_to 'Add', new_car_manufacturer_path, class: "btn btn-success btn-small"
+        = link_to 'New', new_car_manufacturer_path, class: "btn btn-success btn-small"
 
 .row
-  .col-md-12
+  .col-md-4
     .grid.simple
       .grid-title 
         %h4
@@ -20,8 +20,7 @@
           .form-group 
             = f.submit "Search" ,:class => "btn btn-default"
 
-.row
-  .col-md-12
+  .col-md-8
     .grid.simple
       .grid-body 
         %table.table.no-more-tables
@@ -35,10 +34,8 @@
             
             - @car_manufacturers.each do |car_manufacturer|
               %tr
-                %td= car_manufacturer.name
-                %td= link_to 'Show', car_manufacturer
+                %td= link_to car_manufacturer.name, car_manufacturer
                 %td= link_to 'Edit', edit_car_manufacturer_path(car_manufacturer)
                 %td= link_to 'Destroy', car_manufacturer, :method => :delete, :data => { :confirm => 'Are you sure?' }
-%br
 
 

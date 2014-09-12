@@ -1,30 +1,26 @@
-
+.row
+  .col-md-12
+    .page-title
+      %h3
+        Rules List 
+        = link_to 'New', new_rule_path, class: "btn btn-success btn-small"
 .row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Rules
-          = link_to 'Add', new_rule_path, class: "btn btn-success btn-small"
-        .grid-body.no-border
-          %table.table.no-more-tables
-            %thead
+      .grid-body 
+        %table.table.no-more-tables
+          %thead
             %tr
               %th Name
               %th # of parameters
               %th
               %th
-              %th
 
-            %tbody           
-            - @rules.each do |rule|
-              %tr
-              %td= rule.name
+          %tbody           
+          - @rules.each do |rule|
+            %tr
+              %td= link_to rule.name, rule
               %td= rule.params.count
-              %td= link_to 'Show', rule
               %td= link_to 'Edit', edit_rule_path(rule)
               %td= link_to 'Destroy', rule, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
