@@ -11,6 +11,11 @@
 // about supported directives.
 //
 // Framework Requires.
+//= require maps_api
+//= require richmarker-compiled
+//= require infobox_packed
+//= require markerclusterer_packed
+
 //= require ./framework/jquery-1.8.3.min
 //= require ./framework/jquery-ui-1.10.1.custom.min
 //= require ./framework/bootstrap.min

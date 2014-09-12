@@ -1,0 +1,6 @@
+$modal = $('#myModal'),
+$modalBody = $('.modal-body'),
+$modalHeading = $('.modal .modal-heading');
+$modalHeading.html("<%= @alarm.name %>");
+$modalBody.html("<%= escape_javascript(render @alarm) %>");
+$modal.modal();

@@ -1,0 +1,4 @@
+<p><b>Title:</b> <%= @alarm.name %></p>
+<%= link_to 'Edit', edit_alarm_path(@alarm) %> |
+<%= link_to 'Show', @alarm %> |
+<%= link_to 'Remove', @alarm, method: :delete, data: { confirm: 'Are you sure?' } %>

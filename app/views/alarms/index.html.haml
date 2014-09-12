@@ -1,14 +1,14 @@
 .row
   .col-md-12
+    .page-title
+      %h3
+        Alarms List 
+        = link_to 'New', new_alarm_path, class: "btn btn-success btn-small"
+
+.row
+  .col-md-12
     .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Alarms
-          = link_to 'Add', new_alarm_path, class: "btn btn-success btn-small"
-      .grid-body.no-border 
+      .grid-body
         %table.table.no-more-tables
           %thead
             %tr
@@ -16,11 +16,14 @@
               %th
               %th
           %tbody
-            
             - @alarms.each do |alarm|
               %tr
-                %td= alarm.name
-                %td= link_to 'Show', alarm
-                %td= link_to 'Destroy', alarm, :method => :delete, :data => { :confirm => 'Are you sure?' }
+                / %td= link_to alarm.name, alarm, remote: true
+                %td= link_to alarm.name, alarm
+                %td
+                  = link_to alarm, :method => :delete, :data => { :confirm => 'Are you sure?' } do
+                    %i.fa.fa-times
+                    Destroy
 
 
+/ = render 'modal'

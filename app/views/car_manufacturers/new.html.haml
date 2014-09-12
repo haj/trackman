@@ -1,22 +1,21 @@
-.page-title
-  %h3
-    New car manufacturer
+.row
+  .col-md-12
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), car_manufacturers_path
+      %h3
+        New Car Manufacturer 
+
 .row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
+      .grid-title 
         %h4
-          Car manufacturer 
+          Car Manufacturer 
           %span.semi-bold details
         .tools
           %a.collapse{href: "javascript:;"}
-          %a.config{"data-toggle" => "modal", href: "#grid-config"}
-          %a.reload{href: "javascript:;"}
-          %a.remove{href: "javascript:;"}
-      .grid-body.no-border
+      .grid-body 
         %br/
         .row
           .col-md-8.col-sm-8.col-xs-8
             = render 'form'
-
-            = link_to 'Back', car_manufacturers_path

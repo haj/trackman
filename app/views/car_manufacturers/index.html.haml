@@ -1,31 +1,29 @@
 .row
   .col-md-12
+    .page-title
+      %h3
+        Car Manufacturers List 
+        = link_to 'Add', new_car_manufacturer_path, class: "btn btn-success btn-small"
+
+.row
+  .col-md-12
     .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
+      .grid-title 
         %h4
           Search 
-      .grid-body.no-border
+        .tools
+          %a.collapse{href: "javascript:;"}
+      .grid-body 
         = search_form_for @q, :class => "form-inline" do |f| 
           .form-group
-            = f.search_field :name_cont, :placeholder => "search by name"
+            = f.search_field :name_cont, :placeholder => "Enter name here"
           .form-group 
             = f.submit "Search" ,:class => "btn btn-default"
 
 .row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-title.no-border
-        %h4
-          Car Manufacturers
-          = link_to 'Add', new_car_manufacturer_path, class: "btn btn-success btn-small"
-        
-      .grid-body.no-border
+      .grid-body 
         %table.table.no-more-tables
           %thead
             %tr

@@ -14,6 +14,12 @@ class AlarmsController < ApplicationController
   def show
     @alarm = Alarm.find(params[:id])
     @rules = @alarm.rules
+
+    respond_to do |format|
+        format.html # show.html.erb
+        format.js # show.js.erb
+        format.json { render json: @alarm }
+    end
     
   end
 

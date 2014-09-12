@@ -1,0 +1,27 @@
+#myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+        %br/
+        %i.icon-credit-card.icon-7x
+        %h4#myModalLabel.semi-bold Alarm Details
+        %p.no-margin You'll be charged $29/Month and get immediate access to new plan
+        %br/
+      .modal-body
+        .row.form-row
+          .col-md-8
+            %input.form-control{:placeholder => "Your Card Number", :type => "text"}/
+          .col-md-4
+            %input.form-control{:placeholder => "CVS", :type => "text"}/
+        .row.form-row
+          .col-md-12
+            %input.form-control{:placeholder => "Card Holder's Name", :type => "text"}/
+        .row.form-row
+          .col-md-6
+            %input.form-control{:placeholder => "Month", :type => "text"}/
+          .col-md-6
+            %input.form-control{:placeholder => "Year", :type => "text"}/
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-primary{:type => "button"} Save changes
