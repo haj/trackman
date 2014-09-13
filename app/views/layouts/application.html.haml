@@ -33,7 +33,8 @@
             %li#header_inbox_bar.dropdown
               %a.dropdown-toggle{:href => conversations_user_path(current_user)}
                 .iconset.top-messages
-                %span#msgs-badge.badge= conversations_count(current_user)
+                - if conversations_count(current_user) != 0
+                  %span#msgs-badge.badge= conversations_count(current_user)
             / BEGIN MOBILE CHAT TOGGLER
             %li#portrait-chat-toggler.dropdown{:style => "display:none"}
               %a.chat-menu-toggle{:href => "#sidr"}
@@ -130,7 +131,10 @@
         #main-menu-wrapper.page-sidebar-wrapper
           / BEGIN SIDEBAR MENU
           %p.menu-title
-            ADMINISTRATION
+            MANAGE
+            %span.pull-right
+              %a{:href => "javascript:;"}
+                %i.fa.fa-refresh
           %ul
             / BEGIN SELECTED LINK
             %li

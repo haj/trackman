@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140911223419) do
+ActiveRecord::Schema.define(version: 20140913024852) do
 
   create_table "alarm_notifications", force: true do |t|
     t.integer  "car_id"
@@ -186,7 +186,6 @@ ActiveRecord::Schema.define(version: 20140911223419) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "company_id"
-    t.integer  "work_schedule_id"
   end
 
   create_table "locations", force: true do |t|

@@ -7,20 +7,7 @@
             %br/
             .row-fluid
               .row-fluid.dataTables_wrapper
-                %h2.inline Conversations
-                .btn-group.m-l-10.m-b-10
-                  %a.btn.btn-white.btn-mini.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
-                    %span.caret.single
-                  %ul.dropdown-menu
-                    %li
-                      %a{href: "#"} Action
-                    %li
-                      %a{href: "#"} Another action
-                    %li
-                      %a{href: "#"} Something else here
-                    %li.divider
-                    %li
-                      %a{href: "#"} Separated link
+                %h2.inline Messages
                 .pull-right.margin-top-20
                   .dataTables_paginate.paging_bootstrap.pagination
                     %ul
@@ -45,9 +32,9 @@
                     %tr
                       %th.small-cell
                       %th.small-cell
-                      %th.medium-cell
-                      %th
-                      %th.medium-cell
+                      %th.medium-cell From 
+                      %th Subject
+                      %th.big-cell Time
                   %tbody
                     - @conversations.each do |user_conversation|
                       %tr
@@ -59,12 +46,12 @@
                           .star
                             %input#checkbox9{checked: "checked", type: "checkbox", value: "1"}/
                             %label{for: "checkbox9"}
-                        %td.clickable.v-align-middle= user_conversation.originator.name
-                        %td.clickable.tablefull.v-align-middle
+                        %td.clickable.v-align-middle 
+                          = user_conversation.originator.name
+                        %td.clickable.tablefull.v-align-middle 
                           %span.muted
                             = link_to user_conversation.subject, conversation_path(user_conversation.id)
-                        %td.clickable
+                        %td
                           %span.muted
-                            = time_ago_in_words(user_conversation.last_message.created_at)
-                            ago
+                            = "#{time_ago_in_words(user_conversation.last_message.created_at)} ago"
                 = link_to "New", new_conversation_path, class: "btn btn-primary"
