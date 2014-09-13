@@ -102,7 +102,6 @@ class Car < ActiveRecord::Base
 
 
 		def positions_between_dates(user_dates)
-
 			start_date = Time.zone.parse("#{user_dates[:start_date]} #{user_dates[:start_time]}")
 			end_date = Time.zone.parse("#{user_dates[:end_date]} #{user_dates[:end_time]}")
 
@@ -113,12 +112,10 @@ class Car < ActiveRecord::Base
 		 	# logger.warn Time.zone
 			# logger.warn "last position : #{Traccar::Position.last.created_at}"
 			# logger.warn "end date : #{end_date.to_s(:db)}"
-			return self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC").take(user_dates[:limit_results].to_i)
-
+			return self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")#.take(user_dates[:limit_results].to_i)
 		end
 
 		def positions_between_dates_with_default
-
 			if Time.zone.now.hour < 6
 				user_dates = {
 				            :start_date => "#{Time.zone.now.day - 1}/#{Time.zone.now.month}/#{Time.zone.now.year}", 
@@ -145,7 +142,7 @@ class Car < ActiveRecord::Base
 				user_dates[:limit_results] = 20
 			end
 
-			return self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC").take(user_dates[:limit_results].to_i)
+			return self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")#.take(user_dates[:limit_results].to_i)
 			
 		end
 

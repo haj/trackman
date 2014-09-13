@@ -7,14 +7,14 @@ development:
   adapter: mysql2
   database: trackman_development
   username: root
-  password: <%= ENV['db_password'] %>
+  password: <%= ENV['db_password'] %> #set up password in config/application.yml
   host: localhost
 
 secondary_development:
   adapter: mysql2
   database: traccar
   username: root
-  password: <%= ENV['db_password'] %>
+  password: <%= ENV['db_password'] %> #set up password in config/application.yml
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
@@ -24,26 +24,26 @@ test:
   adapter: mysql2
   database: trackman_test
   username: root
-  password: <%= ENV['db_password'] %>
+  password: <%= ENV['db_password'] %> #set up password in config/application.yml
   host: localhost
 
 secondary_test:
   adapter: mysql2
   database: traccar_test
   username: root
-  password: <%= ENV['db_password'] %>
+  password: <%= ENV['db_password'] %> #set up password in config/application.yml
   host: localhost
 
 production:
   adapter: mysql2
   database: trackman_production
   username: root
-  password: <%= ENV['db_password'] %>
+  password: <%= ENV['db_password'] %> #set up password in config/application.yml
   host: localhost
 
 secondary_production:
   adapter: mysql2
   database: traccar
   username: root
-  password: <%= ENV['db_password'] %>
+  password: <%= ENV['db_password'] %> #set up password in config/application.yml
   host: localhost
