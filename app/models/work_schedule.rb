@@ -11,7 +11,8 @@
 
 class WorkSchedule < ActiveRecord::Base
 	has_many :cars
-	has_many :work_hours, :dependent => :destroy 
+	has_many :work_hours, :dependent => :destroy
+	has_many :work_schedule_group 
 
 	acts_as_tenant(:company)
 

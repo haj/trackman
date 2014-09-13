@@ -22,8 +22,9 @@
                 .iconset.top-menu-toggle-white
           / END MOBILE HEADER
           / BEGIN LOGO
-          %a{:href => "#"}
+          =link_to root_path do 
             = image_tag "logo.png", :class => "logo-image logo"
+          end
           / END LOGO
           / BEGIN LOGO NAV BUTTONS
           %ul.nav.pull-right.notifcation-center

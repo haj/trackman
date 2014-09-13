@@ -16,7 +16,6 @@ class Group < ActiveRecord::Base
 	has_many :alarm_groups
 	
 	has_many :cars
-	belongs_to :work_schedule
 
 	accepts_nested_attributes_for :alarms
 
