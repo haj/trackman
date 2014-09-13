@@ -33,7 +33,7 @@ Rule.seed(:id,
 )
 
 Parameter.seed(:id,
-  { id: 1, name: "speed", data_type: "float", rule_id: 2 }
+  { id: 2, name: "speed", data_type: "float", rule_id: 2 }
 )
 
 # Enters area
@@ -43,7 +43,7 @@ Rule.seed(:id,
 )
 
 Parameter.seed(:id,
-  { id: 3, name: "region_id", data_type: "integer", rule_id: 4 }
+  { id: 4, name: "region_id", data_type: "integer", rule_id: 4 }
 )
 
 # Out 
@@ -53,7 +53,7 @@ Rule.seed(:id,
 )
 
 Parameter.seed(:id,
-  { id: 4, name: "region_id", data_type: "integer", rule_id: 5 }
+  { id: 5, name: "region_id", data_type: "integer", rule_id: 5 }
 )
 
 # Long Drive
@@ -63,7 +63,6 @@ Rule.seed(:id,
 )
 
 Parameter.seed(:id,
-  { id: 5, name: "scope", data_type: "integer", rule_id: 6 },
   { id: 6, name: "threshold", data_type: "integer", rule_id: 6 }
 )
 
@@ -76,13 +75,16 @@ Rule.seed(:id,
 
 Parameter.seed(:id,
   { id: 7, name: "threshold", data_type: "integer", rule_id: 7 },
-  { id: 8, name: "scope", data_type: "integer", rule_id: 7 }
 )
 
 # Using vehicle outside work hours
 
 Rule.seed(:id,
-  { id: 9, name: "Using vehicle outside work hours", method_name: "movement_not_authorized" }
+  { id: 8, name: "Using vehicle outside work hours", method_name: "movement_not_authorized" }
+)
+
+Parameter.seed(:id,
+  { id: 8, name: "work_schedule_id", data_type: "integer", rule_id: 8 },
 )
 
 
