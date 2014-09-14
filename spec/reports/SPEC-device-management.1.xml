@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="device management" tests="4" time="0.192817" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:36+01:00">
+  <testcase name="device management should allow to create new car type" time="0.059875">
+  </testcase>
+  <testcase name="device management should allow to list all car types" time="0.052081">
+  </testcase>
+  <testcase name="device management should allow to edit a car type" time="0.042814">
+  </testcase>
+  <testcase name="device management should allow to destroy a car type" time="0.037223">
+  </testcase>
+</testsuite>

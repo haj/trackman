@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="WorkScheduleGroupsController GET new" tests="1" time="0.007213" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:37+01:00">
+  <testcase name="WorkScheduleGroupsController GET new assigns a new work_schedule_group as @work_schedule_group" time="0.006697">
+  </testcase>
+</testsuite>

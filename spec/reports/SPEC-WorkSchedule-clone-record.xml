@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="WorkSchedule.clone_record" tests="4" time="0.118" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:40+01:00">
+  <testcase name="WorkSchedule.clone_record should return a new record of type WorkSchedule" time="0.03624">
+  </testcase>
+  <testcase name="WorkSchedule.clone_record should have associations" time="0.025767">
+  </testcase>
+  <testcase name="WorkSchedule.clone_record should have correct starting hour and ending hour" time="0.028994">
+  </testcase>
+  <testcase name="WorkSchedule.clone_record should not return false" time="0.023501">
+  </testcase>
+</testsuite>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="device management" tests="4" time="0.1428" failures="0" errors="0" skipped="1" timestamp="2014-09-14T23:57:35+01:00">
+  <testcase name="device management should allow to create new device manufacturer" time="0.058075">
+  </testcase>
+  <testcase name="device management should allow to list all device manufacturers" time="0.043751">
+  </testcase>
+  <testcase name="device management should allow to edit a device manufacturer" time="0.040203">
+  </testcase>
+  <testcase name="device management should allow to destroy a device manufacturer (PENDING)" time="6.6e-05">
+    <skipped/>
+  </testcase>
+</testsuite>

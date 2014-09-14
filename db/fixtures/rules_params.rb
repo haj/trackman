@@ -29,11 +29,12 @@ Rule.seed(:id,
 # Too Fast
 
 Rule.seed(:id,
-  { id: 2, name: "Is Goin Faster Than", method_name: "speed_limit" }
+  { id: 2, name: "Speed Limit", method_name: "speed_limit" }
 )
 
 Parameter.seed(:id,
-  { id: 2, name: "speed", data_type: "float", rule_id: 2 }
+  { id: 2, name: "speed", data_type: "float", rule_id: 2 },
+  { id: 10, name: "repeat_notification", data_type: "integer", rule_id: 2 }
 )
 
 # Enters area
@@ -85,6 +86,7 @@ Rule.seed(:id,
 
 Parameter.seed(:id,
   { id: 8, name: "work_schedule_id", data_type: "integer", rule_id: 8 },
+  { id: 9, name: "repeat_notification", data_type: "integer", rule_id: 8 }
 )
 
 

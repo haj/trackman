@@ -26,6 +26,12 @@ describe "Speed limit" do
 		Traccar::Position.destroy_all
   	end
 
+  	it "should trigger alarm when speed > X km/h" do 	
+		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 70.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
+		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(true)
+		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 50.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
+		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(false)
+	end	
 
 	it "shouldn't trigger alarm when no data received from vehicle" do
 		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(false)
@@ -39,9 +45,6 @@ describe "Speed limit" do
 		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(false)
 	end
 
-	it "should trigger alarm when speed > X km/h" do 	
-		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 70.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
-		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(true)
-	end	
+	
 
 end

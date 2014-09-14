@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="device management" tests="4" time="0.146776" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:37+01:00">
+  <testcase name="device management should allow to create new device" time="0.040241">
+  </testcase>
+  <testcase name="device management should allow to list all devices" time="0.033756">
+  </testcase>
+  <testcase name="device management should allow to edit a device" time="0.037553">
+  </testcase>
+  <testcase name="device management should allow to destroy a device" time="0.034558">
+  </testcase>
+</testsuite>

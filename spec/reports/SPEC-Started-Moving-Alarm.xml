@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Started Moving Alarm" tests="2" time="0.458173" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:34+01:00">
+  <testcase name="Started Moving Alarm should take off when vehicle starts moving" time="0.125212">
+  </testcase>
+  <testcase name="Started Moving Alarm shouldn't take off if car didn't move" time="0.019088">
+  </testcase>
+  <system-out>
+true
+  </system-out>
+</testsuite>

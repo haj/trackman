@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="WorkScheduleGroupsController POST create with invalid params" tests="2" time="0.012067" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:37+01:00">
+  <testcase name="WorkScheduleGroupsController POST create with invalid params assigns a newly created but unsaved work_schedule_group as @work_schedule_group" time="0.005934">
+  </testcase>
+  <testcase name="WorkScheduleGroupsController POST create with invalid params re-renders the 'new' template" time="0.00557">
+  </testcase>
+</testsuite>

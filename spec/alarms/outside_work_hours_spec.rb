@@ -24,33 +24,33 @@ describe "Outside Work Hours Alarm" do
 		Traccar::Position.destroy_all
   	end
 
-  	describe "Alarm when vehicle used outside work hours" do 
+  	it "should trigger off alarm when vehicle used outside work hours" do
+		trigger_time = Time.zone.parse(Chronic.parse('sunday 8:00').to_s)
+  		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 60.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
+		@rule.movement_not_authorized(@car.id, { }).should equal(true)
 
-		it "should trigger off alarm when vehicle used outside work hours" do
-			trigger_time = Time.zone.parse(Chronic.parse('sunday 8:00').to_s)
-	  		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 60.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
-			@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 49.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 120.0, time: trigger_time + 2.minutes, created_at: trigger_time + 2.minutes, valid: true, device_id: @traccar_device.id)
-			@rule.movement_not_authorized(@car.id, { }).should equal(true)
+		Timecop.freeze(Time.zone.now + 16.minutes) do
+			@rule.starts_moving(@car.id, nil).should equal(false)
 		end
+	end
 
-		it "shouldn't trigger off alarm when vehicle used during work hours" do
-			trigger_time = Time.zone.parse(Chronic.parse('monday 9:00').to_s)
-	  		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
-			@rule.movement_not_authorized(@car.id, { }).should equal(false)
-		end
+	it "shouldn't trigger off alarm when vehicle used during work hours" do
+		trigger_time = Time.zone.parse(Chronic.parse('monday 9:00').to_s)
+  		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
+		@rule.movement_not_authorized(@car.id, { }).should equal(false)
+	end
 
-		it "shouldn't trigger off alarm when vehicle not sending data" do
-			trigger_time = Time.zone.parse(Chronic.parse('monday 9:00').to_s)
-	  		#@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
-			@rule.movement_not_authorized(@car.id, { }).should equal(false)
-		end
+	it "shouldn't trigger off alarm when vehicle not sending data" do
+		trigger_time = Time.zone.parse(Chronic.parse('monday 9:00').to_s)
+  		#@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
+		@rule.movement_not_authorized(@car.id, { }).should equal(false)
+	end
 
-		it "shouldn't trigger off alarm when vehicle not moving" do
-			trigger_time = Time.zone.parse(Chronic.parse('monday 9:00').to_s)
-	  		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
-			@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
-			@rule.movement_not_authorized(@car.id, { }).should equal(false)
-		end
+	it "shouldn't trigger off alarm when vehicle not moving" do
+		trigger_time = Time.zone.parse(Chronic.parse('monday 9:00').to_s)
+  		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
+		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
+		@rule.movement_not_authorized(@car.id, { }).should equal(false)
 	end
 
 end

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Driving long hours" tests="5" time="0.077524" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:39+01:00">
+  <testcase name="Driving long hours should trigger alarm when car been driving for too long" time="0.012416">
+  </testcase>
+  <testcase name="Driving long hours shouldn't trigger alarm if car didn't send any data" time="0.00613">
+  </testcase>
+  <testcase name="Driving long hours shouldn't trigger alarm when there is too little data" time="0.005283">
+  </testcase>
+  <testcase name="Driving long hours shouldn't trigger alarm when there is too little data" time="0.005313">
+  </testcase>
+  <testcase name="Driving long hours shouldn't trigger alarm if car didn't move at all" time="0.00632">
+  </testcase>
+</testsuite>

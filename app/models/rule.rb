@@ -102,7 +102,7 @@ class Rule < ActiveRecord::Base
 				return true
 			else
 				return false
-			end	
+			end
 		end
 
 		# Vehicle moving during (or not) work hours
@@ -112,7 +112,7 @@ class Rule < ActiveRecord::Base
 			car = Car.find(car_id)
 
 			# if we raised an alarm like this in the last 30 minutes, then we don't have to raise another one again, so no need to even check if it's true
-			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 30.minutes.ago).count != 0
+			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 15.minutes.ago).count != 0
 				return false
 			end
 

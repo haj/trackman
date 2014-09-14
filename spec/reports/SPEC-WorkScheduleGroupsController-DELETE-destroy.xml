@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="WorkScheduleGroupsController DELETE destroy" tests="2" time="0.031682" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:37+01:00">
+  <testcase name="WorkScheduleGroupsController DELETE destroy destroys the requested work_schedule_group" time="0.023107">
+  </testcase>
+  <testcase name="WorkScheduleGroupsController DELETE destroy redirects to the work_schedule_groups list" time="0.007841">
+  </testcase>
+</testsuite>

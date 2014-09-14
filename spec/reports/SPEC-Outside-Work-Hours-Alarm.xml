@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Outside Work Hours Alarm" tests="4" time="0.284938" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:36+01:00">
+  <testcase name="Outside Work Hours Alarm should trigger off alarm when vehicle used outside work hours" time="0.086197">
+  </testcase>
+  <testcase name="Outside Work Hours Alarm shouldn't trigger off alarm when vehicle not sending data" time="0.105972">
+  </testcase>
+  <testcase name="Outside Work Hours Alarm shouldn't trigger off alarm when vehicle not moving" time="0.045364">
+  </testcase>
+  <testcase name="Outside Work Hours Alarm shouldn't trigger off alarm when vehicle used during work hours" time="0.046756">
+  </testcase>
+</testsuite>

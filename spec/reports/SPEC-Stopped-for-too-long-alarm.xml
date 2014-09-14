@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Stopped for too long alarm" tests="8" time="0.116339" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:40+01:00">
+  <testcase name="Stopped for too long alarm should trigger alarm when car stops for too long" time="0.020268">
+  </testcase>
+  <testcase name="Stopped for too long alarm shouldn't trigger alarm when car stopped for less than 15 minutes" time="0.00886">
+  </testcase>
+  <testcase name="Stopped for too long alarm shouldn't trigger alarm when there is too little data" time="0.006281">
+  </testcase>
+  <testcase name="Stopped for too long alarm shouldn't trigger alarm when car didn't stop at all" time="0.009142">
+  </testcase>
+  <testcase name="Stopped for too long alarm shouldn't check for stops beyond double the duration in the past" time="0.008765">
+  </testcase>
+  <testcase name="Stopped for too long alarm shouldn't trigger alarm when there is no data in the 15 minutes (stop more than = 15 minutes)" time="0.005756">
+  </testcase>
+  <testcase name="Stopped for too long alarm shouldn't trigger alarm when car stopped for more 15 minutes but 2 hours ago" time="0.006714">
+  </testcase>
+  <testcase name="Stopped for too long alarm shouldn't trigger alarm when there is too little data" time="0.007483">
+  </testcase>
+  <system-out>
+4
+3
+2
+1
+2
+2
+0
+0
+1
+  </system-out>
+</testsuite>

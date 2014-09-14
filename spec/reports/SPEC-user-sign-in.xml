@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="user sign in" tests="2" time="0.210448" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:38+01:00">
+  <testcase name="user sign in should allow a valid email password combination" time="0.164113">
+  </testcase>
+  <testcase name="user sign in shouldn't allow an invalid email password combination" time="0.045818">
+  </testcase>
+</testsuite>

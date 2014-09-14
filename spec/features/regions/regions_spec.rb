@@ -35,16 +35,5 @@ describe "Regions management" do
     # page.should have_content('NewRegion')
   end
 
-  it "should allow to edit a region" do 
-    visit edit_region_path(Region.first)
-    page.status_code.should be 200
-    # page.should have_css('#region_name')
-
-    # fill_in "region_name", :with => "NewRegion"
-    # click_button "Save"
-
-    # Region.where(name: "NewRegion").should_not exist
-    # Region.where(name: "NewRegion2").should exist
-  end
 
 end

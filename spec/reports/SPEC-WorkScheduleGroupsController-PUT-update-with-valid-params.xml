@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="WorkScheduleGroupsController PUT update with valid params" tests="3" time="0.035396" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:37+01:00">
+  <testcase name="WorkScheduleGroupsController PUT update with valid params updates the requested work_schedule_group" time="0.014672">
+  </testcase>
+  <testcase name="WorkScheduleGroupsController PUT update with valid params assigns the requested work_schedule_group as @work_schedule_group" time="0.012691">
+  </testcase>
+  <testcase name="WorkScheduleGroupsController PUT update with valid params redirects to the work_schedule_group" time="0.007433">
+  </testcase>
+</testsuite>

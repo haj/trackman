@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Rules management" tests="4" time="0.255223" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:35+01:00">
+  <testcase name="Rules management should allow to create new rule" time="0.115871">
+  </testcase>
+  <testcase name="Rules management should allow to list all rule" time="0.057629">
+  </testcase>
+  <testcase name="Rules management should allow to edit a rule" time="0.042355">
+  </testcase>
+  <testcase name="Rules management should allow to destroy a rule" time="0.038584">
+  </testcase>
+</testsuite>
