@@ -1,6 +1,10 @@
-.page-title
-  %h3
-    Add Device manufacturer
+.row
+  .col-md-12
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), device_manufacturers_path
+      %h3
+        Create Device Manufacturer
+
 .row
   .col-md-12
     .grid.simple
@@ -10,9 +14,6 @@
           %span.semi-bold details
         .tools
           %a.collapse{href: "javascript:;"}
-          %a.config{"data-toggle" => "modal", href: "#grid-config"}
-          %a.reload{href: "javascript:;"}
-          %a.remove{href: "javascript:;"}
       .grid-body.no-border
         %br/
         .row

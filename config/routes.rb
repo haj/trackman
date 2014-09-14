@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     end
     collection do 
       get 'regions'
+      get 'work_schedules'
     end
 
   end

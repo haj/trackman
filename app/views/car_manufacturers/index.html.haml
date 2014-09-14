@@ -1,9 +1,11 @@
 .row
-  .col-md-12
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
     .page-title
       %h3
-        Car Manufacturers List 
-        = link_to 'New', new_car_manufacturer_path, class: "btn btn-success btn-small"
+        Car Manufacturers List
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Create', new_car_manufacturer_path, class: "btn btn-success"
+
 
 .row
   .col-md-4
@@ -27,8 +29,7 @@
           %thead
             %tr
               = content_tag :th, sort_link(@q, :name)
-              %th
-              %th
+              %th 
               %th
           %tbody
             

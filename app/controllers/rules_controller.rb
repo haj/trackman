@@ -18,6 +18,11 @@ class RulesController < ApplicationController
     render json: @regions.to_json(:include => :vertices)
   end
 
+  def work_schedules
+    @work_schedules = WorkSchedule.all
+    render json: @work_schedules.to_json
+  end
+
   # GET /rules/1
   # GET /rules/1.json
   def show

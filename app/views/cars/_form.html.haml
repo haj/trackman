@@ -1,7 +1,11 @@
+.row
+  .col-md-12
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), cars_path
+      %h3
+        = title
+
 = form_for @car do |f|
-  .page-title
-    %h3
-      = title
   .row
     .col-md-6
       .grid.simple

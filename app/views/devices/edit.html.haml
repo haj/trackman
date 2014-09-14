@@ -1,7 +1,18 @@
-%h1 Editing device
+.row
+  .col-md-12
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), devices_path
+      %h3
+        Editing Device 
 
-= render 'form'
-
-= link_to 'Show', @device
-\|
-= link_to 'Back', devices_path
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title
+        %h4
+          Device  
+          %span.semi-bold details
+      .grid-body 
+        .row
+          .col-md-8.col-sm-8.col-xs-8
+            = render 'form'

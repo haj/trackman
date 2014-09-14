@@ -1,9 +1,10 @@
 .row
-  .col-md-12
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
     .page-title
       %h3
-        Alarms List 
-        = link_to 'New', new_alarm_path, class: "btn btn-success btn-small"
+        Alarms List
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Create', new_alarm_path, class: "btn btn-success"
 
 .row
   .col-md-12
@@ -13,8 +14,7 @@
           %thead
             %tr
               %th Name
-              %th
-              %th
+              %th 
           %tbody
             - @alarms.each do |alarm|
               %tr

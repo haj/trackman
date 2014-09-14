@@ -1,9 +1,10 @@
 .row
-  .col-md-12
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
     .page-title
       %h3
-        Car Types List 
-        = link_to 'Add', new_car_type_path, class: "btn btn-success btn-small"
+        Car Types List
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Create', new_car_type_path, class: "btn btn-success"
 
 
 .row
@@ -15,11 +16,11 @@
         .tools
           %a.collapse{href: "javascript:;"}
       .grid-body 
-        = search_form_for @q, :class => "form-inline" do |f| 
+        = search_form_for @q do |f| 
           .form-group
-          = f.search_field :name_cont, :placeholder => "Type name here" 
+            = f.search_field :name_cont, :placeholder => "Type name here" 
           .form-group
-          = f.submit "Search" ,:class => "btn btn-default"
+            = f.submit "Search" ,:class => "btn btn-default"
 
 
   .col-md-8

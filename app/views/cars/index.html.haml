@@ -1,18 +1,15 @@
-
+.row
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+    .page-title
+      %h3
+        Vehicles List
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Create', new_car_path, class: "btn btn-success"
 
 
 = form_tag '', :method => :get do
   .row
     .col-md-3
-      .row
-        .col-md-12
-          .page-title
-            %h3
-              &nbsp;
-      .row
-        .col-md-12
-          = submit_tag 'Apply Filters', :class => "btn btn-success"
-      %br/
       .row
         .col-md-12
           .grid.simple
@@ -59,15 +56,12 @@
                   %label
                     = radio_button_tag 'has_driver', 'false' ,false
                     = "Without driver"
-          
-
-    .col-md-9
       .row
         .col-md-12
-          .page-title
-            %h3
-              Vehicles List 
-              = link_to 'New', new_car_path, class: "btn btn-primary btn-small"
+          = submit_tag 'Apply Filters', :class => "btn btn-default"    
+
+    .col-md-9
+      
       .row
         .col-md-12
           .grid.simple 

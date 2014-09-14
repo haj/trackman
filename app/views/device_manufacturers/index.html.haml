@@ -1,9 +1,11 @@
 .row
-  .col-md-12
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
     .page-title
       %h3
         Device Manufacturers List 
-        = link_to 'New', new_device_manufacturer_path, class: "btn btn btn-success btn-small"
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Create', new_device_manufacturer_path, class: "btn btn-success"
+
 
 .row
   .col-md-4
@@ -14,7 +16,7 @@
         .tools
           %a.collapse{href: "javascript:;"}
       .grid-body
-        = search_form_for @q, :class => "form-inline" do |f|
+        = search_form_for @q do |f|
           .form-group 
             = f.search_field :name_cont, :placeholder => "Type name here" 
           .form-group

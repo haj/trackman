@@ -10,13 +10,9 @@
           %span.semi-bold details
         .tools
           %a.collapse{href: "javascript:;"}
-          %a.config{"data-toggle" => "modal", href: "#grid-config"}
-          %a.reload{href: "javascript:;"}
-          %a.remove{href: "javascript:;"}
       .grid-body.no-border
         %br/
         .row
           .col-md-8.col-sm-8.col-xs-8 
             = render 'form'
-          
             = link_to 'Back', companies_path

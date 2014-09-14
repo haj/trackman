@@ -1,10 +1,17 @@
 .row
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), simcards_path
+      %h3
+         Simcard  
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Edit', edit_simcard_path(@simcard), class: "btn btn-success"
+
+
+.row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
-        %h3
-          Simcard
-      .grid-body.no-border
+      .grid-body 
         %p
           %b Telephone no:
           = @simcard.telephone_number
@@ -20,8 +27,3 @@
             = "This simcard has no devices associated with it"
           - else 
             = link_to Device.find(@simcard.device_id).name, Device.find(@simcard.device_id)
-
-
-        = link_to 'Edit', edit_simcard_path(@simcard)
-        \|
-        = link_to 'Back', simcards_path

@@ -1,10 +1,17 @@
 .row
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), work_schedules_path
+      %h3
+         Work Schedule Group  
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Edit', edit_work_schedule_path(@work_schedule), class: "btn btn-success"
+
+
+.row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
-        %h3
-          Work schedule
-      .grid-body.no-border
+      .grid-body 
         .form-group
           %b Name:
           = @work_schedule.name
@@ -13,8 +20,3 @@
             = work_hour.day_of_week
             = work_hour.starts_at
             = work_hour.ends_at
-
-
-        = link_to 'Edit', edit_work_schedule_path(@work_schedule)
-        \|
-        = link_to 'Back', work_schedules_path

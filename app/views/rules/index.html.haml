@@ -1,9 +1,12 @@
+
 .row
-  .col-md-12
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
     .page-title
       %h3
         Rules List 
-        = link_to 'New', new_rule_path, class: "btn btn-success btn-small"
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Create', new_rule_path, class: "btn btn-success"
+
 .row
   .col-md-12
     .grid.simple

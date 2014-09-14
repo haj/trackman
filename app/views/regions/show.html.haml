@@ -1,15 +1,17 @@
 .row
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), regions_path
+      %h3
+         Region  
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Edit', edit_region_path(@region), class: "btn btn-success"
+
+
+.row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
-        %h3
-          Region
-          %span.semi-bold= @region.name
-      .grid-body.no-border
+      .grid-body 
         %p
           %b Name:
           = @region.name
-
-        = link_to 'Edit', edit_region_path(@region)
-        \|
-        = link_to 'Back', regions_path

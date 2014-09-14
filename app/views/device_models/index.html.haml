@@ -1,9 +1,10 @@
 .row
-  .col-md-12
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
     .page-title
       %h3
-        Device Models List 
-        = link_to 'New', new_device_model_path, class: "btn btn-primary btn-small"
+        Device Models List  
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Create', new_device_model_path, class: "btn btn-success"
 
 
 .row
@@ -18,8 +19,10 @@
               %a.collapse{href: "javascript:;"}
           .grid-body 
             = search_form_for @q, :class => "form-inline" do |f| 
-              = f.search_field :name_cont, :placeholder => "Type name here" 
-              = f.submit "Search" ,:class => "btn btn-default"
+              .form-group
+                = f.search_field :name_cont, :placeholder => "Type name here" 
+              .form-group
+                = f.submit "Search" ,:class => "btn btn-default"
     .row
       .col-md-12
         .grid.simple
@@ -45,7 +48,6 @@
             %tr
               = content_tag :th, sort_link(@q, :name)
               = content_tag :th, sort_link(@q, 'Device Manufacturer')
-              %th
               %th
               %th
           %tbody

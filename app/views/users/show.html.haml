@@ -1,11 +1,17 @@
 .row
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), users_path
+      %h3
+         User  
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Edit', edit_user_path(@user), class: "btn btn-success"
+
+
+.row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
-        %h3
-          User
-          %span.semi-bold= @user.name
-      .grid-body.no-border
+      .grid-body 
 
         .form-group
           %strong First name:
@@ -24,8 +30,3 @@
           %ul
             - @user.roles.each do |role| 
               %li= role.capitalize
-
-
-        = link_to 'Edit', edit_user_path(@user)
-        |
-        \#{link_to 'Back', users_path}
