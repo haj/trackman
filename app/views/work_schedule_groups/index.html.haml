@@ -18,7 +18,6 @@
               %th Work schedule
               %th
               %th
-              %th
 
           - @work_schedule_groups.each do |work_schedule_group|
             %tr
@@ -26,5 +25,3 @@
               %td= work_schedule_group.try(:work_schedule).try(:name)
               %td= link_to 'Edit', edit_work_schedule_group_path(work_schedule_group)
               %td= link_to 'Destroy', work_schedule_group, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br

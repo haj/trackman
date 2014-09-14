@@ -1,23 +1,19 @@
-.page-title
-  %h3
-    Editing Plan Type
+.row
+  .col-md-12
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), plan_types_path
+      %h3
+        Edit Plan Type
+
 .row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
+      .grid-title 
         %h4
           Plan Type
           %span.semi-bold details
-        .tools
-          %a.collapse{href: "javascript:;"}
-          %a.config{"data-toggle" => "modal", href: "#grid-config"}
-          %a.reload{href: "javascript:;"}
-          %a.remove{href: "javascript:;"}
-      .grid-body.no-border
-        %br/
+      .grid-body 
         .row
           .col-md-8.col-sm-8.col-xs-8     
             = render 'form'
-            = link_to 'Show', @plan_type
-            \|
-            = link_to 'Back', plans_path
+ 

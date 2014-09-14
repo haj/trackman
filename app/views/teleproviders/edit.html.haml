@@ -1,24 +1,17 @@
-.page-title
-  %h3
-    Editing teleprovider
+.row
+  .col-md-12
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), teleproviders_path
+      %h3
+        Edit Teleprovider
 .row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
+      .grid-title 
         %h4
           Teleprovider 
           %span.semi-bold details
-        .tools
-          %a.collapse{href: "javascript:;"}
-          %a.config{"data-toggle" => "modal", href: "#grid-config"}
-          %a.reload{href: "javascript:;"}
-          %a.remove{href: "javascript:;"}
-      .grid-body.no-border
-        %br/
+      .grid-body
         .row
           .col-md-8.col-sm-8.col-xs-8
-            = render 'form'
-
-            = link_to 'Show', @teleprovider
-            \|
-            = link_to 'Back', teleproviders_path
+            = render 'form' 

@@ -1,3 +1,11 @@
+.row
+  .col-md-12
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), car_types_path
+      %h3
+        = title
+
+
 = form_for @car_type do |f|
   - if @car_type.errors.any?
     #error_explanation
@@ -12,11 +20,6 @@
           %h4
             Car type 
             %span.semi-bold details
-          .tools
-            %a.collapse{href: "javascript:;"}
-            %a.config{"data-toggle" => "modal", href: "#grid-config"}
-            %a.reload{href: "javascript:;"}
-            %a.remove{href: "javascript:;"}
         .grid-body.no-border
           %br/
           .row

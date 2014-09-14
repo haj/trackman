@@ -1,10 +1,19 @@
 .row
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), companies_path
+      %h3
+        Company  
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    .pull-right= link_to 'Edit', edit_company_path(@company), class: "btn btn-success"
+
+.row
   .col-md-12
     .grid.simple
-      .grid-title.no-border
+      .grid-title
         %h3
           Company
-      .grid-body.no-border
+      .grid-body 
         %p
           %strong Name:
           = @company.name
@@ -18,6 +27,3 @@
           %strong Billing plan:
           = @company.try(:current_plan).try(:name)
           = link_to "(Change)", plans_path
-        = link_to 'Edit', edit_company_path(@company)
-        |
-        \#{link_to 'Back', companies_path}

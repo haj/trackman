@@ -14,10 +14,6 @@
     %h2 Alarms
     = f.select :alarm_ids, Alarm.all.collect {|x| [x.name, x.id]}, {}, :multiple => true, class: "form-control"
 
-  .form-group
-    %h2 Work Schedule
-    = f.collection_select(:work_schedule_id, WorkSchedule.all, :id, :name, {}, class: "form-control")
-
   %br
 
   .form-group
