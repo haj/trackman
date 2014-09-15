@@ -25,7 +25,7 @@
           %b Device Type:
           = link_to @device.try(:device_type).try(:name), @device.try(:device_type)
         .form-group
-          %b Car:
+          %b Vehicle:
           = link_to @device.try(:car).try(:numberplate).to_s , @device.car
         .form-group
           %b Simcard:
