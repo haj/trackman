@@ -18,3 +18,4 @@
 #public/assets/**
 .DS_Store
 
+/config/application.yml
