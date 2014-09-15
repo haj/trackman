@@ -45,7 +45,7 @@ $(document).ready ->
 								#console.log(response)
 							error: ->
 								alert("Error")
-
+					###			
 					else if param.name == 'work_schedule_id'
 						$.ajax "/rules/work_schedules",
 							success: (response) ->
@@ -68,6 +68,7 @@ $(document).ready ->
 								console.log(response)
 							error: ->
 								alert("Work Schedule Error")
+					###
 					
 					else 
 						input_element = "<input id='alarm_rules_attributes_" + rule_id + "_params_" + name + "' name='alarm[rules_attributes][" + rule_id + "][params][" + name + "]' type='text'>"	  	

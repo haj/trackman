@@ -85,8 +85,7 @@ Rule.seed(:id,
 )
 
 Parameter.seed(:id,
-  { id: 8, name: "work_schedule_id", data_type: "integer", rule_id: 8 },
-  { id: 9, name: "repeat_notification", data_type: "integer", rule_id: 8 }
+  { id: 8, name: "repeat_notification", data_type: "integer", rule_id: 8 }
 )
 
 

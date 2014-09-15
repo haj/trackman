@@ -1,6 +1,8 @@
 .row
   .col-md-12
-    .pull-right= button_tag "Switch Map view mode", :class => "switch_map_mode btn btn-success btn-small"
+    .pull-right
+      = link_to "Edit", edit_car_path(@car) ,:class => "btn btn-success btn-small"
+      = button_tag "Switch Map view mode", :class => "switch_map_mode btn btn-default btn-small"
 
 %br/
 
@@ -83,13 +85,12 @@
         = @car.color
         %br/
         %br/
-        = link_to 'Edit', edit_car_path(@car)
-        \|
         = link_to 'Back', cars_path
 
 .row
-  .col-md-12
-    .grid.simple.horizontal.green
+
+  .col-md-9
+    .grid.simple 
       .grid-title
         %h4 Positions History
         .tools
@@ -109,5 +110,17 @@
                   %td= position[:time]
         - else 
           No positions available, Try to pick another time period.
-
+  .col-md-3
+    .grid.simple 
+      .grid-title
+        %h4 Alarms
+        .tools
+          %a.collapse{href: "javascript:;"}
+      .grid-body
+        - if @alarms.count == 0 
+          This vehicle has no alarms attached to it.
+        - else
+          - @alarms.each do |alarm| 
+            %p
+              = alarm.name
   

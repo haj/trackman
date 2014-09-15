@@ -1,6 +1,6 @@
 .page-title
   %h3
-    Alarm Notifications
+    Alarms Notifications
 
 .row
   .col-md-12
@@ -16,8 +16,8 @@
           %tbody           
             - @alarm_notifications.each do |alarm_notification|
               %tr
-                %td= link_to alarm_notification.car.name, alarm_notification.car
-                %td= link_to alarm_notification.alarm.name, alarm_notification.alarm
+                %td= link_to alarm_notification.try(:car).try(:name), alarm_notification.car
+                %td= link_to alarm_notification.try(:alarm).try(:name), alarm_notification.alarm
                 %td= alarm_notification.created_at
                 %td= link_to "Archive", archive_alarm_notification_path(alarm_notification)
 %br

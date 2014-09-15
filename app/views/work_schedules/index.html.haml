@@ -4,7 +4,7 @@
       %h3
         Work schedules List 
   .col-md-6
-    .pull-right= link_to 'New', new_work_schedule_path, class: "btn btn-success"
+    .pull-right= link_to 'Create', new_work_schedule_path, class: "btn btn-success"
 
 .row
   .col-md-12
@@ -15,12 +15,10 @@
             %tr
               %th Name
               %th
-              %th
 
           %tbody           
             - @work_schedules.each do |work_schedule|
               %tr
                 %td= link_to work_schedule.name.capitalize, work_schedule
-                %td= link_to 'Edit', edit_work_schedule_path(work_schedule)
                 %td= link_to 'Destroy', work_schedule, :method => :delete, :data => { :confirm => 'Are you sure?' }
 

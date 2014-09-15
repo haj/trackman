@@ -112,7 +112,7 @@
                     Work Schedule :          
                   .form-group
                     = f.collection_select(:work_schedule_id, WorkSchedule.all, :id, :name, { :include_blank => "Select work schedule" }, class: "form-control")
-  .row
-    .col-md-12
-      .form-group
-        = f.submit 'Save', class: "btn btn-primary"
+      .row
+        .col-md-12
+          .form-group
+            = f.submit 'Save', class: "btn btn-primary"

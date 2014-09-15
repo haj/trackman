@@ -35,6 +35,8 @@ class CarsController < ApplicationController
 
     @car = Car.find(params[:id])
 
+    @alarms = @car.alarms
+
     if @car.has_device?
       if !params[:scope].nil?
         logger.warn "scope"

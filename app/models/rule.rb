@@ -17,7 +17,7 @@ class Rule < ActiveRecord::Base
 		def verify(alarm_id, car_id)
 			alarm_rule = AlarmRule.where(alarm_id: alarm_id, rule_id: self.id).first
 			params = alarm_rule.params
-			self.send(self.method_name, car_id, eval(params))
+			return self.send(self.method_name, car_id, eval(params))
 		end
 
 	### Rules/Triggers
@@ -111,27 +111,23 @@ class Rule < ActiveRecord::Base
 			# setup the car we can apply this rule to
 			car = Car.find(car_id)
 
-			# if we raised an alarm like this in the last 30 minutes, then we don't have to raise another one again, so no need to even check if it's true
-			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 15.minutes.ago).count != 0
-				return false
-			end
-
 			# else we can proceed to check if car moving outside work hours
 			last_position = car.positions.where("created_at > ?", 5.minutes.ago).last
 
-			if last_position.nil? 
-				#if there was no movement in the last 5 minutes then we probably have a problem bigger than if the vehicle is moving during work hours or not
+			# if we raised an alarm like this in the last 30 minutes, then we don't have to raise another one again, so no need to even check if it's true
+			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 15.minutes.ago).count != 0 || last_position.nil? || car.work_schedule.nil?
 				return false
 			else 
 				current_time = last_position.created_at.to_time_of_day
 				current_day_of_week = last_position.created_at.wday
-				current_day_of_week = 7 if current_day_of_week == 0 
+				current_day_of_week = 7 if current_day_of_week == 0
 				car.work_schedule.work_hours.each do |work_hour|
-					shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
+				shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
 					if shift.include?(current_time) && work_hour.day_of_week == current_day_of_week
 						return false
 					end
 				end
+				RuleNotification.create(rule_id: self.id, car_id: car_id)
 				return true
 			end
 

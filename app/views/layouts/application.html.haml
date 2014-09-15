@@ -78,9 +78,9 @@
                 .user-details
                   .username
                     %span.badge.badge-important= notifications_count(current_user)
-                    \ #{current_user.first_name}
+                    \ #{current_user.try(:first_name).try(:capitalize)}
                     %span.bold
-                      \ #{current_user.last_name}
+                      \ #{current_user.try(:last_name).try(:capitalize)}
                 .iconset.top-down-arrow
               #notification-list{:style => "display:none"}
                 %div{:style => "width:300px"}
