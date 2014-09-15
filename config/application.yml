@@ -11,14 +11,14 @@ development:
 
 test:
   DB_NAME: trackman_test
-  DB_TRACCAR_NAME: traccar
-  DB_USER: traccar_test
+  DB_TRACCAR_NAME: traccar_test
+  DB_USER: root
   DB_PASSWORD: "foobar@1991"
 
 production:
   DB_NAME: trackman_production
   DB_TRACCAR_NAME: traccar
-  DB_USER: # your prod db username here
+  DB_USER: root
   DB_PASSWORD: "foobar@1991"
 
 #others

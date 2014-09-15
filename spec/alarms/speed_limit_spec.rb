@@ -37,7 +37,11 @@ describe "Speed limit" do
 		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(false)
 	end
 
-	pending "shouldn't trigger alarm when vehicle not moving" do 
+	it "shouldn't trigger alarm when vehicle not moving" do
+		State.destroy_all
+		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 1.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
+		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 1.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
+ 		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(false)
 	end
 
 	it "shouldn't trigger alarm if speed < 60 km/h" do 
