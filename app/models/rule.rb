@@ -115,7 +115,7 @@ class Rule < ActiveRecord::Base
 			last_position = car.positions.where("created_at > ?", 5.minutes.ago).last
 
 			# if we raised an alarm like this in the last 30 minutes, then we don't have to raise another one again, so no need to even check if it's true
-			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 15.minutes.ago).count != 0 || last_position.nil? || car.work_schedule.nil?
+			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 0.minutes.ago).count != 0 || last_position.nil? || car.work_schedule.nil?
 				return false
 			else 
 				current_time = last_position.created_at.to_time_of_day

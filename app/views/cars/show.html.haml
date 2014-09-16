@@ -11,7 +11,7 @@
     = form_tag '', :method => :get, :id => "filter_by_date" do
       .grid.simple
         .grid-body
-          .row{style: "height:30px;"}
+          .row
             .col-lg-2.col-md-12.col-sm-12.col-xs-12
               .form-group
                 .input-group
@@ -42,9 +42,9 @@
               = submit_tag 'Apply', :class => "btn btn-default btn-primary"
 
 .row
-  .col-md-9{style:"margin-bottom:10px"}
+  .col-md-8{style:"margin-bottom:10px"}
     %div#cars_show{ :style => "width: 100%; height: 400px;"}
-  .col-md-3
+  .col-md-4
     .grid.simple.horizontal.green
       .grid-title
         %h4 Informations
@@ -84,13 +84,13 @@
         %b Color:
         = @car.color
         %br/
-        %br/
-        = link_to 'Back', cars_path
+        %b Work Schedule:
+        = link_to @car.try(:work_schedule).try(:name).try(:capitalize), @car.try(:work_schedule)
 
 .row
 
-  .col-md-9
-    .grid.simple 
+  .col-md-8
+    .grid.simple.horizontal.green 
       .grid-title
         %h4 Positions History
         .tools
@@ -110,8 +110,8 @@
                   %td= position[:time]
         - else 
           No positions available, Try to pick another time period.
-  .col-md-3
-    .grid.simple 
+  .col-md-4
+    .grid.simple.horizontal.green 
       .grid-title
         %h4 Alarms
         .tools

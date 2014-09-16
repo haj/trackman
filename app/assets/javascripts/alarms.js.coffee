@@ -45,30 +45,6 @@ $(document).ready ->
 								#console.log(response)
 							error: ->
 								alert("Error")
-					###			
-					else if param.name == 'work_schedule_id'
-						$.ajax "/rules/work_schedules",
-							success: (response) ->
-								list_id = "alarm_rules_attributes_" + rule_id + "_params_" + name
-								list_name = "alarm[rules_attributes][" + rule_id + "][params][" + name + "]"
-								workScheduleList = $("<select></select>").attr("id", list_id).attr("name", list_name)
-
-								console.log(workScheduleList)
-
-								for work_schedule in response 
-									workScheduleList.append("<option value='" + work_schedule.id + "'>" + work_schedule.name + "</option>");
-
-								console.log(workScheduleList.html())
-								
-								field_element = $("<div class='field'> Work Schedules : </div>")
-
-								params_block.append(field_element.append(workScheduleList))
-
-							complete: (response) ->
-								console.log(response)
-							error: ->
-								alert("Work Schedule Error")
-					###
 					
 					else 
 						input_element = "<input id='alarm_rules_attributes_" + rule_id + "_params_" + name + "' name='alarm[rules_attributes][" + rule_id + "][params][" + name + "]' type='text'>"	  	
