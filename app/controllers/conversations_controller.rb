@@ -18,6 +18,12 @@ class ConversationsController < ApplicationController
     redirect_to conversation_path(@conversation)
   end
 
+  def mark_as_read
+    @conversation = Mailboxer::Conversation.find(params[:id])
+    @conversation.mark_as_read(current_user)
+    redirect_to conversations_user_path(current_user)
+  end
+
   # Reply to an existing conversation
   def reply
     @conversation = current_user.mailbox.conversations.find(params[:id])
@@ -26,12 +32,12 @@ class ConversationsController < ApplicationController
   end
 
   def trash
-    conversation.move_to_trash(current_user)
+    @conversation.move_to_trash(current_user)
     redirect_to :conversations
   end
 
   def untrash
-    conversation.untrash(current_user)
+    @conversation.untrash(current_user)
     redirect_to :conversations
   end
 

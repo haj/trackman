@@ -34,6 +34,7 @@
                       %th.small-cell
                       %th.medium-cell From 
                       %th Subject
+                      %th.medium-cell Action
                       %th.big-cell Time
                   %tbody
                     - @conversations.each do |user_conversation|
@@ -51,6 +52,9 @@
                         %td.clickable.tablefull.v-align-middle 
                           %span.muted
                             = link_to user_conversation.subject, conversation_path(user_conversation.id)
+                        %td
+                          %span.muted
+                            = link_to "Mark as read", mark_as_read_conversation_path(user_conversation)
                         %td
                           %span.muted
                             = "#{time_ago_in_words(user_conversation.last_message.created_at)} ago"

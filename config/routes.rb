@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :conversations do 
     member do 
       post 'reply'
+      get 'mark_as_read'
     end
   end
 

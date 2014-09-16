@@ -20,7 +20,8 @@ class UsersController < ApplicationController
   end
 
   def conversations
-    @conversations = User.find(params[:id]).mailbox.conversations
+    #@conversations = User.find(params[:id]).mailbox.conversations
+    @conversations = User.find(params[:id]).mailbox.conversations(:read => false)
   end
 
   def notifications
