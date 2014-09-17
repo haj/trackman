@@ -16,7 +16,9 @@ class Simcard < ActiveRecord::Base
 	scope :by_teleprovider, -> teleprovider_id { where(:teleprovider_id => teleprovider_id) }
 	scope :available, -> { where(:device_id => nil) }
 	scope :used, -> { where("device_id NOT NULL") }
-
+	
+	acts_as_paranoid
+	
 	acts_as_tenant(:company)
 
 	belongs_to :teleprovider

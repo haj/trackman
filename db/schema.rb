@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140915195127) do
+ActiveRecord::Schema.define(version: 20140917152220) do
 
   create_table "alarm_notifications", force: true do |t|
     t.integer  "car_id"
@@ -28,7 +28,10 @@ ActiveRecord::Schema.define(version: 20140915195127) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"
+    t.datetime "deleted_at"
   end
+
+  add_index "alarms", ["deleted_at"], name: "index_alarms_on_deleted_at", using: :btree
 
   create_table "alarms_cars", force: true do |t|
     t.integer  "car_id",     null: false
@@ -49,13 +52,15 @@ ActiveRecord::Schema.define(version: 20140915195127) do
   add_index "alarms_groups", ["group_id", "alarm_id"], name: "index_alarms_groups_on_group_id_and_alarm_id", unique: true, using: :btree
 
   create_table "alarms_rules", force: true do |t|
-    t.integer "rule_id",     null: false
-    t.integer "alarm_id",    null: false
-    t.string  "conjunction"
-    t.string  "params"
+    t.integer  "rule_id",     null: false
+    t.integer  "alarm_id",    null: false
+    t.string   "conjunction"
+    t.string   "params"
+    t.datetime "deleted_at"
   end
 
   add_index "alarms_rules", ["alarm_id", "rule_id"], name: "index_alarms_rules_on_alarm_id_and_rule_id", unique: true, using: :btree
+  add_index "alarms_rules", ["deleted_at"], name: "index_alarms_rules_on_deleted_at", using: :btree
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -90,7 +95,10 @@ ActiveRecord::Schema.define(version: 20140915195127) do
     t.integer  "company_id"
     t.integer  "work_schedule_id"
     t.string   "name"
+    t.datetime "deleted_at"
   end
+
+  add_index "cars", ["deleted_at"], name: "index_cars_on_deleted_at", using: :btree
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -280,7 +288,10 @@ ActiveRecord::Schema.define(version: 20140915195127) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "company_id"
+    t.datetime "deleted_at"
   end
+
+  add_index "regions", ["deleted_at"], name: "index_regions_on_deleted_at", using: :btree
 
   create_table "roles", force: true do |t|
     t.string   "name"
@@ -311,7 +322,10 @@ ActiveRecord::Schema.define(version: 20140915195127) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "company_id"
+    t.datetime "deleted_at"
   end
+
+  add_index "simcards", ["deleted_at"], name: "index_simcards_on_deleted_at", using: :btree
 
   create_table "states", force: true do |t|
     t.boolean  "no_data",    default: false
@@ -394,8 +408,10 @@ ActiveRecord::Schema.define(version: 20140915195127) do
     t.datetime "updated_at"
     t.integer  "work_schedule_id"
     t.integer  "company_id"
+    t.datetime "deleted_at"
   end
 
+  add_index "work_hours", ["deleted_at"], name: "index_work_hours_on_deleted_at", using: :btree
   add_index "work_hours", ["work_schedule_id"], name: "index_work_hours_on_work_schedule_id", using: :btree
 
   create_table "work_schedule_groups", force: true do |t|
@@ -410,7 +426,10 @@ ActiveRecord::Schema.define(version: 20140915195127) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "company_id"
+    t.datetime "deleted_at"
   end
+
+  add_index "work_schedules", ["deleted_at"], name: "index_work_schedules_on_deleted_at", using: :btree
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
 

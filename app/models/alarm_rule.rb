@@ -11,7 +11,7 @@
 
 class AlarmRule < ActiveRecord::Base
 	self.table_name = "alarms_rules"
-	
+	acts_as_paranoid
 	belongs_to :rules
 	belongs_to :alarms
 end

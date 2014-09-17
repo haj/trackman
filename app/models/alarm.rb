@@ -10,6 +10,8 @@
 
 class Alarm < ActiveRecord::Base
 	
+	acts_as_paranoid
+	
 	#alarms -> rules
 	has_and_belongs_to_many :rules
 	has_many :alarm_rules

@@ -130,3 +130,5 @@ gem 'selenium-webdriver'
 gem 'timecop'
 
 gem 'gravatar_image_tag'
+
+gem "paranoia", "~> 2.0"
