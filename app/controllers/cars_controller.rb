@@ -39,10 +39,8 @@ class CarsController < ApplicationController
 
     if @car.has_device?
       if !params[:scope].nil?
-        logger.warn "scope"
         @positions = Car.find(params[:id]).positions_between_dates(params[:scope])
       else
-        logger.warn "default"
         @positions = Car.find(params[:id]).positions_between_dates_with_default
       end
 
@@ -51,8 +49,6 @@ class CarsController < ApplicationController
         marker.lng position.longitude.to_s
         marker.infowindow position.time.to_s
       end
-
-      logger.warn @markers.first
       
       gon.watch.data = @markers
 

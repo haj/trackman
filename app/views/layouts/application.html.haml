@@ -88,7 +88,7 @@
                   - @notifications.each do |notification|
                     .notification-messages.info
                       .user-profile
-                        = image_tag "profiles/d.jpg", :class => "profile-image"
+                        = image_tag gravatar(current_user), :class => "profile-image"
                       .message-wrapper
                         .heading= Alarm
                         .description= notification.try(:alarm).try(:name)
@@ -98,7 +98,7 @@
               / END NOTIFICATION CENTER
               / BEGIN PROFILE PICTURE
               .profile-pic
-                = image_tag "profiles/avatar_small.jpg", :class => "profile-image"
+                = image_tag gravatar(current_user), :class => "profile-image"
               / END PROFILE PICTURE
             / BEGIN HEADER NAV BUTTONS
             %ul.nav.quick-section

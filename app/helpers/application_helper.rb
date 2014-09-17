@@ -14,4 +14,8 @@ module ApplicationHelper
 		notification.subject.split(":")[1].strip
 	end
 
+	def gravatar(current_user)
+		gravatar_image_url(current_user.email.gsub('spam', 'mdeering'))
+	end
+
 end

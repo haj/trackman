@@ -116,33 +116,32 @@ class Car < ActiveRecord::Base
 		end
 
 		def positions_between_dates_with_default
-			if Time.zone.now.hour < 6
-				user_dates = {
-				            :start_date => "#{Time.zone.now.day - 1}/#{Time.zone.now.month}/#{Time.zone.now.year}", 
-				            :start_time => "06:00", 
-				            :end_date => "#{Time.zone.now.day}/#{Time.zone.now.month}/#{Time.zone.now.year}", 
-				            :end_time => "#{Time.zone.now.hour}:#{Time.zone.now.min} ", 
-				            :limit_results => "100"
-				          }
-			else
-				user_dates = {
-				            :start_date => "#{Time.zone.now.day}/#{Time.zone.now.month}/#{Time.zone.now.year}", 
-				            :start_time => "06:00", 
-				            :end_date => "#{Time.zone.now.day}/#{Time.zone.now.month}/#{Time.zone.now.year}", 
-				            :end_time => "#{Time.zone.now.hour}:#{Time.zone.now.min} ", 
-				            :limit_results => "100"
-				          }
+			# if Time.zone.now.hour < 6
+			# 	user_dates = {
+			# 	            :start_date => "#{Time.zone.now.day - 1}/#{Time.zone.now.month}/#{Time.zone.now.year}", 
+			# 	            :start_time => "06:00", 
+			# 	            :end_date => "#{Time.zone.now.day}/#{Time.zone.now.month}/#{Time.zone.now.year}", 
+			# 	            :end_time => "#{Time.zone.now.hour}:#{Time.zone.now.min} ", 
+			# 	            :limit_results => "100"
+			# 	          }
+			# else
+			# 	user_dates = {
+			# 	            :start_date => "#{Time.zone.now.day}/#{Time.zone.now.month}/#{Time.zone.now.year}", 
+			# 	            :start_time => "06:00", 
+			# 	            :end_date => "#{Time.zone.now.day}/#{Time.zone.now.month}/#{Time.zone.now.year}", 
+			# 	            :end_time => "#{Time.zone.now.hour}:#{Time.zone.now.min} ", 
+			# 	            :limit_results => "100"
+			# 	          }
+			# end
 
-			end
+			# start_date = Time.zone.parse("#{user_dates[:start_date]} #{user_dates[:start_time]}")
+			# end_date = Time.zone.parse("#{user_dates[:end_date]} #{user_dates[:end_time]}")
 
-			start_date = Time.zone.parse("#{user_dates[:start_date]} #{user_dates[:start_time]}")
-			end_date = Time.zone.parse("#{user_dates[:end_date]} #{user_dates[:end_time]}")
+			# if user_dates[:limit_results].to_i == 0 
+			# 	user_dates[:limit_results] = 20
+			# end
 
-			if user_dates[:limit_results].to_i == 0 
-				user_dates[:limit_results] = 20
-			end
-
-			return self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")#.take(user_dates[:limit_results].to_i)
+			return self.device.traccar_device.positions.take(20)
 			
 		end
 

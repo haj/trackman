@@ -1,19 +1,19 @@
 .panel.panel-default
 	.panel-body
 		.nested-fields
-			.field 
+			.form-group.conjunction_field
 				= f.fields_for :conjunction do |c|
 					= c.select :value, ['And', 'Or'] 
 
-			.field
+			.form-group
 				= f.label :name
 				%br
 				= f.collection_select(:id, Rule.all, :id, :name)
 
-			.params
+			.params.form-group 
 				= f.fields_for :params do |p|
 					.field
 
-			= link_to_remove_association "remove rule", f, :class => "btn btn-danger"
+			= link_to_remove_association "Remove", f, :class => "btn btn-danger btn-small"
 
 			%br

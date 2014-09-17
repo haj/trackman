@@ -160,6 +160,7 @@ GEM
     gon (5.0.4)
       actionpack (>= 2.3.0)
       json
+    gravatar_image_tag (1.2.0)
     guard (2.6.1)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -430,6 +431,7 @@ DEPENDENCIES
   geocoder
   gmaps4rails
   gon
+  gravatar_image_tag
   guard
   guard-rspec
   guard-spring
