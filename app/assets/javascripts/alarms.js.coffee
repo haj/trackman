@@ -49,9 +49,8 @@ $(document).ready ->
 								alert("Error")
 					
 					else 
-						console.log(params_block)
 						input_element = "<div class='form-group'><input id='alarm_rules_attributes_" + rule_id + "_params_" + name + "' name='alarm[rules_attributes][" + rule_id + "][params][" + name + "]' type='text'></div>"	  	
-						label_element = "<div class='form-group'>"+ String(param.name) + "</div>"
+						label_element = "<div class='form-group'>"+ String(param.description) + "</div>"
 						field_element = $("<div class='field'>" + label_element + input_element + "</div>")
 						params_block.append(field_element)
 
