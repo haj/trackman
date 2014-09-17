@@ -19,6 +19,8 @@
 class Device < ActiveRecord::Base
 	include ActionView::Helpers::DateHelper
 
+	acts_as_paranoid
+
 	scope :by_device_model, -> device_model_id { where(:device_model_id => device_model_id) }
 	scope :by_device_type, -> device_type_id { where(:device_type_id => device_type_id) }
 

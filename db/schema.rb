@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917152220) do
+ActiveRecord::Schema.define(version: 20140917152321) do
 
   create_table "alarm_notifications", force: true do |t|
     t.integer  "car_id"
@@ -164,7 +164,10 @@ ActiveRecord::Schema.define(version: 20140917152220) do
     t.integer  "company_id"
     t.boolean  "movement"
     t.datetime "last_checked"
+    t.datetime "deleted_at"
   end
+
+  add_index "devices", ["deleted_at"], name: "index_devices_on_deleted_at", using: :btree
 
   create_table "features", force: true do |t|
     t.string   "name"
