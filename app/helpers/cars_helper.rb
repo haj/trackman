@@ -61,4 +61,14 @@ module CarsHelper
 	end
 
 
+	# cars#index
+	def checked_radio_button(value, row)
+		if value == row
+			return true
+		else
+			return false
+		end
+	end
+
+
 end

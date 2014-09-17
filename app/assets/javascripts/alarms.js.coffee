@@ -63,7 +63,7 @@ $(document).ready ->
 		
 
 	$("#rules").on("cocoon:after-insert", ->
-		$('.nested-fields:first > .conjunction_field').remove()
+		$('.nested-fields:first > .conjunction_row').remove()
 
 	).on "cocoon:after-remove", (e, removedItem) ->
 		$('#rules .panel-default').each (index) ->
@@ -73,7 +73,7 @@ $(document).ready ->
 			if nested_fields.length == 0
 				$(this).remove()		
 	
-		$('#rules .panel-default:first').find('.nested-fields:first > .conjunction_field').remove()
+		$('.nested-fields:first > .conjunction_row').remove()
 	
 	
 

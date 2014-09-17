@@ -1,13 +1,14 @@
-.panel.panel-default
-	.panel-body
-		.nested-fields
+
+.nested-fields
+	.grid.simple.conjunction_row
+		.grid-body
 			.form-group.conjunction_field
 				= f.fields_for :conjunction do |c|
 					= c.select :value, ['And', 'Or'] 
-
-			.form-group
+	.grid.simple
+		.grid-body
+			.form-group.form-inline
 				= f.label :name
-				%br
 				= f.collection_select(:id, Rule.all, :id, :name)
 
 			.params.form-group 
@@ -15,5 +16,3 @@
 					.field
 
 			= link_to_remove_association "Remove", f, :class => "btn btn-default btn-small"
-
-			%br

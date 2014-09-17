@@ -16,28 +16,28 @@
             .grid-title
               %h4 Vehicle Model
             .grid-body
-              = select_tag('by_car_model', content_tag(:option,'Vehicle Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name'), :class => "form-control")
+              = select_tag('by_car_model', content_tag(:option,'Vehicle Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name', params[:by_car_model] ), :class => "form-control" )
       .row  
         .col-md-12
           .grid.simple
             .grid-title
               %h4 Vehicle Type
             .grid-body
-              = select_tag('by_car_type', content_tag(:option,'Vehicle Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name'), :class => "form-control")
+              = select_tag('by_car_type', content_tag(:option,'Vehicle Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name', params[:by_car_type]), :class => "form-control")
       .row  
         .col-md-12
           .grid.simple
             .grid-title
               %h4 Traceability
             .grid-body
-              %label
-                = radio_button_tag 'trackable', 'all' , true
+              %label                
+                = radio_button_tag 'trackable', 'all' , checked_radio_button(params[:trackable], "all")
                 = "All"
               %label 
-                = radio_button_tag 'trackable', 'true' ,false
+                = radio_button_tag 'trackable', 'true' , checked_radio_button(params[:trackable], "true")
                 = "Traceable" 
               %label
-                = radio_button_tag 'trackable', 'false' ,false
+                = radio_button_tag 'trackable', 'false' , checked_radio_button(params[:trackable], "false")
                 = "Not Traceable"
       .row
         .col-md-12
@@ -48,13 +48,13 @@
               .row
                 .col-md-12
                   %label
-                    = radio_button_tag 'has_driver', 'all' , true
+                    = radio_button_tag 'has_driver', 'all' , checked_radio_button(params[:has_driver], 'all')
                     = "All"
                   %label 
-                    = radio_button_tag 'has_driver', 'true' ,false
+                    = radio_button_tag 'has_driver', 'true' , checked_radio_button(params[:has_driver], 'true')
                     = "With driver" 
                   %label
-                    = radio_button_tag 'has_driver', 'false' ,false
+                    = radio_button_tag 'has_driver', 'false' , checked_radio_button(params[:has_driver], 'false')
                     = "Without driver"
       .row
         .col-md-12

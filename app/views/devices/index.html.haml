@@ -54,13 +54,13 @@
                     %a.collapse{href: "javascript:;"}
                 .grid-body
                   %label
-                    = radio_button_tag 'has_simcard', 'all' , true
+                    = radio_button_tag 'has_simcard', 'all' , checked_radio_button(params["has_simcard"], 'all')
                     = "All"
                   %label
-                    = radio_button_tag 'has_simcard', 'true' , params["has_simcard"] == 'true' ? true : false
+                    = radio_button_tag 'has_simcard', 'true' , checked_radio_button(params["has_simcard"], 'true')
                     = "With Simcard" 
                   %label
-                    = radio_button_tag 'has_simcard', 'false' , params["has_simcard"] == 'false' ? true : false
+                    = radio_button_tag 'has_simcard', 'false' , checked_radio_button(params["has_simcard"], 'false')
                     = "Without Simcard"
                       
           .row  
@@ -72,13 +72,13 @@
                     %a.collapse{href: "javascript:;"}
                 .grid-body
                   %label
-                    = radio_button_tag 'available', 'all' , true
+                    = radio_button_tag 'available', 'all' , checked_radio_button(params["has_simcard"], 'all')
                     = "All"
                   %label
-                    = radio_button_tag 'available', 'true' , params["available"] == 'true' ? true : false
+                    = radio_button_tag 'available', 'true' , checked_radio_button(params["has_simcard"], 'true')
                     = "Available" 
                   %label
-                    = radio_button_tag 'available', 'false' , params["available"] == 'false' ? true : false
+                    = radio_button_tag 'available', 'false' , checked_radio_button(params["has_simcard"], 'false')
                     = "Used"
           .row
             .col-md-12

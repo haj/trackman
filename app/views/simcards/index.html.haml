@@ -47,13 +47,13 @@
                     %a.collapse{href: "javascript:;"}              
                 .grid-body
                   %label
-                    = radio_button_tag 'available', 'all' , true
+                    = radio_button_tag 'available', 'all' , checked_radio_button(params["available"], 'all')
                     = "All"
                   %label
-                    = radio_button_tag 'available', 'true' , params["available"] == 'true' ? true : false
+                    = radio_button_tag 'available', 'true' , checked_radio_button(params["available"], 'true')
                     = "Available" 
                   %label
-                    = radio_button_tag 'available', 'false' , params["available"] == 'false' ? true : false
+                    = radio_button_tag 'available', 'false' , checked_radio_button(params["available"], 'false')
                     = "Used"
           
           .form-group
