@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :async
 
    	scope :by_role, -> role_name { where(roles_mask: self.mask_values_for(role_name.to_sym)) }
-
+   	
     ROLES = ["admin", "manager", "employee", "driver"]
 
     acts_as_messageable

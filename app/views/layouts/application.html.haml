@@ -31,7 +31,7 @@
               %a.dropdown-toggle.active{"data-toggle" => "", :href => root_path}
                 .iconset.top-home
             %li#header_inbox_bar.dropdown
-              %a.dropdown-toggle{:href => conversations_user_path(current_user)}
+              %a.dropdown-toggle{:href => conversations_path}
                 .iconset.top-messages
                 - if conversations_count(current_user) != 0
                   %span#msgs-badge.badge= conversations_count(current_user)

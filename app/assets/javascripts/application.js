@@ -66,6 +66,7 @@
 //= require subscriptions
 //= require alarms
 //= require groups
+//= require users
 //= require retina_tag
 //= require bootstrap-datepicker
 //= require jquery.timepicker

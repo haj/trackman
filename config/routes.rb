@@ -26,7 +26,11 @@ Rails.application.routes.draw do
   resources :conversations do 
     member do 
       post 'reply'
-      get 'mark_as_read'
+    end
+    collection do 
+      put 'mark_as_read'
+      put 'mark_as_unread'
+      put 'mark_as'
     end
   end
 

@@ -4,29 +4,30 @@
       .row
         .col-md-12
           .grid.simple
-            .grid-body.no-border{style: "min-height: 850px;"}
-              %br/
-              .row-fluid
-                %h2 New Message
-                .row
-                  .form-group.col-md-12
-                    %label.form-label Send To
-                    %span.help e.g. "someone@example.com"
-                    .controls
-                      = select_tag('conversation[recipient_id]', options_from_collection_for_select(User.recipients(current_user), 'id', 'name'))
-                .row
-                  .form-group.col-md-12
-                    %label.form-label Subject
-                    %span.help e.g. "Meeting"
-                    .controls
-                      = text_field_tag "conversation[subject]", "" , :class => "form-control"
-                .row
-                  .form-group.col-md-12
-                    = text_area_tag "conversation[body]", "Enter text ...", :class => "form-control", rows: 25
+            .grid-title
+              %h3 
+                New Message 
+            .grid-body
+              .row
+                .form-group.col-md-12
+                  %label.form-label Send To
+                  %span.help e.g. "someone@example.com"
+                  .controls
+                    = select_tag('conversation[recipient_id]', options_from_collection_for_select(User.recipients(current_user), 'id', 'name'))
+              .row
+                .form-group.col-md-12
+                  %label.form-label Subject
+                  %span.help e.g. "Meeting"
+                  .controls
+                    = text_field_tag "conversation[subject]", "" , :class => "form-control"
+              .row
+                .form-group.col-md-12
+                  %label.form-label Message
+                  = text_area_tag "conversation[body]", "", :class => "form-control", rows: 25
 
-                .row
-                  .form-group.col-md-12
-                    = submit_tag "Send"
+              .row
+                .form-group.col-md-12
+                  = submit_tag "Send", class: "btn btn-primary"
 
 
 

@@ -4,6 +4,8 @@ class UsersController < ApplicationController
 
   has_scope :by_role
   
+  
+
   def index
     @q = apply_scopes(User).all.search(params[:q])
     @users = @q.result(distinct: true)
@@ -17,11 +19,6 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-  end
-
-  def conversations
-    #@conversations = User.find(params[:id]).mailbox.conversations
-    @conversations = User.find(params[:id]).mailbox.conversations(:read => false)
   end
 
   def notifications
