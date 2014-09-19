@@ -7,6 +7,9 @@ class AlarmsController < ApplicationController
   # GET /alarms.json
   def index
     @alarms = Alarm.all
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   # GET /alarms/1

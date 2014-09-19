@@ -9,6 +9,8 @@ class HomeController < ApplicationController
 	      marker.infowindow "#{position.try(:car).try(:name)}/#{position.try(:car).try(:driver).try(:name)}/#{position.time}"
 	    end
 
+	    logger.warn @cars
+
 	    gon.watch.data = @markers
 
 	    gon.push({

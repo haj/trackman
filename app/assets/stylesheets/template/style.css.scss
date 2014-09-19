@@ -1195,6 +1195,7 @@ body.menu-non-fixed .page-sidebar {
   -moz-transition: all 0.5s ease-in-out;
   -ms-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
+  padding-left: 0px !important;
 }
 .page-content .admin-bar .admin-bar-inner {
   background: none repeat scroll 0 0 padding-box #ffffff;
