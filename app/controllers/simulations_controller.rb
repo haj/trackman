@@ -8,33 +8,39 @@ class SimulationsController < ApplicationController
   end
 
   def speeding
-    render text: "speeding"
-    return 
+    car = Car.find(params[:car_id])
+    Simulation.speeding(params[:car_id])
+    redirect_to car_path(car)
   end
 
   def outside_work_hours
-    render text: "outside_work_hours"
-    return
+    car = Car.find(params[:car_id])
+    Simulation.outside_work_hours(params[:car_id])
+    redirect_to car_path(car)
   end
 
   def long_pause
-    render text: "long_pause"
-    return
+   car = Car.find(params[:car_id])
+    Simulation.long_pause(params[:car_id])
+    redirect_to car_path(car)
   end
 
   def long_driving
-    render text: "long_driving"
-    return
+    car = Car.find(params[:car_id])
+    Simulation.long_driving(params[:car_id])
+    redirect_to car_path(car)
   end
 
   def enter_area
-    render text: "enter_area"
-    return
+    car = Car.find(params[:car_id])
+    Simulation.enter_area(params[:car_id])
+    redirect_to car_path(car)
   end
 
   def left_area
-    render text: "left_area"
-    return
+    car = Car.find(params[:car_id])
+    Simulation.left_area(params[:car_id])
+    redirect_to car_path(car)
   end
 
 

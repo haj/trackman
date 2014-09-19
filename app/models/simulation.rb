@@ -17,7 +17,7 @@ class Simulation
 		traccar_device.positions << new_position
 	end
 
-	def self.speeding
+	def self.speeding(car_id)
 		car = Car.find(car_id)
 		device = car.device
 		traccar_device = device.traccar_device
@@ -25,7 +25,7 @@ class Simulation
        	traccar_device.positions << new_position
 	end
 
-	def self.outside_work_hours
+	def self.outside_work_hours(car_id)
 		car = Car.find(car_id)
 		device = car.device
 		traccar_device = device.traccar_device
@@ -33,19 +33,29 @@ class Simulation
        	traccar_device.positions << new_position
 	end
 
-	def self.long_pause
+	def self.long_pause(car_id)
+		car = Car.find(car_id)
+		# this would simulate a car that stopped for 16 minutes in the last 30 minutes
+		State.create(no_data: false, moving: true, car_id: car.id, speed: 0.0, created_at: 30.minutes.ago)
+		State.create(no_data: false, moving: false, car_id: car.id, speed: 0.0, created_at: 23.minutes.ago)
+		State.create(no_data: false, moving: false, car_id: car.id, speed: 0.0, created_at: 7.minutes.ago)
+		State.create(no_data: false, moving: true, car_id: car.id, speed: 0.0, created_at: 2.minutes.ago)
+	end
+
+	def self.long_driving(car_id)
+		car = Car.find(car_id)
+		# this would simulate a car that been driving for at least 16 consecutive minutes in the last half hour
+		State.create(no_data: false, moving: false, car_id: car.id, speed: 0.0, created_at: 30.minutes.ago)
+		State.create(no_data: false, moving: true, car_id: car.id, speed: 0.0, created_at: 23.minutes.ago)
+		State.create(no_data: false, moving: true, car_id: car.id, speed: 0.0, created_at: 7.minutes.ago)
+		State.create(no_data: false, moving: false, car_id: car.id, speed: 0.0, created_at: 2.minutes.ago)
+	end
+
+	def self.enter_area(car_id)
 
 	end
 
-	def self.long_driving
-
-	end
-
-	def self.enter_area
-
-	end
-
-	def self.left_area
+	def self.left_area(car_id)
 
 	end
 
