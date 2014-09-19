@@ -18,4 +18,4 @@
           %b Rules :        
           %ul
             - @alarm.rules.each do |rule|
-              %li= rule_with_params(rule, @alarm)
+              %li= rule.description

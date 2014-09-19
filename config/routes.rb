@@ -2,6 +2,19 @@ Rails.application.routes.draw do
 
   resources :work_schedule_groups
 
+
+  resources :simulations do 
+    collection do 
+      post 'movement'
+      post 'speeding'
+      post 'outside_work_hours'
+      post 'long_pause'
+      post 'long_driving'
+      post 'enter_area'
+      post 'left_area'
+    end
+  end
+
   get 'test_exception_notifier' => 'application#test_exception_notifier'
 
   resources :subscriptions do 
@@ -28,9 +41,7 @@ Rails.application.routes.draw do
       post 'reply'
     end
     collection do 
-      put 'mark_as_read'
-      put 'mark_as_unread'
-      put 'mark_as'
+      put 'mark_as_action'
     end
   end
 
@@ -39,6 +50,7 @@ Rails.application.routes.draw do
   resources :alarms do 
     collection do 
       get 'region'
+      put 'batch_destroy'
     end
   end
   resources :rules do 

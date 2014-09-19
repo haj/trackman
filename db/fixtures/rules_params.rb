@@ -23,13 +23,13 @@
 # Movement
 
 Rule.seed(:id,
-  { id: 1, name: "Is Moving", method_name: "starts_moving", description: "Check if Vehicle is moving during Work Schedule" }
+  { id: 1, name: "Is Moving", method_name: "starts_moving", description: "Check if Vehicle started moving" }
 )
 
 # Too Fast
 
 Rule.seed(:id,
-  { id: 2, name: "Speed Limit", method_name: "speed_limit", description: "Check if Vehicle is moving during Work Schedule" }
+  { id: 2, name: "Speed Limit", method_name: "speed_limit", description: "Check if Driver is driving beyond speed limit" }
 )
 
 Parameter.seed(:id,

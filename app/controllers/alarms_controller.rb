@@ -79,15 +79,18 @@ class AlarmsController < ApplicationController
       end
     end
   end
+ 
+  def batch_destroy
+    alarm_ids = params[:alarm_ids]
+    alarm_ids.each do |alarm_id|
+      @alarm = Alarm.find(alarm_id)
+      @alarm.destroy
+    end
+    redirect_to alarms_path
+  end
 
-  # DELETE /alarms/1
-  # DELETE /alarms/1.json
   def destroy
     @alarm.destroy
-    respond_to do |format|
-      format.html { redirect_to alarms_url, notice: 'Alarm was successfully destroyed.' }
-      format.json { head :no_content }
-    end
   end
 
   private

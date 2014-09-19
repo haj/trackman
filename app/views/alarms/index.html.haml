@@ -4,26 +4,34 @@
       %h3
         Alarms List
   .col-md-4.col-lg-4.col-sm-4.col-xs-4 
-    .pull-right= link_to 'Create', new_alarm_path, class: "btn btn-success"
+    .pull-right= link_to 'Create', new_alarm_path, class: "btn btn-primary"
 
 .row
   .col-md-12
-    .grid.simple
-      .grid-body
-        %table.table.no-more-tables
-          %thead
-            %tr
-              %th Name
-              %th 
-          %tbody
-            - @alarms.each do |alarm|
-              %tr
-                / %td= link_to alarm.name, alarm, remote: true
-                %td= link_to alarm.name, alarm
-                %td
-                  = link_to alarm, :method => :delete, :data => { :confirm => 'Are you sure?' } do
-                    %i.fa.fa-times
-                    Destroy
+    = form_tag batch_destroy_alarms_path, id: "mark_messages", :method => :put do
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-body
+              .pull-right
+                %a{:id => "mark_as_read", class: "btn btn-danger btn-small"} Destroy Selected
+              %br/
+              %br/
+              %table.table.no-more-tables
+                %thead
+                  %tr
+                    %th 
+                    %th Name
+                    %th Number of Rules
+                    %th Number of Cars
+                %tbody
+                  - @alarms.each do |alarm|
+                    %tr
+                      / %td= link_to alarm.name, alarm, remote: true
+                      %td.small-cell.v-align-middle= check_box_tag "alarm_ids[]", alarm.id
+                      %td= link_to alarm.name, alarm
+                      %td= alarm.try(:rules).try(:count)
+                      %td= alarm.try(:cars).try(:count)
 
 
 / = render 'modal'

@@ -36,38 +36,12 @@ class ConversationsController < ApplicationController
     redirect_to conversation_path(@conversation)
   end
 
-  def mark_as
-    render text: params
-    return
-  end
-
-  def mark_as_read
-      params[:conversation_ids].each do |conversation_id|
-        @conversation = Mailboxer::Conversation.find(conversation_id.to_i)
-        @conversation.mark_as_read(current_user)
-        logger.warn "@conversation.mark_as_read(#{current_user})"
-      end
+  def mark_as_action
+    conversation_ids = params[:conversation_ids]
+    clicked_action = params[:clicked_action]
+    UserConversation.mark_as_action(clicked_action, conversation_ids, current_user.id)
     redirect_to conversations_path
   end
-
-  def mark_as_unread
-    unless params[:conversation_ids].empty? 
-      params[:conversation_ids].each do |conversation_id|
-        @conversation = Mailboxer::Conversation.find(conversation_id.to_i)
-        @conversation.mark_as_unread(current_user)
-      end    
-    end
-  end
-
-  def mark_as_deleted
-    unless params[:conversation_ids].empty? 
-      params[:conversation_ids].to_a.each do |conversation_id|
-        @conversation = Mailboxer::Conversation.find(conversation_id.to_i)
-        @conversation.mark_as_deleted(current_user)
-      end    
-    end
-  end
-
 
 
   # Reply to an existing conversation

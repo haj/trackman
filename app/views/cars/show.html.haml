@@ -123,4 +123,27 @@
           - @alarms.each do |alarm| 
             %p
               = alarm.name
-  
+- if current_user.has_role?(:admin)
+  .row
+    .col-md-12
+      .grid.simple.horizontal.green 
+        .grid-title
+          %h4 Debug Mode
+          .tools
+            %a.collapse{href: "javascript:;"}
+        .grid-body
+          .form-group
+            = button_to "Simulate Movement Alarm", movement_simulations_path(car_id: @car.id), class: "btn"
+          .form-group
+            = button_to "Simulate Speed Alarm", speeding_simulations_path(car_id: @car.id), class: "btn"
+          .form-group
+            = button_to "Simulate Working outside work schedule Alarm", outside_work_hours_simulations_path(car_id: @car.id), class: "btn"
+          .form-group
+            = button_to "Simulate Long Pause Alarm", long_pause_simulations_path(car_id: @car.id), class: "btn"
+
+          .form-group
+            = button_to "Simulate Long Drive Alarm", long_driving_simulations_path(car_id: @car.id), class: "btn"
+          .form-group
+            = button_to "Simulate Entered Area Alarm", enter_area_simulations_path(car_id: @car.id), class: "btn"
+          .form-group
+            = button_to "Simulate Left Area Alarm", left_area_simulations_path(car_id: @car.id), class: "btn"
