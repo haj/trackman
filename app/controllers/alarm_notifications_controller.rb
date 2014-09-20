@@ -16,6 +16,15 @@ class AlarmNotificationsController < ApplicationController
     redirect_to alarm_notifications_url, notice: 'Alarm notification was successfully destroyed.'
   end
 
+  def batch_archive
+    alarm_notification_ids = params[:alarm_notification_ids]
+    alarm_notification_ids.each do |alarm_notification_id|
+      @alarm_notification = AlarmNotification.find(alarm_notification_id)
+      @alarm_notification.update_attribute(:archived, true)
+    end
+    redirect_to alarm_notifications_path
+  end
+
   def archive
     @alarm_notification = AlarmNotification.find(params[:id])
     @alarm_notification.update_attribute(:archived, true)

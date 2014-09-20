@@ -4,22 +4,33 @@
 
 .row
   .col-md-12
-    .grid.simple
-      .grid-body
-        %table.table.no-more-tables
-          %thead
-            %tr
-              %th Vehicle
-              %th Alarm
-              %th Triggered at
-              %th
-          %tbody           
-            - @alarm_notifications.each do |alarm_notification|
-              %tr
-                %td= link_to alarm_notification.try(:car).try(:name), alarm_notification.car
-                %td= link_to alarm_notification.try(:alarm).try(:name), alarm_notification.alarm
-                %td= alarm_notification.created_at
-                %td= link_to "Archive", archive_alarm_notification_path(alarm_notification)
-%br
+    = form_tag batch_archive_alarm_notifications_path, id: "archive_alarm_notifiations", :method => :put do
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-body
+              %table.table.no-more-tables
+                %thead
+                  %tr
+                    %th
+                    %th Vehicle
+                    %th Alarm
+                    %th Triggered at
+                %tbody           
+                  - @alarm_notifications.each do |alarm_notification|
+                    %tr
+                      %td.small-cell.v-align-middle= check_box_tag "alarm_notification_ids[]", alarm_notification.id, nil , class: "alarm_notification_checkbox"
+                      %td= link_to alarm_notification.try(:car).try(:name), alarm_notification.car
+                      %td= link_to alarm_notification.try(:alarm).try(:name), alarm_notification.alarm
+                      %td= alarm_notification.created_at
+
+
+#quick-access.admin-bar{:style => "bottom: -115px;"}
+  .admin-bar-inner
+    %button.btn.btn-danger.btn-add{type: "button", id: "batch_archive"}
+      %i.icon-trash
+      Move to archive
+    %button.btn.btn-white.btn-cancel{:type => "button"} Cancel
+/ = render 'modal'
 
 

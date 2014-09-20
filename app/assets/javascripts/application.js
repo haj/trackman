@@ -62,6 +62,7 @@
 //= require cars
 //= require subscriptions
 //= require alarms
+//= require alarm_notifications
 //= require groups
 //= require users
 //= require retina_tag

@@ -95,10 +95,14 @@ class Rule < ActiveRecord::Base
 
 		# Vehicle moving faster than params["speed"]
 		def speed_limit(car_id, params)
+
 			car = Car.find(car_id)
-			if car.no_data?
+			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 5.minutes.ago).count != 0 || car.no_data?
 				return false
-			elsif car.device.speed > params["speed"].to_i # in km/h
+			end
+
+			if car.device.speed > params["speed"].to_i # in km/h
+				RuleNotification.create(rule_id: self.id, car_id: car_id)
 				return true
 			else
 				return false

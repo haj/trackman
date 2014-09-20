@@ -83,7 +83,7 @@ class AlarmsController < ApplicationController
     end
   end
  
-  def batch_destroy
+  def batch_archive
     alarm_ids = params[:alarm_ids]
     alarm_ids.each do |alarm_id|
       @alarm = Alarm.find(alarm_id)
