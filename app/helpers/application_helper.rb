@@ -1,8 +1,11 @@
 module ApplicationHelper
+
 	def notifications_count(user)
-		notifications = user.try(:company).try(:alarm_notifications).try(:count)
+		notifications = user.try(:company).try(:alarm_notifications).where(archived: false).try(:count)
 		if notifications.nil?
-			return []
+			return 0 
+		else
+			return notifications
 		end
 	end
 
