@@ -4,6 +4,10 @@
 
 $(document).ready ->
 
+	$("#batch_destroy").click ->	
+		$("#destroy_car_types").submit()
+
+
 	selectedItems = 0
 	$(".car_type_checkbox").click ->
 		if $(this).is(":checked")
