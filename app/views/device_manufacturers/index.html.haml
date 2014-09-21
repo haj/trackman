@@ -1,43 +1,52 @@
-.row
-  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
-    .page-title
-      %h3
-        Device Manufacturers List 
-  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
-    .pull-right= link_to 'Create', new_device_manufacturer_path, class: "btn btn-success"
+.content
+  .row
+    .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+      .page-title
+        %h3
+          Device Manufacturers List 
+    .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+      .pull-right= link_to 'Create', new_device_manufacturer_path, class: "btn btn-success"
 
 
-.row
-  .col-md-4
-    .grid.simple
-      .grid-title 
-        %h4
-          Search
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-body
-        = search_form_for @q do |f|
-          .form-group 
-            = f.search_field :name_cont, :placeholder => "Type name here" 
-          .form-group
-            = f.submit "Search" ,:class => "btn btn-default"
-  .col-md-8
-    .grid.simple
-      .grid-body        
-        %table.table.no-more-tables
-          %thead
-            %tr
-              = content_tag :th, sort_link(@q, :name)
-              %th
-              %th
-              %th
-          %tbody
-            
-            - @device_manufacturers.each do |device_manufacturer|
-              %tr
-                %td= link_to device_manufacturer.name, device_manufacturer
-                %td= link_to 'Edit', edit_device_manufacturer_path(device_manufacturer)
-                %td= link_to 'Destroy', device_manufacturer, :method => :delete, :data => { :confirm => 'Are you sure?' }
-%br
+  .row
+    .col-md-4
+      .grid.simple
+        .grid-title 
+          %h4
+            Search
+          .tools
+            %a.collapse{href: "javascript:;"}
+        .grid-body
+          = search_form_for @q do |f|
+            .form-group 
+              = f.search_field :name_cont, :placeholder => "Type name here" 
+            .form-group
+              = f.submit "Search" ,:class => "btn btn-default"
+    .col-md-8
+      .row
+        .col-md-12
+          = form_tag batch_destroy_device_manufacturers_path, id: "destroy_device_manufacturers", :method => :put do
+            .grid.simple
+              .grid-body        
+                %table.table.no-more-tables
+                  %thead
+                    %tr
+                      %th
+                      = content_tag :th, sort_link(@q, :name)
+                      %th
+                  %tbody
+                    
+                    - @device_manufacturers.each do |device_manufacturer|
+                      %tr
+                        %td.small-cell.v-align-middle= check_box_tag "device_manufacturer_ids[]", device_manufacturer.id, nil , class: "device_manufacturer_checkbox"
+                        %td= link_to device_manufacturer.name, device_manufacturer
+                        %td= link_to 'Edit', edit_device_manufacturer_path(device_manufacturer)
+
+#quick-access.admin-bar{:style => "bottom: -115px;"}
+  .admin-bar-inner
+    %button.btn.btn-danger.btn-add{type: "button", id: "batch_destroy"}
+      %i.icon-trash
+      Move to trash
+    %button.btn.btn-white.btn-cancel{:type => "button"} Cancel
 
 

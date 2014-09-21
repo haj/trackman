@@ -6,6 +6,9 @@ class DeviceTypesController < ApplicationController
   def index
     @q = DeviceType.search(params[:q])
     @device_types = @q.result(distinct: true)
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   # GET /device_types/1
@@ -52,8 +55,15 @@ class DeviceTypesController < ApplicationController
     end
   end
 
-  # DELETE /device_types/1
-  # DELETE /device_types/1.json
+  def batch_destroy
+    device_type_ids = params[:device_type_ids]
+    device_type_ids.each do |device_type_id|
+      @device_type = DeviceType.find(device_type_id)
+      @device_type.destroy
+    end
+    redirect_to device_types_path
+  end
+
   def destroy
     @device_type.destroy
     respond_to do |format|

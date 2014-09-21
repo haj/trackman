@@ -1,44 +1,51 @@
-.row
-  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
-    .page-title
-      %h3
-        Device Types List 
-  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
-    .pull-right= link_to 'Create', new_device_type_path, class: "btn btn-success"
+.content
+  .row
+    .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+      .page-title
+        %h3
+          Device Types List 
+    .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+      .pull-right= link_to 'Create', new_device_type_path, class: "btn btn-success"
 
 
-.row
-  .col-md-4
-    .grid.simple
-      .grid-title
-        %h4
-          Search 
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-body
-        = search_form_for @q, :class => "form-inline" do |f| 
-          .form-group
-            = f.search_field :name_cont, :placeholder => "Type name here"
-          .form-group 
-            = f.submit "Search" ,:class => "btn btn-default"
+  .row
+    .col-md-4
+      .grid.simple
+        .grid-title
+          %h4
+            Search 
+          .tools
+            %a.collapse{href: "javascript:;"}
+        .grid-body
+          = search_form_for @q  do |f| 
+            .form-group
+              = f.search_field :name_cont, :placeholder => "Type name here"
+            .form-group 
+              = f.submit "Search" ,:class => "btn btn-default"
 
-  .col-md-8
-    .grid.simple
-      .grid-body
-        %table.table.no-more-tables
-          %thead
-            %tr
-              = content_tag :th, sort_link(@q, :name)
-              %th
-              %th
-              %th
-          %tbody
-            
-            - @device_types.each do |device_type|
-              %tr
-                %td= link_to device_type.name, device_type
-                %td= link_to 'Edit', edit_device_type_path(device_type)
-                %td= link_to 'Destroy', device_type, :method => :delete, :data => { :confirm => 'Are you sure?' }
-%br
+    .col-md-8
+      .row
+        .col-md-12
+          = form_tag batch_destroy_device_types_path, id: "destroy_device_types", :method => :put do
+            .grid.simple
+              .grid-body
+                %table.table.no-more-tables
+                  %thead
+                    %tr
+                      %th
+                      = content_tag :th, sort_link(@q, :name)
+                      %th
+                  %tbody
+                    
+                    - @device_types.each do |device_type|
+                      %tr 
+                        %td.small-cell.v-align-middle= check_box_tag "device_type_ids[]", device_type.id, nil , class: "device_type_checkbox"
+                        %td= link_to device_type.name, device_type
+                        %td= link_to 'Edit', edit_device_type_path(device_type)
 
-
+#quick-access.admin-bar{:style => "bottom: -115px;"}
+  .admin-bar-inner
+    %button.btn.btn-danger.btn-add{type: "button", id: "batch_destroy"}
+      %i.icon-trash
+      Move to trash
+    %button.btn.btn-white.btn-cancel{:type => "button"} Cancel

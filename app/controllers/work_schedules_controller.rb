@@ -7,6 +7,9 @@ class WorkSchedulesController < ApplicationController
   # GET /work_schedules.json
   def index
     @work_schedules = WorkSchedule.all
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   # GET /work_schedules/1
@@ -44,6 +47,15 @@ class WorkSchedulesController < ApplicationController
       else
         render js: "window.location = '#{new_work_schedule_path}'"
       end
+  end
+
+  def batch_destroy
+    work_schedule_ids = params[:work_schedule_ids]
+    work_schedule_ids.each do |work_schedule_id|
+      @work_schedule = WorkSchedule.find(work_schedule_id)
+      @work_schedule.destroy
+    end
+    redirect_to work_schedules_path
   end
 
   # DELETE /work_schedules/1

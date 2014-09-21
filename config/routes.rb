@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
-  resources :work_schedule_groups
+  resources :work_schedule_groups do 
+    collection do 
+      put 'batch_destroy'
+    end
+  end
 
 
   resources :simulations do 
@@ -37,7 +41,11 @@ Rails.application.routes.draw do
 
   resources :notifications
   resources :vertices
-  resources :regions
+  resources :regions do 
+    collection do 
+      put 'batch_destroy'
+    end
+  end
   resources :features
   resources :conversations do 
     member do 
@@ -48,7 +56,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :work_schedules
+  resources :work_schedules do 
+    collection do 
+      put 'batch_destroy'
+    end
+  end
   resources :parameters
   resources :alarms do 
     collection do 
@@ -66,30 +78,69 @@ Rails.application.routes.draw do
     end
 
   end
-  resources :work_hours
-  resources :simcards
-  resources :teleproviders
-  resources :device_types
-  resources :device_models
-  resources :device_manufacturers
+  resources :work_hours 
+
+  resources :simcards do 
+    collection do 
+      put 'batch_destroy'
+    end
+  end
+  
+  resources :teleproviders do 
+    collection do 
+      put 'batch_destroy'
+    end
+  end
+  resources :device_types do 
+    collection do 
+      put 'batch_destroy'
+    end
+  end
+  resources :device_models do 
+    collection do 
+      put 'batch_destroy'
+    end
+  end
+  resources :device_manufacturers do 
+    collection do 
+      put 'batch_destroy'
+    end
+  end
   resources :groups do 
     member do 
       get 'live'
+    end
+    collection do 
+      put 'batch_destroy'
     end
   end
   resources :cars do 
     collection do 
       get 'live'
+      put 'batch_destroy'
     end
   end
-  resources :car_types
-  resources :car_models
-  resources :car_manufacturers
+  resources :car_types do 
+    collection do 
+      put 'batch_destroy'
+    end
+  end
+  resources :car_models do 
+    collection do 
+      put 'batch_destroy'
+    end
+  end
+  resources :car_manufacturers do 
+    collection do 
+      put 'batch_destroy'
+    end
+  end
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   
   resources :devices do 
     collection do 
       get 'live_map'
+      put 'batch_destroy'
     end
   end
 
@@ -105,6 +156,9 @@ Rails.application.routes.draw do
     member do 
       get 'conversations'
       get 'notifications'
+    end
+    collection do 
+      put 'batch_destroy'
     end
   end
 

@@ -5,6 +5,9 @@ class RegionsController < ApplicationController
   # GET /regions.json
   def index
     @regions = Region.all
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   # GET /regions/1
@@ -24,17 +27,16 @@ class RegionsController < ApplicationController
   # POST /regions
   # POST /regions.json
   def create
-    # logger.warn vertices_params
-    # render text: vertices_params
-    # return
 
     @region = Region.new(name: region_params['name'])
 
       if @region.save
-        vertices = vertices_params['markers'].values
 
-        vertices.each do |vertex|
-          new_vertex = Vertex.create(latitude: vertex['latitude'], longitude: vertex['longitude'], region_id: @region.id)
+        if !vertices_params['markers'].nil? 
+          vertices = vertices_params['markers'].try(:values)
+          vertices.each do |vertex|
+            new_vertex = Vertex.create(latitude: vertex['latitude'], longitude: vertex['longitude'], region_id: @region.id)
+          end
         end
 
         flash[:notice] = 'Region was successfully created !'
@@ -59,6 +61,15 @@ class RegionsController < ApplicationController
     end
   end
 
+  def batch_destroy
+    region_ids = params[:region_ids]
+    region_ids.each do |region_id|
+      @region = Region.find(region_id)
+      @region.destroy
+    end
+    redirect_to regions_path
+  end
+
   # DELETE /regions/1
   # DELETE /regions/1.json
   def destroy
@@ -81,6 +92,6 @@ class RegionsController < ApplicationController
     end
 
     def vertices_params
-      params.require(:vertices).permit!
+      params.permit!
     end
 end

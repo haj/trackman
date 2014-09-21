@@ -22,6 +22,9 @@ class SimcardsController < ApplicationController
   def index
     @q = apply_scopes(Simcard).all.search(params[:q])
     @simcards = @q.result(distinct: true)
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   # GET /simcards/1
@@ -67,6 +70,15 @@ class SimcardsController < ApplicationController
         format.json { render json: @simcard.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def batch_destroy
+    simcard_ids = params[:simcard_ids]
+    simcard_ids.each do |simcard_id|
+      @simcard = Simcard.find(simcard_id)
+      @simcard.destroy
+    end
+    redirect_to simcards_path
   end
 
   # DELETE /simcards/1

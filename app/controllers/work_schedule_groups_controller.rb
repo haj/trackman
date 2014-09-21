@@ -5,6 +5,9 @@ class WorkScheduleGroupsController < ApplicationController
   # GET /work_schedule_groups.json
   def index
     @work_schedule_groups = WorkScheduleGroup.all
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   # GET /work_schedule_groups/1
@@ -51,6 +54,15 @@ class WorkScheduleGroupsController < ApplicationController
     end
   end
 
+  def batch_destroy
+    work_schedule_group_ids = params[:work_schedule_group_ids]
+    work_schedule_group_ids.each do |work_schedule_group_id|
+      @work_schedule_group = WorkScheduleGroup.find(work_schedule_group_id)
+      @work_schedule_group.destroy
+    end
+    redirect_to work_schedule_groups_path
+  end
+
   # DELETE /work_schedule_groups/1
   # DELETE /work_schedule_groups/1.json
   def destroy
@@ -69,6 +81,6 @@ class WorkScheduleGroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def work_schedule_group_params
-      params.require(:work_schedule_group).permit(:company_id, :work_schedule_id)
+      params.require(:work_schedule_group).permit(:name )
     end
 end

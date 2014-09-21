@@ -9,6 +9,9 @@ class UsersController < ApplicationController
   def index
     @q = apply_scopes(User).all.search(params[:q])
     @users = @q.result(distinct: true)
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   # GET /users/1
@@ -54,6 +57,15 @@ class UsersController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def batch_destroy
+    user_ids = params[:user_ids]
+    user_ids.each do |user_id|
+      @user = User.find(user_id)
+      @user.destroy
+    end
+    redirect_to users_path
   end
 
   # DELETE /users/1

@@ -29,6 +29,9 @@ class DevicesController < ApplicationController
   def index
     @q = apply_scopes(Device).all.search(params[:q])
     @devices = @q.result(distinct: true)
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   # GET /devices/1
@@ -74,6 +77,23 @@ class DevicesController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def batch_destroy
+    device_ids = params[:device_ids]
+    device_ids.each do |device_id|
+      @device = Device.find(device_id)
+      traccar_user = Traccar::User.first
+      traccar_device = Traccar::Device.where(uniqueId: @device.emei).first
+      
+      # remove join record 
+      if traccar_device.users.delete(traccar_user)
+        traccar_device.positions.delete_all
+        traccar_device.delete
+        @device.destroy
+      end
+    end
+    redirect_to devices_path
   end
 
   # DELETE /devices/1

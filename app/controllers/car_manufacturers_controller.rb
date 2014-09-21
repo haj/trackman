@@ -6,6 +6,10 @@ class CarManufacturersController < ApplicationController
   def index
     @q = CarManufacturer.search(params[:q])
     @car_manufacturers = @q.result(distinct: true)
+
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   # GET /car_manufacturers/1
@@ -52,8 +56,15 @@ class CarManufacturersController < ApplicationController
     end
   end
 
-  # DELETE /car_manufacturers/1
-  # DELETE /car_manufacturers/1.json
+  def batch_destroy
+    car_manufacturer_ids = params[:car_manufacturer_ids]
+    car_manufacturer_ids.each do |car_manufacturer_id|
+      @car_manufacturer = CarManufacturer.find(car_manufacturer_id)
+      @car_manufacturer.destroy
+    end
+    redirect_to car_manufacturers_path
+  end
+
   def destroy
     @car_manufacturer.destroy
     respond_to do |format|

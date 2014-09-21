@@ -6,6 +6,9 @@ class GroupsController < ApplicationController
   def index
     @q = Group.search(params[:q])
     @groups = @q.result(distinct: true)
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   def show
@@ -90,6 +93,16 @@ class GroupsController < ApplicationController
     end
   end
 
+
+  def batch_destroy
+    group_ids = params[:group_ids]
+    group_ids.each do |group_id|
+      @group = Group.find(group_id)
+      @group.destroy
+    end
+    redirect_to groups_path
+  end
+
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
@@ -108,6 +121,6 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name, alarm_ids: [])
+      params.require(:group).permit(:name, group_ids: [])
     end
 end

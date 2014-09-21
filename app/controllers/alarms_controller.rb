@@ -5,12 +5,7 @@ class AlarmsController < ApplicationController
 
   # GET /alarms
   # GET /alarms.json
-  def index
-    @alarms = Alarm.all
-    respond_to do |format|
-      format.html {render :layout => "index_template"}
-    end
-  end
+  
 
   # GET /alarms/1
   # GET /alarms/1.json
@@ -83,7 +78,14 @@ class AlarmsController < ApplicationController
     end
   end
  
-  def batch_archive
+  def index
+    @alarms = Alarm.all
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
+  end
+ 
+  def batch_destroy
     alarm_ids = params[:alarm_ids]
     alarm_ids.each do |alarm_id|
       @alarm = Alarm.find(alarm_id)

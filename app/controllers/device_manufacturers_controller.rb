@@ -6,6 +6,9 @@ class DeviceManufacturersController < ApplicationController
   def index
     @q = DeviceManufacturer.search(params[:q])
     @device_manufacturers = @q.result(distinct: true)
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   # GET /device_manufacturers/1
@@ -50,6 +53,15 @@ class DeviceManufacturersController < ApplicationController
         format.json { render json: @device_manufacturer.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def batch_destroy
+    device_manufacturer_ids = params[:device_manufacturer_ids]
+    device_manufacturer_ids.each do |device_manufacturer_id|
+      @device_manufacturer = DeviceManufacturer.find(device_manufacturer_id)
+      @device_manufacturer.destroy
+    end
+    redirect_to device_manufacturers_path
   end
 
   # DELETE /device_manufacturers/1

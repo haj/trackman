@@ -27,6 +27,9 @@ class CarsController < ApplicationController
   def index
     @q = apply_scopes(Car).all.search(params[:q])
     @cars = @q.result(distinct: true)
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
   # GET /cars/1
@@ -138,8 +141,16 @@ class CarsController < ApplicationController
     end
   end
 
-  # DELETE /cars/1
-  # DELETE /cars/1.json
+
+  def batch_destroy
+    car_ids = params[:car_ids]
+    car_ids.each do |car_id|
+      @car = Car.find(car_id)
+      @car.destroy
+    end
+    redirect_to cars_path
+  end
+
   def destroy
     @car.destroy
     respond_to do |format|

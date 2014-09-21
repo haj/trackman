@@ -9,6 +9,11 @@ class CarModelsController < ApplicationController
   def index
     @q = apply_scopes(CarModel).all.search(params[:q])
     @car_models = @q.result(distinct: true)
+
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
+
   end
 
   # GET /car_models/1
@@ -53,6 +58,15 @@ class CarModelsController < ApplicationController
         format.json { render json: @car_model.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def batch_destroy
+    car_model_ids = params[:car_model_ids]
+    car_model_ids.each do |car_model|
+      @car_model = CarModel.find(car_model)
+      @car_model.destroy
+    end
+    redirect_to car_models_path
   end
 
   # DELETE /car_models/1
