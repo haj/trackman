@@ -7,7 +7,13 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body.error-body.no-top.lazy
-    .container 
-      - if Rails.env.development?
-      	= "ActsAsTenant.current_tenant #{ActsAsTenant.current_tenant.name}" 
-      = yield
+    .container  
+      .row
+        .col-md-12
+          = yield
+      %br/
+      %br/
+      .row
+        .col-md-12
+          - if Rails.env.development?
+            = "Current tenant #{ActsAsTenant.try(:current_tenant).try(:name)}"
