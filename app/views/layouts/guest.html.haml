@@ -7,5 +7,7 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body.error-body.no-top.lazy
-    .container  
+    .container 
+      - if Rails.env.development?
+      	= "ActsAsTenant.current_tenant #{ActsAsTenant.current_tenant.name}" 
       = yield
