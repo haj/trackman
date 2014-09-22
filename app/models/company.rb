@@ -13,6 +13,11 @@ class Company < ActiveRecord::Base
 
 	before_save { |company| company.subdomain = company.subdomain.downcase }
 
+
+	validates :name, uniqueness: { case_sensitive: false }
+	validates :subdomain, uniqueness: { case_sensitive: false }
+
+
 	has_many :users, :dependent => :destroy 
 	has_many :cars, :dependent => :destroy
 	has_many :devices, :dependent => :destroy

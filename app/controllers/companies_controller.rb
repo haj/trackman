@@ -10,12 +10,11 @@ class CompaniesController < ApplicationController
     @company = Company.find(params[:id])
     if current_user.has_role?(:admin)
       ActsAsTenant.with_tenant(@company) do
-        @users = @company.users.all
+        @employees = @company.users.all
       end 
     else
-      @users = Array.new
+      @employees = Array.new
     end
-    
   end
 
   # GET /companies/new
