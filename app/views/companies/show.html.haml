@@ -10,9 +10,6 @@
 .row
   .col-md-12
     .grid.simple
-      .grid-title
-        %h3
-          Company
       .grid-body 
         %p
           %strong Name:
@@ -27,3 +24,22 @@
           %strong Billing plan:
           = @company.try(:current_plan).try(:name)
           = link_to "(Change)", plans_path
+
+
+.row
+  .col-md-12
+    .grid.simple
+      .grid-body  
+        %table.table.no-more-tables
+          %thead
+            %tr
+              %th Name
+              %th Email
+              %th Roles
+
+          %tbody           
+            - @employees.each do |user|
+              %tr
+                %td= link_to user.name, user
+                %td= user.email
+                %td= user.roles.to_a.join(', ')
