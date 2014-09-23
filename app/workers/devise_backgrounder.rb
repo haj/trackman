@@ -3,7 +3,7 @@
 # Mailer proxy to send devise emails in the background
 class DeviseBackgrounder
   #include Sidekiq::Worker
-  sidekiq_options :queue => :default
+  #sidekiq_options :queue => :default
 
   def self.confirmation_instructions(record, token, opts = {})
     new(:confirmation_instructions, record, token, opts)
