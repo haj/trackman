@@ -14,6 +14,7 @@ config.secret_key = 'df8cea425342e6f324f0d61e676102c5b53932522b94076892f2e12a0ee
 
   # Configure the class responsible to send e-mails.
   #config.mailer = "Devise::Async::Proxy"
+  config.mailer = "DeviseBackgrounder"
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and

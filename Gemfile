@@ -136,3 +136,6 @@ gem "paranoia", "~> 2.0"
 group :development, :test do
     gem 'railroady'
 end
+
+gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'sidekiq'
