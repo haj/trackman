@@ -24,6 +24,10 @@ class Device < ActiveRecord::Base
 
 	validates :name, :emei, :cost_price, :device_model_id, :device_type_id, presence: true
 
+	validates_uniqueness_of :name, conditions: -> { where(deleted_at: nil) }, case_sensitive: false
+	validates_uniqueness_of :emei, conditions: -> { where(deleted_at: nil) }, case_sensitive: false
+
+
 	scope :by_device_model, -> device_model_id { where(:device_model_id => device_model_id) }
 	scope :by_device_type, -> device_type_id { where(:device_type_id => device_type_id) }
 
