@@ -26,7 +26,7 @@ Rails.application.configure do
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
-  config.log_level = :warn
+  #config.log_level = :warn
 
   # Tell Trackmanion Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the

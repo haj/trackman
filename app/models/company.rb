@@ -15,8 +15,9 @@ class Company < ActiveRecord::Base
 
 	before_save { |company| company.subdomain = company.subdomain.downcase }
 
-	validates_uniqueness_of :name, conditions: -> { where(deleted_at: nil) }, case_sensitive: false
-	validates_uniqueness_of :subdomain, conditions: -> { where(deleted_at: nil) }, case_sensitive: false
+
+	validates :name, uniqueness: { case_sensitive: false }
+	validates :subdomain, uniqueness: { case_sensitive: false }
 
 	has_many :users, :dependent => :destroy 
 	has_many :cars, :dependent => :destroy

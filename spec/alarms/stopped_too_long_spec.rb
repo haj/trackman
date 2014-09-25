@@ -15,14 +15,18 @@ describe "Stopped for too long alarm" do
 
 	before(:all) do
 		Time.zone = "GMT"
-		@car = FactoryGirl.create(:car, numberplate: "44444")		
-		@device = FactoryGirl.create(:device, name: "Device", emei: "44444", car_id: @car.id)
+		@car = FactoryGirl.create(:car, numberplate: "123")		
+		@device = FactoryGirl.create(:device, name: "Device", emei: @car.numberplate, car_id: @car.id)
 		Traccar::Device.destroy_all
-		@traccar_device = Traccar::Device.create(name: "Device", uniqueId: "44444")
+		@traccar_device = Traccar::Device.create(name: @device.name, uniqueId: @device.emei)
 		@rule = Rule.where(method_name: "stopped_for_more_than").first
 		alarm = Alarm.create!(name: "Vehicle stopped for more than few 15 minutes in the last 30 minutes")
 		AlarmRule.create!(rule_id: @rule.id, alarm_id: alarm.id, conjunction: nil, params: "{ 'threshold' => '15' }")
 		@car.alarms << alarm		
+  	end
+
+  	after(:all) do
+  		Device.destroy_all
   	end
 
   	before(:each) do 

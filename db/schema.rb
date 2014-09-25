@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "deleted_at"
   end
 
-  add_index "alarms", ["deleted_at"], name: "index_alarms_on_deleted_at", using: :btree
+  add_index "alarms", ["deleted_at"], name: "index_alarms_on_deleted_at"
 
   create_table "alarms_cars", force: true do |t|
     t.integer  "car_id",     null: false
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "last_alert"
   end
 
-  add_index "alarms_cars", ["car_id", "alarm_id"], name: "index_alarms_cars_on_car_id_and_alarm_id", unique: true, using: :btree
+  add_index "alarms_cars", ["car_id", "alarm_id"], name: "index_alarms_cars_on_car_id_and_alarm_id", unique: true
 
   create_table "alarms_groups", force: true do |t|
     t.integer  "group_id",   null: false
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "last_alert"
   end
 
-  add_index "alarms_groups", ["group_id", "alarm_id"], name: "index_alarms_groups_on_group_id_and_alarm_id", unique: true, using: :btree
+  add_index "alarms_groups", ["group_id", "alarm_id"], name: "index_alarms_groups_on_group_id_and_alarm_id", unique: true
 
   create_table "alarms_rules", force: true do |t|
     t.integer  "rule_id",     null: false
@@ -59,8 +59,8 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "deleted_at"
   end
 
-  add_index "alarms_rules", ["alarm_id", "rule_id"], name: "index_alarms_rules_on_alarm_id_and_rule_id", unique: true, using: :btree
-  add_index "alarms_rules", ["deleted_at"], name: "index_alarms_rules_on_deleted_at", using: :btree
+  add_index "alarms_rules", ["alarm_id", "rule_id"], name: "index_alarms_rules_on_alarm_id_and_rule_id", unique: true
+  add_index "alarms_rules", ["deleted_at"], name: "index_alarms_rules_on_deleted_at"
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "deleted_at"
   end
 
-  add_index "cars", ["deleted_at"], name: "index_cars_on_deleted_at", using: :btree
+  add_index "cars", ["deleted_at"], name: "index_cars_on_deleted_at"
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -107,13 +107,6 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "updated_at"
     t.integer  "plan_id"
     t.string   "time_zone"
-  end
-
-  create_table "conditions", force: true do |t|
-    t.string   "name"
-    t.string   "method_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "delayed_jobs", force: true do |t|
@@ -130,7 +123,7 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
 
   create_table "device_manufacturers", force: true do |t|
     t.string   "name"
@@ -167,7 +160,7 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "deleted_at"
   end
 
-  add_index "devices", ["deleted_at"], name: "index_devices_on_deleted_at", using: :btree
+  add_index "devices", ["deleted_at"], name: "index_devices_on_deleted_at"
 
   create_table "features", force: true do |t|
     t.string   "name"
@@ -182,7 +175,7 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.string  "active"
   end
 
-  add_index "features_plan_types", ["feature_id", "plan_type_id"], name: "index_features_plan_types_on_feature_id_and_plan_type_id", unique: true, using: :btree
+  add_index "features_plan_types", ["feature_id", "plan_type_id"], name: "index_features_plan_types_on_feature_id_and_plan_type_id", unique: true
 
   create_table "group_work_hours", force: true do |t|
     t.integer  "day_of_week"
@@ -213,8 +206,6 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.integer "conversation_id"
   end
 
-  add_index "mailboxer_conversation_opt_outs", ["conversation_id"], name: "mb_opt_outs_on_conversations_id", using: :btree
-
   create_table "mailboxer_conversations", force: true do |t|
     t.string   "subject",    default: ""
     t.datetime "created_at",              null: false
@@ -239,7 +230,7 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "expires"
   end
 
-  add_index "mailboxer_notifications", ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id", using: :btree
+  add_index "mailboxer_notifications", ["conversation_id"], name: "index_mailboxer_notifications_on_conversation_id"
 
   create_table "mailboxer_receipts", force: true do |t|
     t.integer  "receiver_id"
@@ -253,7 +244,7 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "updated_at",                                 null: false
   end
 
-  add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
+  add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id"
 
   create_table "parameters", force: true do |t|
     t.string   "name"
@@ -294,7 +285,7 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "deleted_at"
   end
 
-  add_index "regions", ["deleted_at"], name: "index_regions_on_deleted_at", using: :btree
+  add_index "regions", ["deleted_at"], name: "index_regions_on_deleted_at"
 
   create_table "roles", force: true do |t|
     t.string   "name"
@@ -329,7 +320,7 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.string   "name"
   end
 
-  add_index "simcards", ["deleted_at"], name: "index_simcards_on_deleted_at", using: :btree
+  add_index "simcards", ["deleted_at"], name: "index_simcards_on_deleted_at"
 
   create_table "states", force: true do |t|
     t.boolean  "no_data",    default: false
@@ -389,11 +380,11 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.string   "last_name"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
-  add_index "users", ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
-  add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true
+  add_index "users", ["invitations_count"], name: "index_users_on_invitations_count"
+  add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id"
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   create_table "vertices", force: true do |t|
     t.float    "latitude"
@@ -415,8 +406,8 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "deleted_at"
   end
 
-  add_index "work_hours", ["deleted_at"], name: "index_work_hours_on_deleted_at", using: :btree
-  add_index "work_hours", ["work_schedule_id"], name: "index_work_hours_on_work_schedule_id", using: :btree
+  add_index "work_hours", ["deleted_at"], name: "index_work_hours_on_deleted_at"
+  add_index "work_hours", ["work_schedule_id"], name: "index_work_hours_on_work_schedule_id"
 
   create_table "work_schedule_groups", force: true do |t|
     t.integer  "company_id"
@@ -434,12 +425,6 @@ ActiveRecord::Schema.define(version: 20140925103916) do
     t.datetime "deleted_at"
   end
 
-  add_index "work_schedules", ["deleted_at"], name: "index_work_schedules_on_deleted_at", using: :btree
-
-  add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
-
-  add_foreign_key "mailboxer_notifications", "mailboxer_conversations", name: "notifications_on_conversation_id", column: "conversation_id"
-
-  add_foreign_key "mailboxer_receipts", "mailboxer_notifications", name: "receipts_on_notification_id", column: "notification_id"
+  add_index "work_schedules", ["deleted_at"], name: "index_work_schedules_on_deleted_at"
 
 end

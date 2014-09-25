@@ -14,7 +14,6 @@
 
 FactoryGirl.define do
   factory :work_schedule do
-    car_id 1
     name "MyString"
   end
 end

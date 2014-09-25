@@ -4,23 +4,27 @@ describe "Outside Work Hours Alarm" do
 
 	before(:each) do
 		Time.zone = "GMT"
-		@car = FactoryGirl.create(:car, numberplate: "44444")		
-		@device = FactoryGirl.create(:device, name: "Device", emei: "44444", car_id: @car.id)
+		@car = FactoryGirl.create(:car, numberplate: "123")		
+		@device = FactoryGirl.create(:device, name: "Device", emei: @car.numberplate, car_id: @car.id)
 		Traccar::Device.destroy_all
-		@traccar_device = Traccar::Device.create(name: "Device", uniqueId: "44444")
-		@work_schedule = WorkSchedule.create(name: "some_random_work_schedule")
+		@traccar_device = Traccar::Device.create(name: "Device", uniqueId: @device.emei)
+		@work_schedule = FactoryGirl.create(:work_schedule, name: "some_random_work_schedule")
 		start_time = Time.zone.parse("8 am").to_s(:db)
 		end_time = Time.zone.parse("6 pm").to_s(:db)
 		for i in 1..5
-			WorkHour.create(day_of_week: i, starts_at: start_time , ends_at:  end_time , work_schedule_id: @work_schedule.id)
+			FactoryGirl.create(:work_hour, day_of_week: i, starts_at: start_time , ends_at:  end_time , work_schedule_id: @work_schedule.id)
 		end
 		@car.update_attribute(:work_schedule_id, @work_schedule.id)
 		@rule = Rule.where(method_name: "movement_not_authorized").first
-		alarm = Alarm.create!(name: "Car moving outside work hours")
+		alarm = FactoryGirl.create(:alarm, name: "Car moving outside work hours")
 		AlarmRule.create!(rule_id: @rule.id, alarm_id: alarm.id, conjunction: nil, params: "")
 		@car.alarms << alarm
 
 		Traccar::Position.destroy_all
+  	end
+
+  	after(:all) do
+  		Device.destroy_all
   	end
 
   	it "should trigger off alarm when vehicle used outside work hours" do

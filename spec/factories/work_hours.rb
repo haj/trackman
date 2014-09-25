@@ -20,5 +20,6 @@ FactoryGirl.define do
     day_of_week 1
     starts_at DateTime.now.to_s(:db)
     ends_at DateTime.now.to_s(:db)
+    work_schedule_id 1
   end
 end

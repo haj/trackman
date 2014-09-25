@@ -10,8 +10,8 @@ gem 'rails', '4.1.1'
 
 gem 'mysql2'
 
-# group :production do
-#   gem 'pg'
+# group :test do
+#   gem 'sqlite3'
 # end
 
 # Use SCSS for stylesheets

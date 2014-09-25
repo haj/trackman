@@ -17,12 +17,11 @@
 
 FactoryGirl.define do
   factory :state do
-    data false
-    movement false
-    authorized_hours false
-    speed_limit false
-    long_hours false
-    long_pause false
+    no_data false
+    moving false
     car_id 1
+    speed 60
+    driver_id 1
+    device_id 1
   end
 end

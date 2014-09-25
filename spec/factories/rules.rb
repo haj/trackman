@@ -16,5 +16,6 @@ FactoryGirl.define do
   factory :rule do
     name "MyString"
     method_name "MyString"
+    description "Description"
   end
 end

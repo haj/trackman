@@ -15,15 +15,19 @@ describe "Speed limit" do
 
 	before(:all) do
 		Time.zone = "GMT"
-		@car = FactoryGirl.create(:car)		
-		@device = FactoryGirl.create(:device, emei: "44444", car_id: @car.id)
+		@car = FactoryGirl.create(:car, numberplate: "123")	
+		@device = FactoryGirl.create(:device, name: "Device", emei: @car.numberplate, car_id: @car.id)
 		Traccar::Device.destroy_all
-		@traccar_device = Traccar::Device.create(name: "Device", uniqueId: "44444")
+		@traccar_device = Traccar::Device.create(name: @device.name, uniqueId: @device.emei)
 		@rule = Rule.where(method_name: "speed_limit").first
-		alarm = Alarm.create!(name: "Vehicle is going faster than 60 km/h")
+		alarm = FactoryGirl.create(:alarm, name: "Vehicle is going faster than 60 km/h")
 		AlarmRule.create!(rule_id: @rule.id, alarm_id: alarm.id, conjunction: nil, params: "{'speed'=> '60.0'}")
 		@car.alarms << alarm
 		Traccar::Position.destroy_all
+  	end
+
+  	after(:all) do
+  		Device.destroy_all
   	end
 
   	it "should trigger alarm when speed > X km/h" do 	
