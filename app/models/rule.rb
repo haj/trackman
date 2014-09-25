@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: rules
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  method_name :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  description :string(255)
+#
+
 class Rule < ActiveRecord::Base
 
 	has_and_belongs_to_many :alarms

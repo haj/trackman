@@ -4,11 +4,10 @@ describe "Outside Work Hours Alarm" do
 
 	before(:each) do
 		Time.zone = "GMT"
-		@car = Car.create!(numberplate: "44444")		
-		@device = Device.create!(name: "Device", emei: "44444", car_id: @car.id)
+		@car = FactoryGirl.create(:car, numberplate: "44444")		
+		@device = FactoryGirl.create(:device, name: "Device", emei: "44444", car_id: @car.id)
 		Traccar::Device.destroy_all
 		@traccar_device = Traccar::Device.create(name: "Device", uniqueId: "44444")
-
 		@work_schedule = WorkSchedule.create(name: "some_random_work_schedule")
 		start_time = Time.zone.parse("8 am").to_s(:db)
 		end_time = Time.zone.parse("6 pm").to_s(:db)

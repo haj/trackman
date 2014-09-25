@@ -10,6 +10,8 @@
 #  created_at       :datetime
 #  updated_at       :datetime
 #  company_id       :integer
+#  deleted_at       :datetime
+#  name             :string(255)
 #
 
 class Simcard < ActiveRecord::Base
@@ -18,6 +20,8 @@ class Simcard < ActiveRecord::Base
 	scope :used, -> { where("device_id NOT NULL") }
 	
 	acts_as_paranoid
+
+	validates :name, :telephone_number, :teleprovider_id, :monthly_price, presence: true
 	
 	acts_as_tenant(:company)
 

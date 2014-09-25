@@ -7,6 +7,7 @@
 #  method_name :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime
+#  description :string(255)
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

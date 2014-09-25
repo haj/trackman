@@ -15,14 +15,14 @@ describe "Driving long hours" do
 
 	before(:all) do
 		Time.zone = "GMT"
-		@car = Car.create!(numberplate: "44444")		
-		@device = Device.create!(name: "Device", emei: "44444", car_id: @car.id)
+		@car = FactoryGirl.create(:car, numberplate: "44444")		
+		@device = FactoryGirl.create(:device, name: "Device", emei: "44444", car_id: @car.id)
 		Traccar::Device.destroy_all
 		@traccar_device = Traccar::Device.create(name: "Device", uniqueId: "44444")
 		@rule = Rule.where(method_name: "driving_consecutive_hours").first
-			alarm = Alarm.create!(name: "Vehicle driving for more than 15 minutes in the last 2 hours")
-			AlarmRule.create!(rule_id: @rule.id, alarm_id: alarm.id, conjunction: nil, params: "{'threshold' => '15', 'scope'=>'120' }")
-			@car.alarms << alarm
+		alarm = Alarm.create!(name: "Vehicle driving for more than 15 minutes in the last 2 hours")
+		AlarmRule.create!(rule_id: @rule.id, alarm_id: alarm.id, conjunction: nil, params: "{'threshold' => '15', 'scope'=>'120' }")
+		@car.alarms << alarm
   	end
 
   	it "should trigger alarm when car been driving for too long" do

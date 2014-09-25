@@ -14,6 +14,7 @@
 #  company_id      :integer
 #  movement        :boolean
 #  last_checked    :datetime
+#  deleted_at      :datetime
 #
 
 require 'spec_helper'

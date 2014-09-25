@@ -7,6 +7,8 @@
 #  subdomain  :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  plan_id    :integer
+#  time_zone  :string(255)
 #
 
 class Company < ActiveRecord::Base
@@ -16,7 +18,6 @@ class Company < ActiveRecord::Base
 
 	validates :name, uniqueness: { case_sensitive: false }
 	validates :subdomain, uniqueness: { case_sensitive: false }
-
 
 	has_many :users, :dependent => :destroy 
 	has_many :cars, :dependent => :destroy

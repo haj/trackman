@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: vertices
+#
+#  id         :integer          not null, primary key
+#  latitude   :float
+#  longitude  :float
+#  region_id  :integer
+#  created_at :datetime
+#  updated_at :datetime
+#  company_id :integer
+#
+
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do

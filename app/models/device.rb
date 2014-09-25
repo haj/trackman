@@ -14,12 +14,15 @@
 #  company_id      :integer
 #  movement        :boolean
 #  last_checked    :datetime
+#  deleted_at      :datetime
 #
 
 class Device < ActiveRecord::Base
 	include ActionView::Helpers::DateHelper
 
 	acts_as_paranoid
+
+	validates :name, :emei, :cost_price, :device_model_id, :device_type_id, presence: true
 
 	scope :by_device_model, -> device_model_id { where(:device_model_id => device_model_id) }
 	scope :by_device_type, -> device_type_id { where(:device_type_id => device_type_id) }

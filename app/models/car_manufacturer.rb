@@ -11,5 +11,7 @@
 class CarManufacturer < ActiveRecord::Base
 
 	has_many :car_models
+
+	validates :name, presence: true
 	
 end

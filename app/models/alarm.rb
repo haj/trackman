@@ -2,14 +2,19 @@
 #
 # Table name: alarms
 #
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  description :string(255)
+#  deleted_at  :datetime
 #
 
 class Alarm < ActiveRecord::Base
 	
+
+	validates :name, presence: true
+
 	acts_as_paranoid
 	
 	#alarms -> rules

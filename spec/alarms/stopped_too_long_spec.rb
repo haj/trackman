@@ -15,8 +15,8 @@ describe "Stopped for too long alarm" do
 
 	before(:all) do
 		Time.zone = "GMT"
-		@car = Car.create!(numberplate: "44444")		
-		@device = Device.create!(name: "Device", emei: "44444", car_id: @car.id)
+		@car = FactoryGirl.create(:car, numberplate: "44444")		
+		@device = FactoryGirl.create(:device, name: "Device", emei: "44444", car_id: @car.id)
 		Traccar::Device.destroy_all
 		@traccar_device = Traccar::Device.create(name: "Device", uniqueId: "44444")
 		@rule = Rule.where(method_name: "stopped_for_more_than").first

@@ -76,7 +76,7 @@
                 = f.text_field :color, class: "form-control"
 
               .form-group
-                = f.label :group, class: "form-label"
+                = f.label :group, "Alarm Group", class: "form-label"
                 = f.collection_select(:group_id, Group.all, :id, :name, { :include_blank => "Select group" }, class: "form-control" )
   
     .col-md-6

@@ -7,6 +7,7 @@
 #  alarm_id    :integer          not null
 #  conjunction :string(255)
 #  params      :string(255)
+#  deleted_at  :datetime
 #
 
 class AlarmRule < ActiveRecord::Base

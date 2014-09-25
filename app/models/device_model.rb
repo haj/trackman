@@ -15,4 +15,7 @@ class DeviceModel < ActiveRecord::Base
 	belongs_to :device_manufacturer
 
 	scope :by_device_manufacturer, -> device_manufacturer_id { where(:device_manufacturer_id => device_manufacturer_id) }
+
+	validates :name, :device_manufacturer_id, :protocol, presence: true
+
 end

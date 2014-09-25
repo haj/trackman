@@ -3,10 +3,11 @@
 # Table name: work_schedules
 #
 #  id         :integer          not null, primary key
-#  car_id     :integer
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  company_id :integer
+#  deleted_at :datetime
 #
 
 class WorkSchedule < ActiveRecord::Base
@@ -15,6 +16,8 @@ class WorkSchedule < ActiveRecord::Base
 	has_many :work_hours, :dependent => :destroy
 
 	has_many :work_schedule_group 
+
+	validates :name, presence: true
 
 	acts_as_paranoid
 

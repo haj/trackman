@@ -14,5 +14,6 @@
 FactoryGirl.define do
   factory :car_model do
     name "CarModel"
+    car_manufacturer_id 1
   end
 end

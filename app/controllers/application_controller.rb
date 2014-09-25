@@ -61,6 +61,9 @@ class ApplicationController < ActionController::Base
   before_filter do 
     if current_user && current_user.company
       @notifications = current_user.try(:company).try(:alarm_notifications)
+      if @notifications.nil?
+        return Array.new
+      end
     end
   end
 

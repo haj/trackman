@@ -4,11 +4,13 @@
 #
 #  id               :integer          not null, primary key
 #  day_of_week      :integer
-#  starts_at        :time
-#  ends_at          :time
+#  starts_at        :datetime
+#  ends_at          :datetime
 #  created_at       :datetime
 #  updated_at       :datetime
 #  work_schedule_id :integer
+#  company_id       :integer
+#  deleted_at       :datetime
 #
 
 require 'spec_helper'

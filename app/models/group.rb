@@ -17,6 +17,8 @@ class Group < ActiveRecord::Base
 	
 	has_many :cars
 
+	validates :name, presence: true
+
 	accepts_nested_attributes_for :alarms
 
 	def alarm_status(alarm)

@@ -3,10 +3,11 @@
 # Table name: work_schedules
 #
 #  id         :integer          not null, primary key
-#  car_id     :integer
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  company_id :integer
+#  deleted_at :datetime
 #
 
 require 'spec_helper'

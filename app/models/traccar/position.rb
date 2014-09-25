@@ -2,18 +2,19 @@
 #
 # Table name: positions
 #
-#  id        :integer          not null, primary key
-#  address   :string(255)
-#  altitude  :float
-#  course    :float
-#  latitude  :float
-#  longitude :float
-#  other     :string(255)
-#  power     :float
-#  speed     :float
-#  time      :datetime
-#  valid     :boolean
-#  device_id :integer
+#  id         :integer          not null, primary key
+#  address    :string(255)
+#  altitude   :float
+#  course     :float
+#  latitude   :float
+#  longitude  :float
+#  other      :string(255)
+#  power      :float
+#  speed      :float
+#  time       :datetime
+#  valid      :boolean
+#  device_id  :integer
+#  created_at :timestamp        not null
 #
 
 class Traccar::Position < ActiveRecord::Base 
