@@ -8,6 +8,7 @@ development:
   DB_TRACCAR_NAME: traccar
   DB_USER: root
   DB_PASSWORD: "foobar@1991"
+  default_url: 'trackman.dev'
 
 test:
   DB_NAME: trackman_test
@@ -20,6 +21,7 @@ production:
   DB_TRACCAR_NAME: traccar
   DB_USER: root
   DB_PASSWORD: "foobar@1991"
+  default_url: 'moroccanvalley.net'
 
 #others
 SECRET_TOKEN: "8691c8076ab804f97783d8e4e57bb577522268be13e11b598c44d55cc47a37744c200af195b2bb7de3fff8f58db8e93418c44fc163fe756d4e61c19d1bb8bf3d"
