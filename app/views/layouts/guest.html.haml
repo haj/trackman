@@ -17,3 +17,5 @@
         .col-md-12
           - if Rails.env.development?
             = "Current tenant #{ActsAsTenant.try(:current_tenant).try(:name)}"
+            %br/
+            = "Current User #{current_user}"

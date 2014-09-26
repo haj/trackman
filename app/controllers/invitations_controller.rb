@@ -6,6 +6,10 @@ class InvitationsController < DeviseController
   prepend_before_filter :resource_from_invitation_token, :only => [:edit, :destroy]
   helper_method :after_sign_in_path_for
 
+  before_filter do 
+    ActsAsTenant.current_tenant = current_user.company
+  end
+
   # GET /resource/invitation/new
   def new
     self.resource = resource_class.new
@@ -21,6 +25,8 @@ class InvitationsController < DeviseController
     if resource.errors.empty?
       	yield resource if block_given?
 
+        
+
         self.resource.first_name = params[:first_name]
         self.resource.last_name = params[:last_name]
 
@@ -31,6 +37,10 @@ class InvitationsController < DeviseController
     			self.resource.roles << :employee
     			self.resource.save
     		end
+
+        logger.warn "user : #{resource}"
+        logger.warn "company id : #{resource.company_id}"
+        logger.warn "tenant : #{ActsAsTenant.current_tenant}"
 
       	set_flash_message :notice, :send_instructions, :email => self.resource.email if self.resource.invitation_sent_at
       	respond_with resource, :location => after_invite_path_for(resource)

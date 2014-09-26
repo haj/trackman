@@ -80,7 +80,8 @@
 //= require bootstrap-datepicker
 //= require jquery.timepicker
 //= require datepair
-
+//= require chosen-jquery
+//= require conversations
 //
 
 

@@ -17,9 +17,15 @@ class DeviseBackgrounder
     new(:unlock_instructions, record, token, opts)
   end
 
+  def self.invitation_instructions(record, token, opts = {})
+    new(:invitation_instructions, record, token, opts)
+  end
+  
   def initialize(method, record, token, opts = {})
     @method, @record, @token, @opts = method, record, token, opts
   end
+
+
 
   def deliver
     # You need to hardcode the class of the Devise mailer that you

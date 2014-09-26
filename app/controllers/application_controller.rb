@@ -14,28 +14,28 @@ class ApplicationController < ActionController::Base
   # set_current_tenant
   before_filter do
 
+    # subdomain present and company exists 
+    # subdomain present and company doesn't exist 
+    # user connected 
 
-    if subdomain_present?
-      ActsAsTenant.current_tenant = Company.where(subdomain: request.subdomains.last).first
+    company = Company.where(subdomain: request.subdomains.last).first
+    if subdomain_present? && !company.nil?
+      ActsAsTenant.current_tenant = company
+      logger.warn "subdomain_present? && company exists"
     elsif current_user_present?
       ActsAsTenant.current_tenant = current_user.company
+      logger.warn "current_user_present? : #{current_user.name}"
       redirect_to root_url(subdomain: ActsAsTenant.current_tenant.subdomain)
     else
-
+      ActsAsTenant.current_tenant = nil
+      logger.warn "nothing : #{ActsAsTenant.current_tenant}"
+      raise ActionController::RoutingError.new('Not Found')
     end
+  end
 
-    # # if user not logged in and no subdomain -> current_tenant should be nil
-    # if !current_user_present? && !subdomain_present?
-    #   ActsAsTenant.current_tenant = nil
-    #   logger.warn "user not logged in and no subdomain"
-    # end
 
-    # # if user not logged in and subdomain present -> current_tenant should be subdomain
-    # if !current_user_present? && subdomain_present?
-    #   ActsAsTenant.current_tenant = Company.where(subdomain: request.subdomains.last).first
-    #   logger.warn "user not logged in and subdomain present / subdomain: #{request.subdomains.last}"
-    # end
-
+  def not_found
+    raise ActionController::RoutingError.new('Not Found')
   end
 
   def subdomain_present?
