@@ -26,10 +26,12 @@ class ApplicationController < ActionController::Base
       ActsAsTenant.current_tenant = current_user.company
       logger.warn "current_user_present? : #{current_user.name}"
       redirect_to root_url(subdomain: ActsAsTenant.current_tenant.subdomain)
+    elsif !subdomain_present? || request.subdomains.last == 'www'
+      logger.warn "user wanna sign up"
     else
-      ActsAsTenant.current_tenant = nil
+      #ActsAsTenant.current_tenant = nil
       logger.warn "nothing : #{ActsAsTenant.current_tenant}"
-      raise ActionController::RoutingError.new('Not Found')
+      render :file => 'public/404.html', :status => :not_found, :layout => false
     end
   end
 

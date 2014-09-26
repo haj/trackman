@@ -11,6 +11,7 @@ describe "Teleproviders management" do
       user
     end
 
+
   it "should allow to create new teleprovider" do     
     visit new_teleprovider_path
         page.status_code.should be 200

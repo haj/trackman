@@ -12,6 +12,7 @@ describe "Plan types management" do
       ActsAsTenant.current_tenant = Company.first
     end
 
+
   it "should allow to create new plan_type" do     
     visit new_plan_type_path
     page.status_code.should be 200

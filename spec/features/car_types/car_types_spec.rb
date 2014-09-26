@@ -3,7 +3,7 @@ include Warden::Test::Helpers
 Warden.test_mode!
 
 describe "device management" do
-
+  
     before (:each) do
       car_type = FactoryGirl.create(:car_type)
       @user = FactoryGirl.create(:manager) 

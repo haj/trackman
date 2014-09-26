@@ -10,16 +10,16 @@ describe "user sign in" do
       #ActsAsTenant.current_tenant = @user.company
     end
 
-  it "should allow a valid email password combination" do 
-    visit "users/sign_in"
+  it "Should allow a valid email password combination" do 
+    visit "/users/sign_in"
     fill_in "user_email", :with => @user.email
     fill_in "user_password", :with => @user.password
     click_button "sign-in"
     page.should have_content('Sign out')
   end
 
-  it "shouldn't allow an invalid email password combination" do 
-    visit "users/sign_in"
+  it "Shouldn't allow an invalid email password combination" do 
+    visit "/users/sign_in"
     fill_in "user_email", :with => "@user.email"
     fill_in "user_password", :with => "@user.password"
     click_button "sign-in"

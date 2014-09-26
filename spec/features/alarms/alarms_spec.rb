@@ -15,13 +15,6 @@ describe "Alarms management" do
   pending "should allow to create a new alarm" do 
     visit new_alarm_path
     page.status_code.should be 200
-    # page.should have_content("New alarm")
-    
-    # click_link "new_alarm"
-    # click_button "Save"
-
-    # Alarm.where(name: "New alarm").should exist
-    # page.should have_content("Alarm was successfully created")
   end
 
   it "should allow to destroy a alarm" do

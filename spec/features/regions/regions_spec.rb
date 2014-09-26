@@ -11,6 +11,7 @@ describe "Regions management" do
       user
     end
 
+
   it "should allow to create new region" do     
     visit new_region_path
     page.status_code.should be 200

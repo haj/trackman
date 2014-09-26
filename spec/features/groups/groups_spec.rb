@@ -13,6 +13,7 @@ describe "group management" do
 
     end
 
+
   it "should allow to create new group" do     
     visit new_group_path
     page.status_code.should be 200

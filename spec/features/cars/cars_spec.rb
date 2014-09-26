@@ -14,10 +14,7 @@ describe "device management" do
       user
 
       ActsAsTenant.current_tenant = Company.first
-
       car = FactoryGirl.create(:car)
-      
-
     end
 
   it "should allow to create new car" do 

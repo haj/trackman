@@ -12,6 +12,7 @@ describe "plans management" do
       plan = FactoryGirl.create(:plan)
     end
 
+
   it "should allow to create new plan" do     
     visit new_plan_path
     page.status_code.should be 200
