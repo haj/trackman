@@ -6,7 +6,9 @@ class InvitationsController < DeviseController
   prepend_before_filter :resource_from_invitation_token, :only => [:edit, :destroy]
   helper_method :after_sign_in_path_for
 
-  before_filter do 
+  before_filter :set_current_tenant, :only => :create
+
+  def set_current_tenant
     ActsAsTenant.current_tenant = current_user.company
   end
 
