@@ -56,23 +56,6 @@
                 %a#layout-condensed-toggle{:href => "#"}
                   .iconset.top-menu-toggle-dark
             / END SLIM NAVIGATION TOGGLE
-            / BEGIN HEADER QUICK LINKS
-            %ul.nav.quick-section
-              %li.quicklinks
-                %a{:href => "#"}
-                  .iconset.top-reload
-              %li.quicklinks
-                %span.h-seperate
-              %li.quicklinks
-                %a{:href => "#"}
-                  .iconset.top-tiles
-              / BEGIN SEARCH BOX
-              %li.m-r-10.input-prepend.inside.search-form.no-boarder
-                %span.add-on
-                  %span.iconset.top-search
-                %input.no-boarder{:name => "", :placeholder => "Search Dashboard", :style => "width:250px;", :type => "text"}/
-              / END SEARCH BOX
-            / BEGIN HEADER QUICK LINKS
           / END HEADER LEFT SIDE SECTION
           / BEGIN HEADER RIGHT SIDE SECTION
           .pull-right
@@ -242,7 +225,7 @@
           - if notice
             %p.alert.alert-notice= notice
           - if alert
-            %p.alert= alert
+            %p.alert.alert-error= alert
           / BEGIN PlACE PAGE CONTENT HERE
           = yield
           / END PLACE PAGE CONTENT HERE

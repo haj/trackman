@@ -12,7 +12,7 @@
 //
 // Framework Requires.
 
-
+//= require modularize
 //= require ./framework/jquery-1.8.3.min
 //= require ./framework/jquery-ui-1.10.1.custom.min
 //= require ./framework/bootstrap.min
@@ -44,6 +44,7 @@
 //= require ./template/core
 //= require ./template/chat
 //= require ./template/demo
+//= require ./template/batch_action
 //
 //
 // Our stuff Require.

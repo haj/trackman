@@ -1,8 +1,8 @@
 class RegionsController < ApplicationController
   before_action :set_region, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
-  # GET /regions
-  # GET /regions.json
+
+
   def index
     @regions = Region.all
     respond_to do |format|
@@ -43,8 +43,10 @@ class RegionsController < ApplicationController
         flash.keep(:notice)
         render js: "window.location = '#{regions_path}'"
       else
+        flash[:alert] = "Region couldn't be created !"
         render js: "window.location = '#{new_region_path}'"
       end
+
   end
 
   # PATCH/PUT /regions/1

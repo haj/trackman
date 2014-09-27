@@ -3,26 +3,5 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
+	Utils.Actions.batch_action("#destroy_work_schedule_groups",".work_schedule_group_checkbox")
 
-	$("#batch_destroy").click ->	
-		$("#destroy_work_schedule_groups").submit()
-
-	selectedItems = 0
-	$(".work_schedule_group_checkbox").click ->
-		if $(this).is(":checked")
-			selectedItems++
-			console.log selectedItems
-			$("#quick-access").css "bottom", "0px"
-			$(this).parent().parent().parent().toggleClass "row_selected"
-		else
-			selectedItems--
-			console.log selectedItems
-			$("#quick-access").css "bottom", "0px"
-			$(this).parent().parent().parent().toggleClass "row_selected"
-			$("#quick-access").css "bottom", "-115px"  if selectedItems is 0
-
-		#Quick action dismiss Event
-		$("#quick-access .btn-cancel").click ->
-			$("#quick-access").css "bottom", "-115px"
-			$("#email-list .checkbox").children("input").attr "checked", false
-			$("#emails tbody tr").removeClass "row_selected"
