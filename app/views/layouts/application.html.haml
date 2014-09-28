@@ -40,11 +40,6 @@
                 .iconset.top-messages
                 - if conversations_count(current_user) != 0
                   %span#msgs-badge.badge= conversations_count(current_user)
-            / BEGIN MOBILE CHAT TOGGLER
-            %li#portrait-chat-toggler.dropdown{:style => "display:none"}
-              %a.chat-menu-toggle{:href => "#sidr"}
-                .iconset.top-chat-white
-            / END MOBILE CHAT TOGGLER
           / END LOGO NAV BUTTONS
         / END NAVIGATION HEADER
         / BEGIN CONTENT HEADER

@@ -3,6 +3,6 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
-	#Utils.Actions.batch_action("#destroy_simcards",".simcard_checkbox")
+	Utils.Actions.batch_action("#destroy_simcards",".simcard_checkbox")
 
 

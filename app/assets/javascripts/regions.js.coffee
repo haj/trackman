@@ -2,7 +2,7 @@
 
 $(document).ready ->
 
-	#Utils.Actions.batch_action("#destroy_regions",".region_checkbox")
+	Utils.Actions.batch_action("#destroy_regions",".region_checkbox")
 
 	if $('#map_canvas').length
 
