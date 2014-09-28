@@ -4,6 +4,11 @@
   = text_field_tag :name
 
 .form-group
+  Zoom
+  = text_field_tag :address
+  %input{ :type=>"button", :value => "Rezoom", :id => "repan_map" , :class => "btn btn-primary"}
+
+.form-group
   #map_canvas
 
 .form-group

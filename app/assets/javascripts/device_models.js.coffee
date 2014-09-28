@@ -3,5 +3,5 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
-    Utils.Actions.batch_action("#destroy_device_models",".device_model_checkbox")
+    #Utils.Actions.batch_action("#destroy_device_models",".device_model_checkbox")
 

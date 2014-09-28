@@ -3,6 +3,6 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
-	Utils.Actions.batch_action("#destroy_car_manufacturers",".car_manufacturer_checkbox")
+	#Utils.Actions.batch_action("#destroy_car_manufacturers",".car_manufacturer_checkbox")
 
 

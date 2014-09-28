@@ -1,7 +1,7 @@
 
 $(document).ready ->
 
-	Utils.Actions.batch_action("#destroy_alarms",".alarm_checkbox")
+	#Utils.Actions.batch_action("#destroy_alarms",".alarm_checkbox")
 
 	$("#rules").on "change", "select:regex(id, .*alarm_rules_attributes.*_id)", ->	
 		regex_numbers = /\d+/;

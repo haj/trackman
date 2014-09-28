@@ -2,9 +2,28 @@
 
 $(document).ready ->
 
-	Utils.Actions.batch_action("#destroy_regions",".region_checkbox")
+	#Utils.Actions.batch_action("#destroy_regions",".region_checkbox")
 
 	if $('#map_canvas').length
+
+		init_map = () ->
+			poly.setMap map
+			poly.setPaths new google.maps.MVCArray([path])
+			google.maps.event.addListener map, "click", addPoint
+			center = new google.maps.LatLng(-15.344, 131.036)
+			
+		# $('#repan_map').click ->
+		# 	geocoder = new google.maps.Geocoder();
+		# 	address = $("#address").val()
+		# 	geocoder.geocode
+		# 	  address: address
+		# 	, (results, status) ->
+		# 	  if status is google.maps.GeocoderStatus.OK
+		# 	    map.panTo results[0].geometry.location
+		# 	  else
+		# 	    alert "Geocode was not successful for the following reason: " + status
+
+			
 
 		$('#submit_polygon').click ->
 			super_awesome_array = []
@@ -64,6 +83,9 @@ $(document).ready ->
 			strokeWeight: 3
 			fillColor: "#5555FF"
 		)
-		poly.setMap map
-		poly.setPaths new google.maps.MVCArray([path])
-		google.maps.event.addListener map, "click", addPoint
+
+		init_map()
+
+		
+
+		

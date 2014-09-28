@@ -4,6 +4,6 @@
 
 
 $(document).ready ->
-    Utils.Actions.batch_action("#destroy_device_manufacturers",".device_manufacturer_checkbox")
+    #Utils.Actions.batch_action("#destroy_device_manufacturers",".device_manufacturer_checkbox")
 
 

@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
-  Utils.Actions.batch_action("#destroy_work_schedules",".work_schedule_checkbox")
+  #Utils.Actions.batch_action("#destroy_work_schedules",".work_schedule_checkbox")
 
   $('.page-sidebar').css('height',$('.page-content').css('height'))
   
