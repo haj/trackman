@@ -1,15 +1,25 @@
 
-.form-group
-  = label_tag :name
-  = text_field_tag :name
+.row
+	.col-md-12
+		.grid.simple
+			.grid-body 
+				.form-group
+					= label_tag :name
+					= text_field_tag :name
 
-.form-group
-  Zoom
-  = text_field_tag :address
-  %input{ :type=>"button", :value => "Rezoom", :id => "repan_map" , :class => "btn btn-primary"}
+.row
+	.col-md-12
+		.grid.simple
+			.grid-body 
+				.form-group
+					.row
+						.col-md-12
+							.pull-right
+								= text_field_tag :address
+								%input{ :type=>"button", :value => "Search", :id => "repan_map" , :class => "btn btn-primary"}
 
-.form-group
-  #map_canvas
+				.form-group
+					#map_canvas
 
-.form-group
-  %input{ :type=>"button", :value => "Submit", :id => "submit_polygon" , :required => true, :class => "btn btn-primary"}
+				.form-group
+					%input{ :type=>"button", :value => "Submit", :id => "submit_polygon" , :required => true, :class => "btn btn-primary"}

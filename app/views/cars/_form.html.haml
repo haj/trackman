@@ -77,7 +77,7 @@
 
               .form-group
                 = f.label :group, "Alarm Group", class: "form-label"
-                = f.collection_select(:group_id, Group.all, :id, :name, { :include_blank => "Select group" }, class: "form-control" )
+                = f.collection_select(:group_id, Group.all, :id, :name, { :include_blank => "Select Alarm Group" }, class: "form-control" )
   
     .col-md-6
       .row
