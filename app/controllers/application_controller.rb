@@ -14,10 +14,6 @@ class ApplicationController < ActionController::Base
   # set_current_tenant
   before_filter do
 
-    # subdomain present and company exists 
-    # subdomain present and company doesn't exist 
-    # user connected 
-
     company = Company.where(subdomain: request.subdomains.last).first
     if subdomain_present? && !company.nil?
       ActsAsTenant.current_tenant = company
@@ -62,7 +58,7 @@ class ApplicationController < ActionController::Base
 
   before_filter do 
     if current_user && current_user.company
-      @notifications = current_user.try(:company).try(:alarm_notifications)
+      @notifications = current_user.try(:company).try(:alarm_notifications).where(archived: false)
       if @notifications.nil?
         return Array.new
       end
