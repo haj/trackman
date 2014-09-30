@@ -62,19 +62,12 @@ gem 'rails_admin'
 
 # stuff required for testing purposes
 group :development, :test do 
-  #rspec 
   gem "rspec-rails"
-
   gem 'simplecov', '~> 0.7.1'
-
-  #spring
   gem 'spring-commands-rspec'
-
-  #guard
   gem 'guard'
   gem 'guard-spring'
   gem 'guard-rspec'
-
   gem "factory_girl_rails"
   gem "capybara"
 end
@@ -106,12 +99,10 @@ gem 'rvm-capistrano'
 gem 'capistrano', '2.15.5'
 
 gem "devise-async"
-gem 'delayed_job_active_record'
 gem 'daemons' #required by delayed_job 
 gem 'whenever', :require => false
 gem 'chronic'
 gem 'tod'
-gem 'rubocop', require: false, :group => :development
 gem 'mailboxer'
 gem "cocoon"
 gem 'annotate', ">=2.6.0"
@@ -132,10 +123,6 @@ gem 'timecop'
 gem 'gravatar_image_tag'
 
 gem "paranoia", "~> 2.0"
-
-group :development, :test do
-    gem 'railroady'
-end
 
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'sidekiq'
