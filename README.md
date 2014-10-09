@@ -1,64 +1,35 @@
-# Getting Started
+# Installation
 
-## Setup Traccar 
+##1. Traccar server configuration file 
 
-### Traccar server configuration file 
+[Configuration file example](https://github.com/haj/trackman/wiki/Configuration-file-snippet)
 
-```
-    <!-- This is the database stuff -->
-    <entry key='database.driver'>com.mysql.jdbc.Driver</entry>
-    <entry key='database.dataSource'>com.mysql.jdbc.jdbc2.optional.MysqlDataSource</entry>
-    <entry key='database.url'>jdbc:mysql://127.0.0.1:3306/traccar?allowMultiQueries=true&amp;autoReconnect=true</entry>
-    <entry key='database.user'>root</entry>
-    <entry key='database.password'> `ENTER YOUR PASSWORD HERE` </entry>
-
-    <!-- Don't forget to change the refreshDelay !!!!!!!!!!!! -->
-    <entry key='database.refreshDelay'>5</entry>
-
-    ... 
-    ...
-    ...
-```
-
-Check Wiki for details about why it's important to change the refresh delay. 
+Also it's important to change Traccar default refresh delay as shown in the configuration file example above, [here's why.](https://github.com/haj/trackman/wiki/About-Traccar-server-refresh-rate)
 
 
-## Rails Environment Variables
+## 2. Rails Environment Variables
 
-Create a new file `config/application.yml`
+Certain credentials and parameters required to run the app are stored in a special file named `application.yml` and loaded using the figaro gem. 
 
+Here's an example of such file : [config/application.yml](https://github.com/haj/trackman/wiki/application.yml)
 
-Populate it following this template by filling in the required password details : 
-
-
-``` config/application.yml
-smtp_username: "<enter gmail address here>"
-smtp_password: "<enter gmail password here>"
-db_password: "<enter password for TRACCAR mysql database here>"
-```
-
-## Setup the admin stuff
-Run the seed_fu stuff, it'll take care of the rest :
+## 3. Seed admin account
+Running the seed_fu (powered by the seed_fu gem), it'll take care of the rest :
  
 ```
 RAILS_ENV=production rake:seed_fu
 ```
+The __seed data__ is located inside the `db/fixtures` directory.
 
-## DROP all foreign keys on traccar tables
+## 4. DROP all foreign keys on traccar database tables 
 
-    ALTER TABLE devices DROP FOREIGN KEY `FK5CF8ACDD7C6208C3`;
+   It is important to deactivate all foreign keys on tables, because their database is setup in such a way that you can't remove a device without removing a position and you can't remove a last position without removing device.  
 
 
-## Add a new column to the positions table in the traccar db : 
+## 5. Set up MySQL timezone
 
-```
-ALTER TABLE `positions` ADD `created_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
-```
+The app expects MySQL Timezone to be UTC.
 
-## Set up MySQL timezone
-Usually it's best to setup MySQL Timezone to UTC.
-Or 
-Set the System Timezone to UTC. 
 
 
 
