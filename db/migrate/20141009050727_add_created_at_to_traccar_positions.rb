@@ -4,7 +4,7 @@ class AddCreatedAtToTraccarPositions < ActiveRecord::Migration
   end
 
   def change
-    add_column :ref_high_level_statuses, :is_in_progress, :boolean, :default => true
+    execute "ALTER TABLE `positions` ADD `created_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;" 
     @connection = ActiveRecord::Base.establish_connection("#{Rails.env}").connection
   end
 end
