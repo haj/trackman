@@ -10,7 +10,7 @@ Here's an example of such file : [config/application.yml](https://github.com/haj
 Running the seed_fu (powered by the seed_fu gem), it'll take care of the rest :
  
 ```
-RAILS_ENV=production rake:seed_fu
+RAILS_ENV=production rake db:seed_fu
 ```
 The __seed data__ is located inside the `db/fixtures` directory.
 
