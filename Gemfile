@@ -9,6 +9,7 @@ gem 'rails', '4.1.6'
 # end
 
 gem 'mysql2'
+gem 'sqlite3'
 
 # group :test do
 #   gem 'sqlite3'
@@ -129,3 +130,9 @@ gem 'sidekiq'
 
 gem 'chosen-rails'
 gem 'puma'
+
+gem 'local_documentation', require: "documentation"
+
+group :development, :test do
+    gem 'railroady'
+end

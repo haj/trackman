@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  mount Documentation::Engine => "/docs"
   resources :work_schedule_groups do 
     collection do 
       put 'batch_destroy'

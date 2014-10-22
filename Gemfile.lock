@@ -143,6 +143,7 @@ GEM
       actionmailer (>= 3.2.6, < 5)
       devise (>= 3.2.0)
     diff-lcs (1.2.5)
+    dynamic_form (1.1.4)
     erubis (2.7.0)
     exception_notification (4.0.1)
       actionmailer (>= 3.0.4)
@@ -220,6 +221,18 @@ GEM
       celluloid-io (>= 0.15.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
+    local_documentation (1.0.0)
+      coffee-rails (~> 4)
+      dynamic_form (~> 1.1, >= 1.1.4)
+      haml (~> 4.0)
+      jquery-rails (~> 3)
+      nifty-attachments (>= 1.0.3)
+      nifty-dialog (~> 1)
+      pygments.rb (>= 0.5, < 1.0)
+      rails (>= 4.0.0, < 5.0)
+      redcarpet (>= 3.1.0, < 4.0)
+      sass-rails (>= 4.0)
+      uglifier (>= 2.2, < 3.0)
     lumberjack (1.0.5)
     mail (2.6.1)
       mime-types (>= 1.16, < 3)
@@ -241,6 +254,8 @@ GEM
     net-ssh (2.9.1)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
+    nifty-attachments (1.0.3)
+    nifty-dialog (1.0.6)
     nio4r (1.0.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
@@ -251,6 +266,7 @@ GEM
       json
     polyamorous (1.0.0)
       activerecord (>= 3.0)
+    posix-spawn (0.3.9)
     pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -259,6 +275,9 @@ GEM
       pry (>= 0.9.10)
     puma (2.7.1)
       rack (>= 1.1, < 2.0)
+    pygments.rb (0.6.0)
+      posix-spawn (~> 0.3.6)
+      yajl-ruby (~> 1.1.0)
     rack (1.5.2)
     rack-pjax (0.7.0)
       nokogiri (~> 1.5)
@@ -267,6 +286,7 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
+    railroady (1.1.1)
     rails (4.1.6)
       actionmailer (= 4.1.6)
       actionpack (= 4.1.6)
@@ -308,6 +328,7 @@ GEM
       ffi (>= 0.5.0)
     rdoc (4.1.1)
       json (~> 1.4)
+    redcarpet (3.2.0)
     redis (3.1.0)
     redis-namespace (1.5.0)
       redis (~> 3.0, >= 3.0.4)
@@ -389,6 +410,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    sqlite3 (1.3.9)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -412,6 +434,7 @@ GEM
       chronic (>= 0.6.3)
     xpath (2.0.0)
       nokogiri (~> 1.3)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -454,6 +477,7 @@ DEPENDENCIES
   jquery-ui-rails
   less-rails
   letter_opener
+  local_documentation
   mailboxer
   mysql2
   nested_form
@@ -462,6 +486,7 @@ DEPENDENCIES
   pinp!
   pry-rails
   puma
+  railroady
   rails (= 4.1.6)
   rails_admin
   ransack
@@ -480,6 +505,7 @@ DEPENDENCIES
   sinatra (>= 1.3.0)
   spring
   spring-commands-rspec
+  sqlite3
   therubyracer
   timecop
   tod

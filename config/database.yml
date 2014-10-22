@@ -53,3 +53,10 @@ secondary_production:
   database: <%= ENV['DB_TRACCAR_NAME'] %>
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASSWORD'] %> 
+
+
+documentation:
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+  database: db/documentation.sqlite3

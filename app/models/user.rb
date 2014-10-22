@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
 
 	scope :by_role, -> role_name { where(roles_mask: self.mask_values_for(role_name.to_sym)) }
 	
-	ROLES = %w(admin manager employee driver) #["admin", "manager", "employee", "driver"]
+	
 
 
 	acts_as_messageable
@@ -49,6 +49,7 @@ class User < ActiveRecord::Base
 	belongs_to :company
 	belongs_to :car
 
+	ROLES = %w(admin manager employee driver) #["admin", "manager", "employee", "driver"]
 	include RoleModel
 	roles(ROLES.map(&:to_sym))
 

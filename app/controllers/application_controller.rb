@@ -69,6 +69,8 @@ class ApplicationController < ActionController::Base
     raise 'This is for testing exception notification gem.'
   end
 
+  
+
   layout :guest_user_layout
 
   private
