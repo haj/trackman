@@ -109,6 +109,13 @@ ActiveRecord::Schema.define(version: 20141009050727) do
     t.string   "time_zone"
   end
 
+  create_table "conditions", force: true do |t|
+    t.string   "name"
+    t.string   "method_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
     t.integer  "attempts",   default: 0, null: false
@@ -205,6 +212,8 @@ ActiveRecord::Schema.define(version: 20141009050727) do
     t.string  "unsubscriber_type"
     t.integer "conversation_id"
   end
+
+  add_index "mailboxer_conversation_opt_outs", ["conversation_id"], name: "mb_opt_outs_on_conversations_id", using: :btree
 
   create_table "mailboxer_conversations", force: true do |t|
     t.string   "subject",    default: ""
@@ -426,5 +435,11 @@ ActiveRecord::Schema.define(version: 20141009050727) do
   end
 
   add_index "work_schedules", ["deleted_at"], name: "index_work_schedules_on_deleted_at", using: :btree
+
+  add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
+
+  add_foreign_key "mailboxer_notifications", "mailboxer_conversations", name: "notifications_on_conversation_id", column: "conversation_id"
+
+  add_foreign_key "mailboxer_receipts", "mailboxer_notifications", name: "receipts_on_notification_id", column: "notification_id"
 
 end
