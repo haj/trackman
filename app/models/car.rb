@@ -26,7 +26,7 @@ class Car < ActiveRecord::Base
 
 	# validation 
 
-	validates :name, :numberplate, :mileage, :year, :color, :group_id, presence: true
+	validates :name, :numberplate, :mileage, :year, :color, presence: true
 
 
 	# Scopes
