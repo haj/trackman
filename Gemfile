@@ -71,6 +71,11 @@ group :development, :test do
   gem 'guard-rspec'
   gem "factory_girl_rails"
   gem "capybara"
+
+end
+
+group :development, :test do 
+	gem 'html2haml', :git => 'git://github.com/haml/html2haml.git'
 end
 
 gem 'safe_attributes', :require => 'safe_attributes/base'
@@ -82,7 +87,7 @@ gem 'has_scope'
 gem 'seed_dump'
 
 gem 'haml-rails'   
-gem 'html2haml', :git => 'git://github.com/haml/html2haml.git'
+
 gem 'figaro'
 
 gem "letter_opener", :group => :development
