@@ -71,11 +71,14 @@ class Device < ActiveRecord::Base
 	end
 
 	def last_position
-		self.traccar_device.last_position
+		self.try(:traccar_device).try(:last_position)
 	end
 
 	def last_positions(number=2)
-		self.traccar_device.last_positions(number)
+		traccar_device = self.traccar_device
+		if !traccar_device.nil?
+			traccar_device.last_positions(number)
+		end
 	end
 
 	# check if the device is reporting that the car is moving (or not)

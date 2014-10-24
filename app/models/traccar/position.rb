@@ -29,9 +29,9 @@ class Traccar::Position < ActiveRecord::Base
   bad_attribute_names :valid?
   #validates_presence_of :valid?
 
-  reverse_geocoded_by :latitude, :longitude do |obj,results|
+  reverse_geocoded_by :latitude, :longitude do |position,results|
     if geo = results.first
-    	obj.location = Traccar::Location.create(address: geo.address)
+    	position.location = Traccar::Location.create(address: geo.address)
     end
   end
 
