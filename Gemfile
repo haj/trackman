@@ -136,8 +136,6 @@ gem 'sidekiq'
 gem 'chosen-rails'
 gem 'puma'
 
-gem 'local_documentation', require: "documentation"
-
 group :development, :test do
     gem 'railroady'
 end
