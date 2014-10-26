@@ -7,20 +7,20 @@ development:
   DB_NAME: trackman_development
   DB_TRACCAR_NAME: traccar
   DB_USER: root
-  DB_PASSWORD: "foobar@1991"
+  DB_PASSWORD: "foobar"
   default_url: 'trackman.dev'
 
 test:
   DB_NAME: trackman_test
   DB_TRACCAR_NAME: traccar_test
   DB_USER: root
-  DB_PASSWORD: "foobar@1991"
+  DB_PASSWORD: "foobar"
 
 production:
   DB_NAME: trackman_production
   DB_TRACCAR_NAME: traccar
   DB_USER: root
-  DB_PASSWORD: "foobar@1991"
+  DB_PASSWORD: "foobar"
   default_url: 'moroccanvalley.net'
 
 #others
