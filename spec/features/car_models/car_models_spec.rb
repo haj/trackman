@@ -4,16 +4,9 @@ Warden.test_mode!
 
 describe "device management" do
 
-    before (:each) do
-      car_model = FactoryGirl.create(:car_model)
-      user = FactoryGirl.create(:manager) 
-      login_as user, scope: :user
-      ActsAsTenant.current_tenant = Company.first
-    end
-
-    after(:each) do
-      ActsAsTenant.current_tenant = nil 
-    end
+  before (:each) do
+    car_model = FactoryGirl.create(:car_model)
+  end
 
   it "should allow to create new car model" do     
     visit new_car_model_path

@@ -25,7 +25,16 @@ RSpec.configure do |config|
 
   config.before(:each) do
     Capybara.default_host = 'http://demo.trackman.dev'
+    user = FactoryGirl.create(:manager) 
+    login_as user, scope: :user
+    ActsAsTenant.current_tenant = Company.first
   end
+
+  config.after(:all) do
+    ActsAsTenant.current_tenant = nil
+  end
+
+
 
   config.include Devise::TestHelpers, :type => :controller
 

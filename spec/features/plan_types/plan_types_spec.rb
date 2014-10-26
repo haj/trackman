@@ -6,13 +6,6 @@ describe "Plan types management" do
 
     before (:each) do
       plan_type = FactoryGirl.create(:plan_type)
-      user = FactoryGirl.create(:manager) 
-      login_as user, scope: :user
-      ActsAsTenant.current_tenant = Company.first
-    end
-
-    after(:each) do
-      ActsAsTenant.current_tenant = nil 
     end
 
 

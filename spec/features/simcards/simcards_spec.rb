@@ -4,18 +4,6 @@ Warden.test_mode!
 
 describe "simcards management" do
 
-    before (:each) do
-      
-      user = FactoryGirl.create(:manager) 
-      login_as user, scope: :user
-      ActsAsTenant.current_tenant = Company.first
-    end
-
-
-    after(:each) do
-      ActsAsTenant.current_tenant = nil 
-    end
-
   it "should allow to create new simcard" do     
     visit new_simcard_path
     page.status_code.should be 200

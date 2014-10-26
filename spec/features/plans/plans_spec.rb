@@ -5,15 +5,7 @@ Warden.test_mode!
 describe "plans management" do
 
     before (:each) do    
-      user = FactoryGirl.create(:manager) 
-      login_as user, scope: :user
-      user
-      ActsAsTenant.current_tenant = Company.first
       plan = FactoryGirl.create(:plan)
-    end
-
-    after(:each) do
-      ActsAsTenant.current_tenant = nil 
     end
 
 

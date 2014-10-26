@@ -4,17 +4,9 @@ Warden.test_mode!
 
 describe "group management" do
 
-    before (:each) do
-      user = FactoryGirl.create(:manager) 
-      login_as user, scope: :user
-      ActsAsTenant.current_tenant = Company.first
-      group = FactoryGirl.create(:group)
-
-    end
-
-    after(:each) do
-      ActsAsTenant.current_tenant = nil 
-    end
+  before (:each) do
+    group = FactoryGirl.create(:group)
+  end
 
 
   it "should allow to create new group" do     
