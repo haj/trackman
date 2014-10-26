@@ -44,6 +44,7 @@ class Traccar::Position < ActiveRecord::Base
   def self.geocode 
     Traccar::Position.all.each do |position|
       if position.location.nil?
+        puts "Processing"
         position.reverse_geocode
       end
       sleep(2)
