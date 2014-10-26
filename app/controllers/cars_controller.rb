@@ -41,10 +41,12 @@ class CarsController < ApplicationController
     @alarms = @car.alarms
 
     if @car.has_device?
-      if !params[:scope].nil?
-        @positions = Car.find(params[:id]).positions_between_dates(params[:scope])
+      if params[:scope].nil?
+        logger.warn "default"
+        @positions = Car.find(params[:id]).positions_between_dates_with_default 
       else
-        @positions = Car.find(params[:id]).positions_between_dates_with_default
+        logger.warn "not default"
+        @positions = Car.find(params[:id]).positions_between_dates(params[:scope])
       end
 
       @markers = Gmaps4rails.build_markers(@positions) do |position, marker|
@@ -61,6 +63,7 @@ class CarsController < ApplicationController
         :resource => "cars"
       })
     else
+      logger.warn "Car has no device"
 
     end
 
