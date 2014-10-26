@@ -22,4 +22,4 @@
 .DS_Store
 
 /config/application.yml
-/coverage/index.html
+/coverage/*
