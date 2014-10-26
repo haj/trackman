@@ -82,9 +82,10 @@
                 console.log("Preparing for waypoints")
                 
                 for waypoint in waypoints_positions.reverse()
-                    waypts.push
-                        location: new google.maps.LatLng(waypoint.lat, waypoint.lng)
-                        stopover: false
+                    if waypoint.lat && waypoint.lng
+                        waypts.push
+                            location: new google.maps.LatLng(waypoint.lat, waypoint.lng)
+                            stopover: false
 
                 console.log("Did set waypoints")
 
