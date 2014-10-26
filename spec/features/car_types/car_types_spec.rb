@@ -16,9 +16,8 @@ describe "device management" do
   end
 
   it "should allow to create new car type" do 
-    
     visit new_car_type_path
-    save_and_open_page
+    #save_and_open_page
 
     #page.status_code.should be 200
     page.should have_css('#car_type_name')

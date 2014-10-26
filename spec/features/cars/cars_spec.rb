@@ -20,8 +20,8 @@ describe "device management" do
 
   it "should allow to create new car" do 
     visit new_car_path
-    page.status_code.should be 200
-    # page.should have_content("Add car")
+    #page.status_code.should be 200
+    page.should have_content("Sign out")
     # fill_in "car_numberplate", :with => "211849"
     # select  "Audi A2", :from => "car_car_model_id"
     # select  "Sports Car", :from => "car_car_type_id"
