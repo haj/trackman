@@ -7,14 +7,15 @@ describe "device management" do
     before (:each) do
       CarModel.create(name: "Audi A2")
       CarType.create(name: "Sports Car")
-      
       # sign in manager
       user = FactoryGirl.create(:manager) 
       login_as user, scope: :user
-      user
-
       ActsAsTenant.current_tenant = Company.first
       car = FactoryGirl.create(:car)
+    end
+
+    after(:each) do
+      ActsAsTenant.current_tenant = nil 
     end
 
   it "should allow to create new car" do 

@@ -12,6 +12,10 @@ describe "plans management" do
       plan = FactoryGirl.create(:plan)
     end
 
+    after(:each) do
+      ActsAsTenant.current_tenant = nil 
+    end
+
 
   it "should allow to create new plan" do     
     visit new_plan_path

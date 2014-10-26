@@ -5,10 +5,15 @@ Warden.test_mode!
 describe "simcards management" do
 
     before (:each) do
-      simcard = FactoryGirl.create(:simcard)
+      
       user = FactoryGirl.create(:manager) 
       login_as user, scope: :user
-      user
+      ActsAsTenant.current_tenant = Company.first
+    end
+
+
+    after(:each) do
+      ActsAsTenant.current_tenant = nil 
     end
 
   it "should allow to create new simcard" do     
@@ -36,6 +41,7 @@ describe "simcards management" do
   end
 
   it "should allow to edit a simcard" do 
+    simcard = FactoryGirl.create(:simcard)
     visit edit_simcard_path(Simcard.first)
     page.status_code.should be 200
     # page.should have_css('#simcard_telephone_number')

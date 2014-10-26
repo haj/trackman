@@ -42,8 +42,10 @@ describe WorkSchedule do
     it "should have correct starting hour and ending hour" do 
       Time.use_zone('Hawaii') do
         cloned_work_schedule = @work_schedule.create_clone
-        cloned_work_schedule.work_hours.first.starts_at.to_s.should_not  == "07:00:00"
-        cloned_work_schedule.work_hours.first.ends_at.to_s.should_not  == "07:00:00"
+        start_time = cloned_work_schedule.work_hours.first.starts_at.to_s
+        end_time = cloned_work_schedule.work_hours.first.ends_at.to_s
+        start_time.should eq "07:00:00"
+        end_time.should  eq "19:00:00"
       end  
     end
 

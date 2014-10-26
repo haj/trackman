@@ -8,8 +8,11 @@ describe "device management" do
       car_type = FactoryGirl.create(:car_type)
       @user = FactoryGirl.create(:manager) 
       login_as @user, scope: :user
-      @user
       ActsAsTenant.current_tenant = Company.first
+    end
+
+    after(:each) do
+      ActsAsTenant.current_tenant = nil 
     end
 
   it "should allow to create new car type" do 

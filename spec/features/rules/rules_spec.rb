@@ -8,7 +8,11 @@ describe "Rules management" do
       rule = FactoryGirl.create(:rule)
       user = FactoryGirl.create(:manager) 
       login_as user, scope: :user
-      user
+      ActsAsTenant.current_tenant = Company.first
+    end
+
+    after(:each) do
+      ActsAsTenant.current_tenant = nil 
     end
 
   it "should allow to create new rule" do     

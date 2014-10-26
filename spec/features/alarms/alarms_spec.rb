@@ -12,6 +12,10 @@ describe "Alarms management" do
       ActsAsTenant.current_tenant = Company.first
     end
 
+    after(:each) do
+      ActsAsTenant.current_tenant = nil 
+    end
+
   pending "should allow to create a new alarm" do 
     visit new_alarm_path
     page.status_code.should be 200

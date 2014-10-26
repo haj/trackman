@@ -7,9 +7,12 @@ describe "device management" do
     before (:each) do
       user = FactoryGirl.create(:manager) 
       login_as user, scope: :user
-      user
       ActsAsTenant.current_tenant = Company.first
       device = FactoryGirl.create(:device)
+    end
+
+    after(:each) do
+      ActsAsTenant.current_tenant = nil 
     end
 
   it "should allow to create new device" do     

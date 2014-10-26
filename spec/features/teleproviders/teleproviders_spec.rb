@@ -6,11 +6,15 @@ describe "Teleproviders management" do
 
     before (:each) do
       teleprovider = FactoryGirl.create(:teleprovider)
-      user = FactoryGirl.create(:manager) 
-      login_as user, scope: :user
-      user
+      @user = FactoryGirl.create(:manager) 
+      login_as @user, scope: :user
+      ActsAsTenant.current_tenant = Company.first
     end
 
+
+    after(:each) do
+      ActsAsTenant.current_tenant = nil 
+    end
 
   it "should allow to create new teleprovider" do     
     visit new_teleprovider_path

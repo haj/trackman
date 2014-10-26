@@ -7,8 +7,12 @@ describe "device management" do
     before (:each) do
       @user = FactoryGirl.create(:manager) 
       login_as @user, scope: :user
-      @user
+      #@user
       ActsAsTenant.current_tenant = Company.first
+    end
+
+    after(:each) do
+      ActsAsTenant.current_tenant = nil 
     end
 
   it "should allow to destroy a company" do 
@@ -20,12 +24,5 @@ describe "device management" do
     visit companies_path
     page.should have_content('Sign out')
   end
-
-  # pending "should allow to edit a company" do 
-  #   visit edit_
-  #   page.should have_content('Sign out')
-  # end
-
-
 
 end
