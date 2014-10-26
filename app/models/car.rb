@@ -123,37 +123,37 @@ class Car < ActiveRecord::Base
 
 		def positions_between_dates_with_default
 
-			if Time.zone.now.hour < 6
-				start_day = Time.zone.now.day - 1
-			else
-				day = Time.zone.now.day
-			end
+			# if Time.zone.now.hour < 6
+			# 	start_day = Time.zone.now.day - 1
+			# else
+			# 	day = Time.zone.now.day
+			# end
 
-			day = Time.zone.now.day
-			month = Time.zone.now.month
-			year = Time.zone.now.year
-			hour = Time.zone.now.hour
-			min = Time.zone.now.min
+			# day = Time.zone.now.day
+			# month = Time.zone.now.month
+			# year = Time.zone.now.year
+			# hour = Time.zone.now.hour
+			# min = Time.zone.now.min
 
-			user_dates = {
-				:start_date => "#{start_day}/#{month}/#{year}", 
-				:start_time => "06:00", 
-				:end_date => "#{day}/#{month}/#{year}", 
-				:end_time => "#{hour}:#{min} ", 
-				:limit_results => "100"
-			}
+			# user_dates = {
+			# 	:start_date => "#{start_day}/#{month}/#{year}", 
+			# 	:start_time => "06:00", 
+			# 	:end_date => "#{day}/#{month}/#{year}", 
+			# 	:end_time => "#{hour}:#{min} ", 
+			# 	:limit_results => "100"
+			# }
 
-			start_date = Time.zone.parse("#{user_dates[:start_date]} #{user_dates[:start_time]}")
-			end_date = Time.zone.parse("#{user_dates[:end_date]} #{user_dates[:end_time]}")
+			# start_date = Time.zone.parse("#{user_dates[:start_date]} #{user_dates[:start_time]}")
+			# end_date = Time.zone.parse("#{user_dates[:end_date]} #{user_dates[:end_time]}")
 
-			positions = self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")
+			# positions = self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")
 			
-			if positions.count == 0 
-				# Grab last 30 positions in this case
-				positions = self.device.traccar_device.positions.order("time DESC").take(30)
-			end
+			# if positions.count == 0 
+			# 	# Grab last 30 positions in this case
+				
+			# end
 
-			return positions
+			return self.device.traccar_device.positions.order("time DESC").take(30)
 
 
 		end
