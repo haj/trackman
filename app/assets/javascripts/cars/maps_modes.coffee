@@ -59,6 +59,9 @@
                 console.log("Setting destination")
 
                 destination = new google.maps.LatLng(last_position.lat, last_position.lng)
+
+                console.log("Done setting destination")
+
                 waypts = []
 
                 if sliced_array.length <= 8
@@ -76,7 +79,7 @@
                         waypoints_positions[i] = sliced_array[index_to_fetch]
                         index_to_fetch += steps
                     
-
+                console.log("Preparing for waypoints")
                 
                 for waypoint in waypoints_positions.reverse()
                     waypts.push
