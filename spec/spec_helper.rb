@@ -24,7 +24,7 @@ RSpec.configure do |config|
   # config.mock_with :rr
 
   config.before(:each) do
-    Capybara.default_host = 'http://trackman.dev'
+    Capybara.default_host = 'http://demo.trackman.dev'
   end
 
   config.include Devise::TestHelpers, :type => :controller

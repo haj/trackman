@@ -4,21 +4,24 @@ Warden.test_mode!
 
 describe "device management" do
   
-    before (:each) do
-      car_type = FactoryGirl.create(:car_type)
-      @user = FactoryGirl.create(:manager) 
-      login_as @user, scope: :user
-      ActsAsTenant.current_tenant = Company.first
-    end
+  before (:each) do
+    car_type = FactoryGirl.create(:car_type)
+    @user = FactoryGirl.create(:manager) 
+    login_as @user, scope: :user
+    ActsAsTenant.current_tenant = Company.first
+  end
 
-    after(:each) do
-      ActsAsTenant.current_tenant = nil 
-    end
+  after(:each) do
+    ActsAsTenant.current_tenant = nil 
+  end
 
   it "should allow to create new car type" do 
+    
     visit new_car_type_path
-    page.status_code.should be 200
-    # page.should have_css('#device_name')
+    save_and_open_page
+
+    #page.status_code.should be 200
+    page.should have_css('#car_type_name')
 
     # fill_in "car_type_name", :with => "NewCarType"
     # click_button "Save"
