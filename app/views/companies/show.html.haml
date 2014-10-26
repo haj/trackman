@@ -43,6 +43,6 @@
           %tbody           
             - @employees.each do |user|
               %tr
-                %td= link_to user.name, user
+                %td= link_to user.name.capitalize, user
                 %td= user.email
                 %td= user.roles.to_a.join(', ')

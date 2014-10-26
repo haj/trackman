@@ -5,14 +5,66 @@
         %h3
           Vehicles List
     .col-md-4.col-lg-4.col-sm-4.col-xs-4 
-      .pull-right= link_to 'Create', new_car_path, class: "btn btn-success"
+      .pull-right
+        = link_to 'Filter', "#", class: "btn btn-default toggle"
+        = link_to 'Create', new_car_path, class: "btn btn-success"
 
 
   
-  .row
-        
+  .row.to-be-toggled
+    .col-md-12   
+      = form_tag '', :method => :get do
+        .row
+          .col-md-3
+            .grid.simple
+              .grid-title
+                %h4 Vehicle Model
+              .grid-body
+                = select_tag('by_car_model', content_tag(:option,'Vehicle Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name', params[:by_car_model] ), :class => "form-control" )
+          .col-md-3
+            .grid.simple
+              .grid-title
+                %h4 Vehicle Type
+              .grid-body
+                = select_tag('by_car_type', content_tag(:option,'Vehicle Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name', params[:by_car_type]), :class => "form-control")
+          .col-md-3
+            .grid.simple
+              .grid-title
+                %h4 Traceability
+              .grid-body
+                %label                
+                  = radio_button_tag 'trackable', 'all' , checked_radio_button(params[:trackable], "all")
+                  = "All"
+                %label 
+                  = radio_button_tag 'trackable', 'true' , checked_radio_button(params[:trackable], "true")
+                  = "Traceable" 
+                %label
+                  = radio_button_tag 'trackable', 'false' , checked_radio_button(params[:trackable], "false")
+                  = "Not Traceable"
+          .col-md-3
+            .grid.simple
+              .grid-title
+                %h4 Driver
+              .grid-body
+                .row
+                  .col-md-12
+                    %label
+                      = radio_button_tag 'has_driver', 'all' , checked_radio_button(params[:has_driver], 'all')
+                      = "All"
+                    %label 
+                      = radio_button_tag 'has_driver', 'true' , checked_radio_button(params[:has_driver], 'true')
+                      = "With driver" 
+                    %label
+                      = radio_button_tag 'has_driver', 'false' , checked_radio_button(params[:has_driver], 'false')
+                      = "Without driver"
+        .row
+          .col-md-12
+            = submit_tag 'Apply Filters', :class => "btn btn-success"
+  
+  %br/
 
-    .col-md-9
+  .row
+    .col-md-12
       = form_tag batch_destroy_cars_path, id: "destroy_cars", :method => :put do
         .row
           .col-md-12
@@ -36,60 +88,7 @@
                         %td= car.numberplate
                         %td= car.try(:car_model).try(:name)
                         %td= car.try(:car_type).try(:name)
-                        %td= link_to 'Edit', edit_car_path(car)
-    .col-md-3
-      .row
-        .col-md-12
-          = form_tag '', :method => :get do
-            .row
-              .col-md-12
-                .grid.simple
-                  .grid-title
-                    %h4 Vehicle Model
-                  .grid-body
-                    = select_tag('by_car_model', content_tag(:option,'Vehicle Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name', params[:by_car_model] ), :class => "form-control" )
-            .row  
-              .col-md-12
-                .grid.simple
-                  .grid-title
-                    %h4 Vehicle Type
-                  .grid-body
-                    = select_tag('by_car_type', content_tag(:option,'Vehicle Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name', params[:by_car_type]), :class => "form-control")
-            .row  
-              .col-md-12
-                .grid.simple
-                  .grid-title
-                    %h4 Traceability
-                  .grid-body
-                    %label                
-                      = radio_button_tag 'trackable', 'all' , checked_radio_button(params[:trackable], "all")
-                      = "All"
-                    %label 
-                      = radio_button_tag 'trackable', 'true' , checked_radio_button(params[:trackable], "true")
-                      = "Traceable" 
-                    %label
-                      = radio_button_tag 'trackable', 'false' , checked_radio_button(params[:trackable], "false")
-                      = "Not Traceable"
-            .row
-              .col-md-12
-                .grid.simple
-                  .grid-title
-                    %h4 Driver
-                  .grid-body
-                    .row
-                      .col-md-12
-                        %label
-                          = radio_button_tag 'has_driver', 'all' , checked_radio_button(params[:has_driver], 'all')
-                          = "All"
-                        %label 
-                          = radio_button_tag 'has_driver', 'true' , checked_radio_button(params[:has_driver], 'true')
-                          = "With driver" 
-                        %label
-                          = radio_button_tag 'has_driver', 'false' , checked_radio_button(params[:has_driver], 'false')
-                          = "Without driver"
-            .row
-              .col-md-12
-                = submit_tag 'Apply Filters', :class => "btn btn-default"
+                        %td= link_to 'Edit', edit_car_path(car)            
 
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner

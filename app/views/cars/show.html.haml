@@ -67,7 +67,7 @@
         - if @car.device
           = link_to @car.device.name, @car.device
         - else
-          = "This car doesn't have a device attached to it yet"
+          This vehicle has no device associated with it.
         %br/
         %b Vehicle model:
         = @car.car_model_id
@@ -85,7 +85,11 @@
         = @car.color
         %br/
         %b Work Schedule:
-        = link_to @car.try(:work_schedule).try(:name).try(:capitalize), @car.try(:work_schedule)
+        - if @car.work_schedule && @car.work_schedule.name
+          = link_to @car.work_schedule.name.capitalize, @car.work_schedule
+        - else 
+          This vehicle has no schedule.
+        
 
 .row
 

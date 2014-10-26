@@ -5,6 +5,9 @@
 $(document).ready ->
     Utils.Actions.batch_action("#destroy_cars",".car_checkbox")
 
+    $(".toggle").click ->
+        $(".to-be-toggled").fadeToggle( "slow", "linear" )
+
     if (typeof gon != "undefined") && gon.resource == "cars"
         class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
             create_marker: ->
@@ -32,210 +35,21 @@ $(document).ready ->
                 boxStyle:
                     width: "150px"
 
-        switch_to_pins = ->
-            window.current_mode = "pins"
 
-            handler = Gmaps.build("Google", builders: { Marker: CustomMarkerBuilder } )
-            handler.buildMap { provider: { scrollwheel: false }, internal: { id: gon.map_id }}, ->
-
-                for one_marker, i in gon.data
-
-                    if i == 0 
-                        pin = "<img width='36px' height='36px' src='<%= image_path('red_pin.png') %>'>"
-                    else if gon.data.length - 1 == i
-                        pin = "<img width='36px' height='36px' src='<%= image_path('green_pin.png') %>'>"
-                    else
-                        pin = "<img width='36px' height='36px' src='<%= image_path('yellow_pin.png') %>'>"
-
-                    content = "<div>" + one_marker.infowindow + "</div>"
-                    
-                    marker = handler.addMarker
-                        lat:               one_marker.lat
-                        lng:               one_marker.lng
-                        custom_marker:     pin
-                        custom_infowindow: content
-                    handler.bounds.extendWith(marker)
-                    
-                handler.fitMapToBounds()
-                handler.getMap().setZoom(11)
-
-                window.handler = handler
-
-        switch_to_directions = ->
-
-            window.current_mode = "directions"
-
-            # Implement directions map
-            directionsDisplay = new google.maps.DirectionsRenderer()
-            directionsService = new google.maps.DirectionsService()
-
-            handler = Gmaps.build("Google")
-
-            handler.buildMap { provider: { scrollwheel: false }, internal: { id: gon.map_id }}, ->
-                directionsDisplay.setMap handler.getMap()
-
-            window.handler = handler
-        
-            array_length = gon.data.length
-
-            first_position = gon.data[array_length - 1]
-            last_position = gon.data[0]
-
-            sliced_array = gon.data.slice(1, array_length - 1)
-
-            origin = new google.maps.LatLng(first_position.lat, first_position.lng)
-            destination = new google.maps.LatLng(last_position.lat, last_position.lng)
-            waypts = []
-
-            if sliced_array.length <= 8
-
-                waypoints_positions = sliced_array
-
-            else 
-
-                steps = Math.round(sliced_array.length/6) - 1
-
-                index_to_fetch = 0
-                waypoints_positions = new Array
-
-                for i in [0...8]
-                    waypoints_positions[i] = sliced_array[index_to_fetch]
-                    index_to_fetch += steps
-                
-
-            
-            for waypoint in waypoints_positions.reverse()
-                waypts.push
-                    location: new google.maps.LatLng(waypoint.lat, waypoint.lng)
-                    stopover: false
-
-            window.points = waypts    
-
-            request =
-                origin: origin
-                destination: destination
-                waypoints: waypts
-                travelMode: google.maps.TravelMode.DRIVING
-
-            directionsService.route request, (response, status) ->
-                directionsDisplay.setDirections response  if status is google.maps.DirectionsStatus.OK
-
-    
-
-    if (typeof gon != "undefined") && gon.resource == "cars" 
-
-        if gon.map_id == "cars_show"
-
-            $('#filter_by_date .time').timepicker({
-                'showDuration': true,
-                'timeFormat': 'H:i',
-            });
-
-            date = new Date();
-            date.setHours(6,0,0,0);
-
-            if $('.start_time').val().length == 0
-                $('#filter_by_date .start_time').timepicker('setTime', date);
-
-            if $('.end_time').val().length == 0
-                $('#filter_by_date .end_time').timepicker('setTime', new Date());
-
-
-            $('#filter_by_date .date').datepicker({
-                'format': 'd/m/yyyy',
-                'autoclose': true
-            });
-
-            # if $('.limit_results').val().length == 0
-            #     $('.limit_results').val('20')
-
-            if $('.start_date').val().length == 0
-                $('.start_date').datepicker('setDate', new Date())
-
-            if $('.end_date').val().length == 0
-                $('.end_date').datepicker('setDate', new Date())
-
-            basicExampleEl = document.getElementById('filter_by_date');
-            datepair = new Datepair(basicExampleEl);
-
-            switch_to_directions()
+        if  gon.map_id != "cars_show"
+            Cars.AllCars.show()
+        else
+            Cars.Dates.initialize_filters()           
+            Cars.Maps.switch_to_directions()
 
             $(".switch_map_mode").click ->
                 if window.current_mode == "pins"
-                    switch_to_directions()
+                    Cars.Maps.switch_to_directions()
                 else
-                    switch_to_pins()
-
-        else 
-
-            handler = Gmaps.build("Google", builders: { Marker: CustomMarkerBuilder } )
-            handler.buildMap { provider: { scrollwheel: false }, internal: { id: gon.map_id }}, ->
-                #markers = handler.addMarkers(gon.data)
-
-                for one_marker, i in gon.data
-
-                    infos = one_marker.infowindow.split("/");
-
-                    if infos[1] == ""
-                        infos[1] = "No Driver"
-
-                    pin = "<img width='36px' height='36px' src='<%= image_path('red_pin.png') %>'>"
-                    
-                    content = "<div class='map-tooltip' ><p>"+ infos[0] + "</p><p>" + infos[1] + "</p><p>" + infos[2] + "</p></div>" 
-
-                    
-                    marker = handler.addMarker
-                        lat:               one_marker.lat
-                        lng:               one_marker.lng
-                        custom_marker:     pin
-                        custom_infowindow: content
-
-                    handler.bounds.extendWith(marker)
-                    
-                handler.fitMapToBounds()
-                handler.getMap().setZoom(3)
-
-
-    
-
-    
-
-
-
-      ###      
-        handler = Gmaps.build('Google')
-
-        handler.buildMap { provider: { zoom: 3 }, internal: { id: gon.map_id }}, ->
-            markers = handler.addMarkers(gon.data)
-            window.markers = markers
-            handler.bounds.extendWith(markers)
-            handler.fitMapToBounds()
-            handler.getMap().setZoom(12)
+                    Cars.Maps.switch_to_pins()
+        
             
-        refreshCarsMap = (data) ->
-            #console.log "Refreshing cars"
-            #console.log(data)
-            handler.removeMarkers(window.markers)
-            window.markers = handler.addMarkers(data)
-        gon.watch('data', interval: 30000, refreshCarsMap)
 
-
-    else if (typeof gon != "undefined") && gon.resource == "cars"
-        handler = Gmaps.build('Google')
-
-        handler.buildMap { provider: { zoom: 1 }, internal: { id: gon.map_id }}, ->
-            markers = handler.addMarkers(gon.data)
-            window.markers = markers
-            handler.bounds.extendWith(markers)
-            handler.fitMapToBounds()
-            
-        refreshCarsMap = (data) ->
-            console.log "Refreshing cars"
-            console.log(data)
-            handler.removeMarkers(window.markers)
-            window.markers = handler.addMarkers(data)
-        gon.watch('data', interval: 3000, refreshCarsMap)
-        ###
 				
 
 

@@ -45,6 +45,9 @@
 //= require ./template/chat
 //= require ./template/demo
 //= require ./template/batch_action
+//= require ./cars/maps_modes
+//= require ./cars/date_filters
+//= require ./cars/all_cars
 //
 //
 // Our stuff Require.
