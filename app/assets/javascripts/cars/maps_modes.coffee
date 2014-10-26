@@ -52,7 +52,12 @@
 
                 sliced_array = gon.data.slice(1, array_length - 1)
 
+                console.log("Setting origin")
+
                 origin = new google.maps.LatLng(first_position.lat, first_position.lng)
+
+                console.log("Setting destination")
+
                 destination = new google.maps.LatLng(last_position.lat, last_position.lng)
                 waypts = []
 
@@ -77,6 +82,8 @@
                     waypts.push
                         location: new google.maps.LatLng(waypoint.lat, waypoint.lng)
                         stopover: false
+
+                console.log("Did set waypoints")
 
                 window.points = waypts    
 

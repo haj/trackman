@@ -149,7 +149,7 @@ class Car < ActiveRecord::Base
 			positions = self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")
 			
 			if positions.count == 0 
-				# grab last 30 positions in this case
+				# Grab last 30 positions in this case
 				positions = self.device.traccar_device.positions.order("time DESC").take(30)
 			end
 
