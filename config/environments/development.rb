@@ -23,7 +23,7 @@ Rails.application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
-  config.log_level = :warn
+  #config.log_level = :warn
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
@@ -37,6 +37,11 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
+
+
+  config.lograge.enabled = true
+  config.lograge.log_format = :graylog2
+  config.logger = GELF::Logger.new("edx.braksa.com", 49163, "WAN", { :host => "localhost:3000", :facility => "trackman" })
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
