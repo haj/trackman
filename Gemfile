@@ -139,6 +139,3 @@ gem 'puma'
 group :development, :test do
     gem 'railroady'
 end
-
-gem "gelf"
-gem "lograge"
