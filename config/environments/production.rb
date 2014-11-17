@@ -108,4 +108,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.lograge.enabled = true
+  config.lograge.log_format = :graylog2
+  config.logger = GELF::Logger.new("5.9.52.200", 12201, "WAN", { :host => "localhost:3000", :facility => "TrackmanProduction" })
 end

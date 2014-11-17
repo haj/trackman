@@ -32,31 +32,13 @@ class CarsController < ApplicationController
     end
   end
 
-  # GET /cars/1
-  # GET /cars/1.json
   def show
-
     @car = Car.find(params[:id])
-
     @alarms = @car.alarms
-
     if @car.has_device?
-      if params[:scope].nil?
-        logger.warn "default"
-        @positions = Car.find(params[:id]).positions_between_dates_with_default 
-      else
-        logger.warn "not default"
-        @positions = Car.find(params[:id]).positions_between_dates(params[:scope])
-      end
-
-      @markers = Gmaps4rails.build_markers(@positions) do |position, marker|
-        marker.lat position.latitude.to_s
-        marker.lng position.longitude.to_s
-        marker.infowindow position.time.to_s
-      end
-      
+      @positions = @car.positions_with_dates(params[:dates])
+      @markers = Traccar::Position.markers(@positions)        
       gon.watch.data = @markers
-
       gon.push({
         :url => "/cars/#{@car.id}",
         :map_id => "cars_show",
@@ -64,9 +46,7 @@ class CarsController < ApplicationController
       })
     else
       logger.warn "Car has no device"
-
     end
-
   end
 
   # GET /cars/new

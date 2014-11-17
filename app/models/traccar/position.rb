@@ -51,6 +51,14 @@ class Traccar::Position < ActiveRecord::Base
     end
   end
 
+  def self.markers(positions)
+    return Gmaps4rails.build_markers(positions) do |position, marker|
+      marker.lat position.latitude.to_s
+      marker.lng position.longitude.to_s
+      marker.infowindow position.time.to_s
+    end 
+  end
+
 
   
 

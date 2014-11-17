@@ -110,53 +110,7 @@ class Car < ActiveRecord::Base
 		end
 
 
-		def positions_between_dates(user_dates)
-			start_date = Time.zone.parse("#{user_dates[:start_date]} #{user_dates[:start_time]}")
-			end_date = Time.zone.parse("#{user_dates[:end_date]} #{user_dates[:end_time]}")
-
-			if user_dates[:limit_results].to_i == 0 
-				user_dates[:limit_results] = 20
-			end
-
-			return self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")#.take(user_dates[:limit_results].to_i)
-		end
-
-		def positions_between_dates_with_default
-
-			# if Time.zone.now.hour < 6
-			# 	start_day = Time.zone.now.day - 1
-			# else
-			# 	day = Time.zone.now.day
-			# end
-
-			# day = Time.zone.now.day
-			# month = Time.zone.now.month
-			# year = Time.zone.now.year
-			# hour = Time.zone.now.hour
-			# min = Time.zone.now.min
-
-			# user_dates = {
-			# 	:start_date => "#{start_day}/#{month}/#{year}", 
-			# 	:start_time => "06:00", 
-			# 	:end_date => "#{day}/#{month}/#{year}", 
-			# 	:end_time => "#{hour}:#{min} ", 
-			# 	:limit_results => "100"
-			# }
-
-			# start_date = Time.zone.parse("#{user_dates[:start_date]} #{user_dates[:start_time]}")
-			# end_date = Time.zone.parse("#{user_dates[:end_date]} #{user_dates[:end_time]}")
-
-			# positions = self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")
-			
-			# if positions.count == 0 
-			# 	# Grab last 30 positions in this case
-				
-			# end
-
-			return self.device.traccar_device.positions.order("time DESC").take(30)
-
-
-		end
+		
 
 	# Has?
 
@@ -245,6 +199,16 @@ class Car < ActiveRecord::Base
 			end
 
 
+	def positions_with_dates(dates)
+		if dates.nil?
+			self.device.traccar_device.positions.order("time DESC").take(30)
+		else
+			start_date = Time.zone.parse("#{user_dates[:start_date]} #{user_dates[:start_time]}")
+			end_date = Time.zone.parse("#{user_dates[:end_date]} #{user_dates[:end_time]}")
+			user_dates[:limit_results] = 20 if user_dates[:limit_results].to_i == 0 
+			return self.device.traccar_device.positions.where("created_at > ? AND created_at < ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")#.take(user_dates[:limit_results].to_i)
+		end
+	end
 
 
 

@@ -34,7 +34,6 @@ describe "Driving long hours" do
   	end
 
   	it "should trigger alarm when car been driving for too long" do
-
 		FactoryGirl.create(:state, no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 30.minutes.ago)
 		FactoryGirl.create(:state, no_data: false, moving: true, car_id: @car.id, speed: 0.0, created_at: 23.minutes.ago)
 		FactoryGirl.create(:state, no_data: false, moving: true, car_id: @car.id, speed: 0.0, created_at: 7.minutes.ago)

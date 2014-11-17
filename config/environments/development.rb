@@ -41,7 +41,7 @@ Rails.application.configure do
 
   config.lograge.enabled = true
   config.lograge.log_format = :graylog2
-  config.logger = GELF::Logger.new("edx.braksa.com", 49163, "WAN", { :host => "localhost:3000", :facility => "trackman" })
+  config.logger = GELF::Logger.new("logs.braksa.com", 12201, "WAN", { :host => "localhost:3000", :facility => "TrackmanDev" })
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

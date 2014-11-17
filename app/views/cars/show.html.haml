@@ -17,13 +17,13 @@
                 .input-group
                   .input-group-addon
                     %i.fa.fa-th
-                  = text_field_tag "scope[start_date]", params.try(:[], :scope).try(:[], :start_date), class: "date start_date form-control"                  
+                  = text_field_tag "dates[start_date]", params.try(:[], :dates).try(:[], :start_date), class: "date start_date form-control"                  
             .col-lg-2.col-md-12.col-sm-12.col-xs-12
               .form-group
                 .input-group
                   .input-group-addon
                     %i.fa.fa-clock-o
-                  = text_field_tag "scope[start_time]", params.try(:[], :scope).try(:[], :start_time), class: "time start_time form-control"
+                  = text_field_tag "dates[start_time]", params.try(:[], :dates).try(:[], :start_time), class: "time start_time form-control"
             .col-lg-2.col-md-12.col-sm-12.col-xs-12
               %div{style: "text-align:center; margin-top:10px; margin-bottom:20px;"}= fa_icon "arrow-right"
             .col-lg-2.col-md-12.col-sm-12.col-xs-12
@@ -31,13 +31,13 @@
                 .input-group
                   .input-group-addon
                     %i.fa.fa-th
-                  = text_field_tag "scope[end_date]", params.try(:[], :scope).try(:[], :end_date), class: "date end_date form-control"
+                  = text_field_tag "dates[end_date]", params.try(:[], :dates).try(:[], :end_date), class: "date end_date form-control"
             .col-lg-2.col-md-12.col-sm-12.col-xs-12
               .form-group
                 .input-group
                   .input-group-addon
                     %i.fa.fa-clock-o
-                  = text_field_tag "scope[end_time]", params.try(:[], :scope).try(:[], :end_time) , class: "time end_time form-control"
+                  = text_field_tag "dates[end_time]", params.try(:[], :dates).try(:[], :end_time) , class: "time end_time form-control"
             .col-lg-2.col-md-12.col-sm-12.col-xs-12
               = submit_tag 'Apply', :class => "btn btn-default btn-primary"
 
@@ -47,48 +47,76 @@
   .col-md-4
     .grid.simple.horizontal.green
       .grid-title
-        %h4 Informations
+        %h4 About this vehicle
         .tools
           %a.collapse{href: "javascript:;"}
       .grid-body
-        %b Name:
-        = @car.try(:name)
-        %br/
-        %b Driver:
-        = @car.try(:driver).try(:name)
-        %br/
-        %b Mileage:
-        = @car.mileage
-        %br/
-        %b Numberplate:
-        = @car.numberplate
-        %br/
-        %b Device:
-        - if @car.device
-          = link_to @car.device.name, @car.device
-        - else
-          This vehicle has no device associated with it.
-        %br/
-        %b Vehicle model:
-        = @car.car_model_id
-        %br/
-        %b Vehicle type:
-        = @car.car_type_id
-        %br/
-        %b Registration no:
-        = @car.registration_no
-        %br/
-        %b Year:
-        = @car.year
-        %br/
-        %b Color:
-        = @car.color
-        %br/
-        %b Work Schedule:
-        - if @car.work_schedule && @car.work_schedule.name
-          = link_to @car.work_schedule.name.capitalize, @car.work_schedule
-        - else 
-          This vehicle has no schedule.
+        %table.table.table-bordered
+          %tr
+            %td
+              Name
+            %td 
+              = @car.try(:name)
+          %tr
+            %td
+              Driver
+            %td
+              - if @car.driver
+                = @car.try(:driver).try(:name)
+              - else 
+                Vehicle has no driver
+          %tr
+            %td
+              Mileage
+            %td
+              = @car.mileage
+          %tr
+            %td
+              Numberplate
+            %td
+              = @car.numberplate
+          %tr
+            %td
+              Device
+            %td
+              - if @car.device
+                = link_to @car.device.name, @car.device
+              - else
+                This vehicle has no device associated with it.
+          %tr
+            %td
+              Vehicle model
+            %td
+              = @car.try(:car_model).try(:name).try(:capitalize)
+          %tr
+            %td
+              Vehicle type
+            %td
+              = @car.try(:car_type).try(:name).try(:capitalize)
+          %tr
+            %td
+              Registration no
+            %td
+              = @car.registration_no
+          %tr
+            %td
+              Year
+            %td
+              = @car.year
+        
+          %tr
+            %td
+              Color
+            %td
+              = @car.color
+          %tr
+            %td
+              Work Schedule:
+            %td
+              - if @car.work_schedule && @car.work_schedule.name
+                = link_to @car.work_schedule.name.capitalize, @car.work_schedule
+              - else 
+                This vehicle has no work schedule yet
         
 
 .row

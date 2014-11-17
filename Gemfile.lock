@@ -163,6 +163,8 @@ GEM
       activerecord (>= 3.0.0)
     formatador (0.2.4)
     fssm (0.2.10)
+    gelf (1.4.0)
+      json
     geocoder (1.2.0)
     gmaps4rails (2.1.2)
     gon (5.0.4)
@@ -220,6 +222,10 @@ GEM
       celluloid-io (>= 0.15.0)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
+    lograge (0.3.0)
+      actionpack (>= 3)
+      activesupport (>= 3)
+      railties (>= 3)
     lumberjack (1.0.5)
     mail (2.6.1)
       mime-types (>= 1.16, < 3)
@@ -440,6 +446,7 @@ DEPENDENCIES
   factory_girl_rails
   figaro
   font-awesome-rails
+  gelf
   geocoder
   gmaps4rails
   gon
@@ -456,6 +463,7 @@ DEPENDENCIES
   jquery-ui-rails
   less-rails
   letter_opener
+  lograge
   mailboxer
   mysql2
   nested_form
