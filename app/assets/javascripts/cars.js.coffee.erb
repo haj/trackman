@@ -35,11 +35,10 @@ $(document).ready ->
                 boxStyle:
                     width: "150px"
 
-
         if  gon.map_id != "cars_show"
             Cars.AllCars.show()
         else
-            Cars.Dates.initialize_filters()           
+            Cars.Dates.initialize_filters()   
             Cars.Maps.switch_to_directions()
 
             $(".switch_map_mode").click ->

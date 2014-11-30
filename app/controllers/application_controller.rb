@@ -5,15 +5,14 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_tenant
 
+  before_filter :set_current_tenant
+  before_filter :bootstrap
+  
+
   #around_filter :user_time_zone
 
-  before_filter do
-    gon.resource = nil
-  end
-
-  # set_current_tenant
-  before_filter do
-
+  # This will set the current tenant manually depending on the subdomain
+  def set_current_tenant
     company = Company.where(subdomain: request.subdomains.last).first
     if subdomain_present? && !company.nil?
       ActsAsTenant.current_tenant = company
@@ -31,17 +30,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
-  def not_found
-    raise ActionController::RoutingError.new('Not Found')
-  end
-
-  def subdomain_present?
-    !request.subdomains.last.nil?
-  end
-
-  def current_user_present?
-    !current_user.nil?
+  def bootstrap
+    gon.resource = nil
+    if current_user && current_user.company
+      @notifications = current_user.try(:company).try(:alarm_notifications).where(archived: false)
+      if @notifications.nil?
+        return Array.new
+      end
+    end
   end
 
   # cancan
@@ -56,17 +52,24 @@ class ApplicationController < ActionController::Base
 		params[resource] &&= send(method) if respond_to?(method, true)
 	end
 
-  before_filter do 
-    if current_user && current_user.company
-      @notifications = current_user.try(:company).try(:alarm_notifications).where(archived: false)
-      if @notifications.nil?
-        return Array.new
-      end
-    end
+  def not_found
+    raise ActionController::RoutingError.new('Not Found')
+  end
+
+  def subdomain_present?
+    !request.subdomains.last.nil?
+  end
+
+  def current_user_present?
+    !current_user.nil?
   end
 
   def test_exception_notifier
     raise 'This is for testing exception notification gem.'
+  end
+
+  def current_tenant
+    ActsAsTenant.current_tenant
   end
 
   
@@ -84,15 +87,15 @@ class ApplicationController < ActionController::Base
     end
 
     def guest_user_layout
-      if current_user.nil?
-        "guest"
+    if current_user.nil?
+      "guest"
       else
         "application"
       end
     end
 
-    def current_tenant
-      ActsAsTenant.current_tenant
-    end
+    
+
+    
 
 end

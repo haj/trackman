@@ -16,7 +16,10 @@
       %br/
       .row
         .col-md-12
-          - if Rails.env.development?
-            = "Current tenant #{ActsAsTenant.try(:current_tenant).try(:name)}"
-            %br/
-            = "Current User #{current_user}"
+          .row.login-container.animated.fadeInUp
+            .col-md-8.col-md-offset-2.tiles.white.no-padding
+              .p-t-30.p-l-40.p-b-20.xs-p-t-10.xs-p-l-10.xs-p-b-10
+                - if Rails.env.development? || Rails.env.test?
+                  = "Current tenant : #{ActsAsTenant.try(:current_tenant).try(:name)}"
+                  %br/
+                  = "Current User : #{current_user}"

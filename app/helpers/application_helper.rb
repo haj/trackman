@@ -28,4 +28,6 @@ module ApplicationHelper
 		gravatar_image_url(current_user.email.gsub('spam', 'mdeering'))
 	end
 
+	
+
 end

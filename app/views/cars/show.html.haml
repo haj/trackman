@@ -1,178 +1,181 @@
-.row
-  .col-md-12
-    .pull-right
-      = link_to "Edit", edit_car_path(@car) ,:class => "btn btn-success btn-small"
-      = button_tag "Switch Map view mode", :class => "switch_map_mode btn btn-default btn-small"
-
-%br/
-
-.row
-  .col-md-12
-    = form_tag '', :method => :get, :id => "filter_by_date" do
-      .grid.simple
-        .grid-body
-          .row
-            .col-lg-2.col-md-12.col-sm-12.col-xs-12
-              .form-group
-                .input-group
-                  .input-group-addon
-                    %i.fa.fa-th
-                  = text_field_tag "dates[start_date]", params.try(:[], :dates).try(:[], :start_date), class: "date start_date form-control"                  
-            .col-lg-2.col-md-12.col-sm-12.col-xs-12
-              .form-group
-                .input-group
-                  .input-group-addon
-                    %i.fa.fa-clock-o
-                  = text_field_tag "dates[start_time]", params.try(:[], :dates).try(:[], :start_time), class: "time start_time form-control"
-            .col-lg-2.col-md-12.col-sm-12.col-xs-12
-              %div{style: "text-align:center; margin-top:10px; margin-bottom:20px;"}= fa_icon "arrow-right"
-            .col-lg-2.col-md-12.col-sm-12.col-xs-12
-              .form-group
-                .input-group
-                  .input-group-addon
-                    %i.fa.fa-th
-                  = text_field_tag "dates[end_date]", params.try(:[], :dates).try(:[], :end_date), class: "date end_date form-control"
-            .col-lg-2.col-md-12.col-sm-12.col-xs-12
-              .form-group
-                .input-group
-                  .input-group-addon
-                    %i.fa.fa-clock-o
-                  = text_field_tag "dates[end_time]", params.try(:[], :dates).try(:[], :end_time) , class: "time end_time form-control"
-            .col-lg-2.col-md-12.col-sm-12.col-xs-12
-              = submit_tag 'Apply', :class => "btn btn-default btn-primary"
-
-.row
-  .col-md-8{style:"margin-bottom:10px"}
-    %div#cars_show{ :style => "width: 100%; height: 400px;"}
-  .col-md-4
-    .grid.simple.horizontal.green
-      .grid-title
-        %h4 About this vehicle
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-body
-        %table.table.table-bordered
-          %tr
-            %td
-              Name
-            %td 
-              = @car.try(:name)
-          %tr
-            %td
-              Driver
-            %td
-              - if @car.driver
-                = @car.try(:driver).try(:name)
-              - else 
-                Vehicle has no driver
-          %tr
-            %td
-              Mileage
-            %td
-              = @car.mileage
-          %tr
-            %td
-              Numberplate
-            %td
-              = @car.numberplate
-          %tr
-            %td
-              Device
-            %td
-              - if @car.device
-                = link_to @car.device.name, @car.device
-              - else
-                This vehicle has no device associated with it.
-          %tr
-            %td
-              Vehicle model
-            %td
-              = @car.try(:car_model).try(:name).try(:capitalize)
-          %tr
-            %td
-              Vehicle type
-            %td
-              = @car.try(:car_type).try(:name).try(:capitalize)
-          %tr
-            %td
-              Registration no
-            %td
-              = @car.registration_no
-          %tr
-            %td
-              Year
-            %td
-              = @car.year
-        
-          %tr
-            %td
-              Color
-            %td
-              = @car.color
-          %tr
-            %td
-              Work Schedule:
-            %td
-              - if @car.work_schedule && @car.work_schedule.name
-                = link_to @car.work_schedule.name.capitalize, @car.work_schedule
-              - else 
-                This vehicle has no work schedule yet
-        
-
-.row
-
-  .col-md-8
-    .grid.simple.horizontal.green 
-      .grid-title
-        %h4 Positions History
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-body
-        - if !@positions.nil? && @positions.count != 0
-          %table.table.no-more-tables
-            %thead
-              %tr
-                %th Address
-                %th Date
-            %tbody
-              
-              - @positions.each do |position|
-                %tr
-                  %td= position.try(:location).try(:address)
-                  %td= position[:time]
-        - else 
-          No positions available, Try to pick another time period.
-  .col-md-4
-    .grid.simple.horizontal.green 
-      .grid-title
-        %h4 Alarms
-        .tools
-          %a.collapse{href: "javascript:;"}
-      .grid-body
-        - if @alarms.count == 0 
-          This vehicle has no alarms attached to it.
-        - else
-          - @alarms.each do |alarm| 
-            %p
-              = alarm.name
-- if current_user.has_role?(:admin)
+- if !@car.has_device?
+  This car doesn't have a device connected to it. 
+- else 
   .row
     .col-md-12
-      .grid.simple.horizontal.green 
+      .pull-right
+        = link_to "Edit", edit_car_path(@car) ,:class => "btn btn-success btn-small"
+        = button_tag "Switch Map view mode", :class => "switch_map_mode btn btn-default btn-small"
+
+  %br/
+
+  .row
+    .col-md-12
+      = form_tag '', :method => :get, :id => "filter_by_date" do
+        .grid.simple
+          .grid-body
+            .row
+              .col-lg-2.col-md-12.col-sm-12.col-xs-12
+                .form-group
+                  .input-group
+                    .input-group-addon
+                      %i.fa.fa-th
+                    = text_field_tag "dates[start_date]", params.try(:[], :dates).try(:[], :start_date), class: "date start_date form-control"                  
+              .col-lg-2.col-md-12.col-sm-12.col-xs-12
+                .form-group
+                  .input-group
+                    .input-group-addon
+                      %i.fa.fa-clock-o
+                    = text_field_tag "dates[start_time]", params.try(:[], :dates).try(:[], :start_time), class: "time start_time form-control"
+              .col-lg-2.col-md-12.col-sm-12.col-xs-12
+                %div{style: "text-align:center; margin-top:10px; margin-bottom:20px;"}= fa_icon "arrow-right"
+              .col-lg-2.col-md-12.col-sm-12.col-xs-12
+                .form-group
+                  .input-group
+                    .input-group-addon
+                      %i.fa.fa-th
+                    = text_field_tag "dates[end_date]", params.try(:[], :dates).try(:[], :end_date), class: "date end_date form-control"
+              .col-lg-2.col-md-12.col-sm-12.col-xs-12
+                .form-group
+                  .input-group
+                    .input-group-addon
+                      %i.fa.fa-clock-o
+                    = text_field_tag "dates[end_time]", params.try(:[], :dates).try(:[], :end_time) , class: "time end_time form-control"
+              .col-lg-2.col-md-12.col-sm-12.col-xs-12
+                = submit_tag 'Apply', :class => "btn btn-default btn-primary"
+
+  .row
+    .col-md-8{style:"margin-bottom:10px"}
+      %div#cars_show{ :style => "width: 100%; height: 400px;"}
+    .col-md-4
+      .grid.simple.horizontal.green
         .grid-title
-          %h4 Simulate
+          %h4 About this vehicle
           .tools
             %a.collapse{href: "javascript:;"}
         .grid-body
-          .form-group
-            = button_to "Movement Alarm", movement_simulations_path(car_id: @car.id), class: "btn"
-          .form-group
-            = button_to "Speed Alarm", speeding_simulations_path(car_id: @car.id), class: "btn"
-          .form-group
-            = button_to "Long Pause Alarm", long_pause_simulations_path(car_id: @car.id), class: "btn"
-          .form-group
-            = button_to "Long Drive Alarm", long_driving_simulations_path(car_id: @car.id), class: "btn"
-          .form-group
-            = button_to "Entered Area Alarm", enter_area_simulations_path(car_id: @car.id), class: "btn"
-          .form-group
-            = button_to "Left Area Alarm", left_area_simulations_path(car_id: @car.id), class: "btn"
+          %table.table.table-bordered
+            %tr
+              %td
+                Name
+              %td 
+                = @car.try(:name)
+            %tr
+              %td
+                Driver
+              %td
+                - if @car.driver
+                  = @car.try(:driver).try(:name)
+                - else 
+                  Vehicle has no driver
+            %tr
+              %td
+                Mileage
+              %td
+                = @car.mileage
+            %tr
+              %td
+                Numberplate
+              %td
+                = @car.numberplate
+            %tr
+              %td
+                Device
+              %td
+                - if @car.device
+                  = link_to @car.device.name, @car.device
+                - else
+                  This vehicle has no device associated with it.
+            %tr
+              %td
+                Vehicle model
+              %td
+                = @car.try(:car_model).try(:name).try(:capitalize)
+            %tr
+              %td
+                Vehicle type
+              %td
+                = @car.try(:car_type).try(:name).try(:capitalize)
+            %tr
+              %td
+                Registration no
+              %td
+                = @car.registration_no
+            %tr
+              %td
+                Year
+              %td
+                = @car.year
+          
+            %tr
+              %td
+                Color
+              %td
+                = @car.color
+            %tr
+              %td
+                Work Schedule:
+              %td
+                - if @car.work_schedule && @car.work_schedule.name
+                  = link_to @car.work_schedule.name.capitalize, @car.work_schedule
+                - else 
+                  This vehicle has no work schedule yet
+          
+
+  .row
+
+    .col-md-8
+      .grid.simple.horizontal.green 
+        .grid-title
+          %h4 Positions History
+          .tools
+            %a.collapse{href: "javascript:;"}
+        .grid-body
+          - if !@positions.nil? && @positions.count != 0
+            %table.table.no-more-tables
+              %thead
+                %tr
+                  %th Address
+                  %th Date
+              %tbody
+                
+                - @positions.each do |position|
+                  %tr
+                    %td= position.try(:location).try(:address)
+                    %td= position[:time]
+          - else 
+            No positions available, Try to pick another time period.
+    .col-md-4
+      .grid.simple.horizontal.green 
+        .grid-title
+          %h4 Alarms
+          .tools
+            %a.collapse{href: "javascript:;"}
+        .grid-body
+          - if @alarms.count == 0 
+            This vehicle has no alarms attached to it.
+          - else
+            - @alarms.each do |alarm| 
+              %p
+                = alarm.name
+  - if current_user.has_role?(:admin)
+    .row
+      .col-md-12
+        .grid.simple.horizontal.green 
+          .grid-title
+            %h4 Simulate
+            .tools
+              %a.collapse{href: "javascript:;"}
+          .grid-body
+            .form-group
+              = button_to "Movement Alarm", movement_simulations_path(car_id: @car.id), class: "btn"
+            .form-group
+              = button_to "Speed Alarm", speeding_simulations_path(car_id: @car.id), class: "btn"
+            .form-group
+              = button_to "Long Pause Alarm", long_pause_simulations_path(car_id: @car.id), class: "btn"
+            .form-group
+              = button_to "Long Drive Alarm", long_driving_simulations_path(car_id: @car.id), class: "btn"
+            .form-group
+              = button_to "Entered Area Alarm", enter_area_simulations_path(car_id: @car.id), class: "btn"
+            .form-group
+              = button_to "Left Area Alarm", left_area_simulations_path(car_id: @car.id), class: "btn"

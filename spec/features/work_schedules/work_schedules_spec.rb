@@ -19,7 +19,4 @@ describe "device management" do
     page.should have_content("Sign out")
   end
 
-
-
-
 end
