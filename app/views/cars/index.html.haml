@@ -6,9 +6,8 @@
           Vehicles List
     .col-md-4.col-lg-4.col-sm-4.col-xs-4 
       .pull-right
-        = link_to 'Filter', "#", class: "btn btn-default toggle"
         = link_to 'Create', new_car_path, class: "btn btn-success"
-
+        = link_to 'Toggle Filters', "#", class: "btn btn-default toggle"
 
   
   .row.to-be-toggled
@@ -59,7 +58,7 @@
                       = "Without driver"
         .row
           .col-md-12
-            = submit_tag 'Apply Filters', :class => "btn btn-success"
+            .pull-right= submit_tag 'Apply Filters', :class => "btn btn-default"
   
   %br/
 

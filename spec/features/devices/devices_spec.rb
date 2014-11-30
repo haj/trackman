@@ -2,7 +2,7 @@ require "spec_helper"
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "device management" do
+describe "Device Management" do
 
   before (:each) do
     Traccar::User.create!({admin: true, login: "admin", password: "admin", userSettings_id: nil})    
@@ -11,17 +11,17 @@ describe "device management" do
 
   it "should allow to create new device" do     
     visit new_device_path
-    #page.should have_css('#device_name')
-
     fill_in "device_name", :with => "OldDevice"
     fill_in "device_emei", :with => "123456"
     select  "DeviceModel A", :from => "device_device_model_id"
     select  "DeviceType 1", :from => "device_device_type_id"
     fill_in "device_cost_price", :with => "12"
     click_button "Save"
+    puts "Devices"
+    puts Device.all.to_json
+    Device.where(name: "NewDevice").first.should exist
 
-    #Device.where(name: "NewDevice").should exist
-    page.should have_content("was successfully created")
+    page.should have_content("Was successfully created")
   end
 
   it "should allow to destroy a device" do 

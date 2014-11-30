@@ -6,7 +6,7 @@ $(document).ready ->
     Utils.Actions.batch_action("#destroy_cars",".car_checkbox")
 
     $(".toggle").click ->
-        $(".to-be-toggled").fadeToggle( "slow", "linear" )
+        $(".to-be-toggled").fadeToggle( "fast", "linear" )
 
     if (typeof gon != "undefined") && gon.resource == "cars"
         class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
