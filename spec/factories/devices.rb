@@ -13,8 +13,8 @@
 FactoryGirl.define do
 
   factory :device do
-  	name "123"
-    emei  "123"
+  	name "factoryDevice"
+    emei  "123456789"
     cost_price 1.5
     device_model_id 1
     device_type_id 1

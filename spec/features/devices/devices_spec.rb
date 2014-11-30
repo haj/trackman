@@ -2,14 +2,14 @@ require "spec_helper"
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "Device Management" do
+describe Device do
 
   before (:each) do
     Traccar::User.create!({admin: true, login: "admin", password: "admin", userSettings_id: nil})    
     device = FactoryGirl.create(:device)
   end
 
-  it "should allow to create new device" do     
+  it "Can be created", focus: true do     
     visit new_device_path
     fill_in "device_name", :with => "OldDevice"
     fill_in "device_emei", :with => "123456"
@@ -17,26 +17,23 @@ describe "Device Management" do
     select  "DeviceType 1", :from => "device_device_type_id"
     fill_in "device_cost_price", :with => "12"
     click_button "Save"
-    puts "Devices"
-    puts Device.all.to_json
-    Device.where(name: "NewDevice").first.should exist
-
-    page.should have_content("Was successfully created")
+    Device.where(name: "OldDevice").first.should_not be_nil
+    page.should have_content("was successfully created")
   end
 
-  it "should allow to destroy a device" do 
+  it "can be destroyed" do 
     visit devices_path
     page.status_code.should be 200
     # expect { click_link 'Destroy' }.to change(Device, :count).by(-1)
   end
 
-  it "should allow to list all devices" do 
+  it "can be listed" do 
     visit devices_path
     page.status_code.should be 200
     page.should have_content('Devices')
   end
 
-  it "should allow to edit a device" do 
+  it "can be updated" do 
     visit edit_device_path(Device.first)
 
     fill_in "device_name", :with => "NewDevice"

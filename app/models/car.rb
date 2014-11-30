@@ -62,9 +62,9 @@ class Car < ActiveRecord::Base
 
 		def self.cars_without_devices(car_id)
 			if car_id.nil?
-				Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL)")
+				Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL AND deleted_at IS NULL)")
 			else
-				Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL AND car_id != #{car_id})")
+				Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL AND car_id != #{car_id}) AND deleted_at IS NULL")
 			end
 		end
 

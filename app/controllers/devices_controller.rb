@@ -24,8 +24,6 @@ class DevicesController < ApplicationController
     end 
   end
 
-
-
   def index
     @q = apply_scopes(Device).all.search(params[:q])
     @devices = @q.result(distinct: true)
@@ -100,14 +98,13 @@ class DevicesController < ApplicationController
     redirect_to devices_path
   end
 
-  # DELETE /devices/1
-  # DELETE /devices/1.json
+
   def destroy
     # get traccar:device using device's emei
     traccar_user = Traccar::User.first
     traccar_device = Traccar::Device.where(uniqueId: @device.emei).first
-    
-    # remove join record 
+
+    # Remove join record 
     if traccar_device.users.delete(traccar_user)
       traccar_device.positions.delete_all
       traccar_device.delete
@@ -116,8 +113,6 @@ class DevicesController < ApplicationController
     else
       redirect_to @device, notice: "Device couldn't be destroyed."
     end
-
-    
   end
 
   private
