@@ -39,7 +39,7 @@ $(document).ready ->
             Cars.AllCars.show()
         else
             Cars.Dates.initialize_filters()   
-            Cars.Maps.switch_to_directions()
+            Cars.Maps.switch_to_pins()
 
             $(".switch_map_mode").click ->
                 if window.current_mode == "pins"

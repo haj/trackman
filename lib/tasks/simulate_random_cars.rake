@@ -4,8 +4,7 @@ namespace :simulate do
       r = Random.new
       random_speed = r.rand(0..90)
 
-  		if device.last_position.count == 0	
-        puts "device.last_position.count == 0"	
+  		if device.last_position.nil? || device.positions.count == 0
         # generate the first position for this device
         new_position = Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.85837, longitude: 2.294481, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: random_speed, time: Time.now, valid: true, device_id: device.id)
         device.positions << new_position

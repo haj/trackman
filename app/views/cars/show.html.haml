@@ -5,7 +5,7 @@
     .col-md-12
       .pull-right
         = link_to "Edit", edit_car_path(@car) ,:class => "btn btn-success btn-small"
-        = button_tag "Switch Map view mode", :class => "switch_map_mode btn btn-default btn-small"
+        = button_tag "Toggle map pins", :class => "switch_map_mode btn btn-default btn-small"
 
   %br/
 
@@ -46,7 +46,7 @@
 
   .row
     .col-md-8{style:"margin-bottom:10px"}
-      %div#cars_show{ :style => "width: 100%; height: 400px;"}
+      %div#cars_show{ :style => "width: 100%; height: 640px;"}
     .col-md-4
       .grid.simple.horizontal.green
         .grid-title
@@ -123,7 +123,6 @@
           
 
   .row
-
     .col-md-8
       .grid.simple.horizontal.green 
         .grid-title
@@ -135,14 +134,18 @@
             %table.table.no-more-tables
               %thead
                 %tr
+                  %th Time
                   %th Address
-                  %th Date
               %tbody
                 
                 - @positions.each do |position|
                   %tr
+                    %td
+                      .bold
+                        = "#{position.created_at.hour}:#{position.created_at.min}:#{position.created_at.sec}"
+                      = "#{position.created_at.day}/#{position.created_at.month}/#{position.created_at.year}"
                     %td= position.try(:location).try(:address)
-                    %td= position[:time]
+                    
           - else 
             No positions available, Try to pick another time period.
     .col-md-4
@@ -153,29 +156,29 @@
             %a.collapse{href: "javascript:;"}
         .grid-body
           - if @alarms.count == 0 
-            This vehicle has no alarms attached to it.
+            This vehicle has no alarms associated with it.
           - else
             - @alarms.each do |alarm| 
               %p
                 = alarm.name
-  - if current_user.has_role?(:admin)
-    .row
-      .col-md-12
-        .grid.simple.horizontal.green 
-          .grid-title
-            %h4 Simulate
-            .tools
-              %a.collapse{href: "javascript:;"}
-          .grid-body
-            .form-group
-              = button_to "Movement Alarm", movement_simulations_path(car_id: @car.id), class: "btn"
-            .form-group
-              = button_to "Speed Alarm", speeding_simulations_path(car_id: @car.id), class: "btn"
-            .form-group
-              = button_to "Long Pause Alarm", long_pause_simulations_path(car_id: @car.id), class: "btn"
-            .form-group
-              = button_to "Long Drive Alarm", long_driving_simulations_path(car_id: @car.id), class: "btn"
-            .form-group
-              = button_to "Entered Area Alarm", enter_area_simulations_path(car_id: @car.id), class: "btn"
-            .form-group
-              = button_to "Left Area Alarm", left_area_simulations_path(car_id: @car.id), class: "btn"
+  / - if current_user.has_role?(:admin)
+  /   .row
+  /     .col-md-12
+  /       .grid.simple.horizontal.green 
+  /         .grid-title
+  /           %h4 Simulate
+  /           .tools
+  /             %a.collapse{href: "javascript:;"}
+  /         .grid-body
+  /           .form-group
+  /             = button_to "Movement Alarm", movement_simulations_path(car_id: @car.id), class: "btn"
+  /           .form-group
+  /             = button_to "Speed Alarm", speeding_simulations_path(car_id: @car.id), class: "btn"
+  /           .form-group
+  /             = button_to "Long Pause Alarm", long_pause_simulations_path(car_id: @car.id), class: "btn"
+  /           .form-group
+  /             = button_to "Long Drive Alarm", long_driving_simulations_path(car_id: @car.id), class: "btn"
+  /           .form-group
+  /             = button_to "Entered Area Alarm", enter_area_simulations_path(car_id: @car.id), class: "btn"
+  /           .form-group
+  /             = button_to "Left Area Alarm", left_area_simulations_path(car_id: @car.id), class: "btn"
