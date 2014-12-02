@@ -3,7 +3,10 @@
     .p-t-30.p-l-40.p-b-20.xs-p-t-10.xs-p-l-10.xs-p-b-10
       %h2.normal 
         Sign in to
-        = ActsAsTenant.try(:current_tenant).try(:name).try(:capitalize)
+        - if ActsAsTenant.current_tenant.nil?
+          Trackman
+        - else
+          = ActsAsTenant.try(:current_tenant).try(:name).try(:capitalize)
       %p.p-b-20 Sign in with your Trackman credentials.
       = link_to "Login", root_path, {:class => "btn btn-primary btn-cons", :id => "login_toggle"}
       or  
