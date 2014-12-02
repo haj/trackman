@@ -4,10 +4,13 @@ Warden.test_mode!
 
 describe "User Sign in" do
 
+	include_context "sign_out"
+
 	before (:each) do
-	  logout(:user)
-	  ActsAsTenant.current_tenant = Company.first
-	  @user = FactoryGirl.create(:user) 	  
+		Capybara.default_host = 'http://demo.trackman.dev'
+	  	logout(:user)
+	  	ActsAsTenant.current_tenant = Company.first
+	  	@user = FactoryGirl.create(:user) 	  
 	end
 
 	it "shouldn't work if user in wrong subdomain", focus: true do 

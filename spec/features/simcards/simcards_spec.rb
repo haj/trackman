@@ -4,6 +4,9 @@ Warden.test_mode!
 
 describe "simcards management" do
 
+  include_context "sign_in"
+  include_context "sign_out"
+
   it "should allow to create new simcard" do     
     visit new_simcard_path
     page.status_code.should be 200

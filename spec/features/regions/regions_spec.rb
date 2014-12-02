@@ -4,9 +4,12 @@ Warden.test_mode!
 
 describe "Regions management" do
 
-    before (:each) do
-      region = FactoryGirl.create(:region)
-    end
+  include_context "sign_in"
+  include_context "sign_out"
+
+  before (:each) do
+    region = FactoryGirl.create(:region)
+  end
 
 
 

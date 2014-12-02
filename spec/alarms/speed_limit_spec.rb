@@ -1,15 +1,6 @@
-# == Schema Information
-#
-# Table name: rules
-#
-#  id          :integer          not null, primary key
-#  name        :string(255)
-#  method_name :string(255)
-#  created_at  :datetime
-#  updated_at  :datetime
-#
-
-require 'spec_helper'
+require "spec_helper"
+include Warden::Test::Helpers
+Warden.test_mode!
 
 describe "Speed limit" do
 

@@ -2,7 +2,10 @@ require "spec_helper"
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "Alarms management" do
+describe Alarm do
+
+  include_context "sign_in"
+  include_context "sign_out"
 
   before (:each) do
     alarm = FactoryGirl.create(:alarm)

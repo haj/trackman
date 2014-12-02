@@ -2,10 +2,7 @@ require "spec_helper"
 
 describe "User Registration" do
 
-	before(:each) do 
-		logout(:user)
-	end
-
+	include_context "sign_out"
 
 	it "allows new users to register companies" do
 		visit new_user_registration_path

@@ -4,9 +4,12 @@ Warden.test_mode!
 
 describe Device do
 
+  include_context "sign_in"
+  include_context "sign_out"
+
   before (:each) do
     Traccar::User.create!({admin: true, login: "admin", password: "admin", userSettings_id: nil})    
-    device = FactoryGirl.create(:device)
+    @device = FactoryGirl.create(:device)
   end
 
   it "Can be created", focus: true do     
@@ -21,24 +24,22 @@ describe Device do
     page.should have_content("was successfully created")
   end
 
-  it "can be destroyed" do 
+  it "User can destroy device" do 
     visit devices_path
     page.status_code.should be 200
     # expect { click_link 'Destroy' }.to change(Device, :count).by(-1)
   end
 
-  it "can be listed" do 
+  it "User can list devices" do 
     visit devices_path
     page.status_code.should be 200
     page.should have_content('Devices')
   end
 
-  it "can be updated" do 
-    visit edit_device_path(Device.first)
-
+  it "User can update device" do 
+    visit edit_device_path(@device)
     fill_in "device_name", :with => "NewDevice"
     click_button "Save"
-
     page.should have_content('Sign out')
     Device.where(name: "OldDevice").should_not exist
     Device.where(name: "NewDevice").should exist

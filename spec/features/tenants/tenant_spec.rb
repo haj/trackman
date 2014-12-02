@@ -4,8 +4,12 @@ Warden.test_mode!
 
 describe "Tenancy" do
 
+  include_context "sign_out"
+
   before (:each) do
-    logout(:user)
+    Capybara.default_host = 'http://demo.trackman.dev'
+    company = Company.first
+    ActsAsTenant.current_tenant = company
     @user = FactoryGirl.create(:user) 
   end
 

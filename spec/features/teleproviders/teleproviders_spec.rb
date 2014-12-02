@@ -3,10 +3,13 @@ include Warden::Test::Helpers
 Warden.test_mode!
 
 describe "Teleproviders management" do
-
-    before (:each) do
-      teleprovider = FactoryGirl.create(:teleprovider)
-    end
+  
+  include_context "sign_in"
+  include_context "sign_out"
+  
+  before (:each) do
+    teleprovider = FactoryGirl.create(:teleprovider)
+  end
 
   it "should allow to create new teleprovider" do     
     visit new_teleprovider_path

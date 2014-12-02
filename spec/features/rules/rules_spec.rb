@@ -4,9 +4,12 @@ Warden.test_mode!
 
 describe "Rules management" do
 
-    before (:each) do
-      rule = FactoryGirl.create(:rule)
-    end
+  include_context "sign_in"
+  include_context "sign_out"
+
+  before (:each) do
+    rule = FactoryGirl.create(:rule)
+  end
 
   it "should allow to create new rule" do     
     visit new_rule_path

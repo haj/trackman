@@ -2,11 +2,14 @@ require "spec_helper"
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "device management" do
+describe DeviceType do
 
-    before (:each) do
-      device_type = FactoryGirl.create(:device_type)
-    end
+  include_context "sign_in"
+  include_context "sign_out"
+
+  before (:each) do
+    device_type = FactoryGirl.create(:device_type)
+  end
 
   it "should allow to create new device type" do     
     visit new_device_type_path

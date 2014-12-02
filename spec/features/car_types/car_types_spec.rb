@@ -2,8 +2,11 @@ require "spec_helper"
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "device management" do
+describe CarType do
   
+  include_context "sign_in"
+  include_context "sign_out"
+    
   before (:each) do
     car_type = FactoryGirl.create(:car_type)
   end
@@ -35,7 +38,7 @@ describe "device management" do
     # page.should have_content('CarType')
   end
 
-  it "should allow to edit a car type" do 
+  it "User can edit a Car type" do
     visit edit_car_type_path(CarType.first)
     page.status_code.should be 200
     # page.should have_css('#car_type_name')

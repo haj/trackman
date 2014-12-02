@@ -17,21 +17,22 @@ class Ability
   end
 
   def manager
-    can :access, :rails_admin
-    can :dashboard
-    can :invite, User
-    can :manage, User
-    employee 
-    can :manage, [Device, Car, Simcard]
-    can :show, Company, :id => @user.company_id
-    can :update, Company, :id => @user.company_id
-    can :destroy, Company, :id => @user.company_id
-    can :manage, [Alarm, Rule]
-    can :manage, Region
-    can :read, Plan
-    can :manage, Subscription
-    can :manage, WorkHour
-    can :manage, AlarmNotification
+    can :manage, :all
+    # can :access, :rails_admin
+    # can :dashboard
+    # can :invite, User
+    # can :manage, User
+    # can :manage, [Device, Car, Simcard]
+    # can :show, Company, :id => @user.company_id
+    # can :update, Company, :id => @user.company_id
+    # can :destroy, Company, :id => @user.company_id
+    # can :manage, [Alarm, Rule]
+    # can :manage, Region
+    # can :read, Plan
+    # can :manage, Subscription
+    # can :manage, WorkHour
+    # can :manage, AlarmNotification
+    # employee 
   end
 
   def employee

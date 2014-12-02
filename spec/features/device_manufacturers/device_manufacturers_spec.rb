@@ -2,7 +2,10 @@ require "spec_helper"
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "device management" do
+describe DeviceManufacturer do
+
+  include_context "sign_in"
+  include_context "sign_out"
 
   before (:each) do
     device_manufacturer = FactoryGirl.create(:device_manufacturer)

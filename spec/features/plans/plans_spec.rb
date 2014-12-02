@@ -4,9 +4,12 @@ Warden.test_mode!
 
 describe "plans management" do
 
-    before (:each) do    
-      plan = FactoryGirl.create(:plan)
-    end
+  include_context "sign_in"
+  include_context "sign_out"
+
+  before (:each) do    
+    plan = FactoryGirl.create(:plan)
+  end
 
 
   it "should allow to create new plan" do     

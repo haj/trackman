@@ -19,18 +19,6 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
 
-  config.before(:each) do
-    Capybara.default_host = 'http://demo.trackman.dev'
-    user = FactoryGirl.create(:manager) 
-    login_as user, scope: :user
-    ActsAsTenant.current_tenant = Company.first
-  end
-
-  config.after(:all) do
-    logout(:user)
-    ActsAsTenant.current_tenant = nil
-  end
-
   config.include Rails.application.routes.url_helpers
   config.include Devise::TestHelpers, :type => :controller
   config.extend ControllerMacros, :type => :controller

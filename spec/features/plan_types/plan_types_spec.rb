@@ -4,12 +4,15 @@ Warden.test_mode!
 
 describe "Plan types management" do
 
-    before (:each) do
-      plan_type = FactoryGirl.create(:plan_type)
-    end
+  include_context "sign_in"
+  include_context "sign_out"
+
+  before (:each) do
+    plan_type = FactoryGirl.create(:plan_type)
+  end
 
 
-  it "should allow to create new plan_type" do     
+  pending "should allow to create new plan_type" do     
     visit new_plan_type_path
     page.status_code.should be 200
     # page.should have_css('#plan_type_name')

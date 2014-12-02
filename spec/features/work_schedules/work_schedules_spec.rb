@@ -2,7 +2,10 @@ require "spec_helper"
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "device management" do
+describe WorkSchedule do
+
+  include_context "sign_in"
+  include_context "sign_out"
 
   it "should allow to create new device" do 
     visit new_work_schedule_path

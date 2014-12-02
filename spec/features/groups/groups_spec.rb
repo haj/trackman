@@ -4,6 +4,9 @@ Warden.test_mode!
 
 describe "group management" do
 
+  include_context "sign_in"
+  include_context "sign_out"
+
   before (:each) do
     group = FactoryGirl.create(:group)
   end
