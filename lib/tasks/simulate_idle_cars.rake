@@ -1,3 +1,5 @@
+# This will go over each device in the Traccar database and generate positions 
+# so it would look like the car using this device is idle
 namespace :simulate do
   task :idle_cars => :environment do
   	Traccar::Device.all.each do |device|

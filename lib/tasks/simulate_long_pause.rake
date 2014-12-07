@@ -1,3 +1,5 @@
+# This will go over each device in the Traccar database and generate positions 
+# so it would look like the car using this device was involved in a long pause by the driver
 namespace :simulate do
   task :long_pause => :environment do
   	time = Time.now

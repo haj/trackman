@@ -1,3 +1,5 @@
+# This will go over each device in the Traccar database and generate positions 
+# so it would look like the car using this device was being used for long hours
 namespace :simulate do
   task :long_hours => :environment do
   	time = Time.now

@@ -26,7 +26,7 @@ describe Car do
     page.should have_content("was successfully created")
   end
 
-  it "should link car with device" do 
+  pending "should link car with device" do 
     visit new_car_path
     page.should have_content("Sign out")
     fill_in "car_name", :with => "OldCar"
@@ -47,8 +47,6 @@ describe Car do
     select  "DeviceType 1", :from => "device_device_type_id"
     fill_in "device_cost_price", :with => "12"
     click_button "Save"
-
-    
 
   end
 

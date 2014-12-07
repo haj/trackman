@@ -1,3 +1,5 @@
+# This will go over each device in the Traccar database and generate positions 
+# so it would look like the car using this device left a certain area
 namespace :simulate do
   task :left_area => :environment do
   	Traccar::Device.all.each do |device|

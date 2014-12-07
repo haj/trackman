@@ -1,3 +1,5 @@
+# This will pick the first device in the Traccar db and generate few positions 
+# to make the car look like it's been moving
 namespace :simulate do
   task :moving_cars => :environment do
 
