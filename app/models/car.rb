@@ -199,6 +199,7 @@ class Car < ActiveRecord::Base
 			end
 
 
+	# dates = {start_date, start_time, end_date, end_time}
 	def positions_with_dates(dates)
 		if dates.nil?
 			self.device.traccar_device.positions.order("time DESC").take(30)
