@@ -3,9 +3,7 @@ include Warden::Test::Helpers
 Warden.test_mode!
 
 describe Car do
-
   
-
   describe "Cars#show" do 
     include_context "sign_in"
     include_context "sign_out"
