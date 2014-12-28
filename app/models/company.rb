@@ -16,8 +16,8 @@ class Company < ActiveRecord::Base
 	before_save { |company| company.subdomain = company.subdomain.downcase }
 
 
-	validates :name, uniqueness: { case_sensitive: false }
-	validates :subdomain, uniqueness: { case_sensitive: false }
+	validates :name, uniqueness: { case_sensitive: false }, presence: true
+	validates :subdomain, uniqueness: { case_sensitive: false }, presence: true
 
 	has_many :users, :dependent => :destroy 
 	has_many :cars, :dependent => :destroy
@@ -28,9 +28,9 @@ class Company < ActiveRecord::Base
 	has_many :subscriptions
 	has_many :alarm_notifications
 
-	before_save :setup_plan
+	before_save :setup_default_plan
 
-  	def setup_plan
+  	def setup_default_plan
     	if !Plan.first.nil?
 			self.plan_id = Plan.first.id
 		end	

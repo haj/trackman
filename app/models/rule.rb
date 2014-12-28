@@ -123,6 +123,7 @@ class Rule < ActiveRecord::Base
 			duration_threshold = params["threshold"].to_i #in minutes
 			previous_state = states.first
 			duration_sum = 0 
+
 			states.each do |car_current_state| 
 				if car_current_state.moving == true #car is moving
 					duration_sum += (car_current_state.created_at  - previous_state.created_at)/60 #convert to minutes
@@ -135,6 +136,7 @@ class Rule < ActiveRecord::Base
 				end
 				previous_state = car_current_state
 			end
+
 			return false
 		end
 
@@ -223,7 +225,7 @@ class Rule < ActiveRecord::Base
 			end
 		end
 
-		# TODO : Vehicle outside planned route
+		# TODO : Vehicle moving outside planned route
 		def left_planned_route(car_id, params)
 
 		end

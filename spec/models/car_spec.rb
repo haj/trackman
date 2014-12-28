@@ -66,7 +66,7 @@ describe Car do
 		    end 
 		end
 
-		it "should return at least one position" do 
+		it "Should return at least one position" do 
 		    dates = Hash.new
 		    dates[:start_date] = "4/12/2014"
 		    dates[:start_time] = "08:15"
@@ -76,7 +76,7 @@ describe Car do
 		    expect(result.count).to_not eq(0)
 		end
 
-		it "should return at no positions" do 
+		it "Should return at no positions" do 
 		    dates = Hash.new
 		    dates[:start_date] = "4/12/2014"
 		    dates[:start_time] = "07:15"

@@ -38,14 +38,12 @@ class User < ActiveRecord::Base
 	:recoverable, :rememberable, :trackable, :validatable, :async
 
 	scope :by_role, -> role_name { where(roles_mask: self.mask_values_for(role_name.to_sym)) }
-	
-	
-
 
 	acts_as_messageable
 
 	acts_as_tenant(:company)
 	validates_uniqueness_to_tenant :email
+	validates :first_name, :last_name, :presence => true
 	belongs_to :company
 	belongs_to :car
 

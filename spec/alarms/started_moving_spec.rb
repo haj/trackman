@@ -46,7 +46,7 @@ describe "Started Moving Alarm" do
 		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: Time.zone.now + 30.minutes)
 
 		Timecop.freeze(Time.zone.now + 31.minutes) do
-			puts Alarm::Movement.vehicle_stopped(@car)
+			#puts Alarm::Movement.vehicle_stopped(@car)
 			@rule.starts_moving(@car.id, nil).should equal(true)
 		end
 

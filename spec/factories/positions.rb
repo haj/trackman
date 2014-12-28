@@ -20,15 +20,18 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :position do
+  factory :position, :class => Traccar::Position do
     address "MyString"
     altitude 1.5
     course 1.5
-    latitude 1.5
-    longitude 1.5
+    latitude 48.856614
+    longitude 2.352222
     other "MyString"
     power 1.5
-    speed 1.5
+    speed 60.0
     device_id 1
+    valid true
+    time Time.zone.now
+    
   end
 end

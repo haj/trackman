@@ -110,8 +110,6 @@ class Car < ActiveRecord::Base
 		end
 
 
-		
-
 	# Has?
 
 		def has_device?
@@ -154,7 +152,9 @@ class Car < ActiveRecord::Base
 			# return if the we're receiving data or not from the car
 			def no_data?
 				# check if last time a new position reported is longer than x minutes
-				return !self.has_device? || self.device.no_data?
+				has_no_device = !self.has_device?
+				has_no_data = self.device.no_data?
+				return has_no_device || has_no_data
 			end
 
 			def speed

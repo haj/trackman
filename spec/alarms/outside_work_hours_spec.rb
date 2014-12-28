@@ -29,9 +29,15 @@ describe "Outside Work Hours Alarm" do
   		Device.destroy_all
   	end
 
-  	it "should trigger off alarm when vehicle used outside work hours" do
+  	it "Should trigger off alarm when vehicle used outside work hours" do
 		trigger_time = Time.zone.parse(Chronic.parse('sunday 8:00').to_s)
-  		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 60.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
+
+  		@traccar_device.positions << FactoryGirl.create(:position, 
+  			speed: 60.0, 
+  			time: trigger_time,
+  			created_at: trigger_time,
+  			device_id: @traccar_device.id)
+
 		@rule.movement_not_authorized(@car.id, { }).should equal(true)
 
 		Timecop.freeze(trigger_time + 16.minutes) do
@@ -41,7 +47,11 @@ describe "Outside Work Hours Alarm" do
 
 	it "shouldn't trigger off alarm when vehicle used during work hours" do
 		trigger_time = Time.zone.parse(Chronic.parse('monday 9:00').to_s)
-  		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
+		@traccar_device.positions << FactoryGirl.create(:position, 
+  			speed: 60.0, 
+  			time: trigger_time,
+  			created_at: trigger_time,
+  			device_id: @traccar_device.id)		
 		@rule.movement_not_authorized(@car.id, { }).should equal(false)
 
 		Timecop.freeze(trigger_time + 16.minutes) do
@@ -60,8 +70,16 @@ describe "Outside Work Hours Alarm" do
 
 	it "shouldn't trigger off alarm when vehicle not moving" do
 		trigger_time = Time.zone.parse(Chronic.parse('monday 9:00').to_s)
-  		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
-		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: trigger_time, created_at: trigger_time, valid: true, device_id: @traccar_device.id)
+		@traccar_device.positions << FactoryGirl.create(:position, 
+  			speed: 60.0, 
+  			time: trigger_time,
+  			created_at: trigger_time,
+  			device_id: @traccar_device.id)
+		@traccar_device.positions << FactoryGirl.create(:position, 
+  			speed: 60.0, 
+  			time: trigger_time,
+  			created_at: trigger_time,
+  			device_id: @traccar_device.id)
 		@rule.movement_not_authorized(@car.id, { }).should equal(false)
 	end
 

@@ -4,7 +4,7 @@ Warden.test_mode!
 
 describe "Speed limit" do
 
-	before(:all) do
+	before(:each) do
 		Time.zone = "GMT"
 		@car = FactoryGirl.create(:car, numberplate: "123")	
 		@device = FactoryGirl.create(:device, name: "Device", emei: @car.numberplate, car_id: @car.id)
@@ -19,30 +19,54 @@ describe "Speed limit" do
 
   	after(:all) do
   		Device.destroy_all
+  		Traccar::Position.destroy_all
   	end
 
-  	it "should trigger alarm when speed > X km/h" do 	
-		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 70.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
-		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(true)
-		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 50.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
-		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(false)
+  	it "Should trigger alarm when speed > X km/h" do 	
+		@traccar_device.positions << FactoryGirl.create(:position, speed: 70.0, device_id: @traccar_device.id)
+		@rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" }).should equal(true)
+		@traccar_device.positions << FactoryGirl.create(:position, speed: 50.0, device_id: @traccar_device.id)
+		@rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" }).should equal(false)
 	end	
 
-	it "shouldn't trigger alarm when no data received from vehicle" do
-		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(false)
+	it "Shouldn't trigger alarm when no data received from vehicle" do
+		Traccar::Position.destroy_all
+		@rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" }).should equal(false)
 	end
 
-	it "shouldn't trigger alarm when vehicle not moving" do
+	it "Shouldn't trigger alarm when vehicle not moving" do
 		State.destroy_all
-		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 1.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
-		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 1.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
- 		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(false)
+		@traccar_device.positions << FactoryGirl.create(:position, speed: 50.0, device_id: @traccar_device.id)
+		@traccar_device.positions << FactoryGirl.create(:position, speed: 50.0, device_id: @traccar_device.id)
+ 		@rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" }).should equal(false)
 	end
 
-	it "shouldn't trigger alarm if speed < 60 km/h" do 
-		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 50.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
-		@rule.speed_limit(@car.id, { "speed" => 60 }).should equal(false)
+	it "Shouldn't trigger alarm if speed < 60 km/h" do 
+		@traccar_device.positions << FactoryGirl.create(:position, speed: 50.0, device_id: @traccar_device.id)
+		@rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" }).should equal(false)
 	end
+
+	it "Shouldn't trigger alarm two times if repeat notification time didn't elapse yet " do 
+		@traccar_device.positions << FactoryGirl.create(:position, speed: 70.0, device_id: @traccar_device.id)
+		@rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" }).should equal(true)
+		
+		Timecop.freeze(Time.zone.now + 9.minutes) do
+			@traccar_device.positions << FactoryGirl.create(:position, speed: 70.0, device_id: @traccar_device.id)
+			@rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" }).should equal(false)
+		end 
+	end
+
+	it "Should trigger alarm if repeat notification elapsed" do
+		@traccar_device.positions << FactoryGirl.create(:position, speed: 70.0, device_id: @traccar_device.id)
+		@rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" }).should equal(true)
+
+		Timecop.freeze(Time.zone.now + 11.minutes) do
+			@traccar_device.positions << FactoryGirl.create(:position, speed: 70.0, device_id: @traccar_device.id)
+			@rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" }).should equal(true)
+		end 
+	end
+
+
 
 	
 
