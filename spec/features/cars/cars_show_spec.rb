@@ -24,7 +24,13 @@ describe Car do
       end 
     end
 
-    it "should list positions when user select period where there was positions" do
+    it "Should show some positions by default" do
+      visit car_path(@car) 
+      expect(page).to_not have_content("No positions available for this period") 
+      expect(page).to have_content("Address")
+    end
+
+    it "Should list positions when user select period where there was positions" do
       visit car_path(@car) 
       fill_in "dates_start_date", with: "4/12/2014"
       fill_in "dates_start_time", with: "08:15"
@@ -34,7 +40,7 @@ describe Car do
       expect(page).to_not have_content("No positions available for this period")
     end
 
-    it "should list positions when user select period where there was positions" do
+    it "Shouldn't list positions when user select period where there was positions" do
       visit car_path(@car) 
       # select first day positions with filter        
       fill_in "dates_start_date", with: "4/12/2014"

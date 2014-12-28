@@ -176,15 +176,41 @@
             .tools
               %a.collapse{href: "javascript:;"}
           .grid-body
-            .form-group
-              = button_to "Detect Movement Alarm", movement_simulations_path(car_id: @car.id), class: "btn"
-            .form-group
-              = button_to "Speed limit Alarm", speeding_simulations_path(car_id: @car.id), class: "btn"
-            .form-group
-              = button_to "Long Pause Alarm", long_pause_simulations_path(car_id: @car.id), class: "btn"
-            .form-group
-              = button_to "Long Drive Alarm", long_driving_simulations_path(car_id: @car.id), class: "btn"
-            .form-group
-              = button_to "Entered Area Alarm", enter_area_simulations_path(car_id: @car.id), class: "btn"
-            .form-group
-              = button_to "Left Area Alarm", left_area_simulations_path(car_id: @car.id), class: "btn"
+            %table.table
+              %tr 
+                %th
+                  Action
+                %th 
+                  Description
+              %tr
+                %td
+                  = button_to "Detect Movement Alarm", movement_simulations_path(car_id: @car.id), class: "btn"
+                %td 
+                  Simulate car in stopped state, then starts moving
+              %tr
+                %td
+                  = button_to "Speed limit Alarm", speeding_simulations_path(car_id: @car.id), class: "btn"
+                %td
+                  Simulate car moving at 70km/h
+              %tr
+                %td
+                  = button_to "Long Pause Alarm", long_pause_simulations_path(car_id: @car.id), class: "btn"
+                %td
+                  Simulate Driver took a long pause
+              %tr
+                %td
+                  = button_to "No Pause Alarm", long_driving_simulations_path(car_id: @car.id), class: "btn"
+                %td
+                  Simulate Driver took no pause and been driving for long hours
+              %tr
+                %td
+                  = button_to "Entered Area Alarm", enter_area_simulations_path(car_id: @car.id), class: "btn", disabled: "disabled"
+                %td
+                  Description
+              %tr
+                %td
+                  = button_to "Left Area Alarm", left_area_simulations_path(car_id: @car.id), class: "btn", disabled: "disabled"
+                %td
+                  Description
+
+            
