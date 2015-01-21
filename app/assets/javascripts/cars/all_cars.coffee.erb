@@ -26,10 +26,6 @@ class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
 
 
 @module "Cars", ->
-    
-
-
-    
     class @AllCars
         @show : () ->
             handler = Gmaps.build("Google", builders: { Marker: CustomMarkerBuilder } )

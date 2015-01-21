@@ -5,7 +5,7 @@
     .col-md-12
       .pull-right
         = link_to "Edit", edit_car_path(@car) ,:class => "btn btn-success btn-small"
-        = button_tag "Toggle map pins", :class => "switch_map_mode btn btn-default btn-small"
+        = button_tag "Toggle view mode", :class => "switch_map_mode btn btn-default btn-small"
 
   %br/
 
@@ -140,7 +140,7 @@
             %table.table.no-more-tables
               %thead
                 %tr
-                  %th Time
+                  %th Date
                   %th Address
               %tbody
                 
@@ -166,7 +166,7 @@
           - else
             - @alarms.each do |alarm| 
               %p
-                = alarm.name
+                = link_to alarm.name, alarm
   - if current_user.has_role?(:admin)
     .row
       .col-md-12

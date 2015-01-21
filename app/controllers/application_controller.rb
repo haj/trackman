@@ -87,8 +87,8 @@ class ApplicationController < ActionController::Base
     end
 
     def guest_user_layout
-    if current_user.nil?
-      "guest"
+      if current_user.nil?
+        "guest"
       else
         "application"
       end
