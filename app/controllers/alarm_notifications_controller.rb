@@ -5,7 +5,7 @@ class AlarmNotificationsController < ApplicationController
 
 
   def index
-    @alarm_notifications = AlarmNotification.where(archived: false).order("created_at DESC")
+    @alerts = AlarmNotification.where(archived: false).order("created_at DESC")
   end
 
   def show

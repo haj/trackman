@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     end
   end
 
+  # just a dummy path to test exception notifier 
   get 'test_exception_notifier' => 'application#test_exception_notifier'
 
   resources :subscriptions do 
@@ -30,7 +31,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :alarm_notifications do 
+  resources :alarm_notifications, :path => 'alerts' do 
     member do 
       get 'archive'
     end
