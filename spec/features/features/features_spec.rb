@@ -8,7 +8,7 @@ describe "device management" do
   include_context "sign_in"
   include_context "sign_out"
 
-  pending "should allow to create new device" do 
+  skip "should allow to create new device" do 
     visit new_device_path
     page.status_code.should be 200
     # page.should have_css('#device_name')

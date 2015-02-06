@@ -12,7 +12,7 @@ describe "Plan types management" do
   end
 
 
-  pending "should allow to create new plan_type" do     
+  skip "should allow to create new plan_type" do     
     visit new_plan_type_path
     page.status_code.should be 200
     # page.should have_css('#plan_type_name')

@@ -23,7 +23,7 @@ describe DeviceManufacturer do
     # page.should have_content("Device manufacturer was successfully created")
   end
 
-  pending "should allow to destroy a device manufacturer" do 
+  skip "should allow to destroy a device manufacturer" do 
     visit device_manufacturers_path
     page.status_code.should be 200
     # expect { click_link 'Destroy' }.to change(DeviceManufacturer, :count).by(-1)

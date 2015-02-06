@@ -11,7 +11,7 @@ describe Alarm do
     alarm = FactoryGirl.create(:alarm)
   end
 
-  pending "should allow to create a new alarm" do 
+  skip "should allow to create a new alarm" do 
     visit new_alarm_path
     page.status_code.should be 200
   end

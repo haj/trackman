@@ -26,7 +26,7 @@ describe Car do
     page.should have_content("was successfully created")
   end
 
-  pending "should link car with device" do 
+  skip "should link car with device" do 
     visit new_car_path
     page.should have_content("Sign out")
     fill_in "car_name", :with => "OldCar"

@@ -24,13 +24,14 @@ describe Car do
       end 
     end
 
-    it "Should show the exact positions between two dates (and previous or later dates)" do
+    it "Should show the exact positions between two dates (and previous or later dates)", focus: true do
       visit car_path(@car) 
       fill_in "dates_start_date", with: "4/12/2014"
       fill_in "dates_start_time", with: "08:15"
       fill_in "dates_end_date", with: "4/12/2014"
       fill_in "dates_end_time", with: "09:00"
       click_button "Apply" 
+      save_and_open_page
       expect(page).to have_content("8:15")
       expect(page).to_not have_content("8:00")
     end

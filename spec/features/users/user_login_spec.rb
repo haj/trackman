@@ -23,7 +23,7 @@ describe "User Sign in" do
 		page.should have_content('Sign in')
 	end
 
-	pending "should work if user is connecting through the correct subdomain" do
+	skip "should work if user is connecting through the correct subdomain" do
 		Capybara.default_host = 'http://demo.trackman.dev'
 		visit new_user_session_path
 		fill_in "user_email", :with => @user.email

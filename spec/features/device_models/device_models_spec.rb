@@ -23,7 +23,7 @@ describe DeviceModel do
     # page.should have_content("Device model was successfully created")
   end
 
-  pending "should allow to destroy a device model" do 
+  skip "should allow to destroy a device model" do 
     visit device_models_path
     page.status_code.should be 200
     # expect { click_link 'Destroy' }.to change(DeviceModel, :count).by(-1)
