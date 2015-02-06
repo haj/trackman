@@ -22,6 +22,7 @@
 .DS_Store
 
 /config/application.yml
+/coverage/**
 /coverage/*
 
 /.vagrant
