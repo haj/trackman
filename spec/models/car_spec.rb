@@ -48,9 +48,10 @@ describe Car do
 		    @device = FactoryGirl.create(:device, car_id: @car.id)
 		    @traccar_device = Traccar::Device.create(name: @device.name, uniqueId: @device.emei)
 		    @traccar_device.users << Traccar::User.first
+
 		    @positions = @device.traccar_device.positions
 
-		    first_day = Time.zone.parse(Chronic.parse('4 dec 8:00 am').to_s)
+		    first_day = Time.zone.parse(Chronic.parse('4 dec 2014 8:00 am').to_s)
 		    
 		    5.times do |i| 
 		      @positions << Traccar::Position.create( 
@@ -66,7 +67,7 @@ describe Car do
 		    end 
 		end
 
-		it "Should return at least one position" do 
+		it "Should return at least one position", focus: true do 
 		    dates = Hash.new
 		    dates[:start_date] = "4/12/2014"
 		    dates[:start_time] = "08:15"
@@ -83,6 +84,7 @@ describe Car do
 		    dates[:end_date] = "4/12/2014"
 		    dates[:end_time] = "07:55"
 		    result = @car.positions_with_dates(dates)
+		    puts result
 		    expect(result.count).to eq(0)
 		end
 

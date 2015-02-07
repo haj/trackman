@@ -8,7 +8,7 @@ describe Car do
     include_context "sign_in"
     include_context "sign_out"
 
-    before (:all) do #revert to each if it doesn't work
+    before (:each) do #revert to all if it doesn't work
       Time.zone = "GMT" 
       Traccar::Device.destroy_all
       @car = FactoryGirl.create(:car)
@@ -16,7 +16,7 @@ describe Car do
       @traccar_device = Traccar::Device.create(name: @device.name, uniqueId: @device.emei)
       @traccar_device.users << Traccar::User.first
       @positions = @device.traccar_device.positions
-      first_day = Time.zone.parse(Chronic.parse('4 dec 8:00 am').to_s)
+      first_day = Time.zone.parse(Chronic.parse('4 dec 2014 8:00 am').to_s)
       5.times do |i| 
         @positions << FactoryGirl.create(:position, time: first_day, created_at: first_day, device_id: @traccar_device.id)
         # move time by 15 minutes
@@ -24,14 +24,13 @@ describe Car do
       end 
     end
 
-    it "Should show the exact positions between two dates (and previous or later dates)", focus: true do
+    it "Should show the exact positions between two dates (and previous or later dates)" do
       visit car_path(@car) 
       fill_in "dates_start_date", with: "4/12/2014"
       fill_in "dates_start_time", with: "08:15"
       fill_in "dates_end_date", with: "4/12/2014"
       fill_in "dates_end_time", with: "09:00"
       click_button "Apply" 
-      save_and_open_page
       expect(page).to have_content("8:15")
       expect(page).to_not have_content("8:00")
     end

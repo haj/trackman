@@ -35,7 +35,13 @@ class Traccar::Position < ActiveRecord::Base
     end
   end
 
-  after_validation :reverse_geocode
+  after_validation :reverse_code
+
+  def reverse_code
+    if !Rails.env.test? 
+      self.reverse_geocode
+    end
+  end
 
   def car
     Device.where(emei: self.device.uniqueId).first.car
