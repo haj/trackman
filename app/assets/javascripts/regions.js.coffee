@@ -32,7 +32,7 @@ $(document).ready ->
 			region_name = $('#name').val()
 
 			for marker in markers 
-				super_awesome_array[i] = {latitude: marker.position['A'], longitude: marker.position['k'] }
+				super_awesome_array[i] = {latitude: marker.position['k'], longitude: marker.position['C'] }
 				i++ 
 
 			console.log(super_awesome_array)

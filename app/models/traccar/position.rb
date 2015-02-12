@@ -35,10 +35,12 @@ class Traccar::Position < ActiveRecord::Base
     end
   end
 
-  after_validation :reverse_code
+  after_create :reverse_code
 
   def reverse_code
+    Rails.logger.warn "Running reverse_code"
     if !Rails.env.test? 
+      Rails.logger.warn "Not in Rails.env.test"
       self.reverse_geocode
     end
   end

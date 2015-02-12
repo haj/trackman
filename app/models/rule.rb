@@ -190,6 +190,11 @@ class Rule < ActiveRecord::Base
 		# This will check if vehicle entered a particular area
 		# Basically this will check first if the vehicle was outside the area, and if it's currently inside the selected area
 		def enter_area(car_id, params)
+
+			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 15.minutes.ago).count != 0
+				return false
+			end
+
 			car = Car.find(car_id)
 			current_position, previous_position = car.device.last_positions
 			region = Region.find(params["region_id"].to_i)
@@ -197,6 +202,7 @@ class Rule < ActiveRecord::Base
 			if car_outside == true
 				car_inside = region.contains_point(current_position.latitude, current_position.longitude)
 				if car_inside
+					RuleNotification.create(rule_id: self.id, car_id: car_id)
 					return true
 				else
 					return false

@@ -141,6 +141,7 @@
               %thead
                 %tr
                   %th Date
+                  %th Lat/Long
                   %th Address
               %tbody
                 
@@ -150,6 +151,7 @@
                       .bold
                         = "#{position.created_at.hour}:#{position.created_at.min}:#{position.created_at.sec}"
                       = "#{position.created_at.day}/#{position.created_at.month}/#{position.created_at.year}"
+                    %td= "#{position.try(:latitude).round(5)}, #{position.try(:longitude).round(5)}"
                     %td= position.try(:location).try(:address)
                     
           - else 

@@ -27,13 +27,14 @@ class RegionsController < ApplicationController
   # POST /regions
   # POST /regions.json
   def create
-
     @region = Region.new(name: region_params['name'])
 
       if @region.save
 
-        if !vertices_params['markers'].nil? 
-          vertices = vertices_params['markers'].try(:values)
+        markers = vertices_params['vertices']['markers']
+
+        if !markers.nil? 
+          vertices = markers.try(:values)
           vertices.each do |vertex|
             new_vertex = Vertex.create(latitude: vertex['latitude'], longitude: vertex['longitude'], region_id: @region.id)
           end

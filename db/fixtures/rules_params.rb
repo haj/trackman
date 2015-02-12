@@ -40,7 +40,7 @@ Parameter.seed(:id,
 # Enters area
 
 Rule.seed(:id,
-  { id: 4, name: "Entered area", method_name: "enter_area", description: "Check if Vehicle is moving during Work Schedule" }
+  { id: 4, name: "Entered area", method_name: "enter_area", description: "Check if Vehicle entered a particular area" }
 )
 
 Parameter.seed(:id,
@@ -50,7 +50,7 @@ Parameter.seed(:id,
 # Out 
 
 Rule.seed(:id,
-  { id: 5, name: "Car Left Area", method_name: "leave_area", description: "Check if Vehicle is moving during Work Schedule" }
+  { id: 5, name: "Car Left Area", method_name: "leave_area", description: "Check if Vehicle left a particular area" }
 )
 
 Parameter.seed(:id,
@@ -60,7 +60,7 @@ Parameter.seed(:id,
 # Long Drive
 
 Rule.seed(:id,
-  { id: 6, name: "Driver using Vehicle for long hours", method_name: "driving_consecutive_hours", description: "Check if Vehicle is moving during Work Schedule" }
+  { id: 6, name: "Driver using Vehicle for long hours", method_name: "driving_consecutive_hours", description: "Check if driver was driving for long hours" }
 )
 
 Parameter.seed(:id,
@@ -72,7 +72,7 @@ Parameter.seed(:id,
 # Long Pause
 
 Rule.seed(:id,
-  { id: 7, name: "Stopped for more than", method_name: "stopped_for_more_than", description: "Check if Vehicle is moving during Work Schedule" }
+  { id: 7, name: "Stopped for more than", method_name: "stopped_for_more_than", description: "Check if Vehicle stopped for too long" }
 )
 
 Parameter.seed(:id,
@@ -82,7 +82,7 @@ Parameter.seed(:id,
 # Using vehicle outside work hours
 
 Rule.seed(:id,
-  { id: 8, name: "During Work Schedule", method_name: "movement_not_authorized", description: "Check if Vehicle is moving during Work Schedule" }
+  { id: 8, name: "During Work Schedule", method_name: "movement_not_authorized", description: "Check if Vehicle is moving during or outside Work Schedule" }
 )
 
 Parameter.seed(:id,

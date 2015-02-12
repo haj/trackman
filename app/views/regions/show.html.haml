@@ -3,9 +3,9 @@
     .page-title
       = link_to raw("<i class='icon-custom-left'></i>"), regions_path
       %h3
-         Region  
+        Region  
   .col-md-4.col-lg-4.col-sm-4.col-xs-4 
-    .pull-right= link_to 'Edit', edit_region_path(@region), class: "btn btn-success"
+    /.pull-right= link_to 'Edit', edit_region_path(@region), class: "btn btn-success"
 
 
 .row
@@ -15,3 +15,9 @@
         %p
           %b Name:
           = @region.name
+        %p
+          %b Vertices
+          %ul
+            - @region.vertices.each do |vertex|
+              %li
+                = "#{vertex.latitude}, #{vertex.longitude}"

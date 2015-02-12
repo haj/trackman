@@ -22,7 +22,7 @@ class Device < ActiveRecord::Base
 
 	acts_as_paranoid
 
-	validates :name, :emei, :cost_price, :device_model_id, :device_type_id, presence: true
+	validates :name, :emei, :device_model_id, :device_type_id, presence: true
 
 	validates_uniqueness_of :name, conditions: -> { where(deleted_at: nil) }, case_sensitive: false
 	validates_uniqueness_of :emei, conditions: -> { where(deleted_at: nil) }, case_sensitive: false

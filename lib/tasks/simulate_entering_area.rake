@@ -1,13 +1,20 @@
 namespace :simulate do
-  task :entered_area => :environment do
+  task :enter_area => :environment do
   	Traccar::Device.all.each do |device|
-  		outside_position = Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.now, valid: true, device_id: device.id)
-  		device.positions << outside_position
+  		outside_region = Traccar::Position.create(altitude: 0.0, course: 0.0, 
+  			latitude: 48.859494, 
+  			longitude: 2.289813, 
+  			other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.now, valid: true, device_id: device.id)
+  		device.positions << outside_region
 
-  		liberty_statue = { :latitude => 40.689249, :longitude => -74.0445 }
+  		eiffel_tower_region = { :latitude => 48.858370, :longitude => 2.294481 }
 
-  		inside_position = Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: liberty_statue[:latitude], longitude: liberty_statue[:longitude], other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.now, valid: true, device_id: device.id)
+  		inside_position = Traccar::Position.create(altitude: 0.0, course: 0.0, 
+  			latitude: eiffel_tower_region[:latitude], 
+  			longitude: eiffel_tower_region[:longitude], 
+  			other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.now, valid: true, device_id: device.id)
   		device.positions << inside_position
+
   	end
   end
 end
