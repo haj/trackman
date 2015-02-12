@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   def bootstrap
     gon.resource = nil
     if current_user && current_user.company
-      @notifications = current_user.try(:company).try(:alarm_notifications).where(archived: false)
+      @notifications = current_user.try(:company).try(:alarm_notifications).where(archived: false).limit(6)
       if @notifications.nil?
         return Array.new
       end

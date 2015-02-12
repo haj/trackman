@@ -82,7 +82,7 @@ Parameter.seed(:id,
 # Using vehicle outside work hours
 
 Rule.seed(:id,
-  { id: 8, name: "During Work Schedule", method_name: "movement_not_authorized", description: "Check if Vehicle is moving during or outside Work Schedule" }
+  { id: 8, name: "Outside Work Schedule", method_name: "movement_not_authorized", description: "Check if Vehicle is moving outside Work Schedule" }
 )
 
 Parameter.seed(:id,

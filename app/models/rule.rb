@@ -54,7 +54,8 @@ class Rule < ActiveRecord::Base
 			scope = params["threshold"].to_i*2
 
 			# if a previous alarm of this type was triggered, then cancel this one
-			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, params["threshold"].to_i.minutes.ago).count != 0
+			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, params["threshold"].to_i.minutes.ago).count != 0
+				Rails.logger.debug "[stopped_for_more_than] RETURNED [FALSE] FOR #{car_id} BECAUSE OF [RuleNotification]"
 				return false
 			end
 
@@ -68,7 +69,6 @@ class Rule < ActiveRecord::Base
 
 
 			# How it works : 
-			# 
 			# Basically we'll start with the first state where the car wasn't moving, and keep iterating over states and updating duration_sum
 			# as long as the next state represent the car in a stopped state. 
 			# we'll stop if we go over the duration_threshold, in that case, the car stopped for more than the threshold
@@ -81,7 +81,7 @@ class Rule < ActiveRecord::Base
 			states.each do |car_current_state| 
 				if car_current_state.moving == false #this means car wasn't moving at the moment
 					# we calculate how much time between the two states
-					duration_sum += ( car_current_state.created_at  - previous_state.created_at)/60
+					duration_sum += (car_current_state.created_at  - previous_state.created_at)/60
 
 					# we check if that time is considered greater than the threshold the user set through duration_threshold
 					if duration_sum >= duration_threshold
@@ -105,7 +105,7 @@ class Rule < ActiveRecord::Base
 			scope = params["threshold"].to_i*2
 
 			# We check if this particular alarm was triggered before, if so then no need to re-trigger it, which means no need to check
-			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, params["threshold"].to_i.minutes.ago).count != 0
+			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, params["threshold"].to_i.minutes.ago).count != 0
 				return false
 			end
 
@@ -144,7 +144,7 @@ class Rule < ActiveRecord::Base
 		def speed_limit(car_id, params)
 
 			car = Car.find(car_id)
-			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, params['repeat_notification'].to_i.minutes.ago).count != 0 || car.no_data?
+			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id,  params['repeat_notification'].to_i.minutes.ago).count != 0 || car.no_data?
 				return false
 			end
 
@@ -166,7 +166,7 @@ class Rule < ActiveRecord::Base
 			last_position = car.positions.where("created_at > ?", 5.minutes.ago).last
 
 			# if we raised an alarm like this in the last 30 minutes, then we don't have to raise another one again, so no need to even check if it's true
-			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, params["repeat_notification"].to_i.minutes.ago).count != 0 || last_position.nil? || car.work_schedule.nil?
+			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, params["repeat_notification"].to_i.minutes.ago).count != 0 || last_position.nil? || car.work_schedule.nil?
 				return false
 			else 
 				current_time = last_position.created_at.to_time_of_day
@@ -191,12 +191,14 @@ class Rule < ActiveRecord::Base
 		# Basically this will check first if the vehicle was outside the area, and if it's currently inside the selected area
 		def enter_area(car_id, params)
 
-			if RuleNotification.where("rule_id = ? AND created_at >= ?", self.id, 15.minutes.ago).count != 0
+			car = Car.find(car_id)
+			current_position, previous_position = car.device.last_positions
+
+			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, 15.minutes.ago).count != 0 || current_position.nil?
 				return false
 			end
 
-			car = Car.find(car_id)
-			current_position, previous_position = car.device.last_positions
+			
 			region = Region.find(params["region_id"].to_i)
 			car_outside = !region.contains_point(previous_position.latitude, previous_position.longitude)
 			if car_outside == true
@@ -215,13 +217,20 @@ class Rule < ActiveRecord::Base
 		# This will check if vehicle left a particular area
 		# Basically this will check first if the vehicle was inside the area, and if it's currently outside the selected area
 		def leave_area(car_id, params)
+
 			car = Car.find(car_id)
 			current_position, previous_position = car.device.last_positions
+
+			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, 15.minutes.ago).count != 0 || current_position.nil?
+				return false
+			end
+			
 			region = Region.find(params["region_id"].to_i)
 			car_inside = region.contains_point(previous_position.latitude, previous_position.longitude)
 			if car_inside == true
 				car_outside = !region.contains_point(current_position.latitude, current_position.longitude)
 				if car_outside == true
+					RuleNotification.create(rule_id: self.id, car_id: car_id)
 					return true 
 				else
 					return false

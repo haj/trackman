@@ -142,6 +142,7 @@
                 %tr
                   %th Date
                   %th Lat/Long
+                  %th Speed (Km/h)
                   %th Address
               %tbody
                 
@@ -149,9 +150,10 @@
                   %tr
                     %td
                       .bold
-                        = "#{position.created_at.hour}:#{position.created_at.min}:#{position.created_at.sec}"
-                      = "#{position.created_at.day}/#{position.created_at.month}/#{position.created_at.year}"
+                        = pretty_time(position.created_at)
+                      = pretty_date(position.created_at)
                     %td= "#{position.try(:latitude).round(5)}, #{position.try(:longitude).round(5)}"
+                    %td= position.speed
                     %td= position.try(:location).try(:address)
                     
           - else 

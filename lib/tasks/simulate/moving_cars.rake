@@ -3,7 +3,7 @@
 namespace :simulate do
   task :moving_cars => :environment do
 
-    device = Company.where(name: "demo").first.cars.first.device
+    device = Company.where(name: "spacex").first.cars.first.device
   	
     traccar_device = device.traccar_device
 

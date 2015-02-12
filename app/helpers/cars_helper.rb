@@ -70,5 +70,12 @@ module CarsHelper
 		end
 	end
 
+	def pretty_time(created_at)
+		return "#{created_at.hour}:#{created_at.min}:#{created_at.sec}"
+	end
+
+	def pretty_date(created_at)
+		return "#{created_at.day}/#{created_at.month}/#{created_at.year}"
+	end
 
 end

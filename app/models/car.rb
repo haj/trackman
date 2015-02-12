@@ -164,6 +164,8 @@ class Car < ActiveRecord::Base
 		# Alarms trigger
 
 			def check_alarms
+				return if !self.has_device? 
+				
 				self.alarms.all.each do |alarm|
 					result = alarm.verify(self.id)
 					if result == true
@@ -183,7 +185,7 @@ class Car < ActiveRecord::Base
 				end
 
 				# capture the current car state
-				self.capture_state
+				#self.capture_state
 			end
 
 		# Generate state card
