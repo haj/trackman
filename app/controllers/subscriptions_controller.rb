@@ -18,7 +18,7 @@ class SubscriptionsController < ApplicationController
       # and switch to new free plan
       plan.companies << company
 
-      logger.warn "switching to free plan"
+      logger.warn "Switching to free plan"
 
       redirect_to company
     else
@@ -36,6 +36,9 @@ class SubscriptionsController < ApplicationController
   def create
     @subscription = Subscription.new(params[:subscription]) 
     company = current_user.company
+
+    Rails.logger.warn "Params #{params}"
+    Rails.logger.warn "Subscription #{@subscription.to_json}"
     
     if @subscription.save_with_payment
       # switch the current company plan
@@ -44,7 +47,7 @@ class SubscriptionsController < ApplicationController
       # schedule to cancel all active subscriptions
       company.cancel_active_subscriptions
 
-      # Add this subscriptions to the company list of subscriptions
+      # Add this subscription to the company list of subscriptions
       company.subscriptions << @subscription
 
       redirect_to @subscription, :notice => "Thank you for subscribing!"

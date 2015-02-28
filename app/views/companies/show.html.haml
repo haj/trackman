@@ -13,10 +13,7 @@
       .grid-body 
         %p
           %strong Name:
-          = @company.id
-        %p
-          %strong Name:
-          = @company.name
+          = @company.name.capitalize
         %p
           %strong Subdomain:
           = @company.subdomain
@@ -39,10 +36,12 @@
               %th Name
               %th Email
               %th Roles
+              %th Joined at
 
           %tbody           
             - @employees.each do |user|
               %tr
                 %td= link_to user.name.capitalize, user
                 %td= user.email
-                %td= user.roles.to_a.join(', ')
+                %td= user.roles.to_a.map{|role| role.capitalize}.join(', ')
+                %td= pretty_date(user.invitation_accepted_at, "Signed up")

@@ -8,7 +8,7 @@ class CompaniesController < ApplicationController
 
   def show
     @company = Company.find(params[:id])
-    if current_user.has_role?(:admin)
+    if current_user.has_role?(:manager)
       ActsAsTenant.with_tenant(@company) do
         @employees = @company.users.all
       end 

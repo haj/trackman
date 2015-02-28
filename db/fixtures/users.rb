@@ -2,10 +2,12 @@
 
 PlanType.seed(:id,
   { :id => 1, :name => "Free" },
+  { :id => 2, :name => "Premium" },
 )
 
 Plan.seed(:id,
   { :id => 1, plan_type_id: 1, interval: "30", currency: "USD", price: 0.0, paymill_id: nil },
+  { :id => 2, plan_type_id: 2, interval: "30", currency: "USD", price: 11.0, paymill_id: "offer_dcbf39440325852d36a6" },
 )
 
 Company.seed(:id,

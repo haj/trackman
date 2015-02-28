@@ -18,7 +18,7 @@ Devise.setup do |config|
 
   # Configure the class responsible to send e-mails.
   #config.mailer = "Devise::Async::Proxy"
-  config.mailer = "DeviseBackgrounder"
+  #config.mailer = "DeviseBackgrounder"
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
