@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+	layout 'map'
+
   def index
   	if !current_user.nil?
   		@cars = Car.all

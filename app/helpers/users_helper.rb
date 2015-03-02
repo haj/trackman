@@ -19,4 +19,7 @@ module UsersHelper
 	  end
 	end
 
+	def first_user?()
+	end
+
 end

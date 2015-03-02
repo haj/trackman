@@ -1238,11 +1238,15 @@ body.menu-non-fixed .page-sidebar {
   font-weight: 600;
   font-size: 14px;
 }
+
 .page-content .content {
-  padding-left: 26px;
-  padding-right: 26px;
   padding-top: 83px;
 }
+.with-padding{
+  padding-left: 26px;
+  padding-right: 26px;
+}
+
 .inner-menu {
   display: inline-block;
   position: absolute;

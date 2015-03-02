@@ -5,65 +5,45 @@
         %h3
           Employees 
     .col-md-4.col-lg-4.col-sm-4.col-xs-4 
-      .pull-right= link_to 'Create', new_user_invitation_path, class: "btn btn-success"
-
+      .pull-right= link_to 'Invite user', new_user_invitation_path, class: "btn btn-success"
 
   .row
     .col-md-4
-      .row
-        .col-md-12
-          .grid.simple
-            .grid-title 
-              %h4
-                Search
-              .tools
-                %a.collapse{href: "javascript:;"}
-            .grid-body 
-              = search_form_for @q do |f| 
-                .form-group
-                  = f.search_field :email_cont, :placeholder => "Type email here", class: "form-control"
-                .form-group
-                  = f.submit "Search", :class => "btn btn-default"
-      .row
-        .col-md-12
-          .grid.simple
-            .grid-title 
-              %h4
-                Filter by Roles
-              .tools
-                %a.collapse{href: "javascript:;"}
-            .grid-body
-              = form_tag '', :method => :get do
-                .form-group
-                  = select_tag( :by_role, options_for_select(all_roles, params[:by_role]), :include_blank => true, class: "form-control")              
-                .form-group
-                  = submit_tag 'Filter', :class => "btn btn-primary"
+      = form_tag '', :method => :get do
+        .form-group
+          = select_tag(:by_role, options_for_select(all_roles, params[:by_role]), :include_blank => "Roles")
+          = submit_tag 'Filter by Role', :class => "btn btn-default"
+    .col-md-offset-5.col-md-3
+      = search_form_for @q do |f| 
+        .form-group
+          = f.search_field :email_cont, :placeholder => "Search by email"
+          = f.submit "Search", :class => "btn btn-default"
     
-    .col-md-8
-      .row
-        .col-md-12
-          = form_tag batch_destroy_users_path, id: "destroy_users", :method => :put do
-            .grid.simple
-              .grid-body  
-                %table.table.no-more-tables
-                  %thead
-                    %tr
-                      %th
-                      = content_tag :th, sort_link(@q, :name)
-                      = content_tag :th, sort_link(@q, :email)
-                      %th Roles
-                      %th
-                      %th
+  .row
+    .col-md-12    
+      = form_tag batch_destroy_users_path, id: "destroy_users", :method => :put do
+        .grid.simple
+          .grid-body  
+            %table.table.no-more-tables
+              %thead
+                %tr
+                  %th
+                  = content_tag :th, sort_link(@q, :name)
+                  = content_tag :th, sort_link(@q, :email)
+                  %th Roles
+                  %th
+                  %th
 
-                  %tbody           
-                    - @users.each do |user|
-                      %tr
-                        %td.small-cell.v-align-middle= check_box_tag "user_ids[]", user.id, nil , class: "user_checkbox"
-                        %td= link_to user.name, user
-                        %td= user.email
-                        %td= user.roles.to_a.join(', ')
-                        %td= link_to 'Edit', edit_user_path(user)
-                        %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
+              %tbody           
+                - @users.each do |user|
+                  %tr
+                    %td.small-cell.v-align-middle= check_box_tag "user_ids[]", user.id, nil , class: "user_checkbox"
+                    %td= link_to user.name, user
+                    %td= user.email
+                    %td= user.roles.to_a.map{ |role| role.capitalize }.join(', ')
+                    %td= link_to 'Edit', edit_user_path(user)
+                    - if ! user.id == current_user.id 
+                      %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner
