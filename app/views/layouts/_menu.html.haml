@@ -11,45 +11,58 @@
         Alerts 
   %li
     %a{:href => cars_path}
-      = fa_icon "truck"
-      %span.title Vehicles
+      = fa_icon "area-chart"
+      %span.title 
+        History
   %li
-    %a{:href => devices_path}
-      = fa_icon "bullseye"
-      %span.title Devices
-  
+    %a{:href => cars_path}
+      = fa_icon "file-text-o"
+      %span.title 
+        Reports 
 
   %li
-    %a{:href => alarms_path}
-      = fa_icon "bullhorn"
-      %span.title Alarms
-  %li
-    %a{:href => work_schedules_path}
-      = fa_icon "calendar"
-      %span.title Work Schedules
-  %li
-    %a{:href => regions_path}
-      = fa_icon "circle"
-      %span.title Regions
+    %a{:href => "javascript:;"}
+      = fa_icon "gears"
+      %span.title Administration
+      %span.arrow
+    %ul.sub-menu
+      %li
+        %a{:href => cars_path}
+          = fa_icon "truck"
+          %span.title Vehicles
+      %li
+        %a{:href => devices_path}
+          = fa_icon "bullseye"
+          %span.title Devices
+      %li
+        %a{:href => alarms_path}
+          = fa_icon "bullhorn"
+          %span.title Alarms
+      %li
+        %a{:href => work_schedules_path}
+          = fa_icon "calendar"
+          %span.title Work Schedules
+      %li
+        %a{:href => regions_path}
+          = fa_icon "circle"
+          %span.title Regions
 
-  %li
-    %a{:href => simcards_path}
-      = fa_icon "ticket"
-      %span.title Simcards
-  %li
-    %a{:href => users_path}
-      = fa_icon "users"
-      %span.title Employees
-  
-
-  %li
-    %a{:href => groups_path}
-      = fa_icon "sitemap"
-      %span.title Alarm Groups
-  %li
-    %a{:href => work_schedule_groups_path}
-      = fa_icon "sitemap"
-      %span.title Work Schedule Groups
+      %li
+        %a{:href => simcards_path}
+          = fa_icon "ticket"
+          %span.title Simcards
+      %li
+        %a{:href => users_path}
+          = fa_icon "users"
+          %span.title Employees
+      %li
+        %a{:href => groups_path}
+          = fa_icon "sitemap"
+          %span.title Alarm Groups
+      %li
+        %a{:href => work_schedule_groups_path}
+          = fa_icon "sitemap"
+          %span.title Work Schedule Groups
   
   - if current_user && current_user.has_role?(:admin)
     / BEGIN TWO LEVEL MENU
