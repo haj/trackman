@@ -59,7 +59,6 @@ describe Car do
 		        longitude: 2.352222, 
 		        speed: 60.0, 
 		        time: first_day, 
-		        created_at: first_day, 
 		        valid: true, 
 		        device_id: @traccar_device.id)
 		      # move time by 15 minutes

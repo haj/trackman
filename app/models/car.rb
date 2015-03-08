@@ -209,7 +209,7 @@ class Car < ActiveRecord::Base
 			start_date = Time.zone.parse("#{dates[:start_date]} #{dates[:start_time]}")
 			end_date = Time.zone.parse("#{dates[:end_date]} #{dates[:end_time]}")
 			dates[:limit_results] = 20 if dates[:limit_results].to_i == 0 
-			return self.device.traccar_device.positions.where("created_at >= ? AND created_at <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")#.take(user_dates[:limit_results].to_i)
+			return self.device.traccar_device.positions.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")#.take(user_dates[:limit_results].to_i)
 		end
 	end
 

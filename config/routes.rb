@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  ###########
+  # Work Schedule Groups  
+  ###########
+
   resources :work_schedule_groups do 
     collection do 
       put 'batch_destroy'
@@ -9,6 +13,9 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
+  ###########
+  # Simlations 
+  ###########
 
   resources :simulations do 
     collection do 
@@ -25,11 +32,19 @@ Rails.application.routes.draw do
   # just a dummy path to test exception notifier 
   get 'test_exception_notifier' => 'application#test_exception_notifier'
 
+  ###########
+  # Subscription
+  ###########
+
   resources :subscriptions do 
     member do 
       get 'generate'
     end
   end
+
+  ###########
+  # Alarm Notifications   
+  ###########
 
   resources :alarm_notifications, :path => 'alerts' do 
     member do 
@@ -42,15 +57,17 @@ Rails.application.routes.draw do
 
   resources :plans
   resources :plan_types
-
   resources :notifications
   resources :vertices
+
   resources :regions do 
     collection do 
       put 'batch_destroy'
     end
   end
+
   resources :features
+
   resources :conversations do 
     member do 
       post 'reply'
@@ -65,13 +82,16 @@ Rails.application.routes.draw do
       put 'batch_destroy'
     end
   end
+
   resources :parameters
+
   resources :alarms do 
     collection do 
       get 'region'
       put 'batch_destroy'
     end
   end
+
   resources :rules do 
     member do 
       get 'rule_params_list'
@@ -118,27 +138,37 @@ Rails.application.routes.draw do
       put 'batch_destroy'
     end
   end
+
   resources :cars do 
     collection do 
       get 'live'
       put 'batch_destroy'
     end
+
+    member do
+      get 'details' 
+    end
+
   end
+
   resources :car_types do 
     collection do 
       put 'batch_destroy'
     end
   end
+
   resources :car_models do 
     collection do 
       put 'batch_destroy'
     end
   end
+
   resources :car_manufacturers do 
     collection do 
       put 'batch_destroy'
     end
   end
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   
   resources :devices do 
@@ -148,9 +178,11 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'home/index'
-
-  get 'home/test'
+  resources :home do 
+    collection do 
+      get 'test'
+    end
+  end 
 
   resources :companies
 

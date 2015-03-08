@@ -35,7 +35,6 @@ describe "Outside Work Hours Alarm" do
   		@traccar_device.positions << FactoryGirl.create(:position, 
   			speed: 60.0, 
   			time: trigger_time,
-  			created_at: trigger_time,
   			device_id: @traccar_device.id)
 
 		@rule.movement_not_authorized(@car.id, { }).should equal(true)
@@ -73,12 +72,10 @@ describe "Outside Work Hours Alarm" do
 		@traccar_device.positions << FactoryGirl.create(:position, 
   			speed: 60.0, 
   			time: trigger_time,
-  			created_at: trigger_time,
   			device_id: @traccar_device.id)
 		@traccar_device.positions << FactoryGirl.create(:position, 
   			speed: 60.0, 
   			time: trigger_time,
-  			created_at: trigger_time,
   			device_id: @traccar_device.id)
 		@rule.movement_not_authorized(@car.id, { }).should equal(false)
 	end

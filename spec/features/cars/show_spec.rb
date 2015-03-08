@@ -18,7 +18,7 @@ describe Car do
       @positions = @device.traccar_device.positions
       first_day = Time.zone.parse(Chronic.parse('4 dec 2014 8:00 am').to_s)
       5.times do |i| 
-        @positions << FactoryGirl.create(:position, time: first_day, created_at: first_day, device_id: @traccar_device.id)
+        @positions << FactoryGirl.create(:position, time: first_day, device_id: @traccar_device.id)
         # move time by 15 minutes
         first_day += 900 #900 seconds = 15 minutes
       end 

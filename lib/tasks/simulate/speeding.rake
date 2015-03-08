@@ -35,7 +35,6 @@ namespace :simulate do
         other: "<info><protocol>t55</protocol><battery>24</battery...", 
         speed: 100.0, 
         time: Time.now + 20*index, 
-        created_at: Time.now + 20*index,
         valid: true, 
         device_id: device.id)
       traccar_device.positions << new_position

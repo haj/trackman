@@ -163,14 +163,14 @@ class Rule < ActiveRecord::Base
 			car = Car.find(car_id)
 
 			# else we can proceed to check if car moving outside work hours
-			last_position = car.positions.where("created_at > ?", 5.minutes.ago).last
+			last_position = car.positions.where("time > ?", 5.minutes.ago).last
 
 			# if we raised an alarm like this in the last 30 minutes, then we don't have to raise another one again, so no need to even check if it's true
 			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, params["repeat_notification"].to_i.minutes.ago).count != 0 || last_position.nil? || car.work_schedule.nil?
 				return false
 			else 
-				current_time = last_position.created_at.to_time_of_day
-				current_day_of_week = last_position.created_at.wday
+				current_time = last_position.time.to_time_of_day
+				current_day_of_week = last_position.time.wday
 				current_day_of_week = 7 if current_day_of_week == 0
 				car.work_schedule.work_hours.each do |work_hour|
 				shift = Shift.new(work_hour.starts_at, work_hour.ends_at)

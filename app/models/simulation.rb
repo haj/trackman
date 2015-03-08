@@ -58,7 +58,5 @@ class Simulation
 	def self.left_area(car_id)
 
 	end
-
-
-
+	
 end

@@ -32,6 +32,5 @@ FactoryGirl.define do
     device_id 1
     valid true
     time Time.zone.now
-    
   end
 end

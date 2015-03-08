@@ -75,9 +75,14 @@ class Device < ActiveRecord::Base
 	end
 
 	def last_positions(number=2)
-		traccar_device = self.traccar_device
-		if !traccar_device.nil?
-			traccar_device.last_positions(number)
+		unless self.traccar_device.nil?
+			self.traccar_device.last_positions(number)
+		end
+	end
+
+	def positions
+		unless self.traccar_device.nil?
+			self.traccar_device.positions
 		end
 	end
 

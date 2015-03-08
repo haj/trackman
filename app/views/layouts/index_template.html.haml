@@ -55,35 +55,6 @@
           / END HEADER LEFT SIDE SECTION
           / BEGIN HEADER RIGHT SIDE SECTION
           .pull-right
-            .chat-toggler
-              / BEGIN NOTIFICATION CENTER
-              %a#my-task-list.dropdown-toggle{"data-content" => "", "data-original-title" => "Notifications", "data-placement" => "bottom", "data-toggle" => "dropdown", :href => "#"}
-                .user-details
-                  .username
-                    %span.badge.badge-important= notifications_count(current_user)
-                    \ #{current_user.try(:first_name).try(:capitalize)}
-                    %span.bold
-                      \ #{current_user.try(:last_name).try(:capitalize)}
-                .iconset.top-down-arrow
-              #notification-list{:style => "display:none"}
-                %div{:style => "width:300px"}
-                  / BEGIN NOTIFICATION MESSAGE
-                  - @notifications.each do |notification|
-                    .notification-messages.info
-                      .user-profile
-                        = image_tag gravatar(current_user), :class => "profile-image"
-                      .message-wrapper
-                        .heading= Alarm
-                        .description= notification.try(:alarm).try(:name)
-                        .date.pull-left= "#{time_ago_in_words(notification.created_at)} ago"
-                      .clearfix
-                  / END NOTIFICATION MESSAGE
-              / END NOTIFICATION CENTER
-              / BEGIN PROFILE PICTURE
-              .profile-pic
-                = image_tag gravatar(current_user), :class => "profile-image"
-              / END PROFILE PICTURE
-            / BEGIN HEADER NAV BUTTONS
             %ul.nav.quick-section
               / BEGIN SETTINGS
               %li.quicklinks
@@ -98,9 +69,6 @@
                     = link_to destroy_user_session_path, method: :delete do
                       %i.fa.fa-power-off>
                       \  Sign out
-              / END SETTINGS
-              %li.quicklinks
-                %span.h-seperate
             / END HEADER NAV BUTTONS
           / END HEADER RIGHT SIDE SECTION
         / END CONTENT HEADER

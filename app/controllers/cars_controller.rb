@@ -24,14 +24,6 @@ class CarsController < ApplicationController
     end 
   end
 
-  def index
-    @q = apply_scopes(Car).all.search(params[:q])
-    @cars = @q.result(distinct: true)
-    respond_to do |format|
-      format.html {render :layout => "index_template"}
-    end
-  end
-
   def show
     @car = Car.find(params[:id])
     @alarms = @car.alarms
@@ -47,6 +39,19 @@ class CarsController < ApplicationController
     else
       logger.warn "Car has no device"
     end
+  end
+
+  def index
+    @q = apply_scopes(Car).all.search(params[:q])
+    @cars = @q.result(distinct: true)
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
+  end
+
+  def details
+    @car = Car.find(params[:id])
+    @alarms = @car.alarms
   end
 
   # GET /cars/new
