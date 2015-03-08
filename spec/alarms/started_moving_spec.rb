@@ -27,17 +27,20 @@ describe "Started Moving Alarm" do
 	it "should be triggered when vehicle was stopped then starts moving" do 
   		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 70.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
 		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 50.856614, longitude: 5.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 70.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
-		@rule.starts_moving(@car.id, nil).should equal(true)
+		result = @rule.starts_moving(@car.id, nil)
+		expect(result).to equal(true)
 
 		Timecop.freeze(Time.zone.now + 1.minutes) do
-			@rule.starts_moving(@car.id, nil).should equal(false)
+			result = @rule.starts_moving(@car.id, nil)
+			expect(result).to equal(false)
 		end
 
 		
 		Timecop.freeze(Time.zone.now + 12.minutes) do
 			@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.zone.now + 10.minutes, valid: true, device_id: @traccar_device.id)
 			@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 50.856614, longitude: 5.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.zone.now + 11.minutes, valid: true, device_id: @traccar_device.id)
-			@rule.starts_moving(@car.id, nil).should equal(true)
+			result = @rule.starts_moving(@car.id, nil)
+			expect(result).to equal(true)
 		end
 
 		# simulate the car stopped for a while
@@ -47,11 +50,13 @@ describe "Started Moving Alarm" do
 
 		Timecop.freeze(Time.zone.now + 31.minutes) do
 			#puts Alarm::Movement.vehicle_stopped(@car)
-			@rule.starts_moving(@car.id, nil).should equal(true)
+			result = @rule.starts_moving(@car.id, nil)
+			expect(result).to equal(true)
 		end
 
 		Timecop.freeze(Time.zone.now + 2.hours) do
-			@rule.starts_moving(@car.id, nil).should equal(false)
+			result = @rule.starts_moving(@car.id, nil)
+			expect(result).to equal(false)
 		end
 
 	end
@@ -59,7 +64,8 @@ describe "Started Moving Alarm" do
 	it "Shouldn't take off if car didn't move" do 
 		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
 		@traccar_device.positions << Traccar::Position.create(altitude: 0.0, course: 0.0, latitude: 48.856614, longitude: 2.352222, other: "<info><protocol>t55</protocol><battery>24</battery...", power: nil, speed: 0.0, time: Time.zone.now, valid: true, device_id: @traccar_device.id)
-		@rule.starts_moving(@car.id, nil).should equal(false)
+		result = @rule.starts_moving(@car.id, nil)
+		expect(result).to equal(false)
 	end
 
 

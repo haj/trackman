@@ -37,10 +37,12 @@ describe "Outside Work Hours Alarm" do
   			time: trigger_time,
   			device_id: @traccar_device.id)
 
-		@rule.movement_not_authorized(@car.id, { }).should equal(true)
+		result = @rule.movement_not_authorized(@car.id, { })
+		expect(result).to equal(true)
 
 		Timecop.freeze(trigger_time + 16.minutes) do
-			@rule.starts_moving(@car.id, nil).should equal(false)
+			result = @rule.starts_moving(@car.id, nil)
+			expect(result).to equal(false)
 		end
 	end
 
@@ -49,21 +51,24 @@ describe "Outside Work Hours Alarm" do
 		@traccar_device.positions << FactoryGirl.create(:position, 
   			speed: 60.0, 
   			time: trigger_time,
-  			created_at: trigger_time,
   			device_id: @traccar_device.id)		
-		@rule.movement_not_authorized(@car.id, { }).should equal(false)
+		result = @rule.movement_not_authorized(@car.id, { })
+		expect(result).to equal(false)
 
 		Timecop.freeze(trigger_time + 16.minutes) do
-			@rule.starts_moving(@car.id, nil).should equal(false)
+			result = @rule.starts_moving(@car.id, nil)
+			expect(result).to equal(false)
 		end
 	end
 
 	it "shouldn't trigger off alarm when vehicle not sending data" do
 		trigger_time = Time.zone.parse(Chronic.parse('monday 9:00').to_s)
-		@rule.movement_not_authorized(@car.id, { }).should equal(false)
+		result = @rule.movement_not_authorized(@car.id, { })
+		expect(result).to equal(false)
 
 		Timecop.freeze(trigger_time + 16.minutes) do
-			@rule.starts_moving(@car.id, nil).should equal(false)
+			result = @rule.starts_moving(@car.id, nil)
+			expect(result).to equal(false)
 		end
 	end
 
@@ -77,7 +82,8 @@ describe "Outside Work Hours Alarm" do
   			speed: 60.0, 
   			time: trigger_time,
   			device_id: @traccar_device.id)
-		@rule.movement_not_authorized(@car.id, { }).should equal(false)
+		result = @rule.movement_not_authorized(@car.id, { })
+		expect(result).to equal(false)
 	end
 
 end

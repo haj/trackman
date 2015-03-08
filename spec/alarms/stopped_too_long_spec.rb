@@ -30,29 +30,36 @@ describe "Stopped for too long alarm" do
 		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 23.minutes.ago)
 		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 7.minutes.ago)
 		State.create(no_data: false, moving: true, car_id: @car.id, speed: 0.0, created_at: 2.minutes.ago)
-		@rule.stopped_for_more_than(@car.id, { 'threshold' => '15' }).should equal(true)
+		result = @rule.stopped_for_more_than(@car.id, { 'threshold' => '15' })
+		expect(result).to equal(true)
 
 		Timecop.freeze(Time.zone.now + 1.minutes) do
-			@rule.driving_consecutive_hours(@car.id, { 'threshold' => '15' }).should equal(false)
+			result = @rule.driving_consecutive_hours(@car.id, { 'threshold' => '15' })
+			expect(result).to equal(false)
 		end
 
 		Timecop.freeze(Time.zone.now + 40.minutes) do
 	  		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 10.minutes.ago)
 	  		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 5.minutes.ago)
 	  		State.create(no_data: false, moving: true, car_id: @car.id, speed: 0.0, created_at: 2.minutes.ago)
-			@rule.stopped_for_more_than(@car.id, { 'threshold' => '5' }).should equal(true)
-			@rule.stopped_for_more_than(@car.id, { 'threshold' => '15' }).should equal(false)
+			result = @rule.stopped_for_more_than(@car.id, { 'threshold' => '5' })
+			expect(result).to equal(true)
+
+			result = @rule.stopped_for_more_than(@car.id, { 'threshold' => '15' })
+			expect(result).to equal(false)
 		end
 	end
 
 	it "shouldn't trigger alarm when there is too little data" do
 		State.create(no_data: false, moving: true, car_id: @car.id, speed: 0.0, created_at: 2.minutes.ago)
-		@rule.stopped_for_more_than(@car.id, { 'threshold' => '15' }).should equal(false)
+		result = @rule.stopped_for_more_than(@car.id, { 'threshold' => '15' })
+		expect(result).to equal(false)
 	end
 
 	it "shouldn't trigger alarm when there is too little data" do
 		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 2.minutes.ago)
-		@rule.stopped_for_more_than(@car.id, { 'threshold' => '15' }).should equal(false)
+		result = @rule.stopped_for_more_than(@car.id, { 'threshold' => '15' })
+		expect(result).to equal(false)
 	end
 
 	it "shouldn't trigger alarm when car didn't stop at all" do
@@ -61,7 +68,8 @@ describe "Stopped for too long alarm" do
 		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 45.minutes.ago)
 		State.create(no_data: false, moving: true, car_id: @car.id, speed: 0.0, created_at: 30.minutes.ago)
 		State.create(no_data: false, moving: true, car_id: @car.id, speed: 0.0, created_at: 15.minutes.ago)
-		@rule.stopped_for_more_than(@car.id, { 'threshold' => '15' }).should equal(false)
+		result = @rule.stopped_for_more_than(@car.id, { 'threshold' => '15' })
+		expect(result).to equal(false)
 	end
 
 	it "shouldn't trigger alarm when car stopped for less than 15 minutes" do
@@ -70,18 +78,21 @@ describe "Stopped for too long alarm" do
 		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 45.minutes.ago)
 		State.create(no_data: false, moving: true, car_id: @car.id, speed: 0.0, created_at: 30.minutes.ago)
 		State.create(no_data: false, moving: true, car_id: @car.id, speed: 0.0, created_at: 15.minutes.ago)
-		@rule.stopped_for_more_than(@car.id, { 'threshold' => '15' }).should equal(false)
+		result = @rule.stopped_for_more_than(@car.id, { 'threshold' => '15' })
+		expect(result).to equal(false)
 	end
 
 	it "shouldn't trigger alarm when car stopped for more 15 minutes but 2 hours ago" do
 		# create states to simulate car stopped 
 		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 3.hours.ago)
 		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 2.hours.ago)
-		@rule.stopped_for_more_than(@car.id, { 'threshold' => '15' }).should equal(false)
+		result = @rule.stopped_for_more_than(@car.id, { 'threshold' => '15' })
+		expect(result).to equal(false)
 	end
 
 	it "shouldn't trigger alarm when there is no data in the 15 minutes (stop more than = 15 minutes)" do
-		@rule.stopped_for_more_than(@car.id, { 'threshold' => '15' }).should equal(false) 
+		result = @rule.stopped_for_more_than(@car.id, { 'threshold' => '15' })
+		expect(result).to equal(false) 
 	end
 
 	it "shouldn't check for stops beyond double the duration in the past" do
@@ -89,7 +100,8 @@ describe "Stopped for too long alarm" do
 		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 14.minutes.ago)
 		State.create(no_data: false, moving: false, car_id: @car.id, speed: 0.0, created_at: 7.minutes.ago)
 		State.create(no_data: false, moving: true, car_id: @car.id, speed: 0.0, created_at: 2.minutes.ago)
-		@rule.stopped_for_more_than(@car.id, { 'threshold' => '5' }).should equal(false) 
+		result = @rule.stopped_for_more_than(@car.id, { 'threshold' => '5' })
+		expect(result).to equal(false) 
 	end
 
 
