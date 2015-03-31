@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="WorkScheduleGroups GET /work_schedule_groups" tests="1" time="0.026715" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:36+01:00">
-  <testcase name="WorkScheduleGroups GET /work_schedule_groups works! (now write some real specs)" time="0.026255">
-  </testcase>
-</testsuite>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141009050727) do
+ActiveRecord::Schema.define(version: 20150331143215) do
 
   create_table "alarm_notifications", force: true do |t|
     t.integer  "car_id"
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 20141009050727) do
     t.integer  "rule_id",     null: false
     t.integer  "alarm_id",    null: false
     t.string   "conjunction"
-    t.string   "params"
+    t.text     "params"
     t.datetime "deleted_at"
   end
 
@@ -406,8 +406,8 @@ ActiveRecord::Schema.define(version: 20141009050727) do
 
   create_table "work_hours", force: true do |t|
     t.integer  "day_of_week"
-    t.datetime "starts_at"
-    t.datetime "ends_at"
+    t.time     "starts_at"
+    t.time     "ends_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "work_schedule_id"

@@ -31,13 +31,13 @@ describe "Teleproviders management" do
 
   it "should allow to list all teleproviders" do 
     visit teleproviders_path
-    page.status_code.should be 200   
+    expect(page.status_code).to be 200   
     # page.should have_content('NewTeleprovider')
   end
 
   it "should allow to edit a teleprovider" do 
     visit edit_teleprovider_path(Teleprovider.first)
-    page.status_code.should be 200
+    expect(page.status_code).to be 200
     # page.should have_css('#teleprovider_name')
 
     # fill_in "teleprovider_name", :with => "NewTeleprovider"

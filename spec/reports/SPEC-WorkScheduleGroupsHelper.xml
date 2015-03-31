@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="WorkScheduleGroupsHelper" tests="1" time="0.000755" failures="0" errors="0" skipped="1" timestamp="2014-09-14T23:57:39+01:00">
-  <testcase name="WorkScheduleGroupsHelper add some examples to (or delete) /Users/zakaria/Desktop/codebase/freelance/trackman/spec/helpers/work_schedule_groups_helper_spec.rb (PENDING)" time="4.8e-05">
-    <skipped/>
-  </testcase>
-</testsuite>

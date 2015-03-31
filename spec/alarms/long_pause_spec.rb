@@ -11,7 +11,7 @@
 
 require "spec_helper"
 
-describe "Driving long hours" do
+describe "Taking long pause" do
 
 	def cleanup
   		Traccar::Device.destroy_all
@@ -23,9 +23,9 @@ describe "Driving long hours" do
 		@car = FactoryGirl.create(:car, numberplate: "44444")		
 		@device = FactoryGirl.create(:device, name: "Device", emei: @car.numberplate, car_id: @car.id)
 		@traccar_device = Traccar::Device.create(name: @device.name, uniqueId: @device.emei)
-		@rule = Rule.where(method_name: "driving_consecutive_hours").first
-		alarm = FactoryGirl.create(:alarm, name: "Vehicle driving for more than 15 minutes in the last 2 hours")
-		AlarmRule.create(rule_id: @rule.id, alarm_id: alarm.id, conjunction: nil, params: "{'threshold' => '15', 'scope'=>'120' }")
+		@rule = Rule.where(method_name: "stopped_for_more_than").first
+		alarm = FactoryGirl.create(:alarm, name: "Vehicle stopped for more than 15 minutes in the last 2 hours")
+		AlarmRule.create(rule_id: @rule.id, alarm_id: alarm.id, conjunction: nil, params: "{'threshold' => '15' }")
 		@car.alarms << alarm
   	end
 

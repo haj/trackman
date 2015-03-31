@@ -3,38 +3,13 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
+    # Init mechanism for batch destroy 
     Utils.Actions.batch_action("#destroy_cars",".car_checkbox")
 
     $(".toggle").click ->
         $(".to-be-toggled").fadeToggle( "fast", "linear" )
 
     if (typeof gon != "undefined") && gon.resource == "cars"
-        class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
-            create_marker: ->
-                options = _.extend @marker_options(), @rich_marker_options()
-                @serviceObject = new RichMarker options
-
-            rich_marker_options: ->
-                marker = document.createElement("div")
-                marker.setAttribute('class', 'custom_marker')
-                marker.innerHTML = this.args.custom_marker
-                _.extend(@marker_options(), { flat: true })
-                { content: marker }
-
-            create_infowindow: ->
-                return null unless _.isString @args.custom_infowindow
-
-                boxText = document.createElement("div")
-                boxText.setAttribute("class", 'custom_infowindow')
-                boxText.innerHTML = @args.custom_infowindow
-                @infowindow = new InfoBox(@infobox(boxText))
-
-            infobox: (boxText)->
-                content: boxText
-                pixelOffset: new google.maps.Size(-60,-60)
-                boxStyle:
-                    width: "150px"
-
         if  gon.map_id != "cars_show"
             Cars.AllCars.show()
         else

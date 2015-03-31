@@ -50,7 +50,7 @@ class AlarmsController < ApplicationController
           # get the alarm -> rule record
           alarm_rule = AlarmRule.where(alarm_id: @alarm.id, rule_id: rule.id).first
           # update the params for current alarm -> rule
-          alarm_rule.update_attribute(:params, value['params'].to_s)
+          alarm_rule.update_attribute(:params, value['params'])
           # update the conjunction
           if index != 0 
             alarm_rule.update_attribute(:conjunction, value['conjunction']['value'].to_s)

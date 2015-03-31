@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="WorkScheduleGroupsController GET index" tests="1" time="0.050921" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:37+01:00">
-  <testcase name="WorkScheduleGroupsController GET index assigns all work_schedule_groups as @work_schedule_groups" time="0.050502">
-  </testcase>
-</testsuite>

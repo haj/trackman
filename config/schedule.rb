@@ -34,6 +34,10 @@ every 2.minute do
 	rake "jobs:workoff"
 end
 
+every 5.minutes do 
+	rake "geocode"
+end 
+
 # this recurring task is here just for testing purposes-only and should be removed later
 # every 1.minute do 
 # 	rake "simulate:random_cars"

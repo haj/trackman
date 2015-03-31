@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="WorkScheduleGroupsController POST create with valid params" tests="3" time="0.042721" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:37+01:00">
-  <testcase name="WorkScheduleGroupsController POST create with valid params creates a new WorkScheduleGroup" time="0.0141">
-  </testcase>
-  <testcase name="WorkScheduleGroupsController POST create with valid params assigns a newly created work_schedule_group as @work_schedule_group" time="0.013744">
-  </testcase>
-  <testcase name="WorkScheduleGroupsController POST create with valid params redirects to the created work_schedule_group" time="0.014359">
-  </testcase>
-</testsuite>

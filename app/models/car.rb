@@ -185,7 +185,7 @@ class Car < ActiveRecord::Base
 				end
 
 				# capture the current car state
-				#self.capture_state
+				self.capture_state
 			end
 
 		# Generate state card
@@ -206,10 +206,13 @@ class Car < ActiveRecord::Base
 		if dates.nil?
 			self.device.traccar_device.positions.order("time DESC").take(30)
 		else
+			Rails.logger.warn dates.to_json
 			start_date = Time.zone.parse("#{dates[:start_date]} #{dates[:start_time]}")
 			end_date = Time.zone.parse("#{dates[:end_date]} #{dates[:end_time]}")
 			dates[:limit_results] = 20 if dates[:limit_results].to_i == 0 
-			return self.device.traccar_device.positions.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")#.take(user_dates[:limit_results].to_i)
+			positions = self.device.traccar_device.positions.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")
+			Rails.logger.warn positions.to_sql
+			return positions
 		end
 	end
 

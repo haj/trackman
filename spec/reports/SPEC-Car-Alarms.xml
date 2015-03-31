@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Car Alarms" tests="1" time="0.001239" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:34+01:00">
-  <testcase name="Car Alarms should trigger alarm only one time" time="0.000952">
-  </testcase>
-</testsuite>

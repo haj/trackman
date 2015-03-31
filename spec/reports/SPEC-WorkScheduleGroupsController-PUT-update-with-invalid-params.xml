@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="WorkScheduleGroupsController PUT update with invalid params" tests="2" time="0.03022" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:37+01:00">
-  <testcase name="WorkScheduleGroupsController PUT update with invalid params assigns the work_schedule_group as @work_schedule_group" time="0.020912">
-  </testcase>
-  <testcase name="WorkScheduleGroupsController PUT update with invalid params re-renders the 'edit' template" time="0.008756">
-  </testcase>
-</testsuite>

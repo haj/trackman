@@ -1,7 +1,7 @@
 
 
 @module "Cars", ->
-    class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
+    class PositionMarkerBuilder extends Gmaps.Google.Builders.Marker
         create_marker: ->
             options = _.extend @marker_options(), @rich_marker_options()
             @serviceObject = new RichMarker options
@@ -14,24 +14,24 @@
             { content: marker }
 
         create_infowindow: ->
-            return null unless _.isString @args.custom_infowindow
+            return null unless _.isString @args.position_infowindow
 
             boxText = document.createElement("div")
-            boxText.setAttribute("class", 'custom_infowindow')
-            boxText.innerHTML = @args.custom_infowindow
+            boxText.setAttribute("class", 'position_infowindow')
+            boxText.innerHTML = @args.position_infowindow
             @infowindow = new InfoBox(@infobox(boxText))
 
         infobox: (boxText)->
             content: boxText
             pixelOffset: new google.maps.Size(-60,-60)
             boxStyle:
-                width: "150px"
+                width: "170px"
                 
     class @Maps
         @switch_to_pins : () ->
             window.current_mode = "pins"
 
-            handler = Gmaps.build("Google", builders: { Marker: CustomMarkerBuilder } )
+            handler = Gmaps.build("Google", builders: { Marker: PositionMarkerBuilder } )
             handler.buildMap { provider: { scrollwheel: false }, internal: { id: gon.map_id }}, ->
 
                 for one_marker, i in gon.data
@@ -49,7 +49,7 @@
                         lat:               one_marker.lat
                         lng:               one_marker.lng
                         custom_marker:     pin
-                        custom_infowindow: content
+                        position_infowindow: content
                     handler.bounds.extendWith(marker)
 
                 points = []

@@ -18,7 +18,7 @@ describe "Tenancy" do
     fill_in "user_email", :with => @user.email
     fill_in "user_password", :with => @user.password
     click_button "sign-in"
-    page.should have_content('Sign out')
+    expect(page).to have_content('Sign out')
   end
 
   it "Shouldn't allow an invalid email password combination" do 
@@ -26,7 +26,7 @@ describe "Tenancy" do
     fill_in "user_email", :with => "@user.email"
     fill_in "user_password", :with => "@user.password"
     click_button "sign-in"
-    page.should_not have_content('Sign out')
+    expect(page).not_to have_content('Sign out')
   end
 
 

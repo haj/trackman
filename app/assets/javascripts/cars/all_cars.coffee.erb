@@ -1,4 +1,4 @@
-class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
+class DetailedMarkerBuilder extends Gmaps.Google.Builders.Marker
     create_marker: ->
         options = _.extend @marker_options(), @rich_marker_options()
         @serviceObject = new RichMarker options
@@ -11,11 +11,11 @@ class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
         { content: marker }
 
     create_infowindow: ->
-        return null unless _.isString @args.custom_infowindow
+        return null unless _.isString @args.detailed_infowindow
 
         boxText = document.createElement("div")
-        boxText.setAttribute("class", 'custom_infowindow')
-        boxText.innerHTML = @args.custom_infowindow
+        boxText.setAttribute("class", 'detailed_infowindow')
+        boxText.innerHTML = @args.detailed_infowindow
         @infowindow = new InfoBox(@infobox(boxText))
 
     infobox: (boxText)->
@@ -28,7 +28,7 @@ class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
 @module "Cars", ->
     class @AllCars
         @show : () ->
-            handler = Gmaps.build("Google", builders: { Marker: CustomMarkerBuilder } )
+            handler = Gmaps.build("Google", builders: { Marker: DetailedMarkerBuilder } )
             handler.buildMap { provider: { scrollwheel: false }, internal: { id: gon.map_id }}, ->
                 #markers = handler.addMarkers(gon.data)
 
@@ -48,7 +48,7 @@ class CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
                         lat:               one_marker.lat
                         lng:               one_marker.lng
                         custom_marker:     pin
-                        custom_infowindow: content
+                        detailed_infowindow: content
 
                     handler.bounds.extendWith(marker)
                     

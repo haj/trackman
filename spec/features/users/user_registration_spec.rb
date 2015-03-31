@@ -20,7 +20,7 @@ describe "User Registration" do
 		click_button "Sign up"
 		User.where(email: "test@example.com").should exist
 		Company.where(subdomain: "corp").should exist
-		page.should have_content("Sign in")
+		expect(page).to have_content("Sign in")
 	end
 
 	it "User should enter first name" do
@@ -32,7 +32,7 @@ describe "User Registration" do
 		fill_in "company_name",               :with => "corp"
 		fill_in "company_subdomain",          :with => "corp"
 		click_button "Sign up"
-		page.should have_content("1 error")
+		expect(page).to have_content("1 error")
 	end
 
 	it "User should enter last name" do
@@ -44,7 +44,7 @@ describe "User Registration" do
 		fill_in "company_name",               :with => "corp"
 		fill_in "company_subdomain",          :with => "corp"
 		click_button "Sign up"
-		page.should have_content("1 error")
+		expect(page).to have_content("1 error")
 	end
 
 	it "User should enter email" do
@@ -56,7 +56,7 @@ describe "User Registration" do
 		fill_in "company_name",               :with => "corp"
 		fill_in "company_subdomain",          :with => "corp"
 		click_button "Sign up"
-		page.should have_content("1 error")
+		expect(page).to have_content("1 error")
 	end
 
 	it "User should enter company name" do
@@ -68,7 +68,7 @@ describe "User Registration" do
 		fill_in "user_password_confirmation", :with => "testpassword"
 		fill_in "company_subdomain",          :with => "corp"
 		click_button "Sign up"
-		page.should have_content("1 error")
+		expect(page).to have_content("1 error")
 	end
 
 	it "User should enter company subdomain" do
@@ -80,7 +80,7 @@ describe "User Registration" do
 		fill_in "user_password_confirmation", :with => "testpassword"
 		fill_in "company_name",               :with => "corp"
 		click_button "Sign up"
-		page.should have_content("1 error")
+		expect(page).to have_content("1 error")
 	end
 
 	it "Password and password confirmation should match" do  
@@ -93,7 +93,7 @@ describe "User Registration" do
 		fill_in "company_name",               :with => "corp"
 		fill_in "company_subdomain",          :with => "corp"
 		click_button "Sign up"
-		page.should have_content("1 error prohibited this user from being saved: Password confirmation doesn't match Password")
+		expect(page).to have_content("1 error prohibited this user from being saved: Password confirmation doesn't match Password")
 	end
 
 

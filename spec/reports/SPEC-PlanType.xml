@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="PlanType" tests="1" time="0.000388" failures="0" errors="0" skipped="1" timestamp="2014-09-14T23:57:36+01:00">
-  <testcase name="PlanType add some examples to (or delete) /Users/zakaria/Desktop/codebase/freelance/trackman/spec/models/plan_type_spec.rb (PENDING)" time="5.2e-05">
-    <skipped/>
-  </testcase>
-</testsuite>

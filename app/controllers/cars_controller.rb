@@ -2,29 +2,17 @@ class CarsController < ApplicationController
   before_action :set_car, only: [:edit, :update, :destroy]
   load_and_authorize_resource
 
-  has_scope :by_car_model
-  has_scope :by_car_type
-  has_scope :trackable do |controller, scope, value|
-    if value == "all"
-      scope
-    elsif value == "true"
-      scope.traceable
-    elsif value == "false"
-      scope.untraceable
-    end 
+
+  # This list vehicles and enable the user to get vehicle positions
+  def history
+    @q = apply_scopes(Car).all.search(params[:q])
+    @cars = @q.result(distinct: true)
+    respond_to do |format|
+      format.html {render :layout => "index_template"}
+    end
   end
 
-  has_scope :has_driver do |controller, scope, value|
-    if value == "all"
-      scope
-    elsif value == "true"
-      scope.with_driver
-    elsif value == "false"
-      scope.without_driver
-    end 
-  end
-
-  def show
+  def positions
     @car = Car.find(params[:id])
     @alarms = @car.alarms
     if @car.has_device?
@@ -41,6 +29,7 @@ class CarsController < ApplicationController
     end
   end
 
+  # This list vehicles and enable the user to manage vehicles
   def index
     @q = apply_scopes(Car).all.search(params[:q])
     @cars = @q.result(distinct: true)
@@ -49,23 +38,19 @@ class CarsController < ApplicationController
     end
   end
 
-  def details
+  def show
     @car = Car.find(params[:id])
     @alarms = @car.alarms
   end
 
-  # GET /cars/new
   def new
     @car = Car.new
   end
 
-  # GET /cars/1/edit
   def edit
     @device = Device.where(:car_id => params[:id])
   end
 
-  # POST /cars
-  # POST /cars.json
   def create
     @car = Car.new(car_params)
     if @car.save
@@ -90,10 +75,7 @@ class CarsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /cars/1
-  # PATCH/PUT /cars/1.json
   def update
-
     respond_to do |format|
       if @car.update(car_params)
 
@@ -129,7 +111,6 @@ class CarsController < ApplicationController
     end
   end
 
-
   def batch_destroy
     car_ids = params[:car_ids]
     car_ids.each do |car_id|
@@ -146,6 +127,36 @@ class CarsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  ##########
+  ## Scopes
+  ##########
+
+  has_scope :by_car_model
+  has_scope :by_car_type
+  has_scope :trackable do |controller, scope, value|
+    if value == "all"
+      scope
+    elsif value == "true"
+      scope.traceable
+    elsif value == "false"
+      scope.untraceable
+    end 
+  end
+
+  has_scope :has_driver do |controller, scope, value|
+    if value == "all"
+      scope
+    elsif value == "true"
+      scope.with_driver
+    elsif value == "false"
+      scope.without_driver
+    end 
+  end
+
+  ###########
+  ## Private
+  ###########
 
   private
     # Use callbacks to share common setup or constraints between actions.

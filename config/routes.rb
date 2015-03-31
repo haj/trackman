@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  ###########
+  #######################
   # Work Schedule Groups  
-  ###########
+  #######################
 
   resources :work_schedule_groups do 
     collection do 
@@ -13,9 +13,9 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
-  ###########
+  #############
   # Simlations 
-  ###########
+  #############
 
   resources :simulations do 
     collection do 
@@ -32,9 +32,9 @@ Rails.application.routes.draw do
   # just a dummy path to test exception notifier 
   get 'test_exception_notifier' => 'application#test_exception_notifier'
 
-  ###########
+  ###############
   # Subscription
-  ###########
+  ###############
 
   resources :subscriptions do 
     member do 
@@ -42,9 +42,9 @@ Rails.application.routes.draw do
     end
   end
 
-  ###########
+  ######################
   # Alarm Notifications   
-  ###########
+  ######################
 
   resources :alarm_notifications, :path => 'alerts' do 
     member do 
@@ -141,14 +141,14 @@ Rails.application.routes.draw do
 
   resources :cars do 
     collection do 
-      get 'live'
       put 'batch_destroy'
+      get 'history'
     end
 
     member do
-      get 'details' 
+      get 'map'
+      get 'positions'
     end
-
   end
 
   resources :car_types do 

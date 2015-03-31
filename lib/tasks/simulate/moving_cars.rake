@@ -1,7 +1,6 @@
 # This will pick the first device in the Traccar db and generate few positions 
 # to make the car look like it's been moving
-task :moving_cars, [:message]  => :environment  do |t, args|
-
+task :move, [:message]  => :environment  do |t, args|
   
   device = Device.where(emei: args.message).first
 

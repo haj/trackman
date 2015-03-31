@@ -15,4 +15,5 @@ class AlarmRule < ActiveRecord::Base
 	acts_as_paranoid
 	belongs_to :rules
 	belongs_to :alarms
+	serialize :params
 end

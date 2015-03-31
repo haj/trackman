@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-	layout 'map'
+  layout 'map'
 
   def index
   	if !current_user.nil?

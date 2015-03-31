@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Teleprovider" tests="1" time="0.000237" failures="0" errors="0" skipped="1" timestamp="2014-09-14T23:57:35+01:00">
-  <testcase name="Teleprovider add some examples to (or delete) /Users/zakaria/Desktop/codebase/freelance/trackman/spec/models/teleprovider_spec.rb (PENDING)" time="3.5e-05">
-    <skipped/>
-  </testcase>
-</testsuite>

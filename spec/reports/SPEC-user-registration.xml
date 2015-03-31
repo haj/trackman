@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="user registration" tests="2" time="0.410139" failures="0" errors="0" skipped="0" timestamp="2014-09-14T23:57:40+01:00">
-  <testcase name="user registration allows new users to register companies" time="0.314561">
-  </testcase>
-  <testcase name="user registration password and password confirmation should match" time="0.094973">
-  </testcase>
-</testsuite>

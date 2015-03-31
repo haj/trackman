@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
       #logger.warn "user wanna sign up"
     else
       #ActsAsTenant.current_tenant = nil
-      logger.warn "nothing : #{ActsAsTenant.current_tenant}"
+      logger.warn "ActsAsTenant.current_tenant is nil #{ActsAsTenant.current_tenant}"
       render :file => 'public/404.html', :status => :not_found, :layout => false
     end
   end

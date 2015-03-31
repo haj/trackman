@@ -35,7 +35,7 @@ class Traccar::Position < ActiveRecord::Base
     end
   end
 
-  after_create :reverse_code
+  #after_create :reverse_code
 
   def reverse_code
     Rails.logger.warn "Running reverse_code"
@@ -50,6 +50,16 @@ class Traccar::Position < ActiveRecord::Base
   end
 
   def self.geocode 
+    Traccar::Position.where("time >= ?", 10.minutes.ago).each do |position|
+      if position.location.nil?
+        puts "Processing"
+        position.reverse_geocode
+      end
+      sleep(1)
+    end
+  end
+
+  def self.geocode_all
     Traccar::Position.all.each do |position|
       if position.location.nil?
         puts "Processing"
