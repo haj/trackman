@@ -142,3 +142,4 @@ end
 
 gem "gelf"
 gem "lograge"
+gem 'rack-mini-profiler'

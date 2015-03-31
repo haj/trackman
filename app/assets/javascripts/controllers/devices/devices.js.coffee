@@ -19,7 +19,5 @@ $(document).ready ->
 				window.markers = handler.addMarkers(data)
 		gon.watch('data', interval: 3000, refreshDevicesMap)
 
-	Utils.Actions.batch_action("#batch_destroy",".device_type_checkbox")
-
 	$("#batch_destroy").click ->	
 		$("#destroy_devices").submit()

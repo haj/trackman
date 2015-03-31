@@ -78,8 +78,7 @@ class Car < ActiveRecord::Base
 
 	# Positions
 		
-		def self.all_positions(cars)
-			
+		def self.all_positions(cars)	
 			positions = Array.new
 
 			cars.each do |car|
@@ -204,7 +203,7 @@ class Car < ActiveRecord::Base
 	# dates = {start_date, start_time, end_date, end_time}
 	def positions_with_dates(dates)
 		if dates.nil?
-			self.device.traccar_device.positions.order("time DESC").take(30)
+			self.device.traccar_device.positions.order("time DESC")
 		else
 			Rails.logger.warn dates.to_json
 			start_date = Time.zone.parse("#{dates[:start_date]} #{dates[:start_time]}")

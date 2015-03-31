@@ -1,20 +1,13 @@
-
 $(document).ready ->
 
-	Utils.Actions.batch_action("#destroy_alarms",".alarm_checkbox")
-
+	# handle when user is trying to add a rule to a new alarm (when he click the add button)
+	# so when the user select a different a rule, the rule parameters are magically loaded
 	$("#rules").on "change", "select:regex(id, .*alarm_rules_attributes.*_id)", ->	
 		regex_numbers = /\d+/;
-		
-		console.log('Change on select with id = ' + $(this).attr('id').match(regex_numbers))
-		
+		#console.log('Change on select with id = ' + $(this).attr('id').match(regex_numbers))
 		#param_field = $(this).parent().next('div[.params]').children('input')
-		
 		rule_id = $(this).attr('id').match(regex_numbers)
-
 		params_block = $(this).parent().parent().find('.params')			
-
-
 		$.ajax "/rules/#{$(this).val()}/rule_params_list",
 			success: (response) ->
 						  
@@ -63,17 +56,18 @@ $(document).ready ->
 				alert("ERROR")
 		
 
+	# this is to handle either when a new rule is added or removed (on the new alarm page)
 	$("#rules").on("cocoon:after-insert", ->
+		# the following code will add a conjuction select list above the rule  
 		$('.nested-fields:first > .conjunction_row').remove()
 
 	).on "cocoon:after-remove", (e, removedItem) ->
+		# the following code will remove a conjuction select list that was added above the rule
 		$('#rules .panel-default').each (index) ->
-			
 			nested_fields = $(this).find('.nested-fields')
-
 			if nested_fields.length == 0
 				$(this).remove()		
-	
+		# here we remove the conjumction row where the select list is 
 		$('.nested-fields:first > .conjunction_row').remove()
 	
 	

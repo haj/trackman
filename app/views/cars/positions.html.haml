@@ -50,7 +50,9 @@
       .col-md-12
         .grid.simple.horizontal.green 
           .grid-title
-            %h4 Positions History
+            %h4 
+              = "Positions History"
+              = "(#{@positions.count})"
             .tools
               %a.collapse{href: "javascript:;"}
           .grid-body

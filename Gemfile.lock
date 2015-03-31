@@ -274,6 +274,8 @@ GEM
     puma (2.11.0)
       rack (>= 1.1, < 2.0)
     rack (1.5.2)
+    rack-mini-profiler (0.9.2)
+      rack (>= 1.1.3)
     rack-pjax (0.8.0)
       nokogiri (~> 1.5)
       rack (~> 1.1)
@@ -486,6 +488,7 @@ DEPENDENCIES
   pinp!
   pry-rails
   puma
+  rack-mini-profiler
   railroady
   rails (= 4.1.6)
   rails_admin

@@ -1,8 +1,10 @@
 $(document).ready ->
 
+	# to batch destroy selected alarms 
 	$("#batch_archive").click ->	
 		$("#archive_alarm_notifiations").submit()
 
+	# logic that handles selecing alarms for batch destroy
 	selectedItems = 0
 	$(".alarm_notification_checkbox").click ->
 		if $(this).is(":checked")
