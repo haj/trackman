@@ -28,25 +28,26 @@ class RegionsController < ApplicationController
   # POST /regions.json
   def create
     @region = Region.new(name: region_params['name'])
+    
+    vertices = vertices_params['vertices']
+    markers = vertices['markers'] if !vertices.nil? && vertices.include?('markers')
 
-      if @region.save
+    if @region.save && !markers.nil?
 
-        markers = vertices_params['vertices']['markers']
-
-        if !markers.nil? 
-          vertices = markers.try(:values)
-          vertices.each do |vertex|
-            new_vertex = Vertex.create(latitude: vertex['latitude'], longitude: vertex['longitude'], region_id: @region.id)
-          end
+      unless markers.nil? 
+        vertices = markers.try(:values)
+        vertices.each do |vertex|
+          new_vertex = Vertex.create(latitude: vertex['latitude'], longitude: vertex['longitude'], region_id: @region.id)
         end
-
-        flash[:notice] = 'Region was successfully created !'
-        flash.keep(:notice)
-        render js: "window.location = '#{regions_path}'"
-      else
-        flash[:alert] = "Region couldn't be created !"
-        render js: "window.location = '#{new_region_path}'"
       end
+
+      flash[:notice] = 'Region was successfully created !'
+      flash.keep(:notice)
+      render js: "window.location = '#{regions_path}'"
+    else
+      flash[:alert] = "Please enter a name for your region and select a region (using the map below)"
+      render js: "window.location = '#{new_region_path}'"
+    end
 
   end
 

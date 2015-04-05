@@ -3,7 +3,7 @@
     .grid.simple
       .grid-title.no-border
         %h3
-          Switching to the  
+          You're switching to the  
           %span.semi-bold #{@subscription.plan.name} plan
       .grid-body.no-border
         %br/
@@ -22,18 +22,22 @@
               = f.hidden_field :paymill_card_token
               .form-group
                 = f.label :name, class: "form-label"
+                %br
                 = f.text_field :name, class: "form-label"
               .form-group
                 = f.label :email, class: "form-label"
+                %br
                 = f.text_field :email, class: "form-label"
               - if @subscription.paymill_card_token.present?
                 Credit card has been provided.
               - else
                 .form-group
                   = label_tag :card_number, "Credit Card Number", class: "form-label"
+                  %br
                   = text_field_tag :card_number, nil, name: nil, class: "form-label"
                 .form-group
                   = label_tag :card_code, "Security Code on Card (CVV)", class: "form-label"
+                  %br
                   = text_field_tag :card_code, nil, name: nil, class: "form-label"
                 .form-group
                   = label_tag :card_month, "Card Expiration"
@@ -42,4 +46,4 @@
               #paymill_error
                 %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
               .actions
-                = f.submit "Subscribe"
+                = f.submit "Confirm", class: "btn btn-primary"

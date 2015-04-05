@@ -3,9 +3,8 @@
     .page-title
       = link_to raw("<i class='icon-custom-left'></i>"), companies_path
       %h3
-        Company  
-  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
-    .pull-right= link_to 'Edit', edit_company_path(@company), class: "btn btn-success"
+        Company 
+        = link_to 'Edit', edit_company_path(@company), class: "btn btn-success btn-small"
 
 .row
   .col-md-12
@@ -20,11 +19,16 @@
         %p
           %strong Time zone:
           = @company.time_zone
-        %p
-          %strong Billing plan:
-          = @company.try(:current_plan).try(:name)
-          = link_to "(Change)", plans_path
+        / %p
+        /   %strong Billing plan:
+        /   = @company.try(:current_plan).try(:name)
+        /   = link_to "(Change)", plans_path
 
+.row
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+    .page-title
+      %h3
+        Employees 
 
 .row
   .col-md-12
@@ -40,8 +44,9 @@
 
           %tbody           
             - @employees.each do |user|
-              %tr
-                %td= link_to user.name.capitalize, user
-                %td= user.email
-                %td= user.roles.to_a.map{|role| role.capitalize}.join(', ')
-                %td= pretty_date(user.invitation_accepted_at, "Signed up")
+              - unless user.has_role?(:admin)
+                %tr
+                  %td= link_to user.name.capitalize, user
+                  %td= user.email
+                  %td= user.roles.to_a.map{|role| role.capitalize}.join(', ')
+                  %td= pretty_date(user.invitation_accepted_at, "-")

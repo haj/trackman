@@ -21,7 +21,11 @@
             - @plans.each do |plan|
               %tr
                 %td= link_to plan.try(:plan_type).try(:name), plan
-                %td= link_to 'Switch', new_subscription_path(:plan_id => plan.id)
+                - if is_current_plan(plan)
+                  %td
+                    %i (This is your current plan)
+                - else 
+                  %td= link_to 'Switch to this plan', new_subscription_path(:plan_id => plan.id)
                 - if current_user.has_role?(:admin)
                   %td= link_to 'Edit', edit_plan_path(plan)
                   %td= link_to 'Destroy', plan, :method => :delete, :data => { :confirm => 'Are you sure?' }

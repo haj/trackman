@@ -11,9 +11,15 @@ describe "Regions management" do
     region = FactoryGirl.create(:region)
   end
 
+  describe ".new" do 
+    it "should require name" do 
+    end
 
+    it "should require vertices" do 
+    end
+  end
 
-  it "should allow to create new region" do     
+  it "User can create new region" do     
     visit new_region_path
     page.status_code.should be 200
   #   page.should have_css('#region_name')
@@ -25,13 +31,13 @@ describe "Regions management" do
   #   page.should have_content("Region was successfully created")
   end
 
-  it "should allow to destroy a region" do 
+  it "User can destroy a region" do 
     visit regions_path
     page.status_code.should be 200
     # expect { click_link 'Destroy' }.to change(Region, :count).by(-1)
   end
 
-  it "should allow to list all region" do 
+  it "User can list all regions" do 
     visit regions_path
     page.status_code.should be 200
     # page.should have_content('NewRegion')
