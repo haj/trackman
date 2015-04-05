@@ -216,7 +216,7 @@ class Car < ActiveRecord::Base
 	# dates = {start_date, start_time, end_date, end_time}
 	def positions_with_dates(dates, timezone)
 		if dates.nil?
-			self.device.traccar_device.positions.order("time DESC")
+			self.device.traccar_device.positions.order("time DESC").limit(30)
 		else
 			Time.use_zone("#{timezone}") do
 				Rails.logger.warn "dates : #{dates.to_json}"

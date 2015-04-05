@@ -44,7 +44,7 @@ describe Car do
       visit positions_car_path(@car) 
       expect(page).to_not have_content("No positions available for this period") 
       expect(page).to have_content("Address")
-      expect(page).to have_content("(5)")
+      expect(page).to have_content("5 positions")
     end
 
     it "Should list 1 position" do
@@ -55,7 +55,7 @@ describe Car do
       fill_in "dates_end_time", with: "9:00"
       click_button "Apply"
       expect(page).to_not have_content("No positions available for this period")
-      expect(page).to have_content("(1)")
+      expect(page).to have_content("1 position")
     end
 
     it "Should list few positions" do

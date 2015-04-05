@@ -55,14 +55,14 @@
         %a{:href => users_path}
           = fa_icon "users"
           %span.title Employees
-      %li
-        %a{:href => groups_path}
-          = fa_icon "sitemap"
-          %span.title Alarm Groups
-      %li
-        %a{:href => work_schedule_groups_path}
-          = fa_icon "sitemap"
-          %span.title Work Schedule Groups
+      / %li
+      /   %a{:href => groups_path}
+      /     = fa_icon "sitemap"
+      /     %span.title Alarm Groups
+      / %li
+      /   %a{:href => work_schedule_groups_path}
+      /     = fa_icon "sitemap"
+      /     %span.title Work Schedule Groups
   
   - if current_user && current_user.has_role?(:admin)
     / BEGIN TWO LEVEL MENU

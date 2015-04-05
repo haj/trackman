@@ -18,8 +18,11 @@ class CarsController < ApplicationController
     if @car.has_device?
       timezone = current_user.company.time_zone.to_s
       Time.use_zone(timezone) do
-        @positions = @car.positions_with_dates(params[:dates], timezone).limit(30)
-        logger.warn "positions.count = #{@positions.count}"
+        dates = params[:dates]
+        @positions = @car.positions_with_dates(dates, timezone)
+        if dates.nil?
+          @title = "Last #{@positions.count} positions"
+        end
         @markers = Traccar::Position.markers(@positions)        
         gon.watch.data = @markers
         gon.push({

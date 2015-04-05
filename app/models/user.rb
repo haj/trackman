@@ -140,4 +140,8 @@ class User < ActiveRecord::Base
 		end 
 	end
 
+	def time_zone
+		return self.company.time_zone
+	end
+
 end

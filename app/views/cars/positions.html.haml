@@ -51,8 +51,11 @@
         .grid.simple.horizontal.green 
           .grid-title
             %h4 
-              = "Positions History"
-              = "(#{@positions.count})"
+              - unless @title.nil?
+                = @title
+              - else
+                = "Positions history"
+                = "(#{pluralize(@positions.count, 'positions')})"
             .tools
               %a.collapse{href: "javascript:;"}
           .grid-body
@@ -60,7 +63,8 @@
               %table.table.no-more-tables
                 %thead
                   %tr
-                    %th Date
+                    %th 
+                      = "Date (#{current_user.time_zone} Timezone)"
                     %th Lat/Long
                     %th Speed (Km/h)
                     %th Address
@@ -70,7 +74,7 @@
                     %tr
                       %td
                         .bold
-                          = pretty_time(position.time)
+                          = pretty_time(position.time, )
                         = pretty_date(position.time)
                       %td= "#{position.try(:latitude).round(5)}, #{position.try(:longitude).round(5)}"
                       %td= position.speed
