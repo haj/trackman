@@ -29,12 +29,12 @@ class WorkSchedule < ActiveRecord::Base
 		
 		if work_schedule.save
 			Time.use_zone('UTC') do
-				self.work_hours.each do |wh|
-					WorkHour.create do |work_hour|
-					  work_hour.day_of_week     = wh.day_of_week
-					  work_hour.starts_at = Time.zone.parse(wh.starts_at.to_s).to_s(:db)
-					  work_hour.ends_at = Time.zone.parse(wh.ends_at.to_s).to_s(:db)
-					  work_hour.work_schedule_id = work_schedule.id
+				self.work_hours.each do |work_hour|
+					WorkHour.create do |new_work_hour|
+					  new_work_hour.day_of_week = work_hour.day_of_week
+					  new_work_hour.starts_at = Time.zone.parse(work_hour.starts_at.to_s).to_s(:db)
+					  new_work_hour.ends_at = Time.zone.parse(work_hour.ends_at.to_s).to_s(:db)
+					  new_work_hour.work_schedule_id = work_schedule.id
 					end
 				end 
 			end

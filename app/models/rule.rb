@@ -29,7 +29,7 @@ class Rule < ActiveRecord::Base
 		def verify(alarm_id, car_id)
 			alarm_rule = AlarmRule.where(alarm_id: alarm_id, rule_id: self.id).first
 			params = alarm_rule.params
-			return self.send(self.method_name, car_id, eval(params))
+			return self.send(self.method_name, car_id, params)
 		end
 
 	### Rules/Triggers

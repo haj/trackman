@@ -23,6 +23,8 @@ describe "Taking long pause" do
 		@car = FactoryGirl.create(:car, numberplate: "44444")		
 		@device = FactoryGirl.create(:device, name: "Device", emei: @car.numberplate, car_id: @car.id)
 		@traccar_device = Traccar::Device.create(name: @device.name, uniqueId: @device.emei)
+
+		#alarm 
 		@rule = Rule.where(method_name: "stopped_for_more_than").first
 		alarm = FactoryGirl.create(:alarm, name: "Vehicle stopped for more than 15 minutes in the last 2 hours")
 		AlarmRule.create(rule_id: @rule.id, alarm_id: alarm.id, conjunction: nil, params: "{'threshold' => '15' }")

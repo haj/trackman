@@ -14,6 +14,7 @@
 FactoryGirl.define do 
     factory :company do
         sequence(:name) { |n| "Company #{n}" }
-        sequence(:subdomain) { |n| "subdomain#{n}" } 
+        sequence(:subdomain) { |n| "subdomain#{n}" }
+        time_zone "Copenhagen"
     end
 end

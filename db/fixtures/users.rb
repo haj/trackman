@@ -11,7 +11,7 @@ Plan.seed(:id,
 )
 
 Company.seed(:id,
-  {id: 1, name: "demo", subdomain: "demo", plan_id: 1}
+  {id: 1, name: "demo", subdomain: "demo", plan_id: 1, time_zone: "Copenhagen"}
 )
 
 ActsAsTenant.current_tenant = Company.find(1)

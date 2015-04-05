@@ -16,14 +16,18 @@ class CarsController < ApplicationController
     @car = Car.find(params[:id])
     @alarms = @car.alarms
     if @car.has_device?
-      @positions = @car.positions_with_dates(params[:dates])
-      @markers = Traccar::Position.markers(@positions)        
-      gon.watch.data = @markers
-      gon.push({
-        :url => "/cars/#{@car.id}",
-        :map_id => "cars_show",
-        :resource => "cars"
-      })
+      timezone = current_user.company.time_zone.to_s
+      Time.use_zone(timezone) do
+        @positions = @car.positions_with_dates(params[:dates], timezone).limit(30)
+        logger.warn "positions.count = #{@positions.count}"
+        @markers = Traccar::Position.markers(@positions)        
+        gon.watch.data = @markers
+        gon.push({
+          :url => "/cars/#{@car.id}",
+          :map_id => "cars_show",
+          :resource => "cars"
+        })
+      end
     else
       logger.warn "Car has no device"
     end

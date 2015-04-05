@@ -10,6 +10,7 @@ describe "Started Moving Alarm" do
 		@device = FactoryGirl.create(:device, name: "Device", emei: @car.numberplate, car_id: @car.id)
 		Traccar::Device.destroy_all
 		@traccar_device = Traccar::Device.create(name: @device.name, uniqueId: @device.emei)
+		
 		@rule = Rule.where(method_name: "starts_moving").first
 		alarm = Alarm.create!(name: "Vehicle starts moving")
 		AlarmRule.create!(rule_id: @rule.id, alarm_id: alarm.id, conjunction: nil, params: "")

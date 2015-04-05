@@ -163,28 +163,41 @@ class Car < ActiveRecord::Base
 		# Alarms trigger
 
 			def check_alarms
+				# don't waste time checking if vehicle doesn't have device 
 				return if !self.has_device? 
 				
+				results = {}
+
 				self.alarms.all.each do |alarm|
-					result = alarm.verify(self.id)
-					if result == true
+					trigger = alarm.verify(self.id)
+
+					if trigger == true
 						if ActsAsTenant.current_tenant.nil?
 							ActsAsTenant.current_tenant = self.company
 						end
-						puts "alarm : #{alarm.name} - true"
+
+						# create alarm notification (so the same alarm doesn't get triggered too much times)
 						AlarmNotification.create(alarm_id: alarm.id, car_id: self.id)
-						subject =  "Alarm : #{alarm.name}"
-						body = alarm.name
-						#self.company.users.first.notify(subject, body, self)
-						#send email to user with name of the alarm triggered
-						#AlarmMailer.alarm_email(self.company.users.first, self, alarm).deliver
+
+						results["#{alarm.name}"] = {status: true, car_id: self.id }
+						Rails.logger.debug "Alarm : #{alarm.name} | Status : true"
+
+						# Send email notification to managers
+							subject =  "Alarm : #{alarm.name}"
+							body = alarm.name
+							#self.company.users.first.notify(subject, body, self)
+							#send email to user with name of the alarm triggered
+							#AlarmMailer.alarm_email(self.company.users.first, self, alarm).deliver
 					else
-						puts "alarm : #{alarm.name} - false"
+						results["#{alarm.name}"] = {status: false, car_id: self.id }
+						Rails.logger.debug "Alarm : #{alarm.name} | Status : false"
 					end
 				end
 
+				return results
+
 				# capture the current car state
-				self.capture_state
+				# self.capture_state
 			end
 
 		# Generate state card
@@ -201,17 +214,21 @@ class Car < ActiveRecord::Base
 
 
 	# dates = {start_date, start_time, end_date, end_time}
-	def positions_with_dates(dates)
+	def positions_with_dates(dates, timezone)
 		if dates.nil?
 			self.device.traccar_device.positions.order("time DESC")
 		else
-			Rails.logger.warn dates.to_json
-			start_date = Time.zone.parse("#{dates[:start_date]} #{dates[:start_time]}")
-			end_date = Time.zone.parse("#{dates[:end_date]} #{dates[:end_time]}")
-			dates[:limit_results] = 20 if dates[:limit_results].to_i == 0 
-			positions = self.device.traccar_device.positions.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")
-			Rails.logger.warn positions.to_sql
-			return positions
+			Time.use_zone("#{timezone}") do
+				Rails.logger.warn "dates : #{dates.to_json}"
+				start_date = Time.zone.parse("#{dates[:start_date]} #{dates[:start_time]}").utc
+				Rails.logger.warn "Timezoned start date : #{start_date}"
+				end_date = Time.zone.parse("#{dates[:end_date]} #{dates[:end_time]}").utc
+				Rails.logger.warn "Timezoned end date : #{end_date}"
+				dates[:limit_results] = 20 if dates[:limit_results].to_i == 0 
+				positions = self.device.traccar_device.positions.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")
+				Rails.logger.warn "positions #{positions.count}"
+				return positions
+			end
 		end
 	end
 
