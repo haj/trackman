@@ -8,10 +8,8 @@ class HomeController < ApplicationController
 	    @markers = Gmaps4rails.build_markers(@positions) do |position, marker|
 	      marker.lat position.latitude.to_s
 	      marker.lng position.longitude.to_s
-	      marker.infowindow "#{position.try(:car).try(:name)}/#{position.try(:car).try(:driver).try(:name)}/#{position.time}"
+	      marker.infowindow "#{position.try(:car).try(:numberplate)}/#{position.try(:car).try(:driver).try(:name)}/#{position.time}"
 	    end
-
-	    logger.warn @cars
 
 	    gon.watch.data = @markers
 
@@ -22,7 +20,6 @@ class HomeController < ApplicationController
 	      :query_params => request.query_parameters
 	    })
 
-	    #@time = Time.zone.now
   	else
   		redirect_to new_user_session_path
   	end

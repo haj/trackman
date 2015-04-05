@@ -74,7 +74,7 @@
                     %tr
                       %td
                         .bold
-                          = pretty_time(position.time, )
+                          = "#{position.time.strftime("%T")} #{position.time.zone}"
                         = pretty_date(position.time)
                       %td= "#{position.try(:latitude).round(5)}, #{position.try(:longitude).round(5)}"
                       %td= position.speed

@@ -43,7 +43,7 @@
                     else
                         pin = "<img width='36px' height='36px' src='<%= image_path('yellow_pin.png') %>'>"
 
-                    content = "<div>" + one_marker.infowindow + "</div>"
+                    content = "<div><b>Date:</b><br/>" + one_marker.infowindow + "</div>"
                     
                     marker = handler.addMarker
                         lat:               one_marker.lat
