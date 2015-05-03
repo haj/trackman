@@ -143,3 +143,6 @@ end
 gem "gelf"
 gem "lograge"
 gem 'rack-mini-profiler'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+#gem 'prawn'

@@ -22,4 +22,20 @@ module UsersHelper
 	def first_user?()
 	end
 
+	def is_admin?(user)
+		user &&  user.has_any_role?(:admin)
+	end
+
+	def is_manager?(user)
+		user && user.has_any_role?(:manager, :admin)
+	end
+
+	def is_employee?(user)
+		user && user.has_any_role?(:employee, :admin, :manager)
+	end
+
+	def is_driver?(user)
+		user && user.has_any_role?(:driver, :admin, :manager)
+	end
+
 end

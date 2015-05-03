@@ -8,12 +8,12 @@
       .pull-right= link_to 'Invite user', new_user_invitation_path, class: "btn btn-success"
 
   .row
-    .col-md-4
+    .col-md-5
       = form_tag '', :method => :get do
         .form-group
           = select_tag(:by_role, options_for_select(all_roles, params[:by_role]), :include_blank => "Roles")
           = submit_tag 'Filter by Role', :class => "btn btn-default"
-    .col-md-offset-5.col-md-3
+    .col-md-offset-2.col-md-5.pull-right
       = search_form_for @q do |f| 
         .form-group
           = f.search_field :email_cont, :placeholder => "Search by email"

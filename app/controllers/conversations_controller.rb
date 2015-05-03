@@ -23,7 +23,9 @@ class ConversationsController < ApplicationController
       @conversations = current_user.mailbox.inbox
       @inbox_title = "Inbox (All)"
     end
+  end
 
+  def sentbox 
     @sentbox = current_user.mailbox.sentbox
   end
 

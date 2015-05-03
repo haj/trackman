@@ -44,6 +44,7 @@ class Ability
     can :update, [CarModel, CarType, CarManufacturer]
     can :update, [DeviceType, DeviceModel, DeviceManufacturer, Teleprovider]
     can :manage, Group
+    driver
   end
 
   def driver

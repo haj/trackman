@@ -31,9 +31,21 @@ class CarsController < ApplicationController
           :resource => "cars"
         })
       end
+
+      respond_to do |format|
+        format.html
+        format.pdf do
+          render pdf: "positions"   # Excluding ".pdf" extension.
+        end
+      end
     else
       logger.warn "Car has no device"
     end
+  end
+
+  def pdf
+    @position = Traccar::Position.last
+    
   end
 
   # This list vehicles and enable the user to manage vehicles

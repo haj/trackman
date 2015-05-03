@@ -27,17 +27,18 @@ class InvitationsController < DeviseController
     if resource.errors.empty?
       	yield resource if block_given?
 
-        
-
         self.resource.first_name = params[:first_name]
         self.resource.last_name = params[:last_name]
 
     		if params[:default_role] == "Driver"
     			self.resource.roles << :driver
     			self.resource.save
-    		else
+    		elsif params[:default_role] == "Employee"
     			self.resource.roles << :employee
     			self.resource.save
+        elsif params[:default_role] == "Manager"
+          self.resource.roles << :manager
+          self.resource.save
     		end
 
         logger.warn "user : #{resource}"

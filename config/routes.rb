@@ -73,6 +73,7 @@ Rails.application.routes.draw do
       post 'reply'
     end
     collection do 
+      get 'sentbox'
       put 'mark_as_action'
     end
   end
@@ -143,6 +144,7 @@ Rails.application.routes.draw do
     collection do 
       put 'batch_destroy'
       get 'history'
+      get 'pdf'
     end
 
     member do

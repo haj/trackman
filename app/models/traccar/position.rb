@@ -55,7 +55,7 @@ class Traccar::Position < ActiveRecord::Base
         puts "Processing"
         position.reverse_geocode
       end
-      sleep(1)
+      sleep(2)
     end
   end
 

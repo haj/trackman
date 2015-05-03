@@ -1,11 +1,17 @@
 - if !@car.has_device?
   This car doesn't have a device connected to it. 
 - else 
+
   .row
     .col-md-12
-      = form_tag '', :method => :get, :id => "filter_by_date" do
-        .grid.simple
-          .grid-body
+      .grid.simple.horizontal 
+        .grid-title
+          %h4 
+            Filter by date
+          .tools
+            %a.collapse{href: "javascript:;"}
+        .grid-body
+          = form_tag '', :method => :get, :id => "filter_by_date" do
             .row
               .col-lg-2.col-md-12.col-sm-12.col-xs-12
                 .form-group
@@ -35,7 +41,7 @@
                     = text_field_tag "dates[end_time]", params.try(:[], :dates).try(:[], :end_time) , class: "time end_time form-control"
               .col-lg-2.col-md-12.col-sm-12.col-xs-12
                 = submit_tag 'Apply', :class => "btn btn-default btn-primary"
-
+            
   - if @positions.nil? || @positions.count == 0
     .row
       .col-md-12 

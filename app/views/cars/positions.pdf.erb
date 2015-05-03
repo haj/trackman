@@ -1,0 +1,14 @@
+<table>
+	<tr>
+		<td>Date</td>
+		<td>Address</td>
+		<td>Speed (km/h)</td>
+	</tr>
+	<% @positions.each do |position| %>
+		<tr>
+			<td><%= "#{position.time.strftime("%T")} #{position.time.zone}" %></td>
+			<td><%= position.try(:location).try(:address) %></td>
+			<td><%= position.speed %></td>
+		</tr>
+	<% end %>
+</table>

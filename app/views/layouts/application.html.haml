@@ -63,7 +63,8 @@
                 %ul.dropdown-menu.pull-right{"aria-labelledby" => "user-options", :role => "menu"}
                   - if current_user.company
                     %li= link_to "User settings", user_path(current_user)
-                    %li= link_to "Company settings", company_path(current_user.company.id)
+                    - if is_manager?(current_user)
+                      %li= link_to "Company settings", company_path(current_user.company.id)
                   %li.divider
                   %li
                     = link_to destroy_user_session_path, method: :delete do

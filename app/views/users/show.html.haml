@@ -1,11 +1,11 @@
 .row
   .col-md-8.col-lg-8.col-sm-8.col-xs-8 
     .page-title
-      = link_to raw("<i class='icon-custom-left'></i>"), users_path
+      - if is_manager?(current_user)
+        = link_to raw("<i class='icon-custom-left'></i>"), users_path
       %h3
         User profile
-  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
-    .pull-right= link_to 'Update', edit_user_path(@user), class: "btn btn-primary"
+        = link_to 'Edit', edit_user_path(@user), class: "btn btn-success btn-small"
 
 
 .row
@@ -24,8 +24,9 @@
           %strong Email:
           = @user.email
 
-        .form-group
-          %strong Roles:
-          %ul
-            - @user.roles.each do |role| 
-              %li= role.capitalize
+        - if is_admin?(current_user)
+          .form-group
+            %strong Roles:
+            %ul
+              - @user.roles.each do |role| 
+                %li= role.capitalize
