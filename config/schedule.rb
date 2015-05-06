@@ -26,7 +26,7 @@
 # whenever --update-crontab --set environment='development'
 
 
-every 2.minute do 
+every 5.minute do 
 	rake "check_alarms"
 end
 

@@ -32,6 +32,7 @@ class Traccar::Position < ActiveRecord::Base
   reverse_geocoded_by :latitude, :longitude do |position,results|
     if geo = results.first
     	position.location = Traccar::Location.create(address: geo.address)
+      position.update_attribute(:address, geo.address)
     end
   end
 
@@ -69,6 +70,7 @@ class Traccar::Position < ActiveRecord::Base
     end
   end
 
+  # Takes a bunch of positions and return it in a Gmaps4rails format 
   def self.markers(positions)
     return Gmaps4rails.build_markers(positions) do |position, marker|
       marker.lat position.latitude.to_s
@@ -77,8 +79,4 @@ class Traccar::Position < ActiveRecord::Base
     end 
   end
 
-
-  
-
-  	
 end

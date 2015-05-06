@@ -50,21 +50,22 @@ class DevicesController < ApplicationController
   # POST /devices.json
   def create
     @device = Device.new(device_params)
-
+    
     if @device.valid?
-      device = Traccar::Device.create(name: device_params['name'], uniqueId: device_params['emei'])
-      device.users << Traccar::User.first
+      # device = Traccar::Device.create(name: device_params['name'], uniqueId: device_params['emei'])
+      # device.users << Traccar::User.first
 
       if !simcard_params[:simcard_id].empty?
         simcard = Simcard.find(simcard_params[:simcard_id])
         simcard.update_attribute(:device_id, @device.id)
       end
-    end
-    
 
-    if @device.save
-      redirect_to @device, notice: 'Device was successfully created.'
-    else
+      if @device.save
+        redirect_to @device, notice: 'Device was successfully created.'
+      else
+        render :new
+      end
+    else 
       render :new
     end
   end

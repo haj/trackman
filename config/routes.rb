@@ -150,6 +150,7 @@ Rails.application.routes.draw do
     member do
       get 'map'
       get 'positions'
+      get 'reports'
     end
   end
 

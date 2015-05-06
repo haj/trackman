@@ -64,13 +64,19 @@ describe "Speed limit" do
 		end 
 	end
 
-	it "Should trigger alarm if repeat notification elapsed" do
+	it "Should trigger alarm if repeat notification elapsed", focus: true do
 		@traccar_device.positions << FactoryGirl.create(:position, speed: 70.0, device_id: @traccar_device.id)
 		result = @rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" })
 		expect(result).to equal(true)
 
-		Timecop.freeze(Time.zone.now + 11.minutes) do
+		Timecop.freeze(Time.zone.now + 5.minutes) do
 			@traccar_device.positions << FactoryGirl.create(:position, speed: 70.0, device_id: @traccar_device.id)
+			result = @rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" })
+			expect(result).to equal(false)
+		end 
+
+		Timecop.freeze(Time.zone.now + 120.minutes) do
+			@traccar_device.positions << FactoryGirl.create(:position, speed: 70.0, device_id: @traccar_device.id, time: Time.zone.now)
 			result = @rule.speed_limit(@car.id, { "speed" => 60, "repeat_notification" => "10" })
 			expect(result).to equal(true)
 		end 

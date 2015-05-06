@@ -1,0 +1,6 @@
+<%- Date.today.downto(Date.today - 100.days) do |date| %>
+  <li>
+  	<%= date %>
+  	<%= @car.positions_for_date(date).count %>
+  </li>
+<%- end %>

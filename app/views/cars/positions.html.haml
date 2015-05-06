@@ -60,8 +60,7 @@
               - unless @title.nil?
                 = @title
               - else
-                = "Positions history"
-                = "(#{pluralize(@positions.count, 'positions')})"
+                = "Last #{pluralize(@positions.count, 'positions')}"
             .tools
               %a.collapse{href: "javascript:;"}
           .grid-body

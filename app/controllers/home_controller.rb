@@ -3,8 +3,9 @@ class HomeController < ApplicationController
   include UsersHelper
 
 	def index
-	
+		
 		if is_manager?(current_user)
+			timezone = current_user.time_zone
 			Time.use_zone(timezone) do
 				@cars = Car.all
 				@positions = Car.all_positions(@cars) 

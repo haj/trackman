@@ -22,12 +22,8 @@ User.seed(:id,
   	first_name: "zak", 
   	last_name: "bk",
   	email: "zak@bk.com", 
-  	password: "foobar", 
-  	password_confirmation: "foobar",  
-  	current_sign_in_at: "2014-07-17 15:02:15", 
-  	last_sign_in_at: "2014-07-17 15:02:15", 
-  	current_sign_in_ip: "127.0.0.1", 
-  	last_sign_in_ip: "127.0.0.1", 
+  	password: "securepassword", 
+  	password_confirmation: "securepassword",  
   	roles_mask: 3
   }
 )

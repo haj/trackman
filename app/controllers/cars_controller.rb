@@ -12,11 +12,16 @@ class CarsController < ApplicationController
     end
   end
 
+  def reports
+    @car = Car.find(params[:id])
+  end
+
   def positions
     @car = Car.find(params[:id])
     @alarms = @car.alarms
     if @car.has_device?
-      timezone = current_user.company.time_zone.to_s
+      timezone = current_user.time_zone.to_s
+      
       Time.use_zone(timezone) do
         dates = params[:dates]
         @positions = @car.positions_with_dates(dates, timezone)

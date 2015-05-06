@@ -50,12 +50,16 @@ class Rule < ActiveRecord::Base
 		# Vehicle stopped for more than params["threshold"] minutes
 		def stopped_for_more_than(car_id, params)
 
+			threshold = params["threshold"].to_i
+
 			# this represent to which point in time we'll go back to look if car stopped for more than X minutes
-			scope = params["threshold"].to_i*2
+			scope = threshold*2
+
+			rule_alerts = RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, threshold.minutes.ago)
 
 			# if a previous alarm of this type was triggered, then cancel this one
-			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, params["threshold"].to_i.minutes.ago).count != 0
-				Rails.logger.debug "[stopped_for_more_than] RETURNED [FALSE] FOR #{car_id} BECAUSE OF [RuleNotification]"
+			if rule_alerts.count != 0
+				#Rails.logger.debug "[stopped_for_more_than] RETURNED [FALSE] FOR #{car_id} BECAUSE OF [RuleNotification]"
 				return false
 			end
 
@@ -99,13 +103,17 @@ class Rule < ActiveRecord::Base
 		# Vehicle driving for more than consecutive params["threshold"] (duration) minutes
 		def driving_consecutive_hours(car_id, params)
 
+			threshold = params["threshold"].to_i
+
 			# This is how much in time we'll go to back when looking if car stopped or not.
 			# basically if user is looking if car stopped for more than 15 minutes, scope would be 30 minuts, 
 			# which means we'll check if the car stopped for more than 15 minutes in the last 30 minutes just to be sure! 
-			scope = params["threshold"].to_i*2
+			scope = threshold*2
+
+			rule_alerts = RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, threshold.minutes.ago)
 
 			# We check if this particular alarm was triggered before, if so then no need to re-trigger it, which means no need to check
-			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, params["threshold"].to_i.minutes.ago).count != 0
+			if rule_alerts.count != 0
 				return false
 			end
 
@@ -140,15 +148,25 @@ class Rule < ActiveRecord::Base
 			return false
 		end
 
-		# Vehicle moving faster than params["speed"]
+		# Vehicle moving faster than a particular speed (params["speed"])
+		# How it works : 
+		# Fetch all positions after x minutes ago, and look for the ones where speed was > then a particular speed 
 		def speed_limit(car_id, params)
 
+			repeat_notification = params['repeat_notification'].to_i
+			speed = params["speed"].to_i
+
 			car = Car.find(car_id)
-			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id,  params['repeat_notification'].to_i.minutes.ago).count != 0 || car.no_data?
+			
+			rule_alerts = RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id,  10.minutes.ago)
+			
+			if rule_alerts.count != 0 || car.no_data?
 				return false
 			end
 
-			if car.device.speed > params["speed"].to_i # in km/h
+			speed_positions = car.device.traccar_device.positions.where("time > ? AND speed > ?", repeat_notification.minutes.ago, speed)
+
+			if speed_positions.count > 0
 				RuleNotification.create(rule_id: self.id, car_id: car_id)
 				return true
 			else
@@ -159,31 +177,33 @@ class Rule < ActiveRecord::Base
 		# Vehicle moving during (or not) work hours
 		def movement_not_authorized(car_id, params)
 
+			repeat_notification = params["repeat_notification"].to_i
+
 			# setup the car we can apply this rule to
 			car = Car.find(car_id)
 
 			# else we can proceed to check if car moving outside work hours
 			last_position = car.positions.where("time > ?", 5.minutes.ago).last
 
+			rule_alerts = RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, repeat_notification.minutes.ago)
+
 			# if we raised an alarm like this in the last 30 minutes, then we don't have to raise another one again, so no need to even check if it's true
-			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, params["repeat_notification"].to_i.minutes.ago).count != 0 || last_position.nil? || car.work_schedule.nil?
+			if rule_alerts.count != 0 || last_position.nil? || car.work_schedule.nil?
 				return false
 			else 
 				current_time = last_position.time.to_time_of_day
 				current_day_of_week = last_position.time.wday
 				current_day_of_week = 7 if current_day_of_week == 0
+
 				car.work_schedule.work_hours.each do |work_hour|
-				shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
+					shift = Shift.new(work_hour.starts_at, work_hour.ends_at)
 					if shift.include?(current_time) && work_hour.day_of_week == current_day_of_week
 						return false
 					end
 				end
 				RuleNotification.create(rule_id: self.id, car_id: car_id)
 				return true
-			end
-
-			
-				
+			end	
 		end
 
 
@@ -193,24 +213,35 @@ class Rule < ActiveRecord::Base
 
 			car = Car.find(car_id)
 			current_position, previous_position = car.device.last_positions
+			scope = 5 #5 minutes ago
 
-			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, 15.minutes.ago).count != 0 || current_position.nil?
+			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, scope.minutes.ago).count != 0 || current_position.nil?
 				return false
 			end
 
-			
 			region = Region.find(params["region_id"].to_i)
-			car_outside = !region.contains_point(previous_position.latitude, previous_position.longitude)
-			if car_outside == true
-				car_inside = region.contains_point(current_position.latitude, current_position.longitude)
-				if car_inside
-					RuleNotification.create(rule_id: self.id, car_id: car_id)
-					return true
-				else
-					return false
+			
+			positions = car.device.traccar_device.positions.where("time > ?", scope.minutes.ago).order("time DESC")
+			inside_position = nil
+
+			positions.each do |position|
+				if region.contains_point(position.latitude, position.longitude)
+					inside_position = position
+					break
 				end
-			else
+			end
+
+			if inside_position.nil?
 				return false
+			else
+				positions = car.device.traccar_device.positions.where("time > ? AND time < ?", scope.minutes.ago, inside_position.time)
+				positions.each do |position|
+					if !region.contains_point(position.latitude, position.longitude)
+						RuleNotification.create(rule_id: self.id, car_id: car_id)
+						return true
+					end
+				end
+				return false 
 			end
 		end
 
@@ -221,22 +252,35 @@ class Rule < ActiveRecord::Base
 			car = Car.find(car_id)
 			current_position, previous_position = car.device.last_positions
 
-			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, 15.minutes.ago).count != 0 || current_position.nil?
+			scope = 5 # 5 minutes ago
+
+			if RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, scope.minutes.ago).count != 0 || current_position.nil?
 				return false
 			end
 			
 			region = Region.find(params["region_id"].to_i)
-			car_inside = region.contains_point(previous_position.latitude, previous_position.longitude)
-			if car_inside == true
-				car_outside = !region.contains_point(current_position.latitude, current_position.longitude)
-				if car_outside == true
-					RuleNotification.create(rule_id: self.id, car_id: car_id)
-					return true 
-				else
-					return false
+
+			positions = car.device.traccar_device.positions.where("time > ?", scope.minutes.ago).order("time DESC")
+			outside_position = nil
+
+			positions.each do |position|
+				if !region.contains_point(position.latitude, position.longitude)
+					outside_position = position
+					break
 				end
-			else
+			end
+
+			if outside_position.nil?
 				return false
+			else
+				positions = car.device.traccar_device.positions.where("time > ? AND time < ?", scope.minutes.ago, outside_position.time)
+				positions.each do |position|
+					if region.contains_point(position.latitude, position.longitude)
+						RuleNotification.create(rule_id: self.id, car_id: car_id)
+						return true
+					end
+				end
+				return false 
 			end
 		end
 

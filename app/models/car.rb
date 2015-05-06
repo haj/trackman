@@ -201,22 +201,22 @@ class Car < ActiveRecord::Base
 			end
 
 		# Generate state card
-			def capture_state
-				state = State.new
-				state.moving = self.moving? 
-				state.no_data = self.no_data?
-				state.speed = self.speed
-				state.car_id = self.id 
-				state.driver_id = self.driver.id if self.has_driver?
-				state.device_id = self.device.id if self.has_device?
-				state.save!
-			end
+		def capture_state
+			state = State.new
+			state.moving = self.moving? 
+			state.no_data = self.no_data?
+			state.speed = self.speed
+			state.car_id = self.id 
+			state.driver_id = self.driver.id if self.has_driver?
+			state.device_id = self.device.id if self.has_device?
+			state.save!
+		end
 
 
 	# dates = {start_date, start_time, end_date, end_time}
 	def positions_with_dates(dates, timezone)
 		if dates.nil?
-			self.device.traccar_device.positions.order("time DESC").limit(30)
+			self.device.traccar_device.positions.order("time DESC").limit(100)
 		else
 			Time.use_zone("#{timezone}") do
 				Rails.logger.warn "dates : #{dates.to_json}"
@@ -232,12 +232,12 @@ class Car < ActiveRecord::Base
 		end
 	end
 
+	def positions_for_date(day)
+		date = Chronic.parse(day.to_s)
+		self.positions.where("time > ? AND time < ?", date, date + 1.day)
+	end
 
-
-
-
-
-
-
+	def distance
+	end
 
 end

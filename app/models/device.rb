@@ -22,30 +22,52 @@ class Device < ActiveRecord::Base
 
 	acts_as_paranoid
 
+	# Validation
 	validates :name, :emei, :device_model_id, :device_type_id, presence: true
-
 	validates_uniqueness_of :name, conditions: -> { where(deleted_at: nil) }, case_sensitive: false
 	validates_uniqueness_of :emei, conditions: -> { where(deleted_at: nil) }, case_sensitive: false
 
 
+	# Scopes
 	scope :by_device_model, -> device_model_id { where(:device_model_id => device_model_id) }
 	scope :by_device_type, -> device_type_id { where(:device_type_id => device_type_id) }
-
 	scope :with_simcard, -> { where("id IN (SELECT device_id FROM Simcards WHERE device_id IS NOT NULL)") }
 	scope :without_simcard, -> { where("id NOT IN (SELECT device_id FROM Simcards WHERE device_id IS NOT NULL)") }
-	
 	scope :available, -> { where(:car_id => nil) }
 	scope :used, -> { where("car_id IS NOT NULL") }
 
 	acts_as_tenant(:company)
 
+	# Has_
 	has_one :simcard, :dependent => :nullify
 	belongs_to :device_model 
 	belongs_to :device_type
 	belongs_to :car
 	belongs_to :company
-
 	has_many :states
+
+
+	# callbacks 
+	before_destroy :destroy_traccar_device
+	after_save :create_traccar_device
+	before_update :update_traccar_device
+
+
+	def destroy_traccar_device
+		self.traccar_device.destroy unless self.traccar_device.nil?
+	end
+
+	def create_traccar_device
+		traccar_device = Traccar::Device.find_or_create_by(name: self.name, uniqueId: self.emei)
+      	traccar_device.users << Traccar::User.first
+	end
+
+	def update_traccar_device
+		traccar_device = Traccar::Device.where(uniqueId: self.emei).first
+		unless traccar_device.nil?
+			traccar_device.update_attributes(name: self.name, uniqueId: self.emei)
+		end
+	end
 
 
 	def self.available_devices
@@ -59,8 +81,6 @@ class Device < ActiveRecord::Base
 			Device.where("id NOT IN (SELECT device_id FROM simcards WHERE device_id IS NOT NULL) OR id = #{device_id}")
 		end
 	end
-
-	
 
 	def has_car?
 		!self.car_id.nil?
