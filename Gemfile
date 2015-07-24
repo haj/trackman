@@ -40,7 +40,7 @@ gem 'spring',        group: :development
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -53,7 +53,7 @@ gem 'acts_as_tenant'
 gem 'devise_invitable', '~> 1.3.4'
 gem 'hirb'
 gem 'cancancan', '~> 1.9'
-gem 'role_model', github: 'andrewhubbs/role_model'
+gem 'role_model', github: 'martinrehfeld/role_model'
 gem 'nested_form'
 gem "jquery-ui-rails"
 gem 'country-select'
@@ -67,7 +67,7 @@ group :development, :test do
   gem 'simplecov', '~> 0.7.1'
   gem 'spring-commands-rspec'
   gem 'guard'
-  gem 'guard-spring'
+  # gem 'guard-spring'
   gem 'guard-rspec'
   gem "factory_girl_rails"
   gem "capybara"
