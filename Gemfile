@@ -24,6 +24,8 @@ gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
+gem 'time_diff', '~> 0.3.0'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -123,8 +125,10 @@ gem 'ci_reporter_rspec'
 gem 'selenium-webdriver'
 
 #gem 'jquery-timepicker-rails', github: 'cover/jquery-timepicker-rails'
-
+gem 'order_query', '~> 0.3.2'
 gem 'timecop'
+
+gem 'groupdate'
 
 gem 'gravatar_image_tag'
 
@@ -137,7 +141,8 @@ gem 'chosen-rails'
 gem 'puma'
 
 group :development, :test do
-    gem 'railroady'
+  gem 'railroady'
+  gem 'web-console', '~> 2.0'
 end
 
 gem "gelf"

@@ -5,12 +5,12 @@
 $(document).ready ->
 	if (typeof gon != "undefined") && gon.resource == "devices"
 		handler = Gmaps.build('Google')
-		handler.buildMap { provider: { zoom: 10 }, internal: {id: gon.map_id}}, ->
+		handler.buildMap { provider: { zoom: 8 }, internal: {id: gon.map_id}}, ->
 			markers = handler.addMarkers(gon.data)
 			window.markers = markers
 			handler.bounds.extendWith(markers)
 			handler.fitMapToBounds()
-			handler.getMap().setZoom(12)
+			handler.getMap().setZoom(8)
 
 		refreshDevicesMap = (data) ->
  			console.log "Refreshing devices"

@@ -12,8 +12,7 @@ module ApplicationHelper
 		else
 			return 0
 		end
-		
-		
+	
 	end
 
 	def notification_title(notification)

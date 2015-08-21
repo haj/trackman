@@ -1,0 +1,109 @@
+%table.table.mi-size
+  %thead
+    %tr
+      %th Type
+      %th Vehicle
+      %th Location
+      %th Zone
+      %th Driven KM
+      %th Ignition
+      %th Tilting
+  %tbody
+    %tr
+      %td= @car.car_type.name
+      %td.heading= link_to "#{@car.try(:name)}", @car
+      %td.description
+      %td
+      %td= "#{0} Km"
+      %td
+      %td
+      %td
+  -@dates[:start_date].upto(@dates[:end_date]).each do |date|
+
+    -@first_pos = logbook_data.select{|p| p.time.to_date == date.to_date}.first
+    -@last_pos = logbook_data.select{|p| p.time.to_date == date.to_date}.last
+    -@logbook_data.select{|p| p.time.to_date == date.to_date}
+    -@steps = 1
+    %tr
+      %th.details
+      %th.details= link_to "#{@first_pos.time.to_date}", '#', {class: 'show_road_for_this_date', data: {car_id: @car.id}}
+      %th.details
+        %span.label.label-info.icondrive P : 14:23
+        %span.label.label-success.icondrive D : 03:12
+      %th.details
+      %th.details
+      %th.details
+      %th.details
+    %tr.row-time-address
+      %td.details.pull-right
+        %a{class: 'expand_positions',:href => "#logbook", :data => {date: "#{date.strftime('%d%m%y')}"}}
+          %i{class: "fa fa-lg fa-plus-circle"}
+      %td.details= "#{@first_pos.time.strftime('%H:%M')} - #{@last_pos.time.strftime('%H:%M')}"
+      %td.details.address
+        %span.staddress= "#{@first_pos.address}"
+        %span= "- #{@last_pos.address}"
+      %td.details
+      %td.details
+      %td.details
+      %td.details
+    -@logbook_data.select{|p| p.time.to_date == date.to_date}.each_with_index do |position, i|
+
+      / -if !position.valid_position
+      /   -next
+
+      -ppos = @logbook_data.where('device_id like ?', position.device_id).where('time < ?', position.time).last
+      -npos = @logbook_data.where('device_id like ?', position.device_id).where('time > ?', position.time).first
+
+      %tr{class: "#{position.time.strftime('%d%m%y')}", style: 'display:none;'}
+        %td.details.pull-right
+
+          -if position.start_point
+            %span.badge.badge-success= @steps
+
+          -if position.stop_point
+            %span.badge.badge-danger=@steps
+            -@steps+=1
+
+        -if position.start_point
+          %td.details= "#{position.time.strftime('%H:%M')}, P : #{Time.at(position.parking_duration.to_i).utc.strftime("%H:%M")}"
+        -elsif position.stop_point
+          %td.details= "#{position.time.strftime('%H:%M')}, D : #{Time.at(position.driving_duration.to_i).utc.strftime("%H:%M")}"
+        -else
+          %td.details= "#{position.time.strftime('%H:%M')}"
+
+        %td.details.address= "#{position.address}"
+        %td.details
+        %td.details= "#{position.speed} km/h"
+        %td.details
+        %td.details
+
+:plain
+  <script>
+
+    show_road = function(data){
+         Cars.Maps.switch_to_directions(data)
+    }
+
+    $('.show_road_for_this_date').click(function (){
+         car_id = $(this).data('car-id')
+         date = $(this).text()
+         gon.watch('road', {url: '/one_car_render_directions?car_id='+car_id+'&date='+date}, show_road)
+         $('.map-title').empty().html('Showing road of <strong>'+car_name+'</strong> for '+date)
+    });
+
+    $('.expand_positions').click(function(){
+      date = $(this).data('date')
+      if($('tr.'+date).css('display') != 'none'){
+        $('tr.'+date).hide()
+        $(this).find('i').removeClass('fa-minus-circle')
+        $(this).find('i').addClass('fa-plus-circle')
+      } else {
+        $('tr.'+date).show()
+        $(this).find('i').removeClass('fa-plus-circle')
+        $(this).find('i').addClass('fa-minus-circle')
+      }
+    });
+  </script>
+
+/ .take_while{|pos| pos.time.strftime("%d%m%y") = date.strftime("%d%m%y") }
+/ .select{|p| p.time.strftime("%d-%m-%y") == date.strftime("%d-%m-%y") }

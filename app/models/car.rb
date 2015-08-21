@@ -76,6 +76,14 @@ class Car < ActiveRecord::Base
 			end
 		end
 
+		def time
+			self.positions.last.time
+		end
+
+		def address
+			self.positions.last.address
+		end
+
 	# Positions
 		
 		def self.all_positions(cars)	
@@ -88,6 +96,12 @@ class Car < ActiveRecord::Base
 	    	end
 
 	    	return positions
+		end
+
+		def self.one_car_position(car)	
+			position = Array.new
+	        position << car.last_position
+	    	return position
 		end
 
 		# Generate a hash with latitude and longitude of the car (fetched through the device GPS data)
@@ -219,13 +233,16 @@ class Car < ActiveRecord::Base
 			self.device.traccar_device.positions.order("time DESC").limit(100)
 		else
 			Time.use_zone("#{timezone}") do
-				Rails.logger.warn "dates : #{dates.to_json}"
+
 				start_date = Time.zone.parse("#{dates[:start_date]} #{dates[:start_time]}").utc
-				Rails.logger.warn "Timezoned start date : #{start_date}"
+
 				end_date = Time.zone.parse("#{dates[:end_date]} #{dates[:end_time]}").utc
-				Rails.logger.warn "Timezoned end date : #{end_date}"
-				dates[:limit_results] = 20 if dates[:limit_results].to_i == 0 
-				positions = self.device.traccar_device.positions.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time DESC")
+
+				# dates[:limit_results] = 20 if dates[:limit_results].to_i == 0
+
+				# positions = self.device.traccar_device.positions.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time ASC")
+				positions = Location.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time ASC")
+				
 				Rails.logger.warn "positions #{positions.count}"
 				return positions
 			end

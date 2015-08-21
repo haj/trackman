@@ -1,0 +1,9 @@
+# Sidekiq Configuration
+---
+development:
+  :logfile: ./log/sidekiq_development.log
+  :verbose: true
+  :pidfile: ./tmp/pids/sidekiq.pid
+  :concurrency: 10
+  :queues:
+    - [reverse_geocoding, 7]

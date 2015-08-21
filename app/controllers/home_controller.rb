@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   layout 'map'
   include UsersHelper
+  include ApplicationHelper
 
 	def index
 		
@@ -8,11 +9,19 @@ class HomeController < ApplicationController
 			timezone = current_user.time_zone
 			Time.use_zone(timezone) do
 				@cars = Car.all
-				@positions = Car.all_positions(@cars) 
+
+				@positions = Car.all_positions(@cars)
+
 				@markers = Gmaps4rails.build_markers(@positions) do |position, marker|
 				  marker.lat position.latitude.to_s
 				  marker.lng position.longitude.to_s
-				  marker.infowindow "#{position.try(:car).try(:numberplate)}/#{position.try(:car).try(:driver).try(:name)}/#{position.time}"
+				  driver = position.try(:car).try(:driver).try(:name)
+				  driver = "Unknown" if driver == ""
+				  marker.infowindow "#{position.try(:car).try(:name)}/
+				  #{position.try(:car).try(:numberplate)}/
+				  #{driver}/
+				  #{position.try(:time)}/
+				  #{position.try(:address)}/"
 				end
 
 				gon.watch.data = @markers
@@ -33,7 +42,103 @@ class HomeController < ApplicationController
 	
 	end
 
-	def test
+	def one_car_render_pin
+		timezone = current_user.time_zone.to_s
+
+		Time.use_zone(timezone) do
+			car_id = params[:car_id]
+			@car = Car.find(car_id)
+
+			@position = Car.one_car_position(@car)
+
+			@markers = Gmaps4rails.build_markers(@position) do |position, marker|
+			  marker.lat position.latitude.to_s
+			  marker.lng position.longitude.to_s
+			  driver = position.try(:car).try(:driver).try(:name)
+			  driver = "Unknown" if driver == ""
+			  marker.infowindow "#{position.try(:car).try(:name)}/
+			  #{position.try(:car).try(:numberplate)}/
+			  #{driver}/
+			  #{position.try(:time)}/
+			  #{position.try(:address)}/"
+			end
+
+			# p "numberreerer : #{@markers.count}"
+
+			gon.watch.data = @markers
+
+			gon.push({
+			  :url => "/cars",
+			  :map_id => "cars_index",
+			  :resource => "cars"
+			})
+
+		end
+
+	end
+
+	def one_car_render_directions
+
+	    # @alarms = @car.alarms
+	    date = params[:date].to_date
+	    car_id = params[:car_id]
+	    @car = Car.find(car_id)
+		timezone = current_user.time_zone.to_s
+
+		Time.use_zone(timezone) do
+			@date = {start_date: date.to_date, start_time: "00:00", end_date: date.to_date, end_time: "23:59"}
+			@positions = @car.positions_with_dates(@date, timezone)
+
+			@markers = Location.markers(@positions)  
+
+			gon.watch.road = @markers
+
+			# gon.push({
+			#   :url => "/cars",
+			#   :map_id => "cars_index",
+			#   :resource => "cars"
+			# })
+		end
+		
+	end
+
+	def logbook_render car_id = nil, start_date = DateTime.now.at_beginning_of_day.to_date, end_date = DateTime.now.at_end_of_day.to_date
+		
+		car_id = params[:car_id]
+		@dates = {start_date: start_date, start_time: "00:00", end_date: end_date, end_time: "23:59"}
+		@car = Car.find(car_id)
+
+		@logbook_data = []
+
+		@dates[:start_date] = "2015-08-05".to_date
+		@dates[:end_date] = "2015-08-10".to_date
+
+		@logbook_data = @car.positions_with_dates(@dates, "UTC")
+
+		while @logbook_data.empty? or @logbook_data == nil
+			@logbook_data = @car.positions_with_dates(@dates, "UTC")
+			if @logbook_data.empty? or @logbook_data == nil
+				@dates[:start_date] = @dates[:start_date].yesterday
+				@dates[:end_date] = @dates[:end_date].yesterday
+			end
+		end
+
 	end
 
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

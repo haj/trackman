@@ -28,6 +28,12 @@
                 width: "170px"
                 
     class @Maps
+        @refresh : () ->
+            if window.current_mode = "pins"
+                Maps.switch_to_pins()
+            else
+                Maps.switch_to_directions()
+
         @switch_to_pins : () ->
             window.current_mode = "pins"
 
@@ -55,7 +61,7 @@
                 points = []
                 for point, i in gon.data
                     hash = {lat: gon.data[i]["lat"], lng: gon.data[i]["lng"]}
-                    console.log hash
+                    # console.log hash
                     points[i] = hash
 
                 console.log("points")    
@@ -71,12 +77,13 @@
                 handler.bounds.extendWith(polylines);
                     
                 handler.fitMapToBounds()
-                #handler.getMap().setZoom(11)
+                handler.getMap().setZoom(13)
 
                 window.handler = handler
 
-        @switch_to_directions : () ->
+        @switch_to_directions : (data) ->
             # Set current map view mode to directions (instead of just showing little markers)
+            gon.data = data
             window.current_mode = "directions"
 
             handler = Gmaps.build("Google")
@@ -89,7 +96,7 @@
 
             for point, i in gon.data
                 hash = {lat: gon.data[i]["lat"], lng: gon.data[i]["lng"]}
-                console.log hash
+                # console.log hash
                 points[i] = hash
 
             polylines = handler.addPolylines(
@@ -101,5 +108,6 @@
 
             handler.bounds.extendWith(polylines);
             handler.fitMapToBounds();
+            handler.getMap().setZoom(11)
 
             

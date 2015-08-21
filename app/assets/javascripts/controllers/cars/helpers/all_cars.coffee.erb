@@ -24,7 +24,6 @@ class DetailedMarkerBuilder extends Gmaps.Google.Builders.Marker
         boxStyle:
             width: "150px"
 
-
 @module "Cars", ->
     class @AllCars
         @show : () ->
@@ -38,13 +37,15 @@ class DetailedMarkerBuilder extends Gmaps.Google.Builders.Marker
 
                     vehicle = one_marker.infowindow.split("/");
 
-                    if vehicle[1] == ""
-                        vehicle[1] = "No Driver"
-
                     pin = "<img width='36px' height='36px' src='<%= image_path('red_pin.png') %>'>"
-                    
-                    content = "<div class='map-tooltip' ><p><b>Numberplate:</b></br>"+ vehicle[0] + 
-                        "</p><p>" + vehicle[1] + "</p><p><b>Last seen:</b><br/>" + vehicle[2] + "</p></div>" 
+
+                    content = "<div class='popover fade in' style='display: block;'>"+
+                    "<h3 class='popover-title'>" + vehicle[0] + "</h3>"+
+                    "<div class='popover-content map-tooltip'>"+
+                    "<p><b>Last seen :</b><br/>" + vehicle[3] + "</p>"+
+                    "<p><b>Location :</b></br> "+ vehicle[4]+"</p>"+
+                    "<p><b>Driver :</b>" + vehicle[2] + "</p>"+
+                    "<p><b>Numberplate :</b></br> "+ vehicle[1]+"</p></div>"
 
                     
                     marker = handler.addMarker
@@ -55,6 +56,5 @@ class DetailedMarkerBuilder extends Gmaps.Google.Builders.Marker
 
                     handler.bounds.extendWith(marker)
                     
-                handler.fitMapToBounds()
-                handler.getMap().setZoom(3)
-            
+                handler.fitMapToBounds()    
+                handler.getMap().setZoom(13)        

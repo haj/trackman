@@ -1,0 +1,37 @@
+%table.table.mi-size
+  %thead
+    %tr
+      %th Type
+      %th Vehicle
+      %th Location
+      %th Zone
+      %th Driven KM
+      %th Ignition
+      %th Tilting
+  %tbody
+    %tr
+      %td= @car.car_type.name
+      %td.heading= link_to "#{@car.try(:name)}", @car
+      %td.description
+      %td
+      %td= "#{0} Km"
+      %td
+      %td
+      %td
+    -p logbook_data
+    %tr
+      %td.details
+      %td.details= "start : #{@logbook_data.first.time}"
+      %td.details= "start : #{@logbook_data.first.address}"
+      %td.details
+      %td.details= "#{@logbook_data.first.speed} km/h"
+      %td.details
+      %td.details
+    %tr
+      %td.details
+      %td.details= "stop : #{@logbook_data.last.time}"
+      %td.details= "stop : #{@logbook_data.last.address}"
+      %td.details
+      %td.details= "#{@logbook_data.last.speed} km/h"
+      %td.details
+      %td.details

@@ -31,6 +31,10 @@ Rails.application.routes.draw do
 
   # just a dummy path to test exception notifier 
   get 'test_exception_notifier' => 'application#test_exception_notifier'
+  get 'logbook_render' => 'home#logbook_render'
+  get 'one_car_render' => 'home#one_car_render'
+  get 'one_car_render_pin' => 'home#one_car_render_pin'
+  get 'one_car_render_directions' => 'home#one_car_render_directions'
 
   ###############
   # Subscription

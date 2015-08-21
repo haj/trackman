@@ -26,17 +26,24 @@
 # whenever --update-crontab --set environment='development'
 
 
-every 5.minute do 
-	rake "check_alarms"
+# every 5.minute do 
+# 	rake "check_alarms"
+# end
+
+# every 5.minute do 
+# 	rake "jobs:workoff"
+# end
+
+set :environment, "development"
+set :output, "./log/cron_log.log"
+
+every 1.minute do
+	rake "geocoder:reverse"
 end
 
-every 2.minute do 
-	rake "jobs:workoff"
-end
-
-every 5.minutes do 
-	rake "geocode"
-end 
+# every 1.day, :at => '5:00 am' do
+  # runner "MyModel.task_to_run_at_four_thirty_in_the_morning"
+# end
 
 # this recurring task is here just for testing purposes-only and should be removed later
 # every 1.minute do 

@@ -69,6 +69,8 @@ GEM
       rake (~> 10.4)
     arel (5.0.1.20140414130214)
     bcrypt (3.1.10)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     builder (3.2.2)
     cancancan (1.12.0)
     capistrano (2.15.5)
@@ -124,6 +126,7 @@ GEM
     country-select (1.1.1)
     daemons (1.2.3)
     database_cleaner (1.4.1)
+    debug_inspector (0.0.2)
     devise (3.5.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -170,6 +173,8 @@ GEM
       multi_json
       request_store (>= 1.0.5)
     gravatar_image_tag (1.2.0)
+    groupdate (2.4.0)
+      activesupport (>= 3)
     guard (2.12.8)
       formatador (>= 0.2.4)
       listen (>= 2.7, <= 4.0)
@@ -259,6 +264,9 @@ GEM
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    order_query (0.3.2)
+      activerecord (~> 4.0)
+      activesupport (~> 4.0)
     orm_adapter (0.5.0)
     paranoia (2.1.3)
       activerecord (~> 4.0)
@@ -422,6 +430,9 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
+    time_diff (0.3.0)
+      activesupport
+      i18n
     timecop (0.7.4)
     timers (4.0.1)
       hitimes
@@ -438,6 +449,11 @@ GEM
       raindrops (~> 0.7)
     warden (1.2.3)
       rack (>= 1.0)
+    web-console (2.1.3)
+      activemodel (>= 4.0)
+      binding_of_caller (>= 0.7.2)
+      railties (>= 4.0)
+      sprockets-rails (>= 2.0, < 4.0)
     websocket (1.2.2)
     whenever (0.9.4)
       chronic (>= 0.6.3)
@@ -477,6 +493,7 @@ DEPENDENCIES
   gmaps4rails
   gon
   gravatar_image_tag
+  groupdate
   guard
   guard-rspec
   haml-rails
@@ -492,6 +509,7 @@ DEPENDENCIES
   mailboxer
   mysql2
   nested_form
+  order_query (~> 0.3.2)
   paranoia (~> 2.0)
   paymill
   pinp!
@@ -519,12 +537,14 @@ DEPENDENCIES
   spring-commands-rspec
   sqlite3
   therubyracer
+  time_diff (~> 0.3.0)
   timecop
   tod
   twitter-bootstrap-rails!
   uglifier (>= 1.3.0)
   underscore-rails
   unicorn
+  web-console (~> 2.0)
   whenever
   wicked_pdf
   wkhtmltopdf-binary

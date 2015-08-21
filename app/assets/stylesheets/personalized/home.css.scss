@@ -1,0 +1,50 @@
+// Place all the styles related to the Home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.grid-no-mbot {
+	margin-bottom: 0px;
+}
+
+.mi-padding {
+	padding:15px 25px 0px !important;
+}
+
+.border-bot {
+	border-bottom: 1px solid #dddddd !important;
+}
+
+.overview {
+	border-left: 1px solid #dddddd !important;
+}
+
+.column-seperation > div[class*="col-"] {
+	border-right: none;
+}
+
+.grid-without-title input{
+	font-size: 12px !important;
+}
+
+.border-only-bot{
+	border: none !important;
+	border-bottom: 1px solid #dddddd !important;
+}
+
+.mi-size *{
+	font-size: .94em !important;
+}
+
+.mi-size i{
+	font-size: 1.5em !important;
+}
+
+.icondrive{
+	font-size: 80% !important;
+}
+
+tr.row-time-address td {
+	margin-top: 0px !important;
+	padding-top: 0px !important;
+}

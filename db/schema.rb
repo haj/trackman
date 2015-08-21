@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150331143215) do
+ActiveRecord::Schema.define(version: 20150819172311) do
 
   create_table "alarm_notifications", force: true do |t|
     t.integer  "car_id"
@@ -205,6 +205,17 @@ ActiveRecord::Schema.define(version: 20150331143215) do
     t.integer  "position_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "city"
+    t.string   "country"
+    t.string   "state"
+    t.integer  "device_id"
+    t.datetime "time"
+    t.float    "speed",            limit: 24
+    t.boolean  "start_point",                 default: false
+    t.boolean  "valid_position"
+    t.boolean  "stop_point"
+    t.string   "driving_duration"
+    t.string   "parking_duration"
   end
 
   create_table "mailboxer_conversation_opt_outs", force: true do |t|

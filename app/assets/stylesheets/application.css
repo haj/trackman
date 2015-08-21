@@ -34,6 +34,7 @@
  *= require ./template/style
  *= require ./template/responsive
  *= require ./template/custom-icon-set
+ *= require_tree ./personalized/.
  *= require self
  *= require regions
  *= require work_schedules
@@ -44,16 +45,19 @@
  */
 
 
-
-
-
 .map-tooltip{
 	height: 100%;
 	margin: 1px;
 	padding: 4px;
-	margin: 0 0 -18px 0;
 	border-top-color: rgba(0, 0, 0, 0.8);
+	font-size: 10px !important;
+	border-radius: 5px;
+	width: 200px !important;
+}
+
+.detailed_infowindow {
 	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+	font-size: 10px !important;
 }
 
 #calendar {
@@ -63,6 +67,39 @@
 .input-append{
 	margin-left: 10px;
 }
+
+.h-scroll{
+	overflow-y: scroll;
+}
+
+.sizeMapFull-icon{
+	background: none !important;
+}
+
+.map, .overview{
+	-webkit-transition: all .3s !important;
+	-o-transition: all .3s !important;
+	transition: all .3s !important;
+}
+
+.table>tbody>tr>td.details { 
+	border-top: none !important;
+}
+
+.table>tbody>tr>td.details.address { 
+	width: 40%;
+}
+
+
+.table>tbody>tr>td.details.address span.staddress { 
+	opacity: .7;
+}
+
+
+
+
+
+
 
 
 

@@ -9,7 +9,8 @@ development:
   port: <%= ENV['MYSQL_PORT'] || '3306' %>
   database: <%= ENV['DB_NAME'] %>
   username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %> 
+  password: <%= ENV['DB_PASSWORD'] %>
+  pool: 25
 
 secondary_development:
   adapter: mysql2
@@ -17,7 +18,8 @@ secondary_development:
   port: <%= ENV['MYSQL_PORT'] || '3306' %>
   database: <%= ENV['DB_TRACCAR_NAME'] %>
   username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %> 
+  password: <%= ENV['DB_PASSWORD'] %>
+  pool: 25
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -44,7 +46,8 @@ production:
   port: <%= ENV['MYSQL_PORT'] || '3306' %>
   database: <%= ENV['DB_NAME'] %>
   username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %> 
+  password: <%= ENV['DB_PASSWORD'] %>
+  pool: 25
 
 secondary_production:
   adapter: mysql2

@@ -92,10 +92,72 @@
 //= require ./controllers/work_schedules/work_schedules
 //
 
+function sizeMapFull(){
+     $('.map').css("width","100%");
+     $('.overview').css("width","100%");
+}
+
+function sizeMapLess(){
+     $('.map').css("width","50%");
+     $('.overview').css("width","50%");
+}
 
 $(document).ready(function(){
+
+          show_car = function(data){
+               Cars.Maps.switch_to_pins(data)
+          }
+
+          $('.show_logbook').click(function() {
+               car_id = $(this).data('car-id')
+               car_name = $(this).data('car-name')
+               gon.watch('data', {url: '/one_car_render_pin?car_id='+car_id}, show_car)
+               $('.map-title').empty().html('Showing location of <strong>'+car_name+'</strong>')
+               $.ajax({
+                    url: '/logbook_render',
+                    type: 'GET',
+                    data: {car_id: car_id},
+                    success: function(data){
+                         // window.location.href = "#logbook"
+                    },
+                    error: function($xhr){
+                         var data = $xhr.responseJSON;
+                         console.log(data);
+                    }
+               })
+          });
+
+          $('a.config.sizeMapFull-icon').click(function(){
+               if($('.map').attr('style') == "width: 50%;") {
+                    sizeMapFull();
+                    setTimeout(function(){
+                         Cars.Maps.refresh();
+                    }, 500)
+               } else { sizeMapLess(); }
+          });
+
+          $('.timepicker').timepicker();
+
+          $('.timepicker.start-time').timepicker('setTime', '08:00');
+          $('.timepicker.end-time').timepicker('setTime', '12:00');
+
+          $('.datepicker').datepicker({format: 'dd/mm/yyyy', todayBtn: "linked", initialDate: new Date()});
+
 		$('.page-sidebar').css('height',$('.page-content').css('height'))
-	}
-)
+
+		$(".sortable").sortable({
+          connectWith: '.sortable',
+          iframeFix: true,
+          items: '.dragme',
+          opacity: 0.8,
+          helper: 'original',
+          revert: true,
+          forceHelperSize: true,
+          placeholder: 'sortable-box-placeholder round-all',
+          forcePlaceholderSize: true,
+          tolerance: 'pointer'
+      	});
+
+	})
 
 
