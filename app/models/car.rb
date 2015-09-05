@@ -234,6 +234,8 @@ class Car < ActiveRecord::Base
 		else
 			Time.use_zone("#{timezone}") do
 
+				positions = []
+
 				start_date = Time.zone.parse("#{dates[:start_date]} #{dates[:start_time]}").utc
 
 				end_date = Time.zone.parse("#{dates[:end_date]} #{dates[:end_time]}").utc

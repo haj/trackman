@@ -25,15 +25,19 @@ class DetailedMarkerBuilder extends Gmaps.Google.Builders.Marker
             width: "150px"
 
 @module "Cars", ->
-    class @AllCars
-        @show : () ->
+    class @Show
+        @all : () ->
+
+            window.current_mode = "pins"
+            window.map_data = gon.all_cars
+
             handler = Gmaps.build("Google", builders: { Marker: DetailedMarkerBuilder } )
             handler.buildMap { provider: { scrollwheel: false }, internal: { id: gon.map_id }}, ->
-                #markers = handler.addMarkers(gon.data)
+                #markers = handler.addMarkers(gon.all_cars)
+                
+                console.log(gon.all_cars)
 
-                console.log(gon.data)
-
-                for one_marker, i in gon.data
+                for one_marker, i in gon.all_cars
 
                     vehicle = one_marker.infowindow.split("/");
 
@@ -55,6 +59,40 @@ class DetailedMarkerBuilder extends Gmaps.Google.Builders.Marker
                         detailed_infowindow: content
 
                     handler.bounds.extendWith(marker)
+                    
+                handler.fitMapToBounds()    
+                handler.getMap().setZoom(13)   
+                
+        @one : (pin) ->
+
+            window.current_mode = "one_pin"
+            window.map_data = pin
+
+            handler = Gmaps.build("Google", builders: { Marker: DetailedMarkerBuilder } )
+            handler.buildMap { provider: { scrollwheel: false }, internal: { id: gon.map_id }}, ->
+                
+                one_marker = pin[0]
+
+                vehicle = one_marker.infowindow.split("/");
+
+                pin = "<img width='36px' height='36px' src='<%= image_path('red_pin.png') %>'>"
+
+                content = "<div class='popover fade in' style='display: block;'>"+
+                "<h3 class='popover-title'>" + vehicle[0] + "</h3>"+
+                "<div class='popover-content map-tooltip'>"+
+                "<p><b>Last seen :</b><br/>" + vehicle[3] + "</p>"+
+                "<p><b>Location :</b></br> "+ vehicle[4]+"</p>"+
+                "<p><b>Driver :</b>" + vehicle[2] + "</p>"+
+                "<p><b>Numberplate :</b></br> "+ vehicle[1]+"</p></div>"
+
+                
+                marker = handler.addMarker
+                    lat:               one_marker.lat
+                    lng:               one_marker.lng
+                    custom_marker:     pin
+                    detailed_infowindow: content
+
+                handler.bounds.extendWith(marker)
                     
                 handler.fitMapToBounds()    
                 handler.getMap().setZoom(13)        

@@ -24,7 +24,7 @@ class HomeController < ApplicationController
 				  #{position.try(:address)}/"
 				end
 
-				gon.watch.data = @markers
+				gon.watch.all_cars = @markers
 
 				gon.push({
 				  :url => "/cars",
@@ -63,9 +63,7 @@ class HomeController < ApplicationController
 			  #{position.try(:address)}/"
 			end
 
-			# p "numberreerer : #{@markers.count}"
-
-			gon.watch.data = @markers
+			gon.watch.pin = @markers
 
 			gon.push({
 			  :url => "/cars",
@@ -89,29 +87,29 @@ class HomeController < ApplicationController
 			@date = {start_date: date.to_date, start_time: "00:00", end_date: date.to_date, end_time: "23:59"}
 			@positions = @car.positions_with_dates(@date, timezone)
 
-			@markers = Location.markers(@positions)  
+			@markers = Location.markers(@positions)
 
 			gon.watch.road = @markers
 
-			# gon.push({
-			#   :url => "/cars",
-			#   :map_id => "cars_index",
-			#   :resource => "cars"
-			# })
+			gon.push({
+			  # :url => "/cars",
+			  :map_id => "cars_index"
+			  # :resource => "cars"
+			})
 		end
 		
 	end
 
-	def logbook_render car_id = nil, start_date = DateTime.now.at_beginning_of_day.to_date, end_date = DateTime.now.at_end_of_day.to_date
+	def logbook_render
 		
 		car_id = params[:car_id]
-		@dates = {start_date: start_date, start_time: "00:00", end_date: end_date, end_time: "23:59"}
+		@dates = {start_date: Settings.start_date, start_time: Settings.start_time, end_date: Settings.end_date, end_time: Settings.end_time}
 		@car = Car.find(car_id)
 
-		@logbook_data = []
+		# @dates[:start_date] = "2015-08-05".to_date
+		# @dates[:end_date] = "2015-08-10".to_date
 
-		@dates[:start_date] = "2015-08-05".to_date
-		@dates[:end_date] = "2015-08-10".to_date
+		@logbook_data = []
 
 		@logbook_data = @car.positions_with_dates(@dates, "UTC")
 
@@ -123,6 +121,14 @@ class HomeController < ApplicationController
 			end
 		end
 
+	end
+
+	def apply_filter
+		Settings.start_date = params[:start_date].to_date
+		Settings.end_date = params[:end_date].to_date
+		Settings.start_time = params[:start_time]
+		Settings.end_time = params[:end_time]
+		render :text => 'OK'
 	end
 
 end

@@ -28,8 +28,8 @@
       %th.details
       %th.details= link_to "#{@first_pos.time.to_date}", '#', {class: 'show_road_for_this_date', data: {car_id: @car.id}}
       %th.details
-        %span.label.label-info.icondrive P : 14:23
         %span.label.label-success.icondrive D : 03:12
+        %span.label.label-info.icondrive P : 14:23
       %th.details
       %th.details
       %th.details
@@ -38,7 +38,7 @@
       %td.details.pull-right
         %a{class: 'expand_positions',:href => "#logbook", :data => {date: "#{date.strftime('%d%m%y')}"}}
           %i{class: "fa fa-lg fa-plus-circle"}
-      %td.details= "#{@first_pos.time.strftime('%H:%M')} - #{@last_pos.time.strftime('%H:%M')}"
+      %td.details= "#{@first_pos.time.strftime('%H:%M:%S')} - #{@last_pos.time.strftime('%H:%M:%S')}"
       %td.details.address
         %span.staddress= "#{@first_pos.address}"
         %span= "- #{@last_pos.address}"
@@ -57,21 +57,31 @@
       %tr{class: "#{position.time.strftime('%d%m%y')}", style: 'display:none;'}
         %td.details.pull-right
 
-          -if position.start_point
+          -if position.status == "error"
+            %span.badge.badge-warning= @steps
+
+          -if position.status == "start"
             %span.badge.badge-success= @steps
 
-          -if position.stop_point
+          -if position.status == "stop"
             %span.badge.badge-danger=@steps
             -@steps+=1
 
-        -if position.start_point
-          %td.details= "#{position.time.strftime('%H:%M')}, P : #{Time.at(position.parking_duration.to_i).utc.strftime("%H:%M")}"
-        -elsif position.stop_point
-          %td.details= "#{position.time.strftime('%H:%M')}, D : #{Time.at(position.driving_duration.to_i).utc.strftime("%H:%M")}"
-        -else
-          %td.details= "#{position.time.strftime('%H:%M')}"
+        -if position.status == "start"
+          %td.details
+            %span= "#{position.time.strftime('%H:%M:%S')}"
+            %span{style: 'margin-left:10px; font-weight: bold;'}= "D : #{Time.at(position.driving_duration.to_i).utc.strftime("%H:%M:%S")}"
+            %span{style: 'margin-left:10px; font-weight: bold;'}= "P : #{Time.at(position.parking_duration.to_i).utc.strftime("%H:%M:%S")}"
 
-        %td.details.address= "#{position.address}"
+        -else
+          %td.details= "#{position.time.strftime('%H:%M:%S')}"
+
+        -if !position.previous or (position.previous and position.previous.address != position.address)
+          %td.details.address= "#{position.address}"
+        -else
+          %td.details.address= "..."
+
+
         %td.details
         %td.details= "#{position.speed} km/h"
         %td.details
@@ -81,14 +91,14 @@
   <script>
 
     show_road = function(data){
-         Cars.Maps.switch_to_directions(data)
+         Cars.Maps.switch_to_pins(data)
     }
 
     $('.show_road_for_this_date').click(function (){
          car_id = $(this).data('car-id')
          date = $(this).text()
          gon.watch('road', {url: '/one_car_render_directions?car_id='+car_id+'&date='+date}, show_road)
-         $('.map-title').empty().html('Showing road of <strong>'+car_name+'</strong> for '+date)
+         $('.map-title').empty().html('Road of '+car_name+' <small>| '+date+'</small>')
     });
 
     $('.expand_positions').click(function(){

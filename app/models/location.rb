@@ -13,38 +13,94 @@
 class Location < ActiveRecord::Base
 	belongs_to :position, :class_name => 'Traccar::Position'
 	belongs_to :device, :class_name => 'Traccar::Device'
-	after_create :if_start_point
 
-	def self.locations_with_distance_between distance = 0.02
-		
+	def self.reset_locations
+	    Location.all.destroy_all
+	    Traccar::Position.where('time > ?', "2015-08-05".to_date).each do |p|
+	        p.location = Location.create(address: p.address, device_id: p.device_id, latitude: p.latitude, longitude: p.longitude, time: p.time, speed: p.speed, valid_position: p.valid)
+	    end
+	    analyze_locations
+	    p Location.all.count
 	end
 
-	def if_start_point
-        if !self.previous.nil?
-          time_diff = Time.diff(self.previous.time, self.time)
-          if time_diff[:minute] > 5
-            self.start_point = true
-            self.previous.stop_point = true
-            self.save!
-            self.previous.save!
-          end
-        end
+	def self.analyze_locations
+	    Location.order(:time).all.each do |l|
+	    	Location.where('time = ? and id != ?', l.time, l.id).destroy_all
+		    l.analyze_me
+	    end
+	end
+
+	def self.destroy_similar_in_time
+		Location.where('device_id', self.device_id).where('time like ?', self.time).destroy_all
+	end
+
+	def self.destroy_similar_in_address
+		Location.all.select{|l| l.device_id == self.device_id and l.id < self.id and self.time - l.time < 60 and self.time - l.time > 0}.destroy_all
+	end
+
+	# can be onroad, start, stop
+	def analyze_me
+		p = self.previous
+
+		if p.nil?
+			self.status = "start" 
+		else
+			previous_start_point = self.previous_start_point
+			duration_since_previous_point = (self.time - p.time).to_i
+
+			if duration_since_previous_point > 300
+
+				self.status = "start"
+
+				# new start point, but what's the time that the vehicle had been parked?
+				previous_start_point.parking_duration = duration_since_previous_point
+
+				if p.status == "start"
+					p.status = "error"
+				else
+					p.status = "stop"
+				end
+
+				p.save!
+
+				# new stop point, but what's the time that the vehicle had been driven?
+				duration_since_previous_start_point = (p.time - previous_start_point.time).to_i
+				previous_start_point.driving_duration = duration_since_previous_start_point
+
+				previous_start_point.save!
+			else
+				self.status = "onroad"
+			end
+		end
+		self.save!
+	end
+
+	def total_parking_duration_of_the_day
+		parking_duration_current_day = 0
+		Location.order(:time).select{|l| l.time.to_date == self.time.to_date and l.status == "start"}.each do |l|
+	    	parking_duration_current_day += l.parking_duration.to_i
+		end	
+		Time.at(parking_duration_current_day).utc.strftime('%H:%M:%S')
+	end
+
+	def total_driving_duration_of_the_day
+		driving_duration_current_day = 0
+		Location.order(:time).select{|l| l.time.to_date == self.time.to_date and l.status == "start"}.each do |l|
+	    	driving_duration_current_day += l.driving_duration.to_i
+		end	
+		Time.at(driving_duration_current_day).utc.strftime('%H:%M:%S')
+	end
+
+	def previous_start_point
+		Location.order(:time).where('device_id', self.device_id).where('time < ? and status like ?', self.time, 'start').last
 	end
 
 	def previous
-		Location.where('device_id', self.device_id).where('time < ?', self.time).last
-	end
-
-	def previous_stop_position
-		Location.where('device_id', self.device_id).where('stop_point like ?', true).where('time < ?', self.time).last
-	end
-
-	def previous_start_position
-		Location.where('device_id', self.device_id).where('start_point like ?', true).where('time < ?', self.time).last
+		Location.order(:time).where('device_id', self.device_id).where('time < ?', self.time).last
 	end
 
 	def next
-		Location.where('device_id', self.device_id).where('time > ?', self.time).first
+		Location.order(:time).where('device_id', self.device_id).where('time > ? and DATE(time) like ?', self.time, self.time.to_date).first
 	end
 
   # Takes a bunch of locations and return it in a Gmaps4rails format 
@@ -52,8 +108,8 @@ class Location < ActiveRecord::Base
     return Gmaps4rails.build_markers(locations) do |location, marker|
       marker.lat location.position.latitude.to_s
       marker.lng location.position.longitude.to_s
-      marker.infowindow location.time.to_s
-    end 
+      marker.infowindow location.time.to_s+"/"+location.status
+    end
   end
   
 end

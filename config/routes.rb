@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get 'one_car_render' => 'home#one_car_render'
   get 'one_car_render_pin' => 'home#one_car_render_pin'
   get 'one_car_render_directions' => 'home#one_car_render_directions'
+  get 'apply_filter' => 'home#apply_filter'
 
   ###############
   # Subscription

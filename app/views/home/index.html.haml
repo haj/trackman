@@ -11,25 +11,25 @@
       .grid.simple.grid-no-mbot.sin-border
         .grid-body.mi-padding.no-border.border-bot.grid-without-title
           %form{:class => "form-no-horizontal-spacing"}
-            %div.row.column-seperation
+            %div#logbook_bot.row.column-seperation
 
               %div.col-md-5.col-md-offset-1
 
                 %div.row.form-row
-                  %div.col-md-6
-                    %div.input-append.success.date.no-padding
+                  %div.col-md-5
+                    %div.input-append.default.date.no-padding
                       %div.form-group
                         %div
-                          %input{:type => "text", :class => "datepicker form-control", :placeholder => "Start Date"}/
+                          %input{:type => "text", :class => "datepicker start-date form-control", :placeholder => "Start Date", :value => Settings.start_date.strftime("%d/%m/%Y")}/
                           %span.add-on
                             %span.arrow
                             %i.fa.fa-calendar
 
                   %div.col-md-5
-                    %div.input-append.success.date.no-padding
+                    %div.input-append.default.date.no-padding
                       %div.form-group
                         %div
-                          %input{:type => "text", :placeholder => "Time", :data => {:provide => "timepicker", :maxHours => "24"}, :class => "timepicker start-time form-control"}/
+                          %input{:type => "text", :placeholder => "Time", :class => "timepicker start-time form-control", :value => Settings.start_time, :data => {:provide => "timepicker"}}/
                           %span.add-on
                             %span.arrow
                             %i.fa.fa-clock-o
@@ -37,30 +37,34 @@
               %div.col-md-5
 
                 %div.row.form-row
-                  %div.col-md-6
-                    %div.input-append.success.date.no-padding
+                  %div.col-md-5
+                    %div.input-append.default.date.no-padding
                       %div.form-group
                         %div
-                          %input{:type => "text", :class => "datepicker form-control", :placeholder => "End Date"}/
+                          %input{:type => "text", :class => "datepicker end-date form-control", :placeholder => "End Date", :value => Settings.end_date.strftime("%d/%m/%Y")}/
                           %span.add-on
                             %span.arrow
                             %i.fa.fa-calendar
 
                   %div.col-md-5
-                    %div.input-append.success.date.col-md-10.no-padding
+                    %div.input-append.default.date.col-md-10.no-padding
                       %div.form-group
                         %div
-                          %input{:type => "text", :placeholder => "Time", :data => {:provide => "timepicker", :maxHours => "24"}, :class => "timepicker end-time form-control"}/
+                          %input{:type => "text", :placeholder => "Time", :class => "timepicker end-time form-control", :value => Settings.end_time, :data => {:provide => "timepicker"}}/
                           %span.add-on
                             %span.arrow
                             %i.fa.fa-clock-o
+
+                  %div.col-md-2
+                    %div.form-group
+                      %div
+                        %input{:type => "button", id: 'apply_date_filter', :class => "btn btn-default btn-smll", value: 'Apply Filter'}/
 
     .col-md-6.map.no-padding{ :style => "width: 50%;" }
       .grid.simple.h-scroll.sin-border
         .grid-title.no-border
           %span
-            %h4{style: "width:auto; padding-right:10px;"} Map
-            %span.text-primary.map-title Showing all vehicles
+            %h4.map-title{style: "width:auto; padding-right:10px;"} All vehicles
           .tools
             %a.config.sizeMapFull-icon{style: "cursor:pointer;"}
               %i.fa.fa-arrows-h.fa-lg
@@ -88,9 +92,9 @@
               -@positions.each do |position|
                 %tr
                   %td= position.car.car_type.name
-                  %td.heading= link_to "#{position.try(:car).try(:name)}", '#', {class: 'show_logbook', data: {car_id: position.car.id, car_name: position.car.name}}
+                  %td.heading.date_link= link_to "#{position.try(:car).try(:name)}", '#logbook', {class: 'show_logbook', data: {car_id: position.car.id, car_name: position.car.name, car_last_seen: time_ago_in_words(position.time)}}
                   %td= position.car.numberplate
-                  %td.description= truncate(position.try(:address), :length => 40)
+                  %td.description.address= truncate(position.try(:address), :length => 40)
                   %td.date= "#{time_ago_in_words(position.time)} ago"
                   %td= "#{position.speed} km/h"
 

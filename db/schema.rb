@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819172311) do
+ActiveRecord::Schema.define(version: 20150827162830) do
 
   create_table "alarm_notifications", force: true do |t|
     t.integer  "car_id"
@@ -211,11 +211,12 @@ ActiveRecord::Schema.define(version: 20150819172311) do
     t.integer  "device_id"
     t.datetime "time"
     t.float    "speed",            limit: 24
-    t.boolean  "start_point",                 default: false
     t.boolean  "valid_position"
-    t.boolean  "stop_point"
     t.string   "driving_duration"
     t.string   "parking_duration"
+    t.float    "longitude",        limit: 24
+    t.float    "latitude",         limit: 24
+    t.string   "status"
   end
 
   create_table "mailboxer_conversation_opt_outs", force: true do |t|
@@ -327,6 +328,17 @@ ActiveRecord::Schema.define(version: 20150819172311) do
     t.datetime "updated_at"
     t.string   "description"
   end
+
+  create_table "settings", force: true do |t|
+    t.string   "var",                   null: false
+    t.text     "value"
+    t.integer  "thing_id"
+    t.string   "thing_type", limit: 30
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
 
   create_table "simcards", force: true do |t|
     t.string   "telephone_number"

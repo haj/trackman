@@ -32,7 +32,7 @@ class Traccar::Position < ActiveRecord::Base
   reverse_geocoded_by :latitude, :longitude do |position,results|
     if geo = results.first
       if position.is_relevant?
-        position.location = Location.create(address: geo.address, city: geo.city, country: geo.country, state: geo.state, device_id: position.device_id, time: position.time, speed: position.speed, valid_position: position.valid)
+        position.location = Location.create(address: geo.address, city: geo.city, latitude: position.latitude, longitude: position.longitude, country: geo.country, state: geo.state, device_id: position.device_id, time: position.time, speed: position.speed, valid_position: position.valid)
       end
       position.update_attribute(:address, geo.address)
     end

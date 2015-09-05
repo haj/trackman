@@ -103,22 +103,60 @@ function sizeMapLess(){
 }
 
 $(document).ready(function(){
+          
+          $("body").condensMenu();
+          $("body").toggleHeader();
+          $('.profiler-results').removeClass('profiler-left').addClass('profiler-right')
 
           show_car = function(data){
-               Cars.Maps.switch_to_pins(data)
+               Cars.Show.one(data)
           }
+
+          $('#apply_date_filter').click(function(){
+
+               start_date = $('.datepicker.start-date').val()
+               end_date = $('.datepicker.end-date').val()
+               start_time = $('.timepicker.start-time').val()
+               end_time = $('.timepicker.end-time').val()
+
+               var filters = {
+                    start_date: start_date,
+                    end_date: end_date,
+                    start_time: start_time,
+                    end_time: end_time
+               }
+
+               $.ajax({
+                    url: '/apply_filter',
+                    type: 'get',
+                    data: filters,
+                    success: function(data){
+                         if(data == 'OK'){
+                              showSuccess("Filters applied.");                              
+                         }
+                         // window.location.href = "#logbook"
+                    },
+                    error: function($xhr){
+                         var data = $xhr.responseJSON;
+                         console.log(data);
+                    }
+               })
+          })
 
           $('.show_logbook').click(function() {
                car_id = $(this).data('car-id')
                car_name = $(this).data('car-name')
-               gon.watch('data', {url: '/one_car_render_pin?car_id='+car_id}, show_car)
-               $('.map-title').empty().html('Showing location of <strong>'+car_name+'</strong>')
+               car_last_seen = $(this).data('car-last-seen')
+               start_date = $('.datepicker.start-date').val()
+               end_date = $('.datepicker.end-date').val()
+               gon.watch('pin', {url: '/one_car_render_pin?car_id='+car_id}, show_car)
+               $('.map-title').empty().html('Last location of '+car_name+' <small>| '+car_last_seen+' ago</small>')
                $.ajax({
                     url: '/logbook_render',
                     type: 'GET',
                     data: {car_id: car_id},
                     success: function(data){
-                         // window.location.href = "#logbook"
+                         window.location.href = "#logbook"
                     },
                     error: function($xhr){
                          var data = $xhr.responseJSON;
@@ -136,12 +174,18 @@ $(document).ready(function(){
                } else { sizeMapLess(); }
           });
 
-          $('.timepicker').timepicker();
+          $('.timepicker').timepicker({
+               // template: 'modal',
+               // maxHours: '24'
+          });
 
-          $('.timepicker.start-time').timepicker('setTime', '08:00');
-          $('.timepicker.end-time').timepicker('setTime', '12:00');
+          // $('.timepicker.start-time').timepicker('showWidget');
 
-          $('.datepicker').datepicker({format: 'dd/mm/yyyy', todayBtn: "linked", initialDate: new Date()});
+          // $('.timepicker.start-time').timepicker('setTime', '00:00 AM');
+          // $('.timepicker.end-time').timepicker('setTime', '11:59 PM');
+
+
+          $('.datepicker').datepicker({format: 'dd/mm/yyyy', todayBtn: "linked"});
 
 		$('.page-sidebar').css('height',$('.page-content').css('height'))
 
