@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Rails trackman: development" uuid="fbd9f20e-73be-4ff3-9ed2-8f42e1d05a5d">
+      <secret-storage>memory</secret-storage>
+      <user-name>&lt;%= ENV['DB_USER'] %&gt;</user-name>
+      <schema-pattern>trackman_development.*</schema-pattern>
+      <default-schemas>trackman_development.*</default-schemas>
+    </data-source>
+    <data-source name="Rails trackman: secondary_development" uuid="a45fceff-e646-41da-826d-51539d97f1ee">
+      <first-sync>true</first-sync>
+      <user-name>&lt;%= ENV['DB_USER'] %&gt;</user-name>
+      <user-password>df96df8fdf97df8adfefdfe4dffcdff1df8ddfeedfe8dff5dffadfebdff9dff9dffddfe5dff8dfeedf8ddff7df8adf8fdf94</user-password>
+    </data-source>
+    <data-source name="Rails trackman: test" uuid="282338ea-725e-4e53-bfb4-d823d0ef1225">
+      <first-sync>true</first-sync>
+      <user-name>&lt;%= ENV['DB_USER'] %&gt;</user-name>
+      <user-password>df96df8fdf97df8adfefdfe4dffcdff1df8ddfeedfe8dff5dffadfebdff9dff9dffddfe5dff8dfeedf8ddff7df8adf8fdf94</user-password>
+    </data-source>
+    <data-source name="Rails trackman: secondary_test" uuid="bec6f573-d84d-4d69-87b4-75ac6f5ff7fc">
+      <first-sync>true</first-sync>
+      <user-name>&lt;%= ENV['DB_USER'] %&gt;</user-name>
+      <user-password>df96df8fdf97df8adfefdfe4dffcdff1df8ddfeedfe8dff5dffadfebdff9dff9dffddfe5dff8dfeedf8ddff7df8adf8fdf94</user-password>
+    </data-source>
+    <data-source name="Rails trackman: production" uuid="2e77d6ce-4192-46c4-b0a5-e2827d3f25c5">
+      <first-sync>true</first-sync>
+      <user-name>&lt;%= ENV['DB_USER'] %&gt;</user-name>
+      <user-password>df96df8fdf97df8adfefdfe4dffcdff1df8ddfeedfe8dff5dffadfebdff9dff9dffddfe5dff8dfeedf8ddff7df8adf8fdf94</user-password>
+    </data-source>
+    <data-source name="Rails trackman: secondary_production" uuid="92fe08c0-958d-4baf-a7e4-f05d4122ec71">
+      <first-sync>true</first-sync>
+      <user-name>&lt;%= ENV['DB_USER'] %&gt;</user-name>
+      <user-password>df96df8fdf97df8adfefdfe4dffcdff1df8ddfeedfe8dff5dffadfebdff9dff9dffddfe5dff8dfeedf8ddff7df8adf8fdf94</user-password>
+    </data-source>
+  </component>
+</project>

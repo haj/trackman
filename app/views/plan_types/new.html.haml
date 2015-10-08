@@ -1,18 +1,18 @@
- 
-.row
-  .col-md-12
-    .page-title
-      = link_to raw("<i class='icon-custom-left'></i>"), plan_types_path
-      %h3
-        Create Plan Type
-.row
-  .col-md-12
-    .grid.simple
-      .grid-title 
-        %h4
-          Plan Type
-          %span.semi-bold details
-      .grid-body 
-        .row
-          .col-md-8.col-sm-8.col-xs-8
-            = render 'form'
+.content 
+  .row
+    .col-md-12
+      .page-title
+        = link_to raw("<i class='icon-custom-left'></i>"), plan_types_path
+        %h3
+          Create Plan Type
+  .row
+    .col-md-12
+      .grid.simple
+        .grid-title 
+          %h4
+            Plan Type
+            %span.semi-bold details
+        .grid-body 
+          .row
+            .col-md-8.col-sm-8.col-xs-8
+              = render 'form'

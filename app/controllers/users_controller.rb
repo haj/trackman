@@ -10,7 +10,8 @@ class UsersController < ApplicationController
     @q = apply_scopes(User).all.search(params[:q])
     @users = @q.result(distinct: true)
     respond_to do |format|
-      format.html {render :layout => "index_template"}
+      format.html
+      format.json {render json: @users}
     end
   end
 

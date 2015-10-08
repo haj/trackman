@@ -41,6 +41,10 @@ every 1.minute do
 	rake "geocoder:reverse"
 end
 
+every 1.day do
+	
+end
+
 # every 1.day, :at => '5:00 am' do
   # runner "MyModel.task_to_run_at_four_thirty_in_the_morning"
 # end

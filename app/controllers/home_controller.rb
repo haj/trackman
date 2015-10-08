@@ -1,10 +1,33 @@
 class HomeController < ApplicationController
-  layout 'map'
+  # layout 'map'
   include UsersHelper
   include ApplicationHelper
 
+  	def cars_overview
+  		@cars = Car.all
+  	end
+
+	def logbook_data dates=nil
+		# raise params.inspect
+		car_id = params[:car_id]
+		@car = Car.find(params[:car_id])
+
+		if !@car.last_position.nil?
+			@dates = [@car.last_position.time.yesterday.to_date,
+				@car.last_position.time.time.to_date]
+
+			@dates = [Settings.start_date, Settings.end_date]
+
+			@array_dates = []
+			@dates[0].upto(@dates[1]).each do |date|
+				@array_dates << date
+			end
+
+		end
+	end
+
 	def index
-		
+
 		if is_manager?(current_user)
 			timezone = current_user.time_zone
 			Time.use_zone(timezone) do
@@ -29,17 +52,16 @@ class HomeController < ApplicationController
 				gon.push({
 				  :url => "/cars",
 				  :map_id => "cars_index",
-				  :resource => "cars", 
+				  :resource => "cars",
 				  :query_params => request.query_parameters
 				})
 			end
-
 		elsif is_employee?(current_user) || is_driver?(current_user)
-			redirect_to conversations_path 
+			redirect_to conversations_path
 		else
 			redirect_to new_user_session_path
 		end
-	
+
 	end
 
 	def one_car_render_pin
@@ -87,6 +109,20 @@ class HomeController < ApplicationController
 			@date = {start_date: date.to_date, start_time: "00:00", end_date: date.to_date, end_time: "23:59"}
 			@positions = @car.positions_with_dates(@date, timezone)
 
+			@markers = Gmaps4rails.build_markers(@position) do |position, marker|
+		      marker.lat position.latitude.to_s
+		      marker.lng position.longitude.to_s
+			  driver = position.try(:car).try(:driver).try(:name)
+			  driver = "Unknown" if driver == ""
+			  marker.infowindow "#{position.time.to_s}/
+		      #{position.status}/
+		      #{position.try(:car).try(:name)}/
+			  #{position.try(:car).try(:numberplate)}/
+			  #{driver}/
+			  #{position.try(:time)}/
+			  #{position.try(:address)}/"
+			end
+
 			@markers = Location.markers(@positions)
 
 			gon.watch.road = @markers
@@ -97,13 +133,15 @@ class HomeController < ApplicationController
 			  # :resource => "cars"
 			})
 		end
-		
+
 	end
 
 	def logbook_render
-		
 		car_id = params[:car_id]
-		@dates = {start_date: Settings.start_date, start_time: Settings.start_time, end_date: Settings.end_date, end_time: Settings.end_time}
+
+		@dates = {start_date: Settings.start_date, start_time: Settings.start_time,
+			end_date: Settings.end_date, end_time: Settings.end_time}
+
 		@car = Car.find(car_id)
 
 		# @dates[:start_date] = "2015-08-05".to_date

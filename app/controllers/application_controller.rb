@@ -4,12 +4,21 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   helper_method :current_tenant
+  helper_method :js_class_name
 
   before_filter :set_current_tenant
   before_filter :bootstrap
-  
 
   #around_filter :user_time_zone
+
+  def js_class_name
+    action = case action_name
+      when 'create' then 'New'
+      when 'update' then 'Edit'
+    else action_name
+    end.camelize
+    "Views.#{self.class.name.gsub('::', '.').gsub(/Controller$/, '')}.#{action}View"
+  end
 
   # This will set the current tenant manually depending on the subdomain
   def set_current_tenant

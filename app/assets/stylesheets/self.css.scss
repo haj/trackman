@@ -47,3 +47,11 @@
 		min-width: 140px;
 	}
 }
+
+.top-menu-toggle-dark{
+	-webkit-transition: all .1s ease-in-out !important;
+	-moz-transition: all .1s ease-in-out !important;
+	-ms-transition: all .1s ease-in-out !important;
+	-o-transition: all .1s ease-in-out !important;
+	transition: all .1s ease-in-out !important;
+}

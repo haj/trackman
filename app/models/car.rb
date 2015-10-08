@@ -23,11 +23,12 @@ class Car < ActiveRecord::Base
 	acts_as_paranoid
 	acts_as_messageable
 
+	include ActionView::Helpers::DateHelper
 
-	# validation 
+
+	# validation
 
 	validates :name, :numberplate, presence: true
-
 
 	# Scopes
 
@@ -37,6 +38,7 @@ class Car < ActiveRecord::Base
 		scope :untraceable, -> { where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL)") }
 		scope :with_driver, -> { where("id IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)") }
 		scope :without_driver, -> { where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)") }
+		# scope :locations, -> { where(:device_id => self.device.id) }
 
 	acts_as_tenant(:company)
 
@@ -56,9 +58,60 @@ class Car < ActiveRecord::Base
 		has_and_belongs_to_many :alarms
 		has_many :alarm_cars, :dependent => :destroy
 
-	accepts_nested_attributes_for :alarms
+		accepts_nested_attributes_for :alarms
 
-	# Cars for devices 
+		def locations_grouped_by_dates
+			self.locations.group_by{|l| l.time.to_date}
+		end
+
+		def locations_grouped_by_these_dates dates
+			self.locations.select{|l| dates.include? l.time.to_date and l.status != "onroad" and l.status != "error"}
+			.group_by{|l| l.time.to_date}
+		end
+
+		def locations
+			Location.select(:id, :address, :time, :status, :longitude, :latitude, :speed,
+				:driving_duration, :parking_duration, :device_id)
+				.select{|l| l.device.try(:uniqueId) == self.device.try(:emei)}
+		end
+
+		def last_location
+			unless self.last_position.nil?
+				unless self.last_position.address.nil?
+					return self.last_position.address.truncate(55)
+				end
+			end
+			"-"
+		end
+
+		def speed
+			unless self.last_position.nil?
+				unless self.last_position.speed.nil?
+					return self.last_position.speed
+				end
+			end
+			"undefined"
+		end
+
+
+		def last_seen
+			unless self.last_position.nil?
+				unless self.last_position.time.nil?
+					return time_ago_in_words(self.last_position.time)
+				end
+			end
+			"-"
+		end
+
+		# Generate a hash with latitude and longitude of the car (fetched through the device GPS data)
+		#   Also for this hash to be non-empty, the car must have a device associated with it in the database
+		def last_position
+			unless self.device.nil?
+				return self.device.last_position
+			end
+		end
+
+	# Cars for devices
 
 		def self.cars_without_devices(car_id)
 			if car_id.nil?
@@ -85,12 +138,12 @@ class Car < ActiveRecord::Base
 		end
 
 	# Positions
-		
-		def self.all_positions(cars)	
+
+		def self.all_positions(cars)
 			positions = Array.new
 
 			cars.each do |car|
-	      		if !car.last_position.nil? 
+	      		if !car.last_position.nil?
 	        		positions << car.last_position
 	      		end
 	    	end
@@ -98,23 +151,15 @@ class Car < ActiveRecord::Base
 	    	return positions
 		end
 
-		def self.one_car_position(car)	
+		def self.one_car_position(car)
 			position = Array.new
 	        position << car.last_position
 	    	return position
 		end
 
-		# Generate a hash with latitude and longitude of the car (fetched through the device GPS data)
-		#   Also for this hash to be non-empty, the car must have a device associated with it in the database
-		def last_position
-			if !self.device.nil?
-				return self.device.last_position
-			end
-		end
-
 		def positions
 			if self.device.nil?
-				# if this car doesn't have a device attached to it 
+				# if this car doesn't have a device attached to it
 				#   then just send an empty hash for the position
 				return Hash.new
 			else
@@ -151,9 +196,9 @@ class Car < ActiveRecord::Base
 
 	# Alarms
 
-		# Verificators 
+		# Verificators
 
-			# return if the car is moving or not 
+			# return if the car is moving or not
 			def moving?
 				if self.no_data?
 					return false
@@ -170,16 +215,12 @@ class Car < ActiveRecord::Base
 				return has_no_device || has_no_data
 			end
 
-			def speed
-				self.device.speed
-			end
-
 		# Alarms trigger
 
 			def check_alarms
-				# don't waste time checking if vehicle doesn't have device 
-				return if !self.has_device? 
-				
+				# don't waste time checking if vehicle doesn't have device
+				return if !self.has_device?
+
 				results = {}
 
 				self.alarms.all.each do |alarm|
@@ -217,10 +258,10 @@ class Car < ActiveRecord::Base
 		# Generate state card
 		def capture_state
 			state = State.new
-			state.moving = self.moving? 
+			state.moving = self.moving?
 			state.no_data = self.no_data?
 			state.speed = self.speed
-			state.car_id = self.id 
+			state.car_id = self.id
 			state.driver_id = self.driver.id if self.has_driver?
 			state.device_id = self.device.id if self.has_device?
 			state.save!
@@ -243,8 +284,9 @@ class Car < ActiveRecord::Base
 				# dates[:limit_results] = 20 if dates[:limit_results].to_i == 0
 
 				# positions = self.device.traccar_device.positions.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time ASC")
-				positions = Location.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time ASC")
-				
+				positions = Location.where("time >= ? AND time <= ?", start_date.to_s(:db),
+					end_date.to_s(:db)).order("time ASC")
+
 				Rails.logger.warn "positions #{positions.count}"
 				return positions
 			end

@@ -1,18 +1,20 @@
-.row
-  .col-md-12
-    .page-title
-      = link_to raw("<i class='icon-custom-left'></i>"), device_manufacturers_path
-      %h3
-        Create Device Manufacturer
+.content
 
-.row
-  .col-md-12
-    .grid.simple
-      .grid-title 
-        %h4
-          Device manufacturer  
-          %span.semi-bold details
-      .grid-body 
-        .row
-          .col-md-8.col-sm-8.col-xs-8
-            = render 'form'
+  .row
+    .col-md-12
+      .page-title
+        = link_to raw("<i class='icon-custom-left'></i>"), device_manufacturers_path
+        %h3
+          Create Device Manufacturer
+
+  .row
+    .col-md-12
+      .grid.simple
+        .grid-title 
+          %h4
+            Device manufacturer  
+            %span.semi-bold details
+        .grid-body 
+          .row
+            .col-md-8.col-sm-8.col-xs-8
+              = render 'form'

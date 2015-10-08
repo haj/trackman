@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+	def without_tmz time
+		time.to_s(:db)
+	end
+
 	def notifications_count(user)
 		alarm_notifications = user.try(:company).try(:alarm_notifications)
 		if alarm_notifications

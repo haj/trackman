@@ -81,7 +81,7 @@ class AlarmsController < ApplicationController
   def index
     @alarms = Alarm.all
     respond_to do |format|
-      format.html {render :layout => "index_template"}
+      format.html
     end
   end
  

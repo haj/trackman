@@ -1,0 +1,9 @@
+# A sample Bowerfile
+# Check out https://github.com/42dev/bower-rails#ruby-dsl-configuration for more options
+
+assets_path "assets/javascripts"
+
+asset 'react-bootstrap'
+asset 'pubsub-js'
+asset 'momentjs'
+# asset 'fluxxor'

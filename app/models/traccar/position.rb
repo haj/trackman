@@ -38,6 +38,10 @@ class Traccar::Position < ActiveRecord::Base
     end
   end
 
+  def time_to_date
+    self.time.to_date
+  end
+
   def is_relevant?
     prev_position = Location.where('device_id like ?', self.device_id).where('position_id < ?', self.id).try(:last).try(:position)
     true if prev_position.nil? or self.distance_from(prev_position) > 0.02 # = 20 meters

@@ -1,23 +1,24 @@
-.row
-  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
-    .page-title
-      = link_to raw("<i class='icon-custom-left'></i>"), regions_path
-      %h3
-        Region  
-  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
-    /.pull-right= link_to 'Edit', edit_region_path(@region), class: "btn btn-success"
+.content
+  .row
+    .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+      .page-title
+        = link_to raw("<i class='icon-custom-left'></i>"), regions_path
+        %h3
+          Region  
+    .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+      /.pull-right= link_to 'Edit', edit_region_path(@region), class: "btn btn-success"
 
 
-.row
-  .col-md-12
-    .grid.simple
-      .grid-body 
-        %p
-          %b Name:
-          = @region.name
-        %p
-          %b Vertices
-          %ul
-            - @region.vertices.each do |vertex|
-              %li
-                = "#{vertex.latitude}, #{vertex.longitude}"
+  .row
+    .col-md-12
+      .grid.simple
+        .grid-body 
+          %p
+            %b Name:
+            = @region.name
+          %p
+            %b Vertices
+            %ul
+              - @region.vertices.each do |vertex|
+                %li
+                  = "#{vertex.latitude}, #{vertex.longitude}"

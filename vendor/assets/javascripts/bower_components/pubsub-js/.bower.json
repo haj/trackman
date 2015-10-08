@@ -1,0 +1,27 @@
+{
+  "name": "PubSubJS",
+  "version": "1.5.2",
+  "main": "src/pubsub.js",
+  "ignore": [
+    "**/.*",
+    "iframe",
+    "lib",
+    "test",
+    "wrappers",
+    "autolint.js",
+    "Gruntfile.js",
+    "jquery-integration.html",
+    "package.json",
+    "Rakefile"
+  ],
+  "homepage": "https://github.com/mroderick/PubSubJS",
+  "_release": "1.5.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.5.2",
+    "commit": "6fd3b8943501fcc366c0cb4bc35eb99d6b24d8a9"
+  },
+  "_source": "git://github.com/mroderick/PubSubJS.git",
+  "_target": "*",
+  "_originalSource": "pubsub-js"
+}

@@ -21,6 +21,8 @@
  *
  * Before Framework.
  *= require jquery.dataTables
+
+ = require dataTables.bootstrap.min.css
  *= require bootstrap-checkbox
  *=	require datatables.responsive
  *
@@ -43,7 +45,6 @@
  *= require cars
  *= require chosen
  */
-
 
 .map-tooltip{
 	height: 100%;
@@ -83,19 +84,39 @@
 }
 
 .table>tbody>tr>td.details { 
-	border-top: none !important;
+	/*border-top: none !important;*/
 }
 
 .table>tbody>tr>td.details.address { 
-	width: 40%;
+	/*width: 40%;*/
 }
 
 
 .table>tbody>tr>td.details.address span.staddress { 
-	opacity: .7;
+	/*opacity: .7;*/
 }
 
+.nav.quick-section{
+	margin-top: 0px;
+}
 
+.hide-logo{
+	display: none;
+}
 
+.query_report_links{
+	margin-top: 15px;
+}
 
+.query_report_search_form form{
+	/*float: right;*/
+}
+
+/*.query_report_links {
+	float:right;
+}
+*/
+.query_report_links .btn {
+	margin-right: 5px;
+}
 

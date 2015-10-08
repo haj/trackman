@@ -614,6 +614,9 @@ body.menu-non-fixed .page-sidebar {
   width: 50px;
   padding: 60px 0 0;
 }
+.page-sidebar.mini .page-sidebar-wrapper > ul > li.active {
+  background: #0b9c8f;
+}
 .page-sidebar.mini .page-sidebar-wrapper > ul > li > ul.sub-menu {
   position: absolute;
   margin-top: -46px;
@@ -657,7 +660,15 @@ body.menu-non-fixed .page-sidebar {
   display: none;
 }
 .page-sidebar.mini ul li span.badge {
-  display: none;
+  // display: none;
+  position: absolute;
+  bottom:5px;
+  right:4px;
+}
+
+.page-sidebar.mini ul li ul.sub-menu span.badge {
+  // display: none;
+  position: inherit;
 }
 .page-sidebar.mini ul li ul li span.title {
   display: inline;
@@ -1688,10 +1699,14 @@ blockquote.pull-right small:after {
   content: "";
 }
 .logo {
-  margin: 18px 14px;
+  margin: 14px 14px 0px 14px;
   width: 106px;
   height: 21px;
+  &.logo-white{
+    margin: 18px 14px;
+  }
 }
+
 .profile-image{
   width: 35px;
   height: 35px;

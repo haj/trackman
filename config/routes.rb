@@ -37,6 +37,12 @@ Rails.application.routes.draw do
   get 'one_car_render_directions' => 'home#one_car_render_directions'
   get 'apply_filter' => 'home#apply_filter'
 
+  get 'reports' => 'reporting#index'
+  get 'reports/devices' => 'reporting#devices', as: 'reports_devices'
+  get 'reports/vehicles' => 'reporting#vehicles', as: 'reports_vehicles'
+  get 'reports/simcards' => 'reporting#simcards', as: 'reports_simcards'
+  get 'reports/users' => 'reporting#users', as: 'reports_users'
+
   ###############
   # Subscription
   ###############
@@ -155,7 +161,7 @@ Rails.application.routes.draw do
     member do
       get 'map'
       get 'positions'
-      get 'reports'
+      # get 'reports'
     end
   end
 
@@ -189,6 +195,8 @@ Rails.application.routes.draw do
   resources :home do 
     collection do 
       get 'test'
+      get 'cars_overview'
+      get 'logbook_data'
     end
   end 
 
@@ -196,6 +204,10 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: "registrations", :invitations => 'invitations' }
   
+  devise_scope :user do
+    get "/settings" => "users#show"
+  end
+
   resources :users do 
     member do 
       get 'conversations'

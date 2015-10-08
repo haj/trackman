@@ -21,3 +21,47 @@
 
 en:
   hello: "Hello world"
+  views:
+    labels:
+      email: Email
+    links:
+      pdf: PDF
+      csv: CSV
+  query_report:
+    filters:
+      from: 'Start date'
+      to: 'End date'
+      first_name:
+        contains: "First name"
+      last_name:
+        contains: "Last name"
+      email:
+        contains: "Email"
+      title:
+        contains: Title
+      emei:
+        contains: "EMEI"
+      name:
+        contains: "Name"
+      device_type:
+        contains: "Device Type"
+      device_model:
+        contains: "Device Model"
+      mileage:
+        contains: "Mileage"
+      numberplate:
+        contains: "Numberplate"
+      car_type:
+        contains: "Car Type"
+      car_model:
+        contains: "Car Model"
+
+      # last_name:
+      # 	contains: Last name
+      # first_name:
+      # 	contains: First name
+    total:
+      Total
+    labels:
+      search: Filter
+    no_record_found: No data found

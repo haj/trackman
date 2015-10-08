@@ -2,13 +2,12 @@ class CarsController < ApplicationController
   before_action :set_car, only: [:edit, :update, :destroy]
   load_and_authorize_resource
 
-
   # This list vehicles and enable the user to get vehicle positions
   def history
     @q = apply_scopes(Car).all.search(params[:q])
     @cars = @q.result(distinct: true)
     respond_to do |format|
-      format.html {render :layout => "index_template"}
+      format.html
     end
   end
 
@@ -58,7 +57,7 @@ class CarsController < ApplicationController
     @q = apply_scopes(Car).all.search(params[:q])
     @cars = @q.result(distinct: true)
     respond_to do |format|
-      format.html {render :layout => "index_template"}
+      format.html
     end
   end
 

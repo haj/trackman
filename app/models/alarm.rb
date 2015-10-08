@@ -11,7 +11,6 @@
 #
 
 class Alarm < ActiveRecord::Base
-	
 
 	validates :name, presence: true
 

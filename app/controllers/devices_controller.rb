@@ -28,7 +28,7 @@ class DevicesController < ApplicationController
     @q = apply_scopes(Device).all.search(params[:q])
     @devices = @q.result(distinct: true)
     respond_to do |format|
-      format.html {render :layout => "index_template"}
+      format.html
     end
   end
 

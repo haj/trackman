@@ -1,16 +1,17 @@
-.row
-  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
-    .page-title
-      = link_to raw("<i class='icon-custom-left'></i>"), device_types_path
-      %h3
-        Device Model  
-  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
-    .pull-right= link_to 'Edit', edit_device_type_path(@device_type), class: "btn btn-success"
+.content
+  .row
+    .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+      .page-title
+        = link_to raw("<i class='icon-custom-left'></i>"), device_types_path
+        %h3
+          Device Model  
+    .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+      .pull-right= link_to 'Edit', edit_device_type_path(@device_type), class: "btn btn-success"
 
-.row
-  .col-md-12
-    .grid.simple
-      .grid-body
-        %p
-          %b Name:
-          = @device_type.name
+  .row
+    .col-md-12
+      .grid.simple
+        .grid-body
+          %p
+            %b Name:
+            = @device_type.name

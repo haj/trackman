@@ -1,1 +1,1 @@
-Rack::MiniProfiler.config.position = 'right'
+# Rack::MiniProfiler.config.position = 'left'

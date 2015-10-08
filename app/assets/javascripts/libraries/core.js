@@ -551,6 +551,8 @@ function calculateHeight() {
         if(windowWidth >768){
             if ($(this).hasClass('hide-sidebar')) $(this).toggleClass('hide-sidebar');
 
+            $('.logo-dark').toggleClass('hide-logo')
+
             $(this).toggleClass('condense-menu');
             $(this).find('#main-menu').toggleClass('mini');
         }

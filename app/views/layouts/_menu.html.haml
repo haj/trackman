@@ -1,9 +1,18 @@
 %ul
   / BEGIN SELECTED LINK
-  %li
+  %li{:class => ("active" if current_page?(root_path))}
     %a{:href => root_path}
       = fa_icon "home"
       %span.title Home
+
+  - if is_manager?(current_user)
+    %li{:class => ("active" if current_page?(alarm_notifications_path))}
+      %a{:href => alarm_notifications_path}
+        = fa_icon "exclamation-triangle"
+        %span.title 
+          Alerts
+        %span.badge.badge-danger.pull-right
+          4
 
   %li
     %a{:href => "javascript:;"}
@@ -11,32 +20,28 @@
       %span.title Conversations
       %span.arrow
     %ul.sub-menu
-      %li
+      %li{:class => ("active" if current_page?(conversations_path))}
         %a{:href => conversations_path}
           = fa_icon "inbox"
           %span.title Inbox
-
-      %li
+          %span.badge.badge-disable.pull-right.m-r-30
+            1
+      %li{:class => ("active" if current_page?(sentbox_conversations_path))}
         %a{:href => sentbox_conversations_path}
           = fa_icon "folder"
           %span.title Sentbox
 
-  - if is_manager?(current_user)
-    %li
-      %a{:href => alarm_notifications_path}
-        = fa_icon "exclamation-triangle"
+    %li{:class => ("active" if current_page?(reports_path))}
+      %a{:href => reports_path}
+        = fa_icon "file-text-o"
         %span.title 
-          Alerts 
-    %li
-      %a{:href => history_cars_path}
-        = fa_icon "area-chart"
-        %span.title 
-          History
-  / %li
-  /   %a{:href => cars_path}
-  /     = fa_icon "file-text-o"
-  /     %span.title 
-  /       Reports 
+          Reports          
+
+    / %li
+    /   %a{:href => history_cars_path}
+    /     = fa_icon "area-chart"
+    /     %span.title 
+    /       History
 
   - if is_manager?(current_user)
     %li
@@ -45,32 +50,32 @@
         %span.title Administration
         %span.arrow
       %ul.sub-menu
-        %li
+        %li{:class => ("active" if current_page?(cars_path))}
           %a{:href => cars_path}
             = fa_icon "truck"
             %span.title Vehicles
-        %li
+        %li{:class => ("active" if current_page?(devices_path))}
           %a{:href => devices_path}
             = fa_icon "bullseye"
             %span.title Devices
-        %li
+        %li{:class => ("active" if current_page?(alarms_path))}
           %a{:href => alarms_path}
             = fa_icon "bullhorn"
             %span.title Alarms
-        %li
+        %li{:class => ("active" if current_page?(work_schedules_path))}
           %a{:href => work_schedules_path}
             = fa_icon "calendar"
             %span.title Work Schedules
-        %li
+        %li{:class => ("active" if current_page?(regions_path))}
           %a{:href => regions_path}
             = fa_icon "circle"
             %span.title Regions
 
-        %li
+        %li{:class => ("active" if current_page?(simcards_path))}
           %a{:href => simcards_path}
             = fa_icon "ticket"
             %span.title Simcards
-        %li
+        %li{:class => ("active" if current_page?(users_path))}
           %a{:href => users_path}
             = fa_icon "users"
             %span.title Employees

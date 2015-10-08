@@ -8,7 +8,7 @@ class WorkSchedulesController < ApplicationController
   def index
     @work_schedules = WorkSchedule.all
     respond_to do |format|
-      format.html {render :layout => "index_template"}
+      format.html
     end
   end
 

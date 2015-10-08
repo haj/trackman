@@ -1,32 +1,55 @@
-.row
-  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
-    .page-title
-      - if is_manager?(current_user)
-        = link_to raw("<i class='icon-custom-left'></i>"), users_path
-      %h3
-        User profile
-        = link_to 'Edit', edit_user_path(@user), class: "btn btn-success btn-small"
+.content
 
+  .row
+    .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+      .page-title
+        - if is_manager?(current_user)
+          = link_to raw("<i class='icon-custom-left'></i>"), users_path
+        %h3
+          Settings
+          / = link_to 'Edit', edit_user_path(@user), class: "btn btn-success btn-small"
 
-.row
-  .col-md-12
-    .grid.simple
-      .grid-body 
-        .form-group
-          %strong First name:
-          = @user.first_name
+  .row
+    .col-md-6
+      .grid.simple
+        .grid-title
+          %h4 Personal Information
+        .grid-body 
+          = render 'form'
 
-        .form-group
-          %strong Last name:
-          = @user.last_name
-
-        .form-group
-          %strong Email:
-          = @user.email
-
-        - if is_admin?(current_user)
+    .col-md-6
+      .grid.simple
+        .grid-title
+          %h4 Notification
+        .grid-body
           .form-group
-            %strong Roles:
-            %ul
-              - @user.roles.each do |role| 
-                %li= role.capitalize
+            = check_box("eula", "accepted", { class: '', style: 'margin-right: 5px;' }, "yes", "no")
+            %span= "Send daily report via email"
+            %strong=" (#{current_user.email})"
+
+    .col-md-6
+      .grid.simple
+        .grid-title
+          %h4 PDF Report
+        .grid-body
+          %div{style:'margin: 0 auto;'}
+            %form
+              %input.form-control{:type => "text", placeholder: 'PDF Header Title'}/
+              %h4{style: 'border: 1px solid #ccc; height:150px; padding:60px 20px; text-align:center; font-size:34px; color:#ccc; font-weight:bold;'} DATA
+              %input.form-control{:type => "text", placeholder: 'PDF Footer Title'}/
+              %div.form-actions{style: 'text-align: right;'}
+                %input{:type => "submit", :value => "Save", class: 'btn btn-primary btn-con'}/
+        / .form-group
+        /   %strong Last name:
+        /   = @user.last_name
+
+        / .form-group
+        /   %strong Email:
+        /   = @user.email
+
+        / - if is_admin?(current_user)
+        /   .form-group
+        /     %strong Roles:
+        /     %ul
+        /       - @user.roles.each do |role| 
+        /         %li= role.capitalize

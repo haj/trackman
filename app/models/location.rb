@@ -14,6 +14,17 @@ class Location < ActiveRecord::Base
 	belongs_to :position, :class_name => 'Traccar::Position'
 	belongs_to :device, :class_name => 'Traccar::Device'
 
+	# attr_reader :time
+
+	# def time=(time)
+	# 	time
+	# end
+
+	# def time=(value)
+	#   value = value.to_date.to_s(:db)
+	#   self[:time] = value
+	# end
+
 	def self.reset_locations
 	    Location.all.destroy_all
 	    Traccar::Position.where('time > ?', "2015-08-05".to_date).each do |p|
@@ -30,25 +41,21 @@ class Location < ActiveRecord::Base
 	    end
 	end
 
-	def self.destroy_similar_in_time
-		Location.where('device_id', self.device_id).where('time like ?', self.time).destroy_all
-	end
-
-	def self.destroy_similar_in_address
-		Location.all.select{|l| l.device_id == self.device_id and l.id < self.id and self.time - l.time < 60 and self.time - l.time > 0}.destroy_all
-	end
-
 	# can be onroad, start, stop
 	def analyze_me
 		p = self.previous
 
+		# self : current position
+		# p    : previous position
+
 		if p.nil?
-			self.status = "start" 
+			self.status = "start"
 		else
 			previous_start_point = self.previous_start_point
 			duration_since_previous_point = (self.time - p.time).to_i
+			# duration_since_previous_start_point = (self.time - previous_start_point.time).to_i
 
-			if duration_since_previous_point > 300
+			if duration_since_previous_point > 300 and p.status != "strat" # 5 minutes
 
 				self.status = "start"
 
@@ -73,13 +80,22 @@ class Location < ActiveRecord::Base
 			end
 		end
 		self.save!
+
+	end
+
+	def self.destroy_similar_in_time
+		Location.where('device_id', self.device_id).where('time like ?', self.time).destroy_all
+	end
+
+	def self.destroy_similar_in_address
+		Location.all.select{|l| l.device_id == self.device_id and l.id < self.id and self.time - l.time < 60 and self.time - l.time > 0}.destroy_all
 	end
 
 	def total_parking_duration_of_the_day
 		parking_duration_current_day = 0
 		Location.order(:time).select{|l| l.time.to_date == self.time.to_date and l.status == "start"}.each do |l|
 	    	parking_duration_current_day += l.parking_duration.to_i
-		end	
+		end
 		Time.at(parking_duration_current_day).utc.strftime('%H:%M:%S')
 	end
 
@@ -87,7 +103,7 @@ class Location < ActiveRecord::Base
 		driving_duration_current_day = 0
 		Location.order(:time).select{|l| l.time.to_date == self.time.to_date and l.status == "start"}.each do |l|
 	    	driving_duration_current_day += l.driving_duration.to_i
-		end	
+		end
 		Time.at(driving_duration_current_day).utc.strftime('%H:%M:%S')
 	end
 
@@ -103,7 +119,7 @@ class Location < ActiveRecord::Base
 		Location.order(:time).where('device_id', self.device_id).where('time > ? and DATE(time) like ?', self.time, self.time.to_date).first
 	end
 
-  # Takes a bunch of locations and return it in a Gmaps4rails format 
+  # Takes a bunch of locations and return it in a Gmaps4rails format
   def self.markers(locations)
     return Gmaps4rails.build_markers(locations) do |location, marker|
       marker.lat location.position.latitude.to_s
@@ -111,5 +127,5 @@ class Location < ActiveRecord::Base
       marker.infowindow location.time.to_s+"/"+location.status
     end
   end
-  
+
 end

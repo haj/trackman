@@ -38,6 +38,14 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
+  config.react.addons = true
+  config.react.variant = :development
+  config.react.jsx_transformer_class = React::JSX::JSXTransformer
+  config.react.jsx_transform_options = {
+    harmony: true,
+    strip_types: true, # for removing Flow type annotations
+    asset_path: "#{Rails.root}/app/assets/javascripts/libraries/JSXTransformer.js", # if your JSXTransformer is somewhere else
+  }
 
   # config.lograge.enabled = true
   # config.lograge.log_format = :graylog2

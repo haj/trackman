@@ -15,6 +15,10 @@ gem 'sqlite3'
 #   gem 'sqlite3'
 # end
 
+gem 'datejs-rails'
+
+gem "query_report"
+
 gem "rails-settings-cached", "0.4.1"
 
 # Use SCSS for stylesheets
@@ -31,7 +35,8 @@ gem 'time_diff', '~> 0.3.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-#gem 'turbolinks'
+ gem 'turbolinks'
+ gem 'jquery-turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -59,7 +64,10 @@ gem 'hirb'
 gem 'cancancan', '~> 1.9'
 gem 'role_model', github: 'martinrehfeld/role_model'
 gem 'nested_form'
+
+gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 gem "jquery-ui-rails"
+
 gem 'country-select'
 gem "geocoder"
 gem 'rails_admin'
@@ -149,7 +157,16 @@ end
 
 gem "gelf"
 gem "lograge"
-gem 'rack-mini-profiler'
+# gem 'rack-mini-profiler'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
-#gem 'prawn'
+gem 'prawn'
+gem 'prawn-table'
+
+gem 'react-rails', '~> 1.3.0'
+gem "headjs-rails"
+# gem 'sprockets-coffee-react'
+gem "bower-rails"
+gem 'react-bootstrap-rails'
+gem 'better_errors'
+

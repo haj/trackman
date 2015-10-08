@@ -1,0 +1,8 @@
+{
+  "name": "dsl-generated dependencies",
+  "dependencies": {
+    "react-bootstrap": "latest",
+    "pubsub-js": "latest",
+    "momentjs": "latest"
+  }
+}

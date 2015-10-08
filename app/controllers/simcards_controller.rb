@@ -23,7 +23,7 @@ class SimcardsController < ApplicationController
     @q = apply_scopes(Simcard).all.search(params[:q])
     @simcards = @q.result(distinct: true)
     respond_to do |format|
-      format.html {render :layout => "index_template"}
+      format.html
     end
   end
 
