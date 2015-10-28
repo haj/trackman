@@ -39,7 +39,6 @@
  *= require_tree ./personalized/.
  *= require self
  *= require regions
- *= require peek
  *= require work_schedules
  *= require datepicker3
  *= require jquery.timepicker

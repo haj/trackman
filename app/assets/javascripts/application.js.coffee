@@ -58,7 +58,6 @@
 #
 # ########################### Views
 #= require_tree ./views
-#= require peek
 
 #= require turbolinks
 
