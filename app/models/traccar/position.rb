@@ -17,7 +17,7 @@
 #  created_at :timestamp        not null
 #
 
-class Traccar::Position < ActiveRecord::Base 
+class Traccar::Position < ActiveRecord::Base
   establish_connection "secondary_#{Rails.env}".to_sym
   self.table_name = "positions"
 
@@ -81,13 +81,13 @@ class Traccar::Position < ActiveRecord::Base
     Device.where(emei: self.device.uniqueId).first.car
   end
 
-  # Takes a bunch of positions and return it in a Gmaps4rails format 
+  # Takes a bunch of positions and return it in a Gmaps4rails format
   def self.markers(positions)
     return Gmaps4rails.build_markers(positions) do |position, marker|
       marker.lat position.latitude.to_s
       marker.lng position.longitude.to_s
       marker.infowindow position.time.to_s
-    end 
+    end
   end
 
 end

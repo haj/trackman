@@ -26,7 +26,7 @@
 
   %body.error-body{'data-class-name' => js_class_name, class: 'condense-menu'}
 
-    = include_gon(watch: true)
+    = include_gon(watch: true, init: true)
 
     / BEGIN HEADER
     .header.navbar.navbar-inverse
@@ -65,8 +65,8 @@
             / BEGIN SLIM NAVIGATION TOGGLE
             %ul.nav.quick-section{style: 'margin-left: 0px;'}
               %li.quicklinks
-                =link_to root_path do 
-                  = image_tag "logo.png", :class => "logo-image logo logo-dark" 
+                =link_to root_path do
+                  = image_tag "logo.png", :class => "logo-image logo logo-dark"
               %li.quicklinks{style: 'margin-top: 17px; margin-left:10px; margin-right:17px;'}
                 %a#layout-condensed-toggle-two{:href => "#"}
                   .iconset.top-menu-toggle-dark
@@ -121,4 +121,5 @@
 
       .page-content
         .col-md-12
+          = render 'peek/bar'
           = yield

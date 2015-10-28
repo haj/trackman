@@ -40,14 +40,14 @@ class Device < ActiveRecord::Base
 
 	# Has_
 	has_one :simcard, :dependent => :nullify
-	belongs_to :device_model 
+	belongs_to :device_model
 	belongs_to :device_type
 	belongs_to :car
 	belongs_to :company
 	has_many :states
 
 
-	# callbacks 
+	# callbacks
 	before_destroy :destroy_traccar_device
 	after_save :create_traccar_device
 	before_update :update_traccar_device
@@ -86,7 +86,7 @@ class Device < ActiveRecord::Base
 		!self.car_id.nil?
 	end
 
-	def has_simcard? 
+	def has_simcard?
 		!self.simcard.nil?
 	end
 
@@ -115,7 +115,7 @@ class Device < ActiveRecord::Base
 		last_state = self.states.last
 
 		if last_positions.count == 2
-			latitude1 = last_positions[0].latitude 
+			latitude1 = last_positions[0].latitude
 			longitude1 = last_positions[0].longitude
 			latitude2 = last_positions[1].latitude
 			longitude2 = last_positions[1].longitude
@@ -125,10 +125,10 @@ class Device < ActiveRecord::Base
 				if (latitude1 - latitude2).abs < threshold
 					self.update_attributes(:movement => false, :last_checked => Time.zone.now)
 					return false
-				else 
+				else
 					self.update_attributes(:movement => true, :last_checked => Time.zone.now)
 					return true
-				end 
+				end
 			end
 		else
 			return false
@@ -150,7 +150,7 @@ class Device < ActiveRecord::Base
 			return false
 		end
 	end
-	
+
 	# return the speed of the vehicle associated with the last position
 	def speed
 		self.traccar_device.try(:positions).try(:last).try(:speed)
@@ -159,5 +159,5 @@ class Device < ActiveRecord::Base
 	def traccar_device
 		Traccar::Device.where(uniqueId: self.emei).first
 	end
-	
+
 end

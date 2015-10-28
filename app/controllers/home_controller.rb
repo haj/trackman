@@ -3,9 +3,10 @@ class HomeController < ApplicationController
   include UsersHelper
   include ApplicationHelper
 
-  	def cars_overview
-  		@cars = Car.all
-  	end
+	def cars_overview
+		# @cars = nil
+		@cars = Car.all.includes(:device).includes(:car_type)
+	end
 
 	def logbook_data dates=nil
 		# raise params.inspect
@@ -24,14 +25,14 @@ class HomeController < ApplicationController
 			end
 
 		end
+
 	end
 
 	def index
-
 		if is_manager?(current_user)
 			timezone = current_user.time_zone
 			Time.use_zone(timezone) do
-				@cars = Car.all
+				@cars = Car.all.includes(:device)
 
 				@positions = Car.all_positions(@cars)
 

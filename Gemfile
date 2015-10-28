@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
 
-# group :development do 
+# group :development do
 #     gem 'sqlite3'
 #     gem 'mysql2', :group => [:development, :test, :production]
 # end
@@ -74,7 +74,7 @@ gem 'rails_admin'
 
 
 # stuff required for testing purposes
-group :development, :test do 
+group :development, :test do
   gem "rspec-rails"
   gem 'simplecov', '~> 0.7.1'
   gem 'spring-commands-rspec'
@@ -86,7 +86,7 @@ group :development, :test do
 
 end
 
-group :development, :test do 
+group :development, :test do
 	gem 'html2haml', :git => 'git://github.com/haml/html2haml.git'
 end
 
@@ -94,11 +94,10 @@ gem 'safe_attributes', :require => 'safe_attributes/base'
 
 gem 'gmaps4rails'
 gem 'underscore-rails'
-gem 'pry-rails', :group => :development
 gem 'has_scope'
 gem 'seed_dump'
 
-gem 'haml-rails'   
+gem 'haml-rails'
 
 gem 'figaro'
 
@@ -117,7 +116,7 @@ gem 'rvm-capistrano'
 gem 'capistrano', '2.15.5'
 
 gem "devise-async"
-gem 'daemons' #required by delayed_job 
+gem 'daemons' #required by delayed_job
 gem 'whenever', :require => false
 gem 'chronic'
 gem 'tod'
@@ -153,11 +152,21 @@ gem 'puma'
 group :development, :test do
   gem 'railroady'
   gem 'web-console', '~> 2.0'
+  gem 'peek'
+  gem 'peek-mysql2'
+  gem "awesome_print", require:"ap"
+  gem 'better_errors'
+  gem "pry-rails"
+  gem 'quiet_assets'
+  gem 'bullet'
+  gem "rails_best_practices"
 end
+
+# gem 'rack-mini-profiler'
+# gem 'sprockets-coffee-react'
 
 gem "gelf"
 gem "lograge"
-# gem 'rack-mini-profiler'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem 'prawn'
@@ -165,8 +174,6 @@ gem 'prawn-table'
 
 gem 'react-rails', '~> 1.3.0'
 gem "headjs-rails"
-# gem 'sprockets-coffee-react'
 gem "bower-rails"
 gem 'react-bootstrap-rails'
-gem 'better_errors'
 

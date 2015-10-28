@@ -14,7 +14,7 @@ class CarsController < ApplicationController
   def reports
     @car = Car.find(params[:id])
   end
-
+  
   def positions
     @car = Car.find(params[:id])
     @alarms = @car.alarms

@@ -14,6 +14,17 @@ class Location < ActiveRecord::Base
 	belongs_to :position, :class_name => 'Traccar::Position'
 	belongs_to :device, :class_name => 'Traccar::Device'
 
+	before_save :define_step
+
+	def define_step
+		if self.status == "start" or self.status == "stop"
+			c = Location.order(:time).where('device_id', self.device_id)
+			.where('time < ? and DATE(time) like ?', self.time, self.time.to_date)
+			.where("status in (?,?)", "start", "stop").count
+			self.step = c + 1
+		end
+	end
+
 	# attr_reader :time
 
 	# def time=(time)
@@ -55,18 +66,18 @@ class Location < ActiveRecord::Base
 			duration_since_previous_point = (self.time - p.time).to_i
 			# duration_since_previous_start_point = (self.time - previous_start_point.time).to_i
 
-			if duration_since_previous_point > 300 and p.status != "strat" # 5 minutes
+			if duration_since_previous_point > 300 and p.status != "start" # 5 minutes
 
 				self.status = "start"
 
 				# new start point, but what's the time that the vehicle had been parked?
 				previous_start_point.parking_duration = duration_since_previous_point
 
-				if p.status == "start"
-					p.status = "error"
-				else
-					p.status = "stop"
-				end
+				# if p.status == "start"
+				# 	p.status = "error"
+				# else
+				# 	p.status = "stop"
+				# end
 
 				p.save!
 
@@ -79,6 +90,9 @@ class Location < ActiveRecord::Base
 				self.status = "onroad"
 			end
 		end
+
+		# Start 2 | Stop 5 | Start 3 | Stop 5
+
 		self.save!
 
 	end

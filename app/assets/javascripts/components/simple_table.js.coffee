@@ -4,7 +4,6 @@ R = React.DOM
 
 	render: ->
 		window.children = @props.children
-		console.log @props.children
 		React.createElement Table, {className: 'simple_table mi-size', striped: true, condensed: true, responsive: true, hover: true},
 			R.thead null,
 				R.tr null,

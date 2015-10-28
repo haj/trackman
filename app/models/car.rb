@@ -65,13 +65,14 @@ class Car < ActiveRecord::Base
 		end
 
 		def locations_grouped_by_these_dates dates
-			self.locations.select{|l| dates.include? l.time.to_date and l.status != "onroad" and l.status != "error"}
+			self.locations.select{|l| dates.include? l.time.to_date and (l.status == "start" or l.status == "stop")}
 			.group_by{|l| l.time.to_date}
 		end
 
 		def locations
 			Location.select(:id, :address, :time, :status, :longitude, :latitude, :speed,
-				:driving_duration, :parking_duration, :device_id)
+				:driving_duration, :parking_duration, :device_id, :step)
+				.includes(:device).order("time")
 				.select{|l| l.device.try(:uniqueId) == self.device.try(:emei)}
 		end
 

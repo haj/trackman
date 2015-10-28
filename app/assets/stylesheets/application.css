@@ -39,6 +39,7 @@
  *= require_tree ./personalized/.
  *= require self
  *= require regions
+ *= require peek
  *= require work_schedules
  *= require datepicker3
  *= require jquery.timepicker
@@ -83,16 +84,16 @@
 	transition: all .3s !important;
 }
 
-.table>tbody>tr>td.details { 
+.table>tbody>tr>td.details {
 	/*border-top: none !important;*/
 }
 
-.table>tbody>tr>td.details.address { 
+.table>tbody>tr>td.details.address {
 	/*width: 40%;*/
 }
 
 
-.table>tbody>tr>td.details.address span.staddress { 
+.table>tbody>tr>td.details.address span.staddress {
 	/*opacity: .7;*/
 }
 

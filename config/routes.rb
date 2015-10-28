@@ -1,24 +1,26 @@
 Rails.application.routes.draw do
 
   #######################
-  # Work Schedule Groups  
+  # Work Schedule Groups
   #######################
 
-  resources :work_schedule_groups do 
-    collection do 
+  resources :work_schedule_groups do
+    collection do
       put 'batch_destroy'
     end
   end
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
+  mount Peek::Railtie => '/peek'
+
 
   #############
-  # Simlations 
+  # Simlations
   #############
 
-  resources :simulations do 
-    collection do 
+  resources :simulations do
+    collection do
       post 'movement'
       post 'speeding'
       post 'outside_work_hours'
@@ -29,7 +31,7 @@ Rails.application.routes.draw do
     end
   end
 
-  # just a dummy path to test exception notifier 
+  # just a dummy path to test exception notifier
   get 'test_exception_notifier' => 'application#test_exception_notifier'
   get 'logbook_render' => 'home#logbook_render'
   get 'one_car_render' => 'home#one_car_render'
@@ -47,21 +49,21 @@ Rails.application.routes.draw do
   # Subscription
   ###############
 
-  resources :subscriptions do 
-    member do 
+  resources :subscriptions do
+    member do
       get 'generate'
     end
   end
 
   ######################
-  # Alarm Notifications   
+  # Alarm Notifications
   ######################
 
-  resources :alarm_notifications, :path => 'alerts' do 
-    member do 
+  resources :alarm_notifications, :path => 'alerts' do
+    member do
       get 'archive'
     end
-    collection do 
+    collection do
       put 'batch_archive'
     end
   end
@@ -71,88 +73,88 @@ Rails.application.routes.draw do
   resources :notifications
   resources :vertices
 
-  resources :regions do 
-    collection do 
+  resources :regions do
+    collection do
       put 'batch_destroy'
     end
   end
 
   resources :features
 
-  resources :conversations do 
-    member do 
+  resources :conversations do
+    member do
       post 'reply'
     end
-    collection do 
+    collection do
       get 'sentbox'
       put 'mark_as_action'
     end
   end
 
-  resources :work_schedules do 
-    collection do 
+  resources :work_schedules do
+    collection do
       put 'batch_destroy'
     end
   end
 
   resources :parameters
 
-  resources :alarms do 
-    collection do 
+  resources :alarms do
+    collection do
       get 'region'
       put 'batch_destroy'
     end
   end
 
-  resources :rules do 
-    member do 
+  resources :rules do
+    member do
       get 'rule_params_list'
     end
-    collection do 
+    collection do
       get 'regions'
       get 'work_schedules'
     end
 
   end
-  resources :work_hours 
+  resources :work_hours
 
-  resources :simcards do 
-    collection do 
+  resources :simcards do
+    collection do
       put 'batch_destroy'
     end
   end
-  
-  resources :teleproviders do 
-    collection do 
+
+  resources :teleproviders do
+    collection do
       put 'batch_destroy'
     end
   end
-  resources :device_types do 
-    collection do 
+  resources :device_types do
+    collection do
       put 'batch_destroy'
     end
   end
-  resources :device_models do 
-    collection do 
+  resources :device_models do
+    collection do
       put 'batch_destroy'
     end
   end
-  resources :device_manufacturers do 
-    collection do 
+  resources :device_manufacturers do
+    collection do
       put 'batch_destroy'
     end
   end
-  resources :groups do 
-    member do 
+  resources :groups do
+    member do
       get 'live'
     end
-    collection do 
+    collection do
       put 'batch_destroy'
     end
   end
 
-  resources :cars do 
-    collection do 
+  resources :cars do
+    collection do
       put 'batch_destroy'
       get 'history'
       get 'pdf'
@@ -165,55 +167,55 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :car_types do 
-    collection do 
+  resources :car_types do
+    collection do
       put 'batch_destroy'
     end
   end
 
-  resources :car_models do 
-    collection do 
+  resources :car_models do
+    collection do
       put 'batch_destroy'
     end
   end
 
-  resources :car_manufacturers do 
-    collection do 
+  resources :car_manufacturers do
+    collection do
       put 'batch_destroy'
     end
   end
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  
-  resources :devices do 
-    collection do 
+
+  resources :devices do
+    collection do
       get 'live_map'
       put 'batch_destroy'
     end
   end
 
-  resources :home do 
-    collection do 
+  resources :home do
+    collection do
       get 'test'
       get 'cars_overview'
       get 'logbook_data'
     end
-  end 
+  end
 
   resources :companies
 
   devise_for :users, controllers: { registrations: "registrations", :invitations => 'invitations' }
-  
+
   devise_scope :user do
     get "/settings" => "users#show"
   end
 
-  resources :users do 
-    member do 
+  resources :users do
+    member do
       get 'conversations'
       get 'notifications'
     end
-    collection do 
+    collection do
       put 'batch_destroy'
     end
   end
