@@ -152,8 +152,6 @@ gem 'puma'
 group :development, :test do
   gem 'railroady'
   gem 'web-console', '~> 2.0'
-  gem 'peek'
-  gem 'peek-mysql2'
   gem "awesome_print", require:"ap"
   gem 'better_errors'
   gem "pry-rails"
