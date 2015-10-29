@@ -6,9 +6,9 @@ class DeviceTypesController < ApplicationController
   def index
     @q = DeviceType.search(params[:q])
     @device_types = @q.result(distinct: true)
-    respond_to do |format|
-      format.html {render :layout => "index_template"}
-    end
+    # respond_to do |format|
+    #   format.html {render :layout => "index_template"}
+    # end
   end
 
   # GET /device_types/1

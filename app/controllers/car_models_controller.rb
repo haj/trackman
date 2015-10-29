@@ -1,7 +1,7 @@
 class CarModelsController < ApplicationController
   before_action :set_car_model, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
-  
+
   has_scope :by_car_manufacturer
 
   # GET /car_models
@@ -10,9 +10,9 @@ class CarModelsController < ApplicationController
     @q = apply_scopes(CarModel).all.search(params[:q])
     @car_models = @q.result(distinct: true)
 
-    respond_to do |format|
-      format.html {render :layout => "index_template"}
-    end
+    # respond_to do |format|
+    #   format.html {render :layout => "index_template"}
+    # end
 
   end
 

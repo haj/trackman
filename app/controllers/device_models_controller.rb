@@ -9,9 +9,9 @@ class DeviceModelsController < ApplicationController
   def index
     @q = apply_scopes(DeviceModel).all.search(params[:q])
     @device_models = @q.result(distinct: true)
-    respond_to do |format|
-      format.html {render :layout => "index_template"}
-    end
+    # respond_to do |format|
+    #   format.html {render :layout => "index_template"}
+    # end
   end
 
   # GET /device_models/1

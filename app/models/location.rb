@@ -36,6 +36,10 @@ class Location < ActiveRecord::Base
 	#   self[:time] = value
 	# end
 
+	def to_time
+		self.time.strftime('%H:%M:%S')
+	end
+
 	def self.reset_locations
 	    Location.all.destroy_all
 	    Traccar::Position.where('time > ?', "2015-08-05".to_date).each do |p|

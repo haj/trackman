@@ -38,7 +38,6 @@ class Car < ActiveRecord::Base
 		scope :untraceable, -> { where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL)") }
 		scope :with_driver, -> { where("id IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)") }
 		scope :without_driver, -> { where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)") }
-		# scope :locations, -> { where(:device_id => self.device.id) }
 
 	acts_as_tenant(:company)
 

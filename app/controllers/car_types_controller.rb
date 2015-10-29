@@ -1,8 +1,8 @@
 class CarTypesController < ApplicationController
   before_action :set_car_type, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
-  
-  
+
+
 
   # GET /car_types
   # GET /car_types.json
@@ -10,9 +10,9 @@ class CarTypesController < ApplicationController
     @q = CarType.search(params[:q])
     @car_types = @q.result(distinct: true)
 
-    respond_to do |format|
-      format.html {render :layout => "index_template"}
-    end
+    # respond_to do |format|
+    #   format.html {render :layout => "index_template"}
+    # end
   end
 
   # GET /car_types/1

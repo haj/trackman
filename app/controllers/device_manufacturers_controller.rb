@@ -6,9 +6,9 @@ class DeviceManufacturersController < ApplicationController
   def index
     @q = DeviceManufacturer.search(params[:q])
     @device_manufacturers = @q.result(distinct: true)
-    respond_to do |format|
-      format.html {render :layout => "index_template"}
-    end
+    # respond_to do |format|
+    #   format.html {render :layout => "index_template"}
+    # end
   end
 
   # GET /device_manufacturers/1
