@@ -90,7 +90,7 @@ group :development, :test do
 	gem 'html2haml', :git => 'git://github.com/haml/html2haml.git'
 end
 
-gem 'safe_attributes', :require => 'safe_attributes/base'
+gem 'safe_attributes'
 
 gem 'gmaps4rails'
 gem 'underscore-rails'

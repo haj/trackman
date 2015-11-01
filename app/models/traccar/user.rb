@@ -14,7 +14,7 @@ class Traccar::User < ActiveRecord::Base
   	self.table_name = "user"
 
   	has_many :devices, :through => :users_devices
-    has_many :users_devices, :class_name => "Traccar::UserDevice", :foreign_key => 'users_id', :dependent => :destroy
+    has_many :users_devices, :class_name => "Traccar::UserDevice", :foreign_key => 'userId', :dependent => :destroy
 
   	def last_position
   		position = self.positions.last
@@ -24,4 +24,5 @@ class Traccar::User < ActiveRecord::Base
   			return {longitude: position.longitude, latitude: position.latitude }
   		end
   	end
+
 end

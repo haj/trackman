@@ -47,12 +47,18 @@ class Device < ActiveRecord::Base
 	has_many :states
 	has_many :locations
 
-
 	# callbacks
 	before_destroy :destroy_traccar_device
 	after_save :create_traccar_device
 	before_update :update_traccar_device
 
+	def self.sync_to_traccar
+		Device.all.each do |d|
+			if Traccar::Device.find_by_uniqueId(d.emei).nil?
+				d.save!
+			end
+		end
+	end
 
 	def destroy_traccar_device
 		self.traccar_device.destroy unless self.traccar_device.nil?
@@ -60,7 +66,7 @@ class Device < ActiveRecord::Base
 
 	def create_traccar_device
 		traccar_device = Traccar::Device.find_or_create_by(name: self.name, uniqueId: self.emei)
-      	traccar_device.users << Traccar::User.first
+    traccar_device.users << Traccar::User.where(:name => "admin", :email => "admin")
 	end
 
 	def update_traccar_device
