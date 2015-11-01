@@ -81,8 +81,6 @@ class ApplicationController < ActionController::Base
     ActsAsTenant.current_tenant
   end
 
-  
-
   layout :guest_user_layout
 
   private
@@ -92,7 +90,7 @@ class ApplicationController < ActionController::Base
         Time.use_zone(current_user.company.time_zone, &block)
       else
         Time.use_zone("UTC", &block)
-      end      
+      end
     end
 
     def guest_user_layout
@@ -103,8 +101,8 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    
 
-    
+
+
 
 end

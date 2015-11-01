@@ -44,11 +44,13 @@ class Car < ActiveRecord::Base
  	# Associations
 
 		belongs_to :company
+		has_many :car_statistics
 		belongs_to :car_model
 		belongs_to :car_type
 		has_one :device, :dependent => :nullify
 		has_one :driver, :class_name => "User", :foreign_key => "car_id"
 		has_many :states, :dependent => :destroy
+		has_many :locations, :through => :device
 
 		#has_many :work_hours
 		belongs_to :work_schedule
@@ -60,19 +62,12 @@ class Car < ActiveRecord::Base
 		accepts_nested_attributes_for :alarms
 
 		def locations_grouped_by_dates
-			self.locations.group_by{|l| l.time.to_date}
+			self.locations.order(:time).group_by{|l| l.time.to_date}
 		end
 
 		def locations_grouped_by_these_dates dates
-			self.locations.select{|l| dates.include? l.time.to_date and (l.status == "start" or l.status == "stop")}
+			self.locations.order(:time).select{|l| dates.include? l.time.to_date and l.state == "start" or l.state == "stop"}
 			.group_by{|l| l.time.to_date}
-		end
-
-		def locations
-			Location.select(:id, :address, :time, :status, :longitude, :latitude, :speed,
-				:driving_duration, :parking_duration, :device_id, :step)
-				.includes(:device).order("time")
-				.select{|l| l.device.try(:uniqueId) == self.device.try(:emei)}
 		end
 
 		def last_location
@@ -105,9 +100,11 @@ class Car < ActiveRecord::Base
 
 		# Generate a hash with latitude and longitude of the car (fetched through the device GPS data)
 		#   Also for this hash to be non-empty, the car must have a device associated with it in the database
+
 		def last_position
 			unless self.device.nil?
-				return self.device.last_position
+				return self.device.locations.last
+				# return self.device.last_position
 			end
 		end
 

@@ -10,12 +10,12 @@
 
 class Traccar::Device < ActiveRecord::Base
   	establish_connection "secondary_#{Rails.env}".to_sym
-  	self.table_name = "devices"
+  	self.table_name = "device"
 
     # validation
     validates_uniqueness_of :uniqueId, case_sensitive: false
 
-  	has_many :positions, :class_name => 'Traccar::Position', :foreign_key => 'device_id', :dependent => :destroy
+  	has_many :positions, :class_name => 'Traccar::Position', :foreign_key => 'deviceId', :dependent => :destroy
     has_many :users_devices, :class_name => "Traccar::UserDevice", :foreign_key => 'devices_id'
     has_many :users, :through => :users_devices
 

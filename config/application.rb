@@ -24,6 +24,6 @@ module Trackman
     config.assets.precompile += %w( .svg .eot .woff .ttf .otf)
 
     config.autoload_paths += %W(#{config.root}/app/workers)
-    
+
   end
 end

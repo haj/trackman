@@ -160,6 +160,8 @@ group :development, :test do
   gem "rails_best_practices"
 end
 
+gem 'rails-observers'
+
 # gem 'rack-mini-profiler'
 # gem 'sprockets-coffee-react'
 

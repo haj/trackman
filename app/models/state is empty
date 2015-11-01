@@ -1,0 +1,12 @@
+state is empty
+
+
+
+
+after traccer knew state functionality, I zakaria want to refactor or re-evaluate the
+current way state is being set.
+
+I zakaria have changed the way we are pulling data from the positions table to pushing it
+directly from traccar.
+
+I have refactored the front-end.

@@ -45,6 +45,12 @@ Rails.application.routes.draw do
   get 'reports/users' => 'reporting#users', as: 'reports_users'
 
   ###############
+  # Traccar API
+  ###############
+
+  get '/trac/Data' => 'locations#get_traccar_data'
+
+  ###############
   # Subscription
   ###############
 

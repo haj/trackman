@@ -37,10 +37,10 @@ R = React.DOM
 
 	render: ->
 
-		step = (status, step) ->
-			if status == "start"
+		step = (state, step) ->
+			if state == "start"
 				R.a {className: 'badge badge-success'}, step
-			else if status == "stop"
+			else if state == "stop"
 				R.a {className: 'badge badge-danger'}, step
 
 		duration = (item) ->
@@ -52,18 +52,19 @@ R = React.DOM
 				R.div null,
 
 					R.table className: 'table',
-						R.tr {className: 'row', style: {backgroundColor: '#1b1e24'}},
-							R.th {className: 'col-md-1', style: {color: 'white'}}, x[0]
-							R.th {className: 'col-md-2', style: {color: 'white'}},
+						R.tr {className: 'row', style:{borderBottom: '1px solid #ddd'}},#1b1e24
+							R.th {className: 'text-info col-md-1', style: {color: 'black'}},
+								R.a {href: '#'}, x[0]
+							R.th {className: 'col-md-2', style: {color: 'black'}},
 								# R.a {href:'#', onClick: @showRoad(x[0]), style: {color: 'white', textDecoration: 'underline'}}, 'Show in the map'
 							R.th {className: 'col-md-2', style: {color: 'white'}} # , driving time
 							R.th {className: 'col-md-7', style: {color: 'white'}}
 
 					React.createElement SimpleTable,
-					{columns: ['status', 'time', 'P/D', 'location', 'speed']},
+					{columns: ['state', 'time', 'P/D', 'location', 'speed']},
 						$.map x[1], (item, key) ->
 							R.tr null,
-								R.td className: 'col-md-1', step item.status, item.step
+							R.td className: 'col-md-1', step item.state, item.step
 								R.td className: 'col-md-1', item.time.substring(11, 19)
 								R.td className: 'col-md-2', duration item
 								R.td className: 'col-md-6', item.address.substring(0, 100) + '...'

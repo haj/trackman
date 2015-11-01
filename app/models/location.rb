@@ -12,18 +12,23 @@
 
 class Location < ActiveRecord::Base
 	belongs_to :position, :class_name => 'Traccar::Position'
-	belongs_to :device, :class_name => 'Traccar::Device'
+	belongs_to :device
 
-	before_save :define_step
+	before_save :positioning
+	# before_save :status_code
 
-	def define_step
-		if self.status == "start" or self.status == "stop"
+	def positioning
+		if self.state == "start" or self.state == "stop"
 			c = Location.order(:time).where('device_id', self.device_id)
 			.where('time < ? and DATE(time) like ?', self.time, self.time.to_date)
-			.where("status in (?,?)", "start", "stop").count
+			.where("state in (?,?)", "start", "stop").count
 			self.step = c + 1
 		end
 	end
+
+	# def status_code
+	# 	if self.status_code
+	# end
 
 	# attr_reader :time
 
@@ -40,10 +45,17 @@ class Location < ActiveRecord::Base
 		self.time.strftime('%H:%M:%S')
 	end
 
+	def self.reset_locations_all
+	    Traccar::Position.each do |p|
+	        p.location = Location.create(address: p.address, device_id: p.deviceId, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
+	    end
+	    analyze_locations
+	end
+
 	def self.reset_locations
 	    Location.all.destroy_all
-	    Traccar::Position.where('time > ?', "2015-08-05".to_date).each do |p|
-	        p.location = Location.create(address: p.address, device_id: p.device_id, latitude: p.latitude, longitude: p.longitude, time: p.time, speed: p.speed, valid_position: p.valid)
+	    Traccar::Position.where('fixTime > ?', "2015-08-05".to_date).each do |p|
+	        p.location = Location.create(address: p.address, device_id: Device.find_by_emei(p.device.uniqueId).id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
 	    end
 	    analyze_locations
 	    p Location.all.count
@@ -51,7 +63,7 @@ class Location < ActiveRecord::Base
 
 	def self.analyze_locations
 	    Location.order(:time).all.each do |l|
-	    	Location.where('time = ? and id != ?', l.time, l.id).destroy_all
+	    	# Location.where('time = ? and id != ?', l.time, l.id).destroy_all
 		    l.analyze_me
 	    end
 	end
@@ -64,24 +76,24 @@ class Location < ActiveRecord::Base
 		# p    : previous position
 
 		if p.nil?
-			self.status = "start"
+			self.state = "start"
 		else
 			previous_start_point = self.previous_start_point
 			duration_since_previous_point = (self.time - p.time).to_i
 			# duration_since_previous_start_point = (self.time - previous_start_point.time).to_i
 
-			if duration_since_previous_point > 300 and p.status != "start" # 5 minutes
+			if duration_since_previous_point > 300 and p.state != "start" # 5 minutes
 
-				self.status = "start"
+				self.state = "start"
 
 				# new start point, but what's the time that the vehicle had been parked?
 				previous_start_point.parking_duration = duration_since_previous_point
 
-				# if p.status == "start"
-				# 	p.status = "error"
-				# else
-				# 	p.status = "stop"
-				# end
+				if p.state == "start"
+					p.state = "error"
+				else
+					p.state = "stop"
+				end
 
 				p.save!
 
@@ -91,7 +103,7 @@ class Location < ActiveRecord::Base
 
 				previous_start_point.save!
 			else
-				self.status = "onroad"
+				self.state = "onroad"
 			end
 		end
 
@@ -126,7 +138,7 @@ class Location < ActiveRecord::Base
 	end
 
 	def previous_start_point
-		Location.order(:time).where('device_id', self.device_id).where('time < ? and status like ?', self.time, 'start').last
+		Location.order(:time).where('device_id', self.device_id).where('time < ? and state like ?', self.time, 'start').last
 	end
 
 	def previous

@@ -45,6 +45,7 @@ class Device < ActiveRecord::Base
 	belongs_to :car
 	belongs_to :company
 	has_many :states
+	has_many :locations
 
 
 	# callbacks
@@ -91,7 +92,8 @@ class Device < ActiveRecord::Base
 	end
 
 	def last_position
-		self.try(:traccar_device).try(:last_position)
+		# self.try(:traccar_device).try(:last_position)
+		self.locations.last
 	end
 
 	def last_positions(number=2)

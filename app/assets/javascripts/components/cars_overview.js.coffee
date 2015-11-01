@@ -19,7 +19,7 @@ SetIntervalMixin =
 
 	componentDidMount: ->
 		@fetchData()
-		@setInterval @fetchData, 1000
+		@setInterval @fetchData, 5000
 
 	fetchData: ->
 		$.getJSON @props.carsOverviewPath, ((data) ->
@@ -41,7 +41,7 @@ SetIntervalMixin =
 				if @state.cars.length == 0
 					R.div {className: 'row', style: {padding: '10px'}},
 						R.div {className: 'col-md-12'},
-							R.h4 {className: 'pull-left', style: {marginBottom: '0px'}}, "No cars registered yet."
+							R.h5 {className: 'pull-left', style: {marginBottom: '0px'}}, "No cars registered yet."
 							React.createElement Button, {bsStyle: 'primary', bsSize: 'xsmall', className: 'pull-right', href: '/cars/new'}, "New car"
 				else
 					React.createElement SimpleTable,

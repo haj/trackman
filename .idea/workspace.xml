@@ -2,100 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e95b05b-a0d0-4776-9a3b-28d75ebb4613" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/application.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/accounts/conversations.js.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/alarms/alerts.js.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/alarms/regions.js.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/alarms/rules.js.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/cars/cars.js.coffee.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/cars/groups.js.coffee.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/cars/helpers/all_cars.coffee.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/cars/helpers/date_filters.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/cars/helpers/maps_modes.coffee.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/devices/devices.js.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/helpers/batch_action.js.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/helpers/batch_init.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/home.js.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/plans/billings.js.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/plans/subscriptions.js.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/controllers/work_schedules/work_schedules.js.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/layouts/index_template.html.haml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/layouts/map.html.haml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/images/logo.png" afterPath="$PROJECT_DIR$/app/assets/images/logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/images/logo@2x.png" afterPath="$PROJECT_DIR$/app/assets/images/logo@2x.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile.lock" afterPath="$PROJECT_DIR$/Gemfile.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile" afterPath="$PROJECT_DIR$/Gemfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/_form.html.haml" afterPath="$PROJECT_DIR$/app/views/users/_form.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/home/_logbook_render_l2.html.haml" afterPath="$PROJECT_DIR$/app/views/home/_logbook_render_l2.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/_menu.html.haml" afterPath="$PROJECT_DIR$/app/views/layouts/_menu.html.haml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/alarm.rb" afterPath="$PROJECT_DIR$/app/models/alarm.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/alarms_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/alarms_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/application.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/application.html.haml" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.haml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/alarm_car.rb" afterPath="$PROJECT_DIR$/app/models/alarm_car.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/application.rb" afterPath="$PROJECT_DIR$/config/application.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/application_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/application_helper.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/car.rb" afterPath="$PROJECT_DIR$/app/models/car.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/cars_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/cars_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/libraries/core.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/libraries/core.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/environments/development.rb" afterPath="$PROJECT_DIR$/config/environments/development.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/devices_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/devices_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/companies/edit.html.haml" afterPath="$PROJECT_DIR$/app/views/companies/edit.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/device_manufacturers/edit.html.haml" afterPath="$PROJECT_DIR$/app/views/device_manufacturers/edit.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/device_models/edit.html.haml" afterPath="$PROJECT_DIR$/app/views/device_models/edit.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/device_types/edit.html.haml" afterPath="$PROJECT_DIR$/app/views/device_types/edit.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/devices/edit.html.haml" afterPath="$PROJECT_DIR$/app/views/devices/edit.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/features/edit.html.haml" afterPath="$PROJECT_DIR$/app/views/features/edit.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/plan_types/edit.html.haml" afterPath="$PROJECT_DIR$/app/views/plan_types/edit.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/plans/edit.html.haml" afterPath="$PROJECT_DIR$/app/views/plans/edit.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/edit.html.haml" afterPath="$PROJECT_DIR$/app/views/users/edit.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/locales/en.yml" afterPath="$PROJECT_DIR$/config/locales/en.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/components/cars_overview.js.coffee" afterPath="$PROJECT_DIR$/app/assets/javascripts/components/cars_overview.js.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/device.rb" afterPath="$PROJECT_DIR$/app/models/device.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/traccar/device.rb" afterPath="$PROJECT_DIR$/app/models/traccar/device.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/initializers/geocoder.rb" afterPath="$PROJECT_DIR$/config/initializers/geocoder.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/home_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/home_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/alarm_notifications/index.html.haml" afterPath="$PROJECT_DIR$/app/views/alarm_notifications/index.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/companies/index.html.haml" afterPath="$PROJECT_DIR$/app/views/companies/index.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/conversations/index.html.haml" afterPath="$PROJECT_DIR$/app/views/conversations/index.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/features/index.html.haml" afterPath="$PROJECT_DIR$/app/views/features/index.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/home/index.html.haml" afterPath="$PROJECT_DIR$/app/views/home/index.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/plan_types/index.html.haml" afterPath="$PROJECT_DIR$/app/views/plan_types/index.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/plans/index.html.haml" afterPath="$PROJECT_DIR$/app/views/plans/index.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/rules/index.html.haml" afterPath="$PROJECT_DIR$/app/views/rules/index.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/teleproviders/index.html.haml" afterPath="$PROJECT_DIR$/app/views/teleproviders/index.html.haml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/location.rb" afterPath="$PROJECT_DIR$/app/models/location.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/home/logbook_render.js.erb" afterPath="$PROJECT_DIR$/app/views/home/logbook_render.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/cars/new.html.haml" afterPath="$PROJECT_DIR$/app/views/cars/new.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/conversations/new.html.haml" afterPath="$PROJECT_DIR$/app/views/conversations/new.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/device_manufacturers/new.html.haml" afterPath="$PROJECT_DIR$/app/views/device_manufacturers/new.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/device_models/new.html.haml" afterPath="$PROJECT_DIR$/app/views/device_models/new.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/device_types/new.html.haml" afterPath="$PROJECT_DIR$/app/views/device_types/new.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/devices/new.html.haml" afterPath="$PROJECT_DIR$/app/views/devices/new.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/features/new.html.haml" afterPath="$PROJECT_DIR$/app/views/features/new.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/plan_types/new.html.haml" afterPath="$PROJECT_DIR$/app/views/plan_types/new.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/plans/new.html.haml" afterPath="$PROJECT_DIR$/app/views/plans/new.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/regions/new.html.haml" afterPath="$PROJECT_DIR$/app/views/regions/new.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/rules/new.html.haml" afterPath="$PROJECT_DIR$/app/views/rules/new.html.haml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/components/log_book.js.coffee" afterPath="$PROJECT_DIR$/app/assets/javascripts/components/log_book.js.coffee" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/traccar/position.rb" afterPath="$PROJECT_DIR$/app/models/traccar/position.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/environments/production.rb" afterPath="$PROJECT_DIR$/config/environments/production.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/initializers/rack_profiler.rb" afterPath="$PROJECT_DIR$/config/initializers/rack_profiler.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/regions_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/regions_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/schedule.rb" afterPath="$PROJECT_DIR$/config/schedule.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/self.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/self.css.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/conversations/sentbox.html.haml" afterPath="$PROJECT_DIR$/app/views/conversations/sentbox.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/cars/show.html.haml" afterPath="$PROJECT_DIR$/app/views/cars/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/companies/show.html.haml" afterPath="$PROJECT_DIR$/app/views/companies/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/conversations/show.html.haml" afterPath="$PROJECT_DIR$/app/views/conversations/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/device_manufacturers/show.html.haml" afterPath="$PROJECT_DIR$/app/views/device_manufacturers/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/device_models/show.html.haml" afterPath="$PROJECT_DIR$/app/views/device_models/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/device_types/show.html.haml" afterPath="$PROJECT_DIR$/app/views/device_types/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/devices/show.html.haml" afterPath="$PROJECT_DIR$/app/views/devices/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/features/show.html.haml" afterPath="$PROJECT_DIR$/app/views/features/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/plan_types/show.html.haml" afterPath="$PROJECT_DIR$/app/views/plan_types/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/plans/show.html.haml" afterPath="$PROJECT_DIR$/app/views/plans/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/regions/show.html.haml" afterPath="$PROJECT_DIR$/app/views/regions/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/show.html.haml" afterPath="$PROJECT_DIR$/app/views/users/show.html.haml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/simcards_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/simcards_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/template/style.css.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/template/style.css.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/users_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/users_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/work_schedules_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/work_schedules_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/trackman.iml" afterPath="$PROJECT_DIR$/.idea/trackman.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/traccar/user.rb" afterPath="$PROJECT_DIR$/app/models/traccar/user.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/traccar/user_device.rb" afterPath="$PROJECT_DIR$/app/models/traccar/user_device.rb" />
     </list>
     <ignored path="trackman.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -136,17 +62,35 @@
         <entry file="file://$PROJECT_DIR$/app/models/car.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="42" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
-              <folding />
+              <caret line="25" column="41" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
+              <folding>
+                <marker date="1446279127000" expanded="true" signature="542:7935" placeholder=" ... end" />
+                <marker date="1446279127000" expanded="true" signature="7682:7763" placeholder="do ... end" />
+                <marker date="1446279127000" expanded="true" signature="7682:7769" placeholder="if ... end" />
+                <marker date="1446279127000" expanded="true" signature="7682:7774" placeholder=" ... end" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cars_overview.js.coffee" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cars_overview.js.coffee" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/components/cars_overview.js.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.03448276">
-              <caret line="1" column="13" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
+            <state vertical-scroll-proportion="-10.0">
+              <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
+              <folding>
+                <marker date="1446279380000" expanded="true" signature="251:1942" placeholder="mixins: [SetIntervalMixin]..." />
+                <marker date="1446279380000" expanded="true" signature="830:1942" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="locations_controller.rb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/controllers/locations_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.49019608">
+              <caret line="15" column="34" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -155,9 +99,14 @@
       <file leaf-file-name="log_book.js.coffee" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/components/log_book.js.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.1125">
-              <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
-              <folding />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="25" column="18" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
+              <folding>
+                <marker date="1446147193000" expanded="true" signature="46:2283" placeholder="getInitialState: -&gt;&#10;&#9;&#9;{data: [], car_id: []}..." />
+                <marker date="1446147193000" expanded="true" signature="118:386" placeholder="..." />
+                <marker date="1446147193000" expanded="true" signature="210:386" placeholder="..." />
+                <marker date="1446147193000" expanded="true" signature="262:386" placeholder="url: &quot;/home/logbook_data&quot;..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -192,6 +141,7 @@
         <option value="$PROJECT_DIR$/app/assets/javascripts/components/log_book.js.coffee" />
         <option value="$PROJECT_DIR$/app/models/car.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/components/cars_overview.js.coffee" />
+        <option value="$PROJECT_DIR$/app/controllers/locations_controller.rb" />
       </list>
     </option>
   </component>
@@ -333,6 +283,38 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trackman" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trackman" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trackman" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trackman" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches">
@@ -354,14 +336,18 @@
         </subPane>
       </pane>
       <pane id="Scope">
-        <subPane subId="Problems" />
-        <subPane subId="Changed Files">
+        <subPane subId="Default">
           <PATH>
             <PATH_ELEMENT USER_OBJECT="Root">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="trackman">
+          </PATH>
+        </subPane>
+        <subPane subId="Problems" />
+        <subPane subId="Tests">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -411,17 +397,13 @@
             </PATH_ELEMENT>
           </PATH>
         </subPane>
-        <subPane subId="Default">
+        <subPane subId="Changed Files">
           <PATH>
             <PATH_ELEMENT USER_OBJECT="Root">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-        <subPane subId="Tests">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
+            <PATH_ELEMENT USER_OBJECT="trackman">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -686,32 +668,32 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="21" y="27" width="1400" height="792" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16494845" sideWeight="0.4889807" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292011" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.338843" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35051546" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292011" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1605302" sideWeight="0.49449036" order="1" side_tool="false" content_ui="combo" x="545" y="62" width="367" height="726" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3292011" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292011" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35051546" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1605302" sideWeight="0.49449036" order="1" side_tool="false" content_ui="combo" x="545" y="62" width="367" height="726" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16715759" sideWeight="0.4889807" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39944905" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2562592" sideWeight="0.5110193" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.338843" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292011" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292011" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292011" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -736,7 +718,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="42" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
-          <folding />
+          <folding>
+            <marker date="1446279127000" expanded="true" signature="542:7935" placeholder=" ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7763" placeholder="do ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7769" placeholder="if ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7774" placeholder=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -744,7 +731,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1446279380000" expanded="true" signature="251:1942" placeholder="mixins: [SetIntervalMixin]..." />
+            <marker date="1446279380000" expanded="true" signature="830:1942" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -752,7 +742,57 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+          <folding>
+            <marker date="1446147193000" expanded="true" signature="46:2283" placeholder="getInitialState: -&gt;&#10;&#9;&#9;{data: [], car_id: []}..." />
+            <marker date="1446147193000" expanded="true" signature="118:386" placeholder="..." />
+            <marker date="1446147193000" expanded="true" signature="210:386" placeholder="..." />
+            <marker date="1446147193000" expanded="true" signature="262:386" placeholder="url: &quot;/home/logbook_data&quot;..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/fbd9f20e-73be-4ff3-9ed2-8f42e1d05a5d/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="19" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="19" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/car.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="42" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
+          <folding>
+            <marker date="1446279127000" expanded="true" signature="542:7935" placeholder=" ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7763" placeholder="do ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7769" placeholder="if ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7774" placeholder=" ... end" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/components/cars_overview.js.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1446279380000" expanded="true" signature="251:1942" placeholder="mixins: [SetIntervalMixin]..." />
+            <marker date="1446279380000" expanded="true" signature="830:1942" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/components/log_book.js.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+          <folding>
+            <marker date="1446147193000" expanded="true" signature="46:2283" placeholder="getInitialState: -&gt;&#10;&#9;&#9;{data: [], car_id: []}..." />
+            <marker date="1446147193000" expanded="true" signature="118:386" placeholder="..." />
+            <marker date="1446147193000" expanded="true" signature="210:386" placeholder="..." />
+            <marker date="1446147193000" expanded="true" signature="262:386" placeholder="url: &quot;/home/logbook_data&quot;..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -782,7 +822,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1446279127000" expanded="true" signature="542:7935" placeholder=" ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7763" placeholder="do ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7769" placeholder="if ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7774" placeholder=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -814,7 +859,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1446279127000" expanded="true" signature="542:7935" placeholder=" ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7763" placeholder="do ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7769" placeholder="if ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7774" placeholder=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -843,7 +893,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1446279127000" expanded="true" signature="542:7935" placeholder=" ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7763" placeholder="do ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7769" placeholder="if ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7774" placeholder=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -872,7 +927,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1446279127000" expanded="true" signature="542:7935" placeholder=" ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7763" placeholder="do ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7769" placeholder="if ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7774" placeholder=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -992,74 +1052,15 @@
           </nodes>
           <notes />
           <edges>
-            <edge source="Device" target="State">
-              <point x="158.0" y="73.5" />
-              <point x="2684.0" y="675.5000000000001" />
-              <point x="2764.0" y="1013.5929705215419" />
-              <point x="-98.0" y="-40.5" />
+            <edge source="Car" target="User">
+              <point x="251.0" y="-101.0" />
+              <point x="-278.0" y="139.5" />
             </edge>
-            <edge source="Company" target="AlarmNotification">
-              <point x="245.0" y="77.71428571428578" />
-              <point x="1546.0" y="1356.5272108843537" />
-              <point x="2684.0" y="1356.5272108843537" />
-              <point x="2764.0" y="1677.9427437641725" />
-              <point x="-84.0" y="-24.0" />
-            </edge>
-            <edge source="DeviceModel" target="Device">
-              <point x="186.0" y="-0.0" />
-              <point x="2048.0" y="59.0" />
-              <point x="2128.0" y="491.7500000000001" />
-              <point x="-158.0" y="-110.25" />
-            </edge>
-            <edge source="Car" target="AlarmCar">
-              <point x="251.0" y="101.0" />
-              <point x="2128.0" y="1599.5272108843537" />
-              <point x="-45.0" y="-0.0" />
-            </edge>
-            <edge source="Rule" target="Parameter">
-              <point x="146.5" y="54.0" />
-              <point x="2048.0" y="1949.3605442176872" />
-              <point x="2128.0" y="1968.8605442176872" />
-              <point x="-83.5" y="-0.0" />
-            </edge>
-            <edge source="Alarm" target="AlarmNotification">
-              <point x="215.0" y="-0.0" />
-              <point x="2684.0" y="1785.8605442176872" />
-              <point x="2764.0" y="1725.9427437641725" />
-              <point x="-84.0" y="24.0" />
-            </edge>
-            <edge source="Region" target="Vertex">
-              <point x="92.5" y="-0.0" />
-              <point x="-89.5" y="-0.0" />
-            </edge>
-            <edge source="Teleprovider" target="Simcard">
-              <point x="101.5" y="-0.0" />
-              <point x="2684.0" y="386.0000000000001" />
-              <point x="2764.0" y="403.2500000000001" />
-              <point x="-119.0" y="-54.0" />
-            </edge>
-            <edge source="DeviceType" target="Device">
-              <point x="82.5" y="-0.0" />
-              <point x="2048.0" y="195.0000000000001" />
-              <point x="2128.0" y="565.2500000000001" />
-              <point x="-158.0" y="-36.75" />
-            </edge>
-            <edge source="CarModel" target="Car">
-              <point x="155.0" y="-0.0" />
-              <point x="1466.0" y="1631.5272108843537" />
-              <point x="-251.0" y="50.5" />
-            </edge>
-            <edge source="Plan" target="Company">
-              <point x="151.5" y="46.0" />
-              <point x="-245.0" y="-0.0" />
-            </edge>
-            <edge source="Feature" target="PlanType">
-              <point x="110.0" y="-0.0" />
-              <point x="-106.5" y="-0.0" />
-            </edge>
-            <edge source="DeviceManufacturer" target="DeviceModel">
-              <point x="124.5" y="-0.0" />
-              <point x="-186.0" y="-0.0" />
+            <edge source="Rule" target="AlarmRule">
+              <point x="146.5" y="-0.0" />
+              <point x="2048.0" y="1895.3605442176872" />
+              <point x="2128.0" y="1899.3605442176872" />
+              <point x="-48.0" y="7.25" />
             </edge>
             <edge source="Company" target="Simcard">
               <point x="245.0" y="-77.71428571428567" />
@@ -1068,40 +1069,16 @@
               <point x="2764.0" y="457.2500000000001" />
               <point x="-119.0" y="-0.0" />
             </edge>
-            <edge source="Group" target="AlarmGroup">
-              <point x="138.5" y="-0.0" />
-              <point x="-53.5" y="-0.0" />
+            <edge source="Car" target="Alarm">
+              <point x="251.0" y="168.33333333333326" />
+              <point x="2128.0" y="1734.3605442176872" />
+              <point x="-215.0" y="-51.5" />
             </edge>
             <edge source="WorkSchedule" target="WorkHour">
               <point x="91.5" y="-0.0" />
               <point x="1466.0" y="2120.0096371882087" />
               <point x="1546.0" y="2086.360544217687" />
               <point x="-159.0" y="-0.0" />
-            </edge>
-            <edge source="Company" target="Device">
-              <point x="245.0" y="-38.85714285714289" />
-              <point x="1546.0" y="638.7500000000001" />
-              <point x="-158.0" y="36.75" />
-            </edge>
-            <edge source="Rule" target="Alarm">
-              <point x="146.5" y="-54.0" />
-              <point x="2048.0" y="1841.3605442176872" />
-              <point x="2128.0" y="1837.3605442176872" />
-              <point x="-215.0" y="51.5" />
-            </edge>
-            <edge source="Group" target="Car">
-              <point x="-138.5" y="-0.0" />
-              <point x="2684.0" y="1574.5272108843537" />
-              <point x="2128.0" y="1574.5272108843537" />
-              <point x="251.0" y="33.66666666666674" />
-            </edge>
-            <edge source="PlanType" target="Plan">
-              <point x="106.5" y="29.5" />
-              <point x="-151.5" y="-0.0" />
-            </edge>
-            <edge source="Traccar::Device" target="Traccar::Position">
-              <point x="103.0" y="23.75" />
-              <point x="-79.0" y="-0.0" />
             </edge>
             <edge source="Car" target="State">
               <point x="251.0" y="-33.66666666666674" />
@@ -1110,79 +1087,42 @@
               <point x="2764.0" y="1094.592970521542" />
               <point x="-98.0" y="40.5" />
             </edge>
-            <edge source="Company" target="Group">
-              <point x="245.0" y="-0.0" />
-              <point x="1546.0" y="777.5272108843538" />
-              <point x="2684.0" y="777.5272108843538" />
-              <point x="-138.5" y="-39.33333333333326" />
-            </edge>
-            <edge source="Car" target="Alarm">
-              <point x="251.0" y="168.33333333333326" />
-              <point x="2128.0" y="1734.3605442176872" />
-              <point x="-215.0" y="-51.5" />
-            </edge>
             <edge source="Traccar::Device" target="Traccar::UserDevice">
               <point x="103.0" y="-23.75" />
               <point x="-79.0" y="18.25" />
             </edge>
-            <edge source="Device" target="Simcard">
-              <point x="158.0" y="-73.5" />
-              <point x="2684.0" y="528.5000000000001" />
-              <point x="2764.0" y="511.2500000000001" />
-              <point x="-119.0" y="54.0" />
-            </edge>
-            <edge source="Traccar::Position" target="Location">
-              <point x="79.0" y="-0.0" />
-              <point x="-209.5" y="-0.0" />
-            </edge>
-            <edge source="Traccar::Device" target="Traccar::User">
-              <point x="-103.0" y="-23.75" />
-              <point x="82.5" y="-0.0" />
+            <edge source="WorkSchedule" target="Car">
+              <point x="91.5" y="-46.666666666666515" />
+              <point x="1466.0" y="2073.342970521542" />
+              <point x="-251.0" y="151.5" />
             </edge>
             <edge source="Alarm" target="Group">
               <point x="215.0" y="-68.66666666666674" />
               <point x="2684.0" y="1717.1938775510205" />
               <point x="-138.5" y="39.33333333333326" />
             </edge>
-            <edge source="Traccar::User" target="Traccar::UserDevice">
-              <point x="82.5" y="-24.333333333333485" />
-              <point x="245.0" y="2353.110544217687" />
-              <point x="-79.0" y="-18.249999999999993" />
+            <edge source="Alarm" target="AlarmNotification">
+              <point x="215.0" y="-0.0" />
+              <point x="2684.0" y="1785.8605442176872" />
+              <point x="2764.0" y="1725.9427437641725" />
+              <point x="-84.0" y="24.0" />
             </edge>
-            <edge source="Alarm" target="AlarmRule">
-              <point x="215.0" y="68.66666666666674" />
-              <point x="2684.0" y="1854.527210884354" />
-              <point x="2764.0" y="1884.8605442176872" />
-              <point x="-48.0" y="-7.25" />
+            <edge source="Company" target="Group">
+              <point x="245.0" y="-0.0" />
+              <point x="1546.0" y="777.5272108843538" />
+              <point x="2684.0" y="777.5272108843538" />
+              <point x="-138.5" y="-39.33333333333326" />
             </edge>
-            <edge source="WorkSchedule" target="WorkScheduleGroup">
-              <point x="91.5" y="46.666666666666515" />
-              <point x="1466.0" y="2166.676303854875" />
-              <point x="1546.0" y="2233.360544217687" />
-              <point x="-129.0" y="-0.0" />
+            <edge source="Company" target="AlarmNotification">
+              <point x="245.0" y="77.71428571428578" />
+              <point x="1546.0" y="1356.5272108843537" />
+              <point x="2684.0" y="1356.5272108843537" />
+              <point x="2764.0" y="1677.9427437641725" />
+              <point x="-84.0" y="-24.0" />
             </edge>
-            <edge source="CarType" target="Car">
-              <point x="61.5" y="-0.0" />
-              <point x="1466.0" y="1506.5272108843537" />
-              <point x="-251.0" y="-50.5" />
-            </edge>
-            <edge source="Company" target="Car">
-              <point x="245.0" y="116.57142857142856" />
-              <point x="-251.0" y="-151.5" />
-            </edge>
-            <edge source="Company" target="User">
-              <point x="245.0" y="38.85714285714289" />
-              <point x="1546.0" y="927.5272108843538" />
-              <point x="-278.0" y="-139.5" />
-            </edge>
-            <edge source="Car" target="Device">
-              <point x="251.0" y="-168.33333333333326" />
-              <point x="2128.0" y="712.2500000000001" />
-              <point x="-158.0" y="110.25" />
-            </edge>
-            <edge source="CarManufacturer" target="CarModel">
-              <point x="103.5" y="-0.0" />
-              <point x="-155.0" y="-0.0" />
+            <edge source="Group" target="AlarmGroup">
+              <point x="138.5" y="-0.0" />
+              <point x="-53.5" y="-0.0" />
             </edge>
             <edge source="Plan" target="Subscription">
               <point x="151.5" y="-46.0" />
@@ -1190,11 +1130,10 @@
               <point x="1466.0" y="354.2500000000001" />
               <point x="-136.0" y="-0.0" />
             </edge>
-            <edge source="Rule" target="AlarmRule">
-              <point x="146.5" y="-0.0" />
-              <point x="2048.0" y="1895.3605442176872" />
-              <point x="2128.0" y="1899.3605442176872" />
-              <point x="-48.0" y="7.25" />
+            <edge source="Company" target="Device">
+              <point x="245.0" y="-38.85714285714289" />
+              <point x="1546.0" y="638.7500000000001" />
+              <point x="-158.0" y="36.75" />
             </edge>
             <edge source="PlanType" target="Subscription">
               <point x="106.5" y="-29.5" />
@@ -1203,23 +1142,144 @@
               <point x="1546.0" y="299.0000000000001" />
               <point x="-136.0" y="-54.0" />
             </edge>
-            <edge source="WorkSchedule" target="Car">
-              <point x="91.5" y="-46.666666666666515" />
-              <point x="1466.0" y="2073.342970521542" />
-              <point x="-251.0" y="151.5" />
+            <edge source="Traccar::Position" target="Location">
+              <point x="79.0" y="-0.0" />
+              <point x="-209.5" y="-0.0" />
+            </edge>
+            <edge source="Group" target="Car">
+              <point x="-138.5" y="-0.0" />
+              <point x="2684.0" y="1574.5272108843537" />
+              <point x="2128.0" y="1574.5272108843537" />
+              <point x="251.0" y="33.66666666666674" />
+            </edge>
+            <edge source="WorkSchedule" target="WorkScheduleGroup">
+              <point x="91.5" y="46.666666666666515" />
+              <point x="1466.0" y="2166.676303854875" />
+              <point x="1546.0" y="2233.360544217687" />
+              <point x="-129.0" y="-0.0" />
+            </edge>
+            <edge source="Region" target="Vertex">
+              <point x="92.5" y="-0.0" />
+              <point x="-89.5" y="-0.0" />
+            </edge>
+            <edge source="Car" target="Device">
+              <point x="251.0" y="-168.33333333333326" />
+              <point x="2128.0" y="712.2500000000001" />
+              <point x="-158.0" y="110.25" />
+            </edge>
+            <edge source="Traccar::Device" target="Traccar::Position">
+              <point x="103.0" y="23.75" />
+              <point x="-79.0" y="-0.0" />
+            </edge>
+            <edge source="Device" target="Simcard">
+              <point x="158.0" y="-73.5" />
+              <point x="2684.0" y="528.5000000000001" />
+              <point x="2764.0" y="511.2500000000001" />
+              <point x="-119.0" y="54.0" />
+            </edge>
+            <edge source="Device" target="State">
+              <point x="158.0" y="73.5" />
+              <point x="2684.0" y="675.5000000000001" />
+              <point x="2764.0" y="1013.5929705215419" />
+              <point x="-98.0" y="-40.5" />
             </edge>
             <edge source="Traccar::User" target="Traccar::Device">
               <point x="82.5" y="24.333333333333485" />
               <point x="-103.0" y="23.75" />
             </edge>
+            <edge source="DeviceManufacturer" target="DeviceModel">
+              <point x="124.5" y="-0.0" />
+              <point x="-186.0" y="-0.0" />
+            </edge>
+            <edge source="Car" target="AlarmCar">
+              <point x="251.0" y="101.0" />
+              <point x="2128.0" y="1599.5272108843537" />
+              <point x="-45.0" y="-0.0" />
+            </edge>
+            <edge source="Rule" target="Alarm">
+              <point x="146.5" y="-54.0" />
+              <point x="2048.0" y="1841.3605442176872" />
+              <point x="2128.0" y="1837.3605442176872" />
+              <point x="-215.0" y="51.5" />
+            </edge>
+            <edge source="Teleprovider" target="Simcard">
+              <point x="101.5" y="-0.0" />
+              <point x="2684.0" y="386.0000000000001" />
+              <point x="2764.0" y="403.2500000000001" />
+              <point x="-119.0" y="-54.0" />
+            </edge>
+            <edge source="PlanType" target="Plan">
+              <point x="106.5" y="29.5" />
+              <point x="-151.5" y="-0.0" />
+            </edge>
+            <edge source="CarManufacturer" target="CarModel">
+              <point x="103.5" y="-0.0" />
+              <point x="-155.0" y="-0.0" />
+            </edge>
+            <edge source="Traccar::Device" target="Traccar::User">
+              <point x="-103.0" y="-23.75" />
+              <point x="82.5" y="-0.0" />
+            </edge>
+            <edge source="Rule" target="Parameter">
+              <point x="146.5" y="54.0" />
+              <point x="2048.0" y="1949.3605442176872" />
+              <point x="2128.0" y="1968.8605442176872" />
+              <point x="-83.5" y="-0.0" />
+            </edge>
+            <edge source="Company" target="User">
+              <point x="245.0" y="38.85714285714289" />
+              <point x="1546.0" y="927.5272108843538" />
+              <point x="-278.0" y="-139.5" />
+            </edge>
+            <edge source="DeviceModel" target="Device">
+              <point x="186.0" y="-0.0" />
+              <point x="2048.0" y="59.0" />
+              <point x="2128.0" y="491.7500000000001" />
+              <point x="-158.0" y="-110.25" />
+            </edge>
+            <edge source="DeviceType" target="Device">
+              <point x="82.5" y="-0.0" />
+              <point x="2048.0" y="195.0000000000001" />
+              <point x="2128.0" y="565.2500000000001" />
+              <point x="-158.0" y="-36.75" />
+            </edge>
+            <edge source="Traccar::User" target="Traccar::UserDevice">
+              <point x="82.5" y="-24.333333333333485" />
+              <point x="245.0" y="2353.110544217687" />
+              <point x="-79.0" y="-18.249999999999993" />
+            </edge>
+            <edge source="Plan" target="Company">
+              <point x="151.5" y="46.0" />
+              <point x="-245.0" y="-0.0" />
+            </edge>
+            <edge source="CarType" target="Car">
+              <point x="61.5" y="-0.0" />
+              <point x="1466.0" y="1506.5272108843537" />
+              <point x="-251.0" y="-50.5" />
+            </edge>
+            <edge source="Alarm" target="AlarmRule">
+              <point x="215.0" y="68.66666666666674" />
+              <point x="2684.0" y="1854.527210884354" />
+              <point x="2764.0" y="1884.8605442176872" />
+              <point x="-48.0" y="-7.25" />
+            </edge>
+            <edge source="Feature" target="PlanType">
+              <point x="110.0" y="-0.0" />
+              <point x="-106.5" y="-0.0" />
+            </edge>
+            <edge source="CarModel" target="Car">
+              <point x="155.0" y="-0.0" />
+              <point x="1466.0" y="1631.5272108843537" />
+              <point x="-251.0" y="50.5" />
+            </edge>
+            <edge source="Company" target="Car">
+              <point x="245.0" y="116.57142857142856" />
+              <point x="-251.0" y="-151.5" />
+            </edge>
             <edge source="Company" target="Subscription">
               <point x="245.0" y="-116.57142857142856" />
               <point x="1546.0" y="407.0000000000001" />
               <point x="-136.0" y="54.0" />
-            </edge>
-            <edge source="Car" target="User">
-              <point x="251.0" y="-101.0" />
-              <point x="-278.0" y="139.5" />
             </edge>
           </edges>
           <settings layout="Hierarchic Group" zoom="0.24417758369723436" x="1394.0" y="390.0" />
@@ -1305,8 +1365,13 @@
     <entry file="file://$PROJECT_DIR$/app/models/car.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="42" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
-          <folding />
+          <caret line="25" column="41" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
+          <folding>
+            <marker date="1446279127000" expanded="true" signature="542:7935" placeholder=" ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7763" placeholder="do ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7769" placeholder="if ... end" />
+            <marker date="1446279127000" expanded="true" signature="7682:7774" placeholder=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1320,16 +1385,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/components/log_book.js.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.1125">
-          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="18" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
+          <folding>
+            <marker date="1446147193000" expanded="true" signature="46:2283" placeholder="getInitialState: -&gt;&#10;&#9;&#9;{data: [], car_id: []}..." />
+            <marker date="1446147193000" expanded="true" signature="118:386" placeholder="..." />
+            <marker date="1446147193000" expanded="true" signature="210:386" placeholder="..." />
+            <marker date="1446147193000" expanded="true" signature="262:386" placeholder="url: &quot;/home/logbook_data&quot;..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/components/cars_overview.js.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.03448276">
-          <caret line="1" column="13" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
+        <state vertical-scroll-proportion="-10.0">
+          <caret line="17" column="15" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
+          <folding>
+            <marker date="1446279380000" expanded="true" signature="251:1942" placeholder="mixins: [SetIntervalMixin]..." />
+            <marker date="1446279380000" expanded="true" signature="830:1942" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/locations_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49019608">
+          <caret line="15" column="34" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
           <folding />
         </state>
       </provider>

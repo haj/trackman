@@ -11,7 +11,7 @@
 #  other      :string(255)
 #  power      :float
 #  speed      :float
-#  time       :datetime
+#  fixTime       :datetime
 #  valid      :boolean
 #  device_id  :integer
 #  created_at :timestamp        not null
@@ -19,11 +19,11 @@
 
 class Traccar::Position < ActiveRecord::Base
   establish_connection "secondary_#{Rails.env}".to_sym
-  self.table_name = "positions"
+  self.table_name = "position"
 
   include SafeAttributes::Base
 
-  belongs_to :device, :class_name => 'Traccar::Device'
+  belongs_to :device, :class_name => 'Traccar::Device', :foreign_key => 'deviceId'
   has_one :location, :class_name => 'Location'
 
   bad_attribute_names :valid?
@@ -31,20 +31,13 @@ class Traccar::Position < ActiveRecord::Base
 
   reverse_geocoded_by :latitude, :longitude do |position,results|
     if geo = results.first
-      if position.is_relevant?
-        position.location = Location.create(address: geo.address, city: geo.city, latitude: position.latitude, longitude: position.longitude, country: geo.country, state: geo.state, device_id: position.device_id, time: position.time, speed: position.speed, valid_position: position.valid)
-      end
+      position.location = Location.create(address: geo.address, city: geo.city, latitude: position.latitude, longitude: position.longitude, country: geo.country, state: geo.state, device_id: position.device_id, time: position.fixTime, speed: position.speed, valid_position: position.valid)
       position.update_attribute(:address, geo.address)
     end
   end
 
   def time_to_date
-    self.time.to_date
-  end
-
-  def is_relevant?
-    prev_position = Location.where('device_id like ?', self.device_id).where('position_id < ?', self.id).try(:last).try(:position)
-    true if prev_position.nil? or self.distance_from(prev_position) > 0.02 # = 20 meters
+    self.fixTime.to_date
   end
 
   #after_create :reverse_code
@@ -58,7 +51,7 @@ class Traccar::Position < ActiveRecord::Base
   end
 
   def self.geocode
-    Traccar::Position.where("time >= ?", 10.days.ago).each do |position|
+    Traccar::Position.where("fixTime >= ?", 10.days.ago).each do |position|
       if position.location.nil?
         puts "Processing"
         position.reverse_geocode
@@ -77,16 +70,16 @@ class Traccar::Position < ActiveRecord::Base
     end
   end
 
-  def car
-    Device.where(emei: self.device.uniqueId).first.car
-  end
+  # def car
+  #   Device.where(emei: self.device.uniqueId).first.car
+  # end
 
   # Takes a bunch of positions and return it in a Gmaps4rails format
   def self.markers(positions)
     return Gmaps4rails.build_markers(positions) do |position, marker|
       marker.lat position.latitude.to_s
       marker.lng position.longitude.to_s
-      marker.infowindow position.time.to_s
+      marker.infowindow position.fixTime.to_s
     end
   end
 
