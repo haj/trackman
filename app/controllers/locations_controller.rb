@@ -21,7 +21,7 @@ class LocationsController < ApplicationController
     l.save!
 
     # puts "!!! FROM TRACCAR !!!"
-    # puts params
+    puts params
     render :text => ""
   end
 
