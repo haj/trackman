@@ -64,7 +64,7 @@ R = React.DOM
 					{columns: ['state', 'time', 'P/D', 'location', 'speed']},
 						$.map x[1], (item, key) ->
 							R.tr null,
-							R.td className: 'col-md-1', step item.state, item.step
+								R.td className: 'col-md-1', step item.state, item.step
 								R.td className: 'col-md-1', item.time.substring(11, 19)
 								R.td className: 'col-md-2', duration item
 								R.td className: 'col-md-6', item.address.substring(0, 100) + '...'
