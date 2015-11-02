@@ -14,15 +14,60 @@ class Location < ActiveRecord::Base
 	belongs_to :position, :class_name => 'Traccar::Position'
 	belongs_to :device
 
-	before_save :positioning
-	# before_save :status_code
+	# before_save :analyze_me
 
-	def positioning
+	# defining onroad, stop, start
+	def analyze_me
+
+		p = self.previous
+
+    if p.nil?
+      self.state = "start"
+    else
+			previous_start_point = self.previous_start_point
+			duration_since_previous_point = (self.time - p.time).to_i
+			# duration_since_previous_start_point = (self.time - previous_start_point.time).to_i
+
+			if duration_since_previous_point > 300 and p.state != "start" # 5 minutes
+
+				self.state = "start"
+
+				# new start point, but what's the time that the vehicle had been parked?
+				previous_start_point.parking_duration = duration_since_previous_point
+
+				if p.state == "start"
+					p.state = "error"
+				else
+					p.state = "stop"
+				end
+
+				p.save!
+
+				# new stop point, but what's the time that the vehicle had been driven?
+				duration_since_previous_start_point = (p.time - previous_start_point.time).to_i
+				previous_start_point.driving_duration = duration_since_previous_start_point
+
+				previous_start_point.save!
+			else
+				self.state = "onroad"
+			end
+
+    end
+
+    # defining step
 		if self.state == "start" or self.state == "stop"
+
 			c = Location.order(:time).where('device_id', self.device_id)
 			.where('time < ? and DATE(time) like ?', self.time, self.time.to_date)
-			.where("state in (?,?)", "start", "stop").count
-			self.step = c + 1
+			.where("state like ?", "start")
+
+			if self.state == "start"
+					self.step = c.count + 1
+			else
+					p.step = c.count
+					p.save!
+			end
+
 		end
 	end
 
@@ -66,51 +111,6 @@ class Location < ActiveRecord::Base
 	    	# Location.where('time = ? and id != ?', l.time, l.id).destroy_all
 		    l.analyze_me
 	    end
-	end
-
-	# can be onroad, start, stop
-	def analyze_me
-		p = self.previous
-
-		# self : current position
-		# p    : previous position
-
-		if p.nil?
-			self.state = "start"
-		else
-			previous_start_point = self.previous_start_point
-			duration_since_previous_point = (self.time - p.time).to_i
-			# duration_since_previous_start_point = (self.time - previous_start_point.time).to_i
-
-			if duration_since_previous_point > 300 and p.state != "start" # 5 minutes
-
-				self.state = "start"
-
-				# new start point, but what's the time that the vehicle had been parked?
-				previous_start_point.parking_duration = duration_since_previous_point
-
-				if p.state == "start"
-					p.state = "error"
-				else
-					p.state = "stop"
-				end
-
-				p.save!
-
-				# new stop point, but what's the time that the vehicle had been driven?
-				duration_since_previous_start_point = (p.time - previous_start_point.time).to_i
-				previous_start_point.driving_duration = duration_since_previous_start_point
-
-				previous_start_point.save!
-			else
-				self.state = "onroad"
-			end
-		end
-
-		# Start 2 | Stop 5 | Start 3 | Stop 5
-
-		self.save!
-
 	end
 
 	def self.destroy_similar_in_time

@@ -104,7 +104,7 @@ class HomeController < ApplicationController
 	    date = params[:date].to_date
 	    car_id = params[:car_id]
 	    @car = Car.find(car_id)
-		timezone = current_user.time_zone.to_s
+		  timezone = current_user.time_zone.to_s
 
 		Time.use_zone(timezone) do
 			@date = {start_date: date.to_date, start_time: "00:00", end_date: date.to_date, end_time: "23:59"}
