@@ -55,7 +55,7 @@ class Location < ActiveRecord::Base
     end
 
     # defining step
-		if self.state == "start" or self.state == "stop"
+		if self.state == "start" or p.state == "stop"
 
 			c = Location.order(:time).where('device_id', self.device_id)
 			.where('time < ? and DATE(time) like ?', self.time, self.time.to_date)
