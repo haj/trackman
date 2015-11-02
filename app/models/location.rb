@@ -30,7 +30,12 @@ class Location < ActiveRecord::Base
 
 			if duration_since_previous_point > 300 and p.state != "start" # 5 minutes
 
+				c = Location.order(:time).where('device_id', self.device_id)
+				.where('time < ? and DATE(time) like ?', self.time, self.time.to_date)
+				.where("state like ?", "start")
+
 				self.state = "start"
+				self.step = c.count + 1
 
 				# new start point, but what's the time that the vehicle had been parked?
 				previous_start_point.parking_duration = duration_since_previous_point
@@ -39,9 +44,8 @@ class Location < ActiveRecord::Base
 					p.state = "error"
 				else
 					p.state = "stop"
+					p.step = c.count
 				end
-
-				p.save!
 
 				# new stop point, but what's the time that the vehicle had been driven?
 				duration_since_previous_start_point = (p.time - previous_start_point.time).to_i
@@ -52,23 +56,9 @@ class Location < ActiveRecord::Base
 				self.state = "onroad"
 			end
 
+			p.save!
+
     end
-
-    # defining step
-		if self.state == "start" or p.state == "stop"
-
-			c = Location.order(:time).where('device_id', self.device_id)
-			.where('time < ? and DATE(time) like ?', self.time, self.time.to_date)
-			.where("state like ?", "start")
-
-			if self.state == "start"
-					self.step = c.count + 1
-			else
-					p.step = c.count
-					p.save!
-			end
-
-		end
 	end
 
 	# def status_code
@@ -98,12 +88,14 @@ class Location < ActiveRecord::Base
 	end
 
 	def self.reset_locations
-	    Location.all.destroy_all
-	    Traccar::Position.where('fixTime > ?', "2015-08-05".to_date).each do |p|
-	        p.location = Location.create(address: p.address, device_id: Device.find_by_emei(p.device.uniqueId).id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
+	    Location.all.each do |l|
+	    	l.state = ""
+	    	l.save!
 	    end
-	    analyze_locations
-	    p Location.all.count
+	    Location.all.each do |l|
+	    	l.analyze_me
+	    	l.save!
+	    end
 	end
 
 	def self.analyze_locations
