@@ -21,8 +21,13 @@ class Location < ActiveRecord::Base
 
 		p = self.previous
 
+		c = Location.order(:time).where('device_id', self.device_id)
+		.where('time < ? and DATE(time) like ?', self.time, self.time.to_date)
+		.where("state like ?", "start")
+
     if p.nil?
       self.state = "start"
+      self.step = c.count + 1
     else
 			previous_start_point = self.previous_start_point
 			duration_since_previous_point = (self.time - p.time).to_i
@@ -30,12 +35,9 @@ class Location < ActiveRecord::Base
 
 			if duration_since_previous_point > 300 and p.state != "start" # 5 minutes
 
-				c = Location.order(:time).where('device_id', self.device_id)
-				.where('time < ? and DATE(time) like ?', self.time, self.time.to_date)
-				.where("state like ?", "start")
-
 				self.state = "start"
-				self.step = c.count + 1
+				self.step = c.last.step.to_i + 1
+
 
 				# new start point, but what's the time that the vehicle had been parked?
 				previous_start_point.parking_duration = duration_since_previous_point
@@ -44,7 +46,7 @@ class Location < ActiveRecord::Base
 					p.state = "error"
 				else
 					p.state = "stop"
-					p.step = c.count
+					p.step = self.step - 1
 				end
 
 				# new stop point, but what's the time that the vehicle had been driven?
