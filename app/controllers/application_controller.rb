@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     company = Company.where(subdomain: request.subdomains.last).first
     if subdomain_present? && !company.nil?
       ActsAsTenant.current_tenant = company
-      logger.warn "subdomain_present? && company exists"
+      logger.debug "subdomain_present? && company exists"
     elsif current_user_present?
       ActsAsTenant.current_tenant = current_user.company
       logger.warn "current_user_present? : #{current_user.name}"

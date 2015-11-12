@@ -4,10 +4,10 @@ R = React.DOM
 
 	render: ->
 		R.div className: 'grid simple h-scroll dragme',
-
 			R.div className: 'grid-title border-only-bot',
 				R.h4 null, @props.title
 				R.div className: 'tools',
-					R.a className: 'collapse', href: 'javascript:;'
-
+          if @props.showHZoomIcon
+            R.a className: 'config sizeMapFull-icon', style: {cursor: 'pointer'},
+              R.i className: 'fa fa-arrows-h fa-lg', onClick: @props.onClick
 			R.div className: 'grid-body no-border', style: {padding:'0px'}, @props.children

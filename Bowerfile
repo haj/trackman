@@ -4,6 +4,7 @@
 assets_path "assets/javascripts"
 
 asset 'react-bootstrap'
+asset 'react-motion'
 asset 'pubsub-js'
 asset 'momentjs'
 # asset 'fluxxor'

@@ -3,7 +3,7 @@ class Views.Home.IndexView extends Views.ApplicationView
   render: ->
     super()
 
-    Cars.Show.all()
+    # Cars.Show.all()
 
     # show_road = (data) ->
     #   Cars.Maps.switch_to_directions data

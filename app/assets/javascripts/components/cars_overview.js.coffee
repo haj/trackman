@@ -12,30 +12,56 @@ SetIntervalMixin =
 
 @CarsOverview = React.createClass
 
+	color: ""
+
 	mixins: [SetIntervalMixin]
 
 	getInitialState: ->
-		{cars: [], focused: []}
+		{cars: [], focused_row: null}
+
+	componentWillMount: ->
+		# console.log "componentWillMount in CarsOverview Component"
+		# console.log @state.cars
+		# console.log @props.cars
+		# @fetchData()
+		# @setInterval @fetchData, 10000
+		# @setState cars: @props.data
+
+	componentWillReceiveProps: (props) ->
+		@setState cars: props.cars
+		# console.log "componentWillReceiveProps CarsOverview (state) =>"
+		# console.log @state.cars
+		# console.log "componentWillReceiveProps (props) : "+@props.cars
 
 	componentDidMount: ->
-		@fetchData()
-		@setInterval @fetchData, 5000
+		# console.log "Did mount cars_overview"
+		# console.log @refs.trs
+		# console.log "componentDidMount CarsOverview (state) =>"
+		# @setState cars: @props.data
+		# console.log @state.cars
+		# console.log "componentDidMount (props): "+@props.cars
 
-	fetchData: ->
-		$.getJSON @props.carsOverviewPath, ((data) ->
-			@setState cars: data
-		).bind(@) if @isMounted
+	componentWillUpdate: (nextProps, nextState) ->
+		console.log "will update"
+		console.log nextState.focused_row
 
-	showLogbook: (e) ->
-		row = $(e.target).parent('tr')
-		car_id = row.data('car-id')
-		car_name = row.data('car-name')
-		car_last_seen = row.data('last-seen')
-		@setState focused: row.index()
-		# console.log "row #{row.index()} selected"
-		PubSub.publish 'cars_overview', car_id, car_name, car_last_seen
+	focused: ->
+		"black"
+
+	showLogbook: (props, that) ->
+		console.log "showLogbook clicked : "
+		# @getDOMNode.toggleClass "col-md-12"
+		console.log $(that.getDOMNode())
+		# @setState focused_row: @getDOMNode
+		# @color = "col-md-6"
+		PubSub.publish 'show_logbook', props
+		PubSub.publish 'select_car', props
+		# if !isNaN(props.lat) || !isNaN(props.lon)
 
 	render: ->
+		# console.log "CarsOverview Rendering (state) =>"
+		# console.log @state.cars
+		# console.log "CarsOverview Rendering (props) : " + @props.cars
 		React.createElement SimpleGrid, title: 'Overview',
 			R.div null,
 				if @state.cars.length == 0
@@ -47,11 +73,11 @@ SetIntervalMixin =
 					React.createElement SimpleTable,
 					{columns: ['Type', 'Vehicle', 'Info', 'Location', 'Last Seen', 'Speed']},
 						for data in @state.cars
-							R.tr {className: 'show_logbook', onClick: @showLogbook, key: "#{data.id}", style: {cursor: 'pointer'}, 'data-car-id': data.id, 'data-car-name': data.name, 'data-last-seen': data.last_seen},
+							R.tr {className: @color, ref: "item", onClick: @showLogbook.bind(@, data, @), key: "#{data.id}", style: {cursor: 'pointer', backgroundColor: @focused}, car_id: data.id, car_name: data.name, car_last_seen: data.last_seen, car_lat: data.lat, car_lon: data.lon},
 								R.td className: 'col-md-2', data.type
 								R.td {className: 'col-md-2'}, data.name
 								R.td className: 'col-md-1', data.numberplate
-								R.td {className: 'col-md-3', style: {wordBreak: 'break-all'}}, data.last_location
+								R.td {className: 'col-md-4', style: {wordBreak: 'break-all'}}, data.last_location
 								R.td className: 'col-md-2', data.last_seen
 								R.td className: 'col-md-1', "#{data.speed} km/h"
 

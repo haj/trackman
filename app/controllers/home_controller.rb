@@ -24,8 +24,35 @@ class HomeController < ApplicationController
 				@array_dates << date
 			end
 		end
+	end
 
+	def all_cars
+			Time.use_zone(timezone) do
+				@cars = Car.all.includes(:device)
 
+				@positions = Car.all_positions(@cars)
+
+				@markers = Gmaps4rails.build_markers(@positions) do |position, marker|
+				  marker.lat position.latitude.to_s
+				  marker.lng position.longitude.to_s
+				  # driver = position.try(:car).try(:driver).try(:name)
+				  # driver = "Unknown" if driver == ""
+				  # marker.infowindow "#{position.try(:car).try(:name)}/
+				  # #{position.try(:car).try(:numberplate)}/
+				  # #{driver}/
+				  # #{position.try(:time)}/
+				  # #{position.try(:address)}/"
+				end
+
+				gon.watch.all_cars = @markers
+
+				gon.push({
+				  :url => "/cars",
+				  :map_id => "cars_index",
+				  :resource => "cars",
+				  :query_params => request.query_parameters
+				})
+			end
 	end
 
 	def index
@@ -48,21 +75,20 @@ class HomeController < ApplicationController
 				  #{position.try(:address)}/"
 				end
 
-				gon.watch.all_cars = @markers
+				# gon.watch.all_cars = @markers
 
-				gon.push({
-				  :url => "/cars",
-				  :map_id => "cars_index",
-				  :resource => "cars",
-				  :query_params => request.query_parameters
-				})
+				# gon.push({
+				#   :url => "/cars",
+				#   :map_id => "cars_index",
+				#   :resource => "cars",
+				#   :query_params => request.query_parameters
+				# })
 			end
 		elsif is_employee?(current_user) || is_driver?(current_user)
 			redirect_to conversations_path
 		else
 			redirect_to new_user_session_path
 		end
-
 	end
 
 	def one_car_render_pin

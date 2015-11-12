@@ -1,88 +1,88 @@
-%br/
-%br/
-%br/
-%br/
-%div
+%div.clearfix
+%div.content
+  %div.row
+    = react_component "Home", carsOverviewPath: cars_overview_home_index_path, carsIndexPath: home_index_path
 
-.col-md-12.no-padding
-  .grid.simple.grid-no-mbot.sin-border
-    .grid-body.mi-padding.no-border.border-bot.grid-without-title
-      %form{:class => "form-no-horizontal-spacing"}
-        %div#logbook_bot.row.column-seperation
+/ .col-md-12.no-padding
+/   .grid.simple.grid-no-mbot.sin-border
+/     .grid-body.mi-padding.no-border.border-bot.grid-without-title
+/       %form{:class => "form-no-horizontal-spacing"}
+/         %div#logbook_bot.row.column-seperation
 
-          %div.col-md-5.col-md-ofsfet-1
+/           %div.col-md-5.col-md-ofsfet-1
 
-            %div.row.form-row
-              %div.col-md-5
-                %div.input-append.default.date.no-padding
-                  %div.form-group
-                    %div
-                      %input{:type => "text", :class => "datepicker start-date form-control", :placeholder => "Start Date", :value => Settings.start_date.strftime("%d/%m/%Y")}/
-                      %span.add-on
-                        %span.arrow
-                        %i.fa.fa-calendar
+/             %div.row.form-row
+/               %div.col-md-5
+/                 %div.input-append.default.date.no-padding
+/                   %div.form-group
+/                     %div
+/                       %input{:type => "text", :class => "datepicker start-date form-control", :placeholder => "Start Date", :value => Settings.start_date.strftime("%d/%m/%Y")}/
+/                       %span.add-on
+/                         %span.arrow
+/                         %i.fa.fa-calendar
 
-              %div.col-md-5
-                %div.input-append.default.date.no-padding
-                  %div.form-group
-                    %div
-                      %input{:type => "text", :placeholder => "Time", :class => "timepicker start-time form-control", :value => Settings.start_time, :data => {:provide => "timepicker"}}/
-                      %span.add-on
-                        %span.arrow
-                        %i.fa.fa-clock-o
+/               %div.col-md-5
+/                 %div.input-append.default.date.no-padding
+/                   %div.form-group
+/                     %div
+/                       %input{:type => "text", :placeholder => "Time", :class => "timepicker start-time form-control", :value => Settings.start_time, :data => {:provide => "timepicker"}}/
+/                       %span.add-on
+/                         %span.arrow
+/                         %i.fa.fa-clock-o
 
-          %div.col-md-5
+/           %div.col-md-5
 
-            %div.row.form-row
-              %div.col-md-5
-                %div.input-append.default.date.no-padding
-                  %div.form-group
-                    %div
-                      %input{:type => "text", :class => "datepicker end-date form-control", :placeholder => "End Date", :value => Settings.end_date.strftime("%d/%m/%Y")}/
-                      %span.add-on
-                        %span.arrow
-                        %i.fa.fa-calendar
+/             %div.row.form-row
+/               %div.col-md-5
+/                 %div.input-append.default.date.no-padding
+/                   %div.form-group
+/                     %div
+/                       %input{:type => "text", :class => "datepicker end-date form-control", :placeholder => "End Date", :value => Settings.end_date.strftime("%d/%m/%Y")}/
+/                       %span.add-on
+/                         %span.arrow
+/                         %i.fa.fa-calendar
 
-              %div.col-md-5
-                %div.input-append.default.date.col-md-10.no-padding
-                  %div.form-group
-                    %div
-                      %input{:type => "text", :placeholder => "Time", :class => "timepicker end-time form-control", :value => Settings.end_time, :data => {:provide => "timepicker"}}/
-                      %span.add-on
-                        %span.arrow
-                        %i.fa.fa-clock-o
+/               %div.col-md-5
+/                 %div.input-append.default.date.col-md-10.no-padding
+/                   %div.form-group
+/                     %div
+/                       %input{:type => "text", :placeholder => "Time", :class => "timepicker end-time form-control", :value => Settings.end_time, :data => {:provide => "timepicker"}}/
+/                       %span.add-on
+/                         %span.arrow
+/                         %i.fa.fa-clock-o
 
-              %div.col-md-2
-                %div.form-group
-                  %div
-                    %input{:type => "button", id: 'apply_date_filter', :class => "btn btn-default btn-smll", value: 'Apply Filter'}/
+/               %div.col-md-2
+/                 %div.form-group
+/                   %div
+/                     %input{:type => "button", id: 'apply_date_filter', :class => "btn btn-default btn-smll", value: 'Apply Filter'}/
 
-.col-md-6.map.no-padding{ :style => "width: 50%;" }
-  .grid.simple.h-scroll.sin-border
-    .grid-title.no-border
-      %span
-        %h4.map-title{style: "width:auto; padding-right:10px;"} All vehicles
-        %span.map-road-details{style: "display:none;"}
-      .tools
-        %a.config.sizeMapFull-icon{style: "cursor:pointer;"}
-          %i.fa.fa-arrows-h.fa-lg
-    .grid-body.no-border{:style => "padding:0px;"}
-      %div#cars_index{ :style => "width: 100%; height: 400px;"}
+/ .col-md-6.map.no-padding{ :style => "width: 50%;" }
 
-.col-md-6.overview.no-padding{ :style => "width: 50%;" }
+/   = react_component "Map", coords: { lat: -34.397, lon: 150.644}, carsIndexPath: home_index_path
+/   .grid.simple.h-scroll.sin-border
+/     .grid-title.no-border
+/       %span
+/         %h4.map-title{style: "width:auto; padding-right:10px;"} All vehicles
+/         %span.map-road-details{style: "display:none;"}
+/       .tools
+/         %a.config.sizeMapFull-icon{style: "cursor:pointer;"}
+/           %i.fa.fa-arrows-h.fa-lg
+/     .grid-body.no-border{:style => "padding:0px;"}
+/       %div#cars_index{ :style => "width: 100%; height: 400px;"}
 
-  = react_component "CarsOverview", carsOverviewPath: cars_overview_home_index_path
+/ .col-md-6.overview.no-padding{ :style => "width: 50%;" }
+/   = react_component "CarsOverview", carsOverviewPath: cars_overview_home_index_path
 
-.col-md-12.no-padding
-  = react_component "LogBook"
-  / .grid.simple.h-scroll.dragme
-  /   .grid-title
-  /     %h4#logbook
-  /       = "Log Book"
-  /     .tools
-  /       %a.collapse{href: "javascript:;"}
-  /   .grid-body#logbook_render{:style => "padding:0px;"}
-  /     %h6{style: "margin-left: 20px; padding: 5px 0px;"} No car selected
+/ .col-md-12.no-padding
+/   = react_component "LogBook"
+/   .grid.simple.h-scroll.dragme
+/     .grid-title
+/       %h4#logbook
+/         = "Log Book"
+/       .tools
+/         %a.collapse{href: "javascript:;"}
+/     .grid-body#logbook_render{:style => "padding:0px;"}
+/       %h6{style: "margin-left: 20px; padding: 5px 0px;"} No car selected
 
 
 

@@ -79,6 +79,24 @@ class Car < ActiveRecord::Base
 			"-"
 		end
 
+		def last_latitude
+			unless self.last_position.nil?
+				unless self.last_position.latitude.nil?
+					return self.last_position.latitude
+				end
+			end
+			nil
+		end
+
+		def last_longitude
+			unless self.last_position.nil?
+				unless self.last_position.longitude.nil?
+					return self.last_position.longitude
+				end
+			end
+			nil
+		end
+
 		def speed
 			unless self.last_position.nil?
 				unless self.last_position.speed.nil?

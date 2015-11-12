@@ -6,17 +6,16 @@ R = React.DOM
 		{data: [], car_id: []}
 
 	componentWillMount: ->
-		@pubsub = PubSub.subscribe 'cars_overview', ((topic, car_id, car_name, car_last_seen) ->
-			@setState car_id: car_id
+		@pubsub = PubSub.subscribe 'show_logbook', ((topic, props) ->
+			@setState car_id: props.id
 			self = @
 
 			$.ajax
 				url: "/home/logbook_data"
-				data: car_id: car_id
+				data: car_id: props.id
 				type: 'get'
 				success: (data) ->
 					self.setState data: data
-					console.log data.length
 				error: (data) ->
 					self.setState data: []
 
@@ -50,7 +49,6 @@ R = React.DOM
 		React.createElement SimpleGrid, title: 'LogBook',
 			for x in @state.data
 				R.div null,
-
 					R.table className: 'table',
 						R.tr {className: 'row', style:{borderBottom: '1px solid #ddd'}},#1b1e24
 							R.th {className: 'text-info col-md-1', style: {color: 'black'}},
@@ -67,7 +65,7 @@ R = React.DOM
 								R.td className: 'col-md-1', step item.state, item.step
 								R.td className: 'col-md-1', item.time.substring(11, 19)
 								R.td className: 'col-md-2', duration item
-								R.td className: 'col-md-6', item.address.substring(0, 100) + '...'
+								R.td className: 'col-md-6', item.address
 								R.td className: 'col-md-2', item.speed
 
 

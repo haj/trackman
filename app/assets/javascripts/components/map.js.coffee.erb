@@ -1,0 +1,166 @@
+R = React.DOM
+
+@Map = React.createClass
+  map: null
+  markers: []
+  infoWindows: []
+  bounds: new google.maps.LatLngBounds()
+  didFitBounds: false
+  selectedMarker: null
+
+  getInitialState: ->
+    {cars: [], title: "All vehicles", gmap: null, selectedCar: null}
+
+  componentWillMount: ->
+    @pubsub = PubSub.subscribe "select_car", ((topic, props) ->
+      console.log "Selected Car : "
+      console.log props
+      @createMap() if @state.gmap == null
+      @setState selectedCar: props
+      if props.hasOwnProperty('lat') and props.hasOwnProperty('lon')
+        @setState title: props.name
+        @state.gmap.panTo new google.maps.LatLng(props.lat, props.lon)
+        @state.gmap.setZoom 16
+        @highlightMarker props.name
+      else
+        @setState title: "All vehicles"
+        @fitBounds()
+    ).bind(@)
+
+  componentWillUnmount: ->
+    PubSub.unsubscribe @pubsub
+
+  componentDidMount: ->
+    @setState gmap: @createMap()
+    google.maps.event.trigger(@state.gmap, 'resize', () -> alert "resized")
+    # google.maps.event.trigger(@state.gmap, "resize");
+    # @infoWindow = @createInfoWindow()
+    # google.maps.event.addListener @state.gmap, 'zoom_changed', => @handleZoomChange
+
+  initialFitBounds: ->
+    unless @didFitBounds
+      @fitBounds()
+      @didFitBounds = true
+
+  componentWillReceiveProps: (props) ->
+    @setState cars: props.cars
+    @createMarkers props.cars
+    @initialFitBounds()
+
+  # shouldComponentUpdate: (nextProps, nextState) ->
+  #   console.log "shouldComponentUpdate"
+  #   console.log nextState
+  #   # nextState.selectedCar != null and nextState.selectedCar.lat == null
+  #   # !isNaN(nextState.selectedCar.lat)
+
+  componentWillUpdate: (nextProps, nextState) ->
+    console.log "WILL UPDATE"
+    # @createMarkers(nextState.cars)
+    # @state.gmap.setCenter(marker.getPosition())
+
+  componentDidUpdate: ->
+    console.log "DID UPDATE"
+    # console.log "DID UPDATE MOUNT"
+    # console.log @state.cars
+    # console.log @props.cars
+
+  createMap: ->
+    copenhagen = new google.maps.LatLng(55.6759400, 12.5655300)
+    casablanca = new google.maps.LatLng(33.5883100, -7.6113800)
+    mapOptions =
+      minZoom: 1
+      maxZoom: 16
+      zoom: 13
+      center: casablanca
+    map = new google.maps.Map(@refs.map_canvas.getDOMNode(), mapOptions)
+    google.maps.event.trigger(map, 'resize')
+    # google.maps.event.addListener(map, 'bounds_changed', () ->
+    #   alert "bounds changed"
+    # )
+    map
+
+  focusAllVehicles: ->
+    @setState title: "All vehicles"
+    @fitBounds
+
+  fitBounds: ->
+    @state.gmap.fitBounds(@bounds) if @state.gmap != null
+
+  createMarkers: (cars) ->
+    @clearMarkers() if @markers != []
+    for car in cars
+      @createMarker car.lat, car.lon, car.name
+    @setState markers: @markers
+
+  createMarker: (lat, lon, name) ->
+    marker = new google.maps.Marker
+      position: new google.maps.LatLng(lat, lon)
+      map: @state.gmap
+      icon: "<%= image_path('red_pin.png') %>"
+      title: name
+    if !isNaN(marker.position.A) || !isNaN(marker.position.F)
+      marker.addListener "click", => @createInfoWindow marker
+      @markers.push marker
+      @bounds.extend marker.position
+
+  highlightMarker: (name) ->
+    marker = @markers.filter (el, i) ->
+      el if el.title == name
+    @selectedMarker = marker[0]
+    @selectedMarker.setAnimation google.maps.Animation.BOUNCE if marker != null
+
+  clearMarkers: ->
+    for marker in @markers
+      marker.setMap(null)
+    @markers = []
+
+  createInfoWindow: (marker) ->
+    contentString = "<div class='InfoWindow'>I'm a Window that contains Info Yay</div>"
+    infoWindow = new google.maps.InfoWindow
+      content: contentString
+      map: @state.gmap
+      pixelOffset:
+        width: 0
+        height: -40
+
+    infoWindow.setPosition marker.getPosition()
+    # @infoWindows.push infoWindow
+    # infoWindow.open()
+
+  handleZoomChange: ->
+    alert "Zoom Changed!"
+
+  resizeMap: ->
+    console.log "Resizing the map"
+    PubSub.publish "toggleWidthView", @state.gmap
+    # google.maps.event.trigger(@state.gmap, 'resize')
+    # @state.gmap.setCenter(@state.gmap.getCenter())
+
+  springCallBack: () ->
+    console.log "Called Callback Spring"
+    # @style = {
+    #   width: val,
+    #   height: val,
+    #   position: 'absolute',
+    #   top: val*0.25,
+    #   left: val*0.25,
+    #   border: '1px solid red'
+    # }
+
+    # R.div style: {style}, val
+
+  render: ->
+    # console.log "STAAAATE"
+    # console.log @state.cars
+    # console.log @props.cars
+    React.createElement SimpleGrid, title: @state.title, showHZoomIcon: false, onClick: @resizeMap.bind(@),
+      R.div className: "GMap", style: {height: "400px", width: "100%"},
+        R.div ref: "map_canvas", key: "map_canvas", style: {height: '100%', width: '100%'}
+        React.createElement ReactMotion.Spring, defaultValue: 0, endValue: 360, @springCallBack
+
+
+
+
+
+
+

@@ -18,12 +18,11 @@ class LocationsController < ApplicationController
     position_id: position_id, status: status)
 
     l.analyze_me
-    l.save!
 
     # binding.pry
 
     # puts "!!! FROM TRACCAR !!!"
-    puts params
+    # puts params
     render :text => ""
   end
 
