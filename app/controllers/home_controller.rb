@@ -2,6 +2,7 @@ class HomeController < ApplicationController
   # layout 'map'
   include UsersHelper
   include ApplicationHelper
+  before_filter :set_settings, only: :index
 
 	def cars_overview
 		# @cars = nil
@@ -17,12 +18,15 @@ class HomeController < ApplicationController
 			@dates = [@car.last_position.time.yesterday.to_date,
 				@car.last_position.time.to_date]
 
-			# @dates = [Settings.start_date, Settings.end_date]
+			@dates = [Settings.start_date, Settings.end_date]
 
 			@array_dates = []
 			@dates[0].upto(@dates[1]).each do |date|
 				@array_dates << date
 			end
+
+			logger.warn @array_dates
+
 		end
 	end
 
@@ -56,6 +60,7 @@ class HomeController < ApplicationController
 	end
 
 	def index
+
 		if is_manager?(current_user)
 			timezone = current_user.time_zone
 			Time.use_zone(timezone) do
@@ -195,6 +200,13 @@ class HomeController < ApplicationController
 		Settings.end_time = params[:end_time]
 		render :text => 'OK'
 	end
+
+  def set_settings
+		Settings.start_date = DateTime.yesterday.to_date
+		Settings.start_time = "05:00"
+		Settings.end_date = DateTime.now.to_date
+		Settings.end_time = DateTime.now.strftime("%H:%M")
+  end
 
 end
 
