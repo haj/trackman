@@ -91,6 +91,7 @@ R = React.DOM
     for car in cars
       @createMarker car.lat, car.lon, car.name
     @setState markers: @markers
+    @state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon) if @state.selectedCar != null
 
   createMarker: (lat, lon, name) ->
     marker = new google.maps.Marker
