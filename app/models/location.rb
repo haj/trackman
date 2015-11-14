@@ -138,9 +138,9 @@ class Location < ActiveRecord::Base
 		# .where('time <= ? and DATE(time) = ?', self.time, self.time.to_date)
 		# logger.warn "locs COUNT : #{locs.count}"
 
-    self.save!
 		logger.warn "END : Current location"
 		logger.warn self.inspect
+    self.save!
 
 	end
 
@@ -229,11 +229,11 @@ class Location < ActiveRecord::Base
 	end
 
 	def previous_start_point
-		Location.order(:time).where('device_id', self.device_id).where('time < ? and state like ?', self.time, 'start').last
+		Location.order(:time).where('device_id', self.device_id).where('time < ? and state like ? and DATE(time) like ?', self.time, 'start', self.time.to_date).last
 	end
 
 	def previous
-		Location.order(:time).where('device_id', self.device_id).where('time < ?', self.time).last
+		Location.order(:time).where('device_id', self.device_id).where('time < ? and DATE(time) like ?', self.time, self.time.to_date).last
 	end
 
 	def next
