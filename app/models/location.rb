@@ -18,8 +18,7 @@ class Location < ActiveRecord::Base
 	# before_save :analyze_me
 
 	def get_todays_locs
-		Location.order(:time).where('device_id', self.device_id)
-		.where('time < ? and DATE(time) = ?', self.time, self.time.to_date)
+		Location.order(:time).where('device_id = ? and time < ? and DATE(time) = ?', self.device_id, self.time, self.time.to_date)
 	end
 
 	def get_todays_start_locs
