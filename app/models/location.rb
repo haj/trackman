@@ -234,7 +234,7 @@ class Location < ActiveRecord::Base
 	end
 
 	def previous
-		Location.order(:time).where('device_id = ?', self.device_id).where('time < ? and DATE(time) like ?', self.time, self.time.to_date).last
+		Location.order(:time).where('device_id = ? and time < ? and DATE(time) like ?', self.device_id, self.time, self.time.to_date).last
 	end
 
 	def next
