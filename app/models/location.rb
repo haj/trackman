@@ -14,6 +14,7 @@ class Location < ActiveRecord::Base
 	belongs_to :position, :class_name => 'Traccar::Position'
 	belongs_to :device
 
+
 	# before_save :analyze_me
 
 	def get_todays_locs
@@ -229,15 +230,15 @@ class Location < ActiveRecord::Base
 	end
 
 	def previous_start_point
-		Location.order(:time).where('device_id', self.device_id).where('time < ? and state like ? and DATE(time) like ?', self.time, 'start', self.time.to_date).last
+		Location.order(:time).where('device_id = ?', self.device_id).where('time < ? and state like ? and DATE(time) like ?', self.time, 'start', self.time.to_date).last
 	end
 
 	def previous
-		Location.order(:time).where('device_id', self.device_id).where('time < ? and DATE(time) like ?', self.time, self.time.to_date).last
+		Location.order(:time).where('device_id = ?', self.device_id).where('time < ? and DATE(time) like ?', self.time, self.time.to_date).last
 	end
 
 	def next
-		Location.order(:time).where('device_id', self.device_id).where('time > ? and DATE(time) like ?', self.time, self.time.to_date).first
+		Location.order(:time).where('device_id = ?', self.device_id).where('time > ? and DATE(time) like ?', self.time, self.time.to_date).first
 	end
 
   # Takes a bunch of locations and return it in a Gmaps4rails format

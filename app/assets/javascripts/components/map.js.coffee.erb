@@ -18,7 +18,7 @@ R = React.DOM
       @createMap() if @state.gmap == null
       if props.hasOwnProperty('lat') and props.hasOwnProperty('lon')
         @setState selectedCar: props
-        @setState title: props.name
+        @setState title: @setMapTitle props.name, props.last_seen
         @state.gmap.panTo new google.maps.LatLng(props.lat, props.lon)
         @state.gmap.setZoom 16
         @highlightMarker props.name
@@ -37,6 +37,9 @@ R = React.DOM
     # google.maps.event.trigger(@state.gmap, "resize");
     # @infoWindow = @createInfoWindow()
     # google.maps.event.addListener @state.gmap, 'zoom_changed', => @handleZoomChange
+
+  setMapTitle: (name, last_seen) ->
+    name + " | " + last_seen
 
   initialFitBounds: ->
     unless @didFitBounds
