@@ -126,6 +126,7 @@ class Location < ActiveRecord::Base
 
 			else
 				self.state = "onroad"
+				self.save!
 				logger.warn "state is being set to #{self.state}"
 			end
 
@@ -154,10 +155,12 @@ class Location < ActiveRecord::Base
 
 	def set_as_current_step
 		self.step = self.get_todays_start_locs.last.step
+		self.save!
 	end
 
 	def set_as_next_step
 		self.step = self.get_todays_start_locs.last.step + 1
+		self.save!
 	end
 
 	# def status_code
