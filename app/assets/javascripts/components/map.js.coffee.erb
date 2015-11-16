@@ -32,7 +32,7 @@ R = React.DOM
 
   componentDidMount: ->
     @setState gmap: @createMap()
-    google.maps.event.trigger(@state.gmap, 'resize', () -> alert "resized")
+    # google.maps.event.trigger(@state.gmap, 'resize', () -> alert "resized")
     # google.maps.event.trigger(@state.gmap, "resize");
     # @infoWindow = @createInfoWindow()
     # google.maps.event.addListener @state.gmap, 'zoom_changed', => @handleZoomChange
@@ -73,7 +73,7 @@ R = React.DOM
       zoom: 13
       center: casablanca
     map = new google.maps.Map(@refs.map_canvas.getDOMNode(), mapOptions)
-    google.maps.event.trigger(map, 'resize')
+    # google.maps.event.trigger(map, 'resize')
     # google.maps.event.addListener(map, 'bounds_changed', () ->
     #   alert "bounds changed"
     # )
@@ -102,7 +102,7 @@ R = React.DOM
     if !isNaN(marker.position.A) || !isNaN(marker.position.F)
       marker.addListener "click", => @createInfoWindow marker
       @markers.push marker
-      @bounds.extend marker.position
+      @bounds.extend marker.getPosition()
 
   highlightMarker: (name) ->
     marker = @markers.filter (el, i) ->
