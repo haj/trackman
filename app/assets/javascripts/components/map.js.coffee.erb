@@ -16,13 +16,14 @@ R = React.DOM
       console.log "Selected Car : "
       console.log props
       @createMap() if @state.gmap == null
-      @setState selectedCar: props
       if props.hasOwnProperty('lat') and props.hasOwnProperty('lon')
+        @setState selectedCar: props
         @setState title: props.name
         @state.gmap.panTo new google.maps.LatLng(props.lat, props.lon)
         @state.gmap.setZoom 16
         @highlightMarker props.name
       else
+        @setState selectedCar: null
         @setState title: "All vehicles"
         @fitBounds()
     ).bind(@)
@@ -91,7 +92,7 @@ R = React.DOM
     for car in cars
       @createMarker car.lat, car.lon, car.name
     @setState markers: @markers
-    # @state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon) if @state.selectedCar != null
+    @state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon) if @state.selectedCar != null
 
   createMarker: (lat, lon, name) ->
     marker = new google.maps.Marker
