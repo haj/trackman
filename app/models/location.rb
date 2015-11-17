@@ -154,12 +154,12 @@ class Location < ActiveRecord::Base
 	end
 
 	def set_as_current_step
-		self.step = self.get_todays_start_locs.last.step
+		self.step = self.get_todays_start_locs.last.step if self.get_todays_locs.last != nil
 		self.save!
 	end
 
 	def set_as_next_step
-		self.step = self.get_todays_start_locs.last.step + 1
+		self.step = self.get_todays_start_locs.last.step + 1 if self.get_todays_locs.last != nil
 		self.save!
 	end
 
