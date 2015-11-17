@@ -155,13 +155,15 @@ R = React.DOM
     # R.div style: {style}, val
 
   render: ->
-    # console.log "STAAAATE"
-    # console.log @state.cars
-    # console.log @props.cars
-    React.createElement SimpleGrid, title: @state.title, showHZoomIcon: false, onClick: @resizeMap.bind(@),
-      R.div className: "GMap", style: {height: "400px", width: "100%"},
-        R.div ref: "map_canvas", key: "map_canvas", style: {height: '100%', width: '100%'}
-        React.createElement ReactMotion.Spring, defaultValue: 0, endValue: 360, @springCallBack
+    R.div className: 'grid simple h-scroll dragme',
+      R.div className: 'grid-title border-only-bot',
+        R.h4 null, @state.title
+        R.div className: 'tools',
+          # R.a className: 'config sizeMapFull-icon', style: {cursor: 'pointer'},
+          #   R.i className: 'fa fa-arrows-h fa-lg', onClick: @resizeMap
+      R.div className: 'grid-body no-border', style: {padding:'0px'},
+        R.div className: "GMap", style: {height: "400px", width: "100%"},
+          R.div ref: "map_canvas", key: "map_canvas", style: {height: '100%', width: '100%'}
 
 
 

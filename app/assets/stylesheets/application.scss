@@ -120,3 +120,25 @@
 	margin-right: 5px;
 }
 
+.options{
+	text-align: right;
+	margin : 0; padding: 0;
+	display: inline;
+}
+
+.options ul{
+	display: inline-block;
+}
+
+.options li{
+	list-style: none;
+	display: inline-block;
+}
+
+.cars_overview table .active_row{
+	border-left: 5px solid red;
+}
+
+.grid.simple.overview .title-inline{
+	display: inline-block;
+}
