@@ -14,6 +14,11 @@ class Location < ActiveRecord::Base
 	belongs_to :position, :class_name => 'Traccar::Position'
 	belongs_to :device
 
+  reverse_geocoded_by :latitude, :longitude do |location,results|
+    if geo = results.first
+      location.update_attributes(address: geo.address, country: geo.country, city: geo.city)
+    end
+  end
 
 	# before_save :analyze_me
 
@@ -93,6 +98,7 @@ class Location < ActiveRecord::Base
       logger.warn "state is being set to #{self.state}"
       self.step = start_locations.count + 1
       logger.warn "step of the current location is set to #{self.step}"
+			self.reverse_geocode
     else
     	logger.warn "There is previous location"
     	logger.warn previous_location.inspect
@@ -124,6 +130,9 @@ class Location < ActiveRecord::Base
 					logger.warn "step of the previous location is set to #{self.step}"
 				end
 
+				self.reverse_geocode
+				previous_location.reverse_geocode
+
 			else
 				self.state = "onroad"
 				self.save!
@@ -154,12 +163,12 @@ class Location < ActiveRecord::Base
 	end
 
 	def set_as_current_step
-		self.step = self.get_todays_start_locs.last.step if self.get_todays_locs.last != nil
+		self.step = self.get_todays_start_locs.last.step if self.get_todays_start_locs.last != nil
 		self.save!
 	end
 
 	def set_as_next_step
-		self.step = self.get_todays_start_locs.last.step + 1 if self.get_todays_locs.last != nil
+		self.step = self.get_todays_start_locs.last.step + 1 if self.get_todays_start_locs.last != nil
 		self.save!
 	end
 

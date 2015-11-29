@@ -78,12 +78,12 @@ SetIntervalMixin =
 			R.div className: 'grid-title border-only-bot',
 				R.h4 className: "title-inline", "Overview"
 
-				R.span className: 'options',
-					R.ul className: '',
-						R.li className: '',
-							R.a {ref: "all_cars_click", href: "#", onClick: @handleFilter.bind(null, "All")}, "All"
-						R.li className: '',
-							R.a {ref: "active_cars_click", href: "#", onClick: @handleFilter.bind(null, "Active")}, "Active"
+				# R.span className: 'options',
+				# 	R.ul className: '',
+				# 		R.li className: '',
+				# 			R.a {ref: "all_cars_click", href: "#", onClick: @handleFilter.bind(null, "All")}, "All"
+				# 		R.li className: '',
+				# 			R.a {ref: "active_cars_click", href: "#", onClick: @handleFilter.bind(null, "Active")}, "Active"
 
 			R.div className: 'grid-body no-border', style: {padding:'0px'},
 				if @state.cars.length == 0

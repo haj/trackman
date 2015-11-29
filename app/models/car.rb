@@ -73,9 +73,9 @@ class Car < ActiveRecord::Base
 		end
 
 		def last_location
-			unless self.last_position.nil?
-				unless self.last_position.address.nil?
-					return self.last_position.address.truncate(55)
+			unless self.last_position_with_address.nil?
+				unless self.last_position_with_address.address.nil?
+					return self.last_position_with_address.address.truncate(55)
 				end
 			end
 			"-"
@@ -125,6 +125,12 @@ class Car < ActiveRecord::Base
 			unless self.device.nil?
 				return self.device.locations.last
 				# return self.device.last_position
+			end
+		end
+
+		def last_position_with_address
+			unless self.device.nil?
+				return self.device.locations.where.not(address: nil).last
 			end
 		end
 

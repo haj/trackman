@@ -91,10 +91,11 @@ R = React.DOM
     @state.gmap.fitBounds(@bounds) if @state.gmap != null
 
   createMarkers: (cars) ->
+    console.log "Here the markers"
+    console.log @markers
     @clearMarkers() if @markers != []
     for car in cars
       @createMarker car.lat, car.lon, car.name
-    @setState markers: @markers
     @state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon) if @state.selectedCar != null
 
   createMarker: (lat, lon, name) ->
@@ -103,7 +104,8 @@ R = React.DOM
       map: @state.gmap
       icon: "<%= image_path('red_pin.png') %>"
       title: name
-    if !isNaN(marker.position.A) || !isNaN(marker.position.F)
+    console.log marker
+    if !isNaN(marker.position.G) || !isNaN(marker.position.K)
       marker.addListener "click", => @createInfoWindow marker
       @markers.push marker
       @bounds.extend marker.getPosition()
