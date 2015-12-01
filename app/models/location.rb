@@ -120,15 +120,10 @@ class Location < ActiveRecord::Base
 				logger.warn "driving duration : #{previous_start_point.driving_duration}"
 				previous_start_point.save!
 
-				if previous_location.state == "start"
-					previous_location.state = "error"
-					logger.warn "state is being set to #{previous_location.state}"
-				else
-					previous_location.state = "stop"
-					logger.warn "state is being set to #{previous_location.state}"
-					previous_location.set_as_current_step
-					logger.warn "step of the previous location is set to #{self.step}"
-				end
+				previous_location.state = "stop"
+				logger.warn "state is being set to #{previous_location.state}"
+				previous_location.set_as_current_step
+				logger.warn "step of the previous location is set to #{self.step}"
 
 				self.reverse_geocode
 				previous_location.reverse_geocode
