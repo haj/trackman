@@ -114,9 +114,9 @@ class Location < ActiveRecord::Base
 				self.set_as_next_step
 				logger.warn "step of the current location is set to #{self.step}"
 
-				previous_start_point.try(:parking_duration => self.calculate_parking_time)
+				previous_start_point.parking_duration = self.calculate_parking_time
 				logger.warn "parking duration : #{previous_start_point.parking_duration}"
-				previous_start_point.try(:driving_duration => self.calculate_driving_time)
+				previous_start_point.driving_duration = self.calculate_driving_time
 				logger.warn "driving duration : #{previous_start_point.driving_duration}"
 				previous_start_point.save!
 
