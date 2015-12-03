@@ -114,16 +114,18 @@ class Location < ActiveRecord::Base
 				self.set_as_next_step
 				logger.warn "step of the current location is set to #{self.step}"
 
-				previous_start_point.parking_duration = self.calculate_parking_time
+				previous_start_point.try(:parking_duration => self.calculate_parking_time)
 				logger.warn "parking duration : #{previous_start_point.parking_duration}"
-				previous_start_point.driving_duration = self.calculate_driving_time
+				previous_start_point.try(:driving_duration => self.calculate_driving_time)
 				logger.warn "driving duration : #{previous_start_point.driving_duration}"
 				previous_start_point.save!
 
-				previous_location.state = "stop"
-				logger.warn "state is being set to #{previous_location.state}"
-				previous_location.set_as_current_step
-				logger.warn "step of the previous location is set to #{self.step}"
+				if previous_location.state == "onroad"
+					previous_location.state = "stop"
+					logger.warn "state is being set to #{previous_location.state}"
+					previous_location.set_as_current_step
+					logger.warn "step of the previous location is set to #{self.step}"
+				end
 
 				self.reverse_geocode
 				previous_location.reverse_geocode
@@ -212,7 +214,7 @@ class Location < ActiveRecord::Base
 	end
 
 	def self.destroy_similar_in_time
-		Location.where('device_id', self.device_id).where('time like ?', self.time).destroy_all
+		Location.where('device_id', self.device_id).where('time = ?', self.time).destroy_all
 	end
 
 	def self.destroy_similar_in_address
@@ -236,15 +238,15 @@ class Location < ActiveRecord::Base
 	end
 
 	def previous_start_point
-		Location.order(:time).where('device_id = ?', self.device_id).where('time < ? and state like ? and DATE(time) like ?', self.time, 'start', self.time.to_date).last
+		Location.order(:time).where('device_id = ?', self.device_id).where('DATE(time) = ? and time < ? and state = ?', self.time.to_date, self.time, 'start').last
 	end
 
 	def previous
-		Location.order(:time).where('device_id = ? and time < ? and DATE(time) like ?', self.device_id, self.time, self.time.to_date).last
+		Location.order(:time).where('device_id = ? and DATE(time) = ? and time < ?', self.device_id, self.time.to_date, self.time).last
 	end
 
 	def next
-		Location.order(:time).where('device_id = ?', self.device_id).where('time > ? and DATE(time) like ?', self.time, self.time.to_date).first
+		Location.order(:time).where('device_id = ?', self.device_id).where('time > ? and DATE(time) = ?', self.time, self.time.to_date).first
 	end
 
   # Takes a bunch of locations and return it in a Gmaps4rails format
