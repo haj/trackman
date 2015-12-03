@@ -125,10 +125,17 @@ class Location < ActiveRecord::Base
 					logger.warn "state is being set to #{previous_location.state}"
 					previous_location.set_as_current_step
 					logger.warn "step of the previous location is set to #{self.step}"
+				elsif previous_location.state == "start"
+					if previous_location.time == self.time
+						self.state = "onroad"
+						self.step = nil
+						self.parking_duration = nil
+						self.driving_duration = nil
+					end
 				end
 
-				self.reverse_geocode
-				previous_location.reverse_geocode
+				self.reverse_geocode if self.state == "start" || self.state == "stop"
+				previous_location.reverse_geocode if previous_location.state == "start" || previous_location.state == "stop"
 
 			else
 				self.state = "onroad"
