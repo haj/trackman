@@ -114,9 +114,9 @@ class Location < ActiveRecord::Base
 				self.set_as_next_step
 				logger.warn "step of the current location is set to #{self.step}"
 
-				previous_start_point.parking_duration = self.calculate_parking_time
+				previous_start_point.try(:parking_duration => self.calculate_parking_time)
 				logger.warn "parking duration : #{previous_start_point.parking_duration}"
-				previous_start_point.driving_duration = self.calculate_driving_time
+				previous_start_point.try(:driving_duration => self.calculate_driving_time)
 				logger.warn "driving duration : #{previous_start_point.driving_duration}"
 				previous_start_point.save!
 
@@ -125,17 +125,10 @@ class Location < ActiveRecord::Base
 					logger.warn "state is being set to #{previous_location.state}"
 					previous_location.set_as_current_step
 					logger.warn "step of the previous location is set to #{self.step}"
-				elsif previous_location.state == "start"
-					if previous_location.time == self.time
-						self.state = "onroad"
-						self.step = nil
-						self.parking_duration = nil
-						self.driving_duration = nil
-					end
 				end
 
-				self.reverse_geocode if self.state == "start" || self.state == "stop"
-				previous_location.reverse_geocode if previous_location.state == "start" || previous_location.state == "stop"
+				self.reverse_geocode
+				previous_location.reverse_geocode
 
 			else
 				self.state = "onroad"
