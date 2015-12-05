@@ -30,6 +30,10 @@ class Location < ActiveRecord::Base
 		self.get_todays_locs.where("state = ?", "start")
 	end
 
+	def is_first_position_of_day?
+		self.get_todays_locs.empty?
+	end
+
 	# rule 1
 	def is_first_point?
 		if self.get_todays_locs.count == 0
@@ -53,8 +57,8 @@ class Location < ActiveRecord::Base
 	end
 
 	# rule 3
-	def been_parked
-		self.calculate_parking_time > 300
+	def been_parked?
+		self.calculate_parking_time > 60 if self.previous
 	end
 
 	# rule 4
@@ -81,74 +85,23 @@ class Location < ActiveRecord::Base
 	# => rule 4 : if a car hasn't change position, don't generate a new location but ignore it.
 	# => rule 5 : there is always a start after a stop
 	def analyze_me
-
-		# Get the previous location, to compare and calculate time difference
-		previous_location = self.previous
-
-		# Get the previous START location in the same day of the current analyzed location
-		# -> We need it to determine the first location in a day
-		start_locations = self.get_todays_start_locs
-
-		logger.warn "locations of the same day with start"
-		logger.warn start_locations.inspect
-
-    if previous_location.nil?
-    	logger.warn "There is NO previous location"
-      self.state = "start"
-      logger.warn "state is being set to #{self.state}"
-      self.step = start_locations.count + 1
-      logger.warn "step of the current location is set to #{self.step}"
+		if self.is_first_position_of_day? || self.been_parked?
+			self.state = "start"
+			self.set_as_current_step
 			self.reverse_geocode
-    else
-    	logger.warn "There is previous location"
-    	logger.warn previous_location.inspect
-    	# Get the previous START location
-    	# -> To set the parking duration
-			previous_start_point = start_locations.last
-
-			# Making sure that the previous location is late by 5 minutes and isn't a start point
-			if self.been_parked
-				logger.warn "Previous location more than 5 min old"
-
-				self.state = "start"
-				self.set_as_next_step
-				logger.warn "step of the current location is set to #{self.step}"
-
-				previous_start_point.parking_duration = self.calculate_parking_time
-				logger.warn "parking duration : #{previous_start_point.parking_duration}"
-				previous_start_point.driving_duration = self.calculate_driving_time
-				logger.warn "driving duration : #{previous_start_point.driving_duration}"
-				previous_start_point.save!
-
-				if previous_location.state == "onroad"
-					previous_location.state = "stop"
-					logger.warn "state is being set to #{previous_location.state}"
-					previous_location.set_as_current_step
-					logger.warn "step of the previous location is set to #{self.step}"
-				end
-
-				self.reverse_geocode
-				previous_location.reverse_geocode
-
-			else
-				self.state = "onroad"
-				self.save!
-				logger.warn "state is being set to #{self.state}"
+			if self.been_parked?
+				previous = self.previous
+				previous.state = "stop"
+				previous.step = self.step - 1
+				previous.save!
+				previous.reverse_geocode
 			end
 
-			previous_location.save!
-			logger.warn "END : Previous location"
-			logger.warn previous_location.inspect
-    end
+		else
+			self.state = "onroad"
+		end
 
-		# locs = Location.order(:time).where('device_id', self.device_id)
-		# .where('time <= ? and DATE(time) = ?', self.time, self.time.to_date)
-		# logger.warn "locs COUNT : #{locs.count}"
-
-		logger.warn "END : Current location"
-		logger.warn self.inspect
-    self.save!
-
+		self.save!
 	end
 
 	def calculate_parking_time
@@ -160,8 +113,7 @@ class Location < ActiveRecord::Base
 	end
 
 	def set_as_current_step
-		self.step = self.get_todays_start_locs.last.step if self.get_todays_start_locs.last != nil
-		self.save!
+		self.step = self.get_todays_start_locs.count + 1
 	end
 
 	def set_as_next_step
