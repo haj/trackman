@@ -58,7 +58,7 @@ class Location < ActiveRecord::Base
 
 	# rule 3
 	def been_parked?
-		self.calculate_parking_time > 60 if self.previous
+		self.calculate_parking_time > 300 if self.previous
 	end
 
 	# rule 4
