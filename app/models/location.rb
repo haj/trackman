@@ -91,10 +91,20 @@ class Location < ActiveRecord::Base
 			self.reverse_geocode
 			if self.been_parked?
 				previous = self.previous
-				previous.state = "stop"
-				previous.step = self.step - 1
-				previous.save!
-				previous.reverse_geocode
+
+				if previous.state == "onroad"
+					previous.state = "stop"
+					previous.step = self.step - 1
+					previous.save!
+					previous.reverse_geocode
+
+					# calculating parking / driving time
+					previous_start_point = self.get_todays_start_locs.last
+					previous_start_point.parking_duration = self.calculate_parking_time
+					previous_start_point.driving_duration = self.calculate_driving_time
+					previous_start_point.save!
+				end
+
 			end
 
 		else
