@@ -58,7 +58,7 @@ class Location < ActiveRecord::Base
 
 	# rule 3
 	def been_parked?
-		self.calculate_parking_time > 300 if self.previous
+		(self.calculate_parking_time > 300 if self.previous) or !self.ignite
 	end
 
 	# rule 4
@@ -150,6 +150,16 @@ class Location < ActiveRecord::Base
 
 	def to_time
 		self.time.strftime('%H:%M:%S')
+	end
+
+	def self.resolve_ignite
+		Location.where("DATE(time) = ?", DateTime.now.to_date).each do |l|
+			position = Traccar::Position.find l.position_id
+    	jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other))
+    	ignite = JSON[jsoned_xml]["info"]["power"]
+    	l.ignite = ignite if ignite != ""
+    	l.analyze_me
+		end
 	end
 
 	def self.reset_locations_all
