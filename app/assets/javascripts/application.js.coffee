@@ -66,6 +66,7 @@
 #= require react_ujs
 #= require bower_components/react-bootstrap/react-bootstrap.min
 #= require bower_components/react-motion/build/react-motion
+#= require bower_components/moment-duration-format/lib/moment-duration-format.js
 #= require react_bootstrap
 #= require components
 

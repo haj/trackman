@@ -43,8 +43,10 @@ R = React.DOM
 				R.a {className: 'badge badge-danger'}, step
 
 		duration = (item) ->
+			parking_duration = moment.duration(parseInt(item.parking_duration), "seconds").format("h [hrs], m [min]")
+			driving_duration = moment.duration(parseInt(item.driving_duration), "seconds").format("h [hrs], m [min]")
 			if item.parking_duration || item.driving_duration
-				"P : #{item.parking_duration} | D : #{item.driving_duration}"
+				"P : #{parking_duration} | D : #{driving_duration}"
 
 		React.createElement SimpleGrid, title: 'LogBook',
 			for x in @state.data

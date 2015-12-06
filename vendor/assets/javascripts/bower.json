@@ -4,6 +4,7 @@
     "react-bootstrap": "latest",
     "react-motion": "latest",
     "pubsub-js": "latest",
-    "momentjs": "latest"
+    "momentjs": "latest",
+    "moment-duration-format": "latest"
   }
 }

@@ -89,7 +89,9 @@ class Location < ActiveRecord::Base
 			self.state = "start"
 			self.set_as_current_step
 			self.reverse_geocode
+
 			if self.been_parked?
+				self.previous_locations_with_same_time.destroy_all
 				previous = self.previous
 
 				if previous.state == "onroad"
@@ -205,6 +207,10 @@ class Location < ActiveRecord::Base
 
 	def previous
 		Location.order(:time).where('device_id = ? and DATE(time) = ? and time < ?', self.device_id, self.time.to_date, self.time).last
+	end
+
+	def previous_locations_with_same_time
+		Location.where('device_id = ? and DATE(time) = ? and time <= ? and id != ?', self.device_id, self.time.to_date, self.time, self.id)
 	end
 
 	def next

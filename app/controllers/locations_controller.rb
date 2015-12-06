@@ -15,7 +15,8 @@ class LocationsController < ApplicationController
     l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
         position_id: position_id, status: status)
 
-    l.analyze_me
+    # logger.warn l.valid_position
+    l.analyze_me if true
 
     puts "!!! FROM TRACCAR !!!"
     puts params
