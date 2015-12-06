@@ -12,11 +12,19 @@ class LocationsController < ApplicationController
     status = params[:status]
     device = Device.find_by_emei(unique_id)
 
+    position = Traccar::Position.find position_id
+    jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other))
+    ignite = JSON[jsoned_xml]["info"]["power"]
+
     l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
         position_id: position_id, status: status)
 
+    l.ignite = ignite if ignite != ""
+
+    puts l.inspect
+
     # logger.warn l.valid_position
-    l.analyze_me if true
+    l.analyze_me
 
     puts "!!! FROM TRACCAR !!!"
     puts params

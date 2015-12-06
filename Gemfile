@@ -72,6 +72,7 @@ gem 'country-select'
 gem "geocoder"
 gem 'rails_admin'
 
+gem 'xml-to-json'
 
 # stuff required for testing purposes
 group :development, :test do
