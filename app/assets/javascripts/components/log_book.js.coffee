@@ -68,6 +68,6 @@ R = React.DOM
 								R.td className: 'col-md-1', item.time.substring(11, 19)
 								R.td className: 'col-md-2', duration item
 								R.td className: 'col-md-6', item.address
-								R.td className: 'col-md-2', item.speed
+								R.td className: 'col-md-2', Math.floor(item.speed)
 
 

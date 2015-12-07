@@ -14,4 +14,4 @@ R = React.DOM
       R.td className: 'col-md-1', @props.data.numberplate
       R.td {className: 'col-md-4', style: {wordBreak: 'break-all'}}, @props.data.last_location
       R.td className: 'col-md-2', @props.data.last_seen
-      R.td className: 'col-md-1', "#{@props.data.speed} km/h"
+      R.td className: 'col-md-1', "#{Math.floor(@props.data.speed)} km/h"
