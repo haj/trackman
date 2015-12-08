@@ -58,15 +58,17 @@ class Location < ActiveRecord::Base
 
 	# rule 3
 	def been_parked?
+		retur = false
 		if self.previous
 			if self.previous.ignition_is_off?
-				true
+				retur = true
 			else
-				false
+				retur = false
 			end
 		else
-			true
+			retur = true
 		end
+		retur
 	end
 
 	def been_idled?

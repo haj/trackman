@@ -3,12 +3,13 @@ R = React.DOM
 @LogBook = React.createClass
 
 	getInitialState: ->
-		{data: [], car_id: [], loading: 0}
+		{data: [], car_id: [], loading: "nope"}
+		# loading : nothing, loading, done
 
 	componentWillMount: ->
 		@pubsub = PubSub.subscribe 'show_logbook', ((topic, props) ->
 			@setState car_id: props.id
-			@setState loading: 1
+			@setState loading: "loading"
 			self = @
 
 			$.ajax
@@ -17,7 +18,10 @@ R = React.DOM
 				type: 'get'
 				success: (data) ->
 					self.setState data: data
-					self.handleLoadedData()
+					if data.length == 0
+						self.setState loading: "nothing"
+					else
+						self.setState loading: "done"
 				error: (data) ->
 					self.setState data: []
 
@@ -25,9 +29,6 @@ R = React.DOM
 
 	componentWillUnmount: ->
 		PubSub.unsubscribe @pubsub
-
-	handleLoadedData: ->
-		@setState loading: 2
 
 	render: ->
 
@@ -44,9 +45,11 @@ R = React.DOM
 				"P : #{parking_duration} | D : #{driving_duration}"
 
 		React.createElement SimpleGrid, title: 'LogBook',
-			if @state.loading == 1
-				R.h4 null, "Loading"
-			else if @state.loading == 2
+			if @state.loading == "loading"
+				R.div {className: 'row', style: {padding: '10px'}},
+					R.div {className: 'col-md-12'},
+						R.h4 {className: 'pull-left', style: {marginBottom: '0px'}}, "Loading..."
+			else if @state.loading == "done"
 				for x in @state.data
 					R.div null,
 						R.table className: 'table',
@@ -67,8 +70,14 @@ R = React.DOM
 									R.td className: 'col-md-2', duration item
 									R.td className: 'col-md-6', item.address
 									R.td className: 'col-md-2', "#{Math.floor(item.speed)} km/h"
-			else if @state.loading == 0
-				R.h4 null, "Choose a car"
+			else if @state.loading == "nothing"
+				R.div {className: 'row', style: {padding: '10px'}},
+					R.div {className: 'col-md-12'},
+						R.h4 {className: 'pull-left', style: {marginBottom: '0px'}}, "No data, select an older date."
+			else if @state.loading == "nope"
+				R.div {className: 'row', style: {padding: '10px'}},
+					R.div {className: 'col-md-12'},
+						R.h4 {className: 'pull-left', style: {marginBottom: '0px'}}, "Select a car"
 
 
 
