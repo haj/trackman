@@ -58,7 +58,14 @@ class Location < ActiveRecord::Base
 
 	# rule 3
 	def been_parked?
-		(self.duration_since_previous > 300 and self.previous.ignition_is_off?) if self.previous
+		if self.previous
+			if self.previous.state == "stop"
+				true
+			end
+		else
+			true
+		end
+		false
 	end
 
 	def been_idled?
@@ -100,13 +107,13 @@ class Location < ActiveRecord::Base
 
 		if self.ignition_is_on?
 
-			if self.is_first_position_of_day?
+			if self.been_parked?
 
 				self.state = "start"
 				self.set_as_current_step
 				self.reverse_geocode
 
-			elsif !previous.nil?
+			else
 
 				if previous.ignition_is_off?
 					self.state = "start"
