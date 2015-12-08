@@ -16,6 +16,7 @@ R = React.DOM
 				type: 'get'
 				success: (data) ->
 					self.setState data: data
+					console.log data
 				error: (data) ->
 					self.setState data: []
 

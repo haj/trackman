@@ -4,19 +4,27 @@ module ApplicationHelper
 		time.to_s(:db)
 	end
 
+	def dates_in_range start_date, end_date
+			@array_dates = []
+			start_date.upto(end_date).each do |date|
+				@array_dates << date
+			end
+			@array_dates
+	end
+
 	def notifications_count(user)
 		alarm_notifications = user.try(:company).try(:alarm_notifications)
 		if alarm_notifications
 			notifications = alarm_notifications.where(archived: false).try(:count)
 			if notifications.nil?
-				return 0 
+				return 0
 			else
 				return notifications
 			end
 		else
 			return 0
 		end
-	
+
 	end
 
 	def notification_title(notification)
@@ -31,6 +39,6 @@ module ApplicationHelper
 		gravatar_image_url(current_user.email.gsub('spam', 'mdeering'))
 	end
 
-	
+
 
 end

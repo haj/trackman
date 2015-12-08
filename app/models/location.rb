@@ -58,7 +58,11 @@ class Location < ActiveRecord::Base
 
 	# rule 3
 	def been_parked?
-		(self.calculate_parking_time > 300 if self.previous) or !self.ignite
+		self.duration_since_previous > 300 and self.previous.ignition_is_off?
+	end
+
+	def been_idled?
+		self.duration_since_previous > 300 and self.ignition_is_on? and self.previous.ignition_is_on?
 	end
 
 	# rule 4
@@ -75,6 +79,13 @@ class Location < ActiveRecord::Base
 		end
 	end
 
+	def ignition_is_on?
+		self.ignite
+	end
+
+	def ignition_is_off?
+		!self.ignite
+	end
 
 	# Defining when a car is driving or parked, and the parking, driving duration and pairs start and stop.
 	# So routes can easily be recognized.
@@ -85,35 +96,67 @@ class Location < ActiveRecord::Base
 	# => rule 4 : if a car hasn't change position, don't generate a new location but ignore it.
 	# => rule 5 : there is always a start after a stop
 	def analyze_me
-		if self.is_first_position_of_day? || self.been_parked?
-			self.state = "start"
-			self.set_as_current_step
-			self.reverse_geocode
+		previous = self.previous
 
-			if self.been_parked?
-				self.previous_locations_with_same_time.destroy_all
-				previous = self.previous
+		if self.ignition_is_on?
 
-				if previous.state == "onroad"
-					previous.state = "stop"
-					previous.step = self.step - 1
-					previous.save!
-					previous.reverse_geocode
+			if self.is_first_position_of_day? or self.try(:been_parked?)
 
-					# calculating parking / driving time
-					previous_start_point = self.get_todays_start_locs.last
-					previous_start_point.parking_duration = self.calculate_parking_time
-					previous_start_point.driving_duration = self.calculate_driving_time
-					previous_start_point.save!
+				self.state = "start"
+				self.set_as_current_step
+				self.reverse_geocode
+
+			else
+
+				if self.been_idled?
+					self.state = "idle"
+					self.reverse_geocode
+				else
+					self.state = "onroad"
 				end
 
 			end
 
 		else
-			self.state = "onroad"
+
+			self.state = "stop" if self.been_parked?
+			self.reverse_geocode
+
 		end
 
+		# if self.is_first_position_of_day? || self.been_parked?
+		# 	self.state = "start"
+		# 	self.set_as_current_step
+		# 	self.reverse_geocode
+
+		# 	if self.been_parked?
+		# 		# self.previous_locations_with_same_time.destroy_all
+		# 		previous = self.previous
+
+		# 		if previous.state == "onroad"
+		# 			previous.state = "stop"
+		# 			previous.step = self.step - 1
+		# 			previous.save!
+		# 			previous.reverse_geocode
+
+		# 			# calculating parking / driving time
+		# 			previous_start_point = self.get_todays_start_locs.last
+		# 			previous_start_point.parking_duration = self.calculate_parking_time
+		# 			previous_start_point.driving_duration = self.calculate_driving_time
+		# 			previous_start_point.save!
+		# 		end
+
+		# 	end
+
+		# else
+		# 	self.state = "onroad"
+		# end
+
 		self.save!
+	end
+
+	def duration_since_previous
+		(self.time - self.previous.time).to_i
 	end
 
 	def calculate_parking_time

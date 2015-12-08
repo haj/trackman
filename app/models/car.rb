@@ -69,6 +69,7 @@ class Car < ActiveRecord::Base
 			locations = self.locations.order(:time).select{|l| dates.include? l.time.to_date and (l.state == "start" or l.state == "stop")}
 			.group_by{|l| l.time.to_date}
 			# binding.pry
+			puts locations
 			locations
 		end
 

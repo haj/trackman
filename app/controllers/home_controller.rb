@@ -9,24 +9,18 @@ class HomeController < ApplicationController
 		@cars = Car.all.includes(:device).includes(:car_type)
 	end
 
-	def logbook_data dates=nil
+	def logbook_data
 		# raise params.inspect
 		car_id = params[:car_id]
 		@car = Car.find(params[:car_id])
 
 		unless @car.last_position.nil?
-			@dates = [@car.last_position.time.yesterday.to_date,
-				@car.last_position.time.to_date]
-
 			@dates = [Settings.start_date, Settings.end_date]
 
-			@array_dates = []
-			@dates[0].upto(@dates[1]).each do |date|
-				@array_dates << date
-			end
+			@array_dates = dates_in_range Settings.start_date, Settings.end_date
 
+			logger.warn "Logbook is rendered for : "
 			logger.warn @array_dates
-
 		end
 	end
 
