@@ -121,7 +121,7 @@ class Location < ActiveRecord::Base
 
 			if self.previous.try(:state) == "onroad"
 				self.state = "stop"
-				self.step = self.previous_start_point.step
+				self.step = self.previous_start_point.try(:step)
 				self.reverse_geocode
 			else
 
@@ -229,6 +229,12 @@ class Location < ActiveRecord::Base
 	def self.analyze_locations
 	    Location.order(:time).all.each do |l|
 	    	# Location.where('time = ? and id != ?', l.time, l.id).destroy_all
+		    l.analyze_me
+	    end
+	end
+
+	def self.analyze_locations_of_today
+	    Location.order(:time).where("DATE(time) = ?", DateTime.now.to_date).each do |l|
 		    l.analyze_me
 	    end
 	end
