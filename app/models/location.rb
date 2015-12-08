@@ -110,7 +110,7 @@ class Location < ActiveRecord::Base
 
 		if self.ignition_is_on?
 
-			if self.is_first_position_of_day? or previous.state == "stop"
+			if self.is_first_position_of_day? or (previous.state == "stop" or previous.state == nil)
 
 				self.state = "start"
 				self.set_as_current_step
