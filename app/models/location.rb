@@ -61,8 +61,9 @@ class Location < ActiveRecord::Base
 		if self.previous
 			if self.previous.ignition_is_off?
 				true
+			else
+				false
 			end
-			false
 		else
 			true
 		end

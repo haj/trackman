@@ -19,7 +19,9 @@ class LocationsController < ApplicationController
     l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
         position_id: position_id, status: status)
 
-    l.ignite = ignite if ignite != ""
+    if ignite != ""
+        l.ignite = ignite
+    end
 
     puts l.inspect
 
