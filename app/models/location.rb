@@ -72,7 +72,7 @@ class Location < ActiveRecord::Base
 	end
 
 	def been_idled?
-		(self.duration_since_previous > 300 and self.ignition_is_on? and self.previous.ignition_is_on?) if self.previous
+		self.duration_since_previous > 300
 	end
 
 	# rule 4
@@ -110,7 +110,7 @@ class Location < ActiveRecord::Base
 
 		if self.ignition_is_on?
 
-			if self.been_parked?
+			if self.is_first_position_of_day? or previous.ignition_is_off?
 
 				self.state = "start"
 				self.set_as_current_step
@@ -120,6 +120,7 @@ class Location < ActiveRecord::Base
 
 				if self.been_idled?
 					self.state = "idle"
+					self.step = self.previous_start_point.try(:step)
 					self.reverse_geocode
 				else
 					self.state = "onroad"
@@ -129,12 +130,10 @@ class Location < ActiveRecord::Base
 
 		else
 
-			if self.previous.try(:state) == "onroad" or self.previous.try(:state) == "start" or self.previous.try(:state) == "idle"
+			if previous.ignition_is_on?
 				self.state = "stop"
 				self.step = self.previous_start_point.try(:step)
 				self.reverse_geocode
-			else
-
 			end
 
 		end

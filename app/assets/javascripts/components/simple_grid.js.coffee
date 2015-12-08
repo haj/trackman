@@ -10,4 +10,4 @@ R = React.DOM
           if @props.showHZoomIcon
             R.a className: 'config sizeMapFull-icon', style: {cursor: 'pointer'},
               R.i className: 'fa fa-arrows-h fa-lg', onClick: @props.onClick
-			R.div className: 'grid-body no-border', style: {padding:'0px'}, @props.children
+			R.div className: 'grid-body no-border', style: @props.style, @props.children

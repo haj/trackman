@@ -30,6 +30,9 @@ R = React.DOM
 	componentWillUnmount: ->
 		PubSub.unsubscribe @pubsub
 
+	handleRender: ->
+
+
 	render: ->
 
 		step = (state, step) ->
@@ -37,6 +40,8 @@ R = React.DOM
 				R.a {className: 'badge badge-success'}, step
 			else if state == "stop"
 				R.a {className: 'badge badge-danger'}, step
+			else if state == "idle"
+				R.a {className: 'badge badge-warning'}, step
 
 		duration = (item) ->
 			parking_duration = moment.duration(parseInt(item.parking_duration), "seconds").format("h [hrs], m [min]")
@@ -44,7 +49,7 @@ R = React.DOM
 			if item.parking_duration || item.driving_duration
 				"P : #{parking_duration} | D : #{driving_duration}"
 
-		React.createElement SimpleGrid, title: 'LogBook',
+		React.createElement SimpleGrid, title: 'LogBook', style: {padding: '0px', minHeight: '100px'},
 			if @state.loading == "loading"
 				R.div {className: 'row', style: {padding: '10px'}},
 					R.div {className: 'col-md-12'},
