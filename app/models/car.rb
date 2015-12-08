@@ -111,12 +111,18 @@ class Car < ActiveRecord::Base
 
 
 		def last_seen
-			unless self.last_position.nil?
-				unless self.last_position.time.nil?
-					return time_ago_in_words(self.last_position.time)
+			unless self.last_active_position.nil?
+				unless self.last_active_position.time.nil?
+					return time_ago_in_words(self.last_active_position.time)
 				end
 			end
 			"-"
+		end
+
+		def last_active_position
+			unless self.device.nil?
+				return self.device.locations.where(:state => ["start", "stop", "onroad", "idle"]).last
+			end
 		end
 
 		# Generate a hash with latitude and longitude of the car (fetched through the device GPS data)
