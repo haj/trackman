@@ -23,55 +23,24 @@ SetIntervalMixin =
 		{tableColumns: ['Type', 'Vehicle', 'Info', 'Location', 'Last Seen', 'Speed']}
 
 	componentWillMount: ->
-		# console.log "componentWillMount in CarsOverview Component"
-		# console.log @state.cars
-		# console.log @props.cars
-		# @fetchData()
-		# @setInterval @fetchData, 10000
-		# @setState cars: @props.data
 
 	componentWillReceiveProps: (props) ->
 		@setState cars: props.cars
-		# console.log "componentWillReceiveProps CarsOverview (state) =>"
-		# console.log @state.cars
-		# console.log "componentWillReceiveProps (props) : "+@props.cars
 
 	componentDidMount: ->
-		# console.log "Did mount cars_overview"
-		# console.log @refs.trs
-		# console.log "componentDidMount CarsOverview (state) =>"
-		# @setState cars: @props.data
-		# console.log @state.cars
-		# console.log "componentDidMount (props): "+@props.cars
 
 	componentWillUpdate: (nextProps, nextState) ->
 		console.log "will update"
 		console.log nextState.selected
 
-	focused: (id) ->
-		# if @state.selected == id
-		if false
-			"black"
-		else
-		 	""
-
 	handleFilter: (filtered) ->
 		@setState filtered: filtered
-		# @forceUpdate()
-
-	# setActiveRow: (id) ->
-	# 	@setState selected: id
 
 	showLogbook: (props) ->
 		console.log "showLogbook clicked : "
-		# @getDOMNode.toggleClass "col-md-12"
-		# console.log $(@getDOMNode())
-		# @setState selected: @getDOMNode
-		# @color = "col-md-6"
 		@setState selected: props.id
 		PubSub.publish 'show_logbook', props
 		PubSub.publish 'select_car', props
-		# if !isNaN(props.lat) || !isNaN(props.lon)
 
 	render: ->
 		R.div className: 'grid simple cars_overview overview h-scroll dragme',
