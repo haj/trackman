@@ -195,19 +195,13 @@ class Location < ActiveRecord::Base
 		self.time.strftime('%H:%M:%S')
 	end
 
-	def self.resolve_ignite
-		Location.where("DATE(time) = ?", DateTime.now.to_date).each do |l|
-			position = Traccar::Position.find l.position_id
-    	jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other))
-    	ignite = JSON[jsoned_xml]["info"]["power"]
-    	l.ignite = ignite if ignite != ""
-    	l.analyze_me
-		end
-	end
-
-	def self.reset_locations_all
-	    Traccar::Position.each do |p|
-	        p.location = Location.create(address: p.address, device_id: p.deviceId, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
+	def self.reset_locations_of_today
+			Location.where("DATE(time) = ?", DateTime.now.to_date).destroy_all
+	    Traccar::Position.where("DATE(time) = ?", DateTime.now.to_date).each do |p|
+	        p.location = Location.create(device_id: p.deviceId, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
+		    	jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
+		    	ignite = JSON[jsoned_xml]["info"]["power"]
+		    	l.ignite = ignite if ignite != ""
 	    end
 	    analyze_locations
 	end
