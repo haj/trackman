@@ -100,15 +100,18 @@ class Location < ActiveRecord::Base
 
 		if self.ignition_is_on?
 
-			if self.is_first_position_of_day? or previous.try(:ignition_is_off?)
+			if self.is_first_position_of_day?
 
 				self.state = "start"
 				self.set_as_current_step
 				self.reverse_geocode
 
-			else
+			elsif !previous.nil?
 
-				if self.been_idled?
+				if previous.ignition_is_off?
+					self.state = "start"
+					self.reverse_geocode
+				elsif self.been_idled?
 					self.state = "idle"
 					self.reverse_geocode
 				else
