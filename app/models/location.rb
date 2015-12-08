@@ -201,7 +201,8 @@ class Location < ActiveRecord::Base
 	        p.location = Location.create(device_id: p.deviceId, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
 		    	jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
 		    	ignite = JSON[jsoned_xml]["info"]["power"]
-		    	l.ignite = ignite if ignite != ""
+		    	p.location.ignite = ignite if ignite != ""
+		    	p.location.save!
 	    end
 	    analyze_locations
 	end
