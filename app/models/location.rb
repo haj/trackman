@@ -115,11 +115,11 @@ class Location < ActiveRecord::Base
 				self.state = "start"
 				self.set_as_current_step
 				self.reverse_geocode
-				puts "current : "
-				puts self.inspect
+				logger.warn "current : "
+				logger.warn self.inspect
 				if self.previous
-					puts "previous : "
-					puts self.previous.inspect
+					logger.warn "previous : "
+					logger.warn self.previous.inspect
 				end
 
 			else
