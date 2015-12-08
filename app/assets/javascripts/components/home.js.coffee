@@ -8,13 +8,13 @@ R = React.DOM
   componentWillMount: ->
     @fetchData()
     setInterval @fetchData, 5000
-    @pubsub = PubSub.subscribe "toggleWidthView", ((map) ->
-      if @MapStyle == "col-md-6 no-padding" and @OverviewStyle == "col-md-6 no-padding"
-        @fullWidthView()
-      else
-        @halfWidthView()
-      google.maps.event.trigger(map, "resize")
-    ).bind(@)
+    # @pubsub = PubSub.subscribe "toggleWidthView", ((map) ->
+    #   if @MapStyle == "col-md-6 no-padding" and @OverviewStyle == "col-md-6 no-padding"
+    #     @fullWidthView()
+    #   else
+    #     @halfWidthView()
+    #   google.maps.event.trigger(map, "resize")
+    # ).bind(@)
 
   componentWillUnmount: ->
     @pubsub.unsubscribe
