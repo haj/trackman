@@ -119,8 +119,12 @@ class Location < ActiveRecord::Base
 
 		else
 
-			self.state = "stop" if self.been_parked?
-			self.reverse_geocode
+			if self.previous.state == "onroad"
+				self.state = "stop"
+				self.reverse_geocode
+			else
+
+			end
 
 		end
 
@@ -196,7 +200,7 @@ class Location < ActiveRecord::Base
 	end
 
 	def self.reset_locations_of_today
-			Location.where("DATE(time) = ?", DateTime.now.to_date).destroy_all
+			# Location.where("DATE(time) = ?", DateTime.now.to_date).destroy_all
 	    Traccar::Position.where("DATE(fixTime) = ?", DateTime.now.to_date).each do |p|
 	    		device = Device.find_by_emei(Traccar::Device.find(p.deviceId).uniqueId)
 	        l = Location.create(device_id: device.id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
