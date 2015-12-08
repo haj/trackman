@@ -58,11 +58,11 @@ class Location < ActiveRecord::Base
 
 	# rule 3
 	def been_parked?
-		self.duration_since_previous > 300 and self.previous.ignition_is_off?
+		(self.duration_since_previous > 300 and self.previous.ignition_is_off?) if self.previous
 	end
 
 	def been_idled?
-		self.duration_since_previous > 300 and self.ignition_is_on? and self.previous.ignition_is_on?
+		(self.duration_since_previous > 300 and self.ignition_is_on? and self.previous.ignition_is_on?) if self.previous
 	end
 
 	# rule 4
