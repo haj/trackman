@@ -119,7 +119,7 @@ class Location < ActiveRecord::Base
 
 		else
 
-			if self.previous.state == "onroad"
+			if self.previous.try(:state) == "onroad"
 				self.state = "stop"
 				self.reverse_geocode
 			else
