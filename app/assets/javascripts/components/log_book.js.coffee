@@ -49,7 +49,7 @@ R = React.DOM
 			if item.parking_duration || item.driving_duration
 				"P : #{parking_duration} | D : #{driving_duration}"
 
-		React.createElement SimpleGrid, title: 'LogBook', style: {padding: '0px', minHeight: '100px'},
+		React.createElement SimpleGrid, title: 'LogBook', style: {padding: '0px', minHeight: '60px'},
 			if @state.loading == "loading"
 				R.div {className: 'row', style: {padding: '10px'}},
 					R.div {className: 'col-md-12'},

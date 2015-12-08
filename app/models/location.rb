@@ -110,11 +110,17 @@ class Location < ActiveRecord::Base
 
 		if self.ignition_is_on?
 
-			if self.is_first_position_of_day? or (previous.state == "stop" or previous.state == nil)
+			if self.is_first_position_of_day? or (previous.state == "stop" or previous.state == "signal")
 
 				self.state = "start"
 				self.set_as_current_step
 				self.reverse_geocode
+				puts "current : "
+				puts self.inspect
+				if self.previous
+					puts "previous : "
+					puts self.previous.inspect
+				end
 
 			else
 
@@ -134,6 +140,8 @@ class Location < ActiveRecord::Base
 				self.state = "stop"
 				self.step = self.previous_start_point.try(:step)
 				self.reverse_geocode
+			else
+				self.state = "signal"
 			end
 
 		end
