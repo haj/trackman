@@ -156,7 +156,7 @@ class Location < ActiveRecord::Base
 	end
 
 	def duration_since_previous
-		(self.time - self.previous.time).to_i
+		(self.time - self.previous.try(:time)).to_i
 	end
 
 	def calculate_parking_time
