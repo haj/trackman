@@ -197,7 +197,7 @@ class Location < ActiveRecord::Base
 
 	def self.reset_locations_of_today
 			Location.where("DATE(time) = ?", DateTime.now.to_date).destroy_all
-	    Traccar::Position.where("DATE(time) = ?", DateTime.now.to_date).each do |p|
+	    Traccar::Position.where("DATE(fixTime) = ?", DateTime.now.to_date).each do |p|
 	        p.location = Location.create(device_id: p.deviceId, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
 		    	jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
 		    	ignite = JSON[jsoned_xml]["info"]["power"]
