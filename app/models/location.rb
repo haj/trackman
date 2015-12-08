@@ -59,13 +59,13 @@ class Location < ActiveRecord::Base
 	# rule 3
 	def been_parked?
 		if self.previous
-			if self.previous.state == "stop"
+			if self.previous.ignition_is_off?
 				true
 			end
+			false
 		else
 			true
 		end
-		false
 	end
 
 	def been_idled?
@@ -115,10 +115,7 @@ class Location < ActiveRecord::Base
 
 			else
 
-				if previous.ignition_is_off?
-					self.state = "start"
-					self.reverse_geocode
-				elsif self.been_idled?
+				if self.been_idled?
 					self.state = "idle"
 					self.reverse_geocode
 				else
