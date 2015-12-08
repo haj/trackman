@@ -198,13 +198,16 @@ class Location < ActiveRecord::Base
 	def self.reset_locations_of_today
 			Location.where("DATE(time) = ?", DateTime.now.to_date).destroy_all
 	    Traccar::Position.where("DATE(fixTime) = ?", DateTime.now.to_date).each do |p|
-	        p.location = Location.create(device_id: p.deviceId, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
+	    		device = Device.find_by_emei(Traccar::Device.find(p.deviceId).uniqueId)
+	        l = Location.create(device_id: device.id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
 		    	jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
 		    	ignite = JSON[jsoned_xml]["info"]["power"]
-		    	p.location.ignite = ignite if ignite != ""
-		    	p.location.save!
+		    	l.ignite = ignite if ignite != ""
+		    	l.save!
 	    end
-	    analyze_locations
+	    Location.order(:time).where("DATE(time) = ?", DateTime.now.to_date).each do |l|
+		    l.analyze_me
+	    end
 	end
 
 	def self.reset_locations
