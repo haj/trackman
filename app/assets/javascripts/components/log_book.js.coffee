@@ -30,8 +30,14 @@ R = React.DOM
 	componentWillUnmount: ->
 		PubSub.unsubscribe @pubsub
 
-	handleRender: ->
-
+	renderMessage: (msg) ->
+		R.div {className: 'row', style: {padding: '10px'}},
+			R.div {className: 'text-center'},
+				R.p {className: 'semi-bold', style: {marginBottom: '0px'}},
+					switch msg
+						when "loading" then "Loading..."
+						when "nothing" then "No data found"
+						when "nope" then "Select a car"
 
 	render: ->
 
@@ -49,12 +55,10 @@ R = React.DOM
 			if item.parking_duration || item.driving_duration
 				"P : #{parking_duration} | D : #{driving_duration}"
 
-		React.createElement SimpleGrid, title: 'LogBook', style: {padding: '0px', minHeight: '60px'},
-			if @state.loading == "loading"
-				R.div {className: 'row', style: {padding: '10px'}},
-					R.div {className: 'col-md-12'},
-						R.h4 {className: 'pull-left', style: {marginBottom: '0px'}}, "Loading..."
-			else if @state.loading == "done"
+		React.createElement SimpleGrid, title: 'LogBook', style: {padding: '0px'},
+			unless @state.loading == "done"
+				@renderMessage @state.loading
+			else
 				for x in @state.data
 					R.div null,
 						R.table className: 'table',
@@ -75,14 +79,6 @@ R = React.DOM
 									R.td className: 'col-md-2', duration item
 									R.td className: 'col-md-6', item.address
 									R.td className: 'col-md-2', "#{Math.floor(item.speed)} km/h"
-			else if @state.loading == "nothing"
-				R.div {className: 'row', style: {padding: '10px'}},
-					R.div {className: 'col-md-12'},
-						R.h4 {className: 'pull-left', style: {marginBottom: '0px'}}, "No data, select an older date."
-			else if @state.loading == "nope"
-				R.div {className: 'row', style: {padding: '10px'}},
-					R.div {className: 'col-md-12'},
-						R.h4 {className: 'pull-left', style: {marginBottom: '0px'}}, "Select a car"
 
 
 
