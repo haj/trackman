@@ -7,34 +7,20 @@ R = React.DOM
 
   componentWillMount: ->
     @fetchData()
-    setInterval @fetchData, 5000
-    # @pubsub = PubSub.subscribe "toggleWidthView", ((map) ->
-    #   if @MapStyle == "col-md-6 no-padding" and @OverviewStyle == "col-md-6 no-padding"
-    #     @fullWidthView()
-    #   else
-    #     @halfWidthView()
-    #   google.maps.event.trigger(map, "resize")
-    # ).bind(@)
-
-  # componentWillUnmount: ->
-  #   @pubsub.unsubscribe
+    @interval = setInterval @fetchData, 5000
+    $(window).focus (() ->
+      @fetchData()
+      clearInterval(@interval)
+      @interval = setInterval @fetchData, 5000
+    ).bind(@)
+    $(window).focusout (() ->
+      clearInterval(@interval)
+    ).bind(@)
 
   fetchData: ->
     $.getJSON @props.carsOverviewPath, ((data) ->
       @setState cars: data
     ).bind(@)
-
-  fullWidthView: ->
-    console.log @refs.mapRef
-    React.findDOMNode(@refs.mapRef).toggleClass("col-md-6 no-padding")
-    React.findDOMNode(@refs.overviewRef).toggleClass("col-md-6 no-padding")
-    alert "finished resizing container"
-
-  halfWidthView: ->
-    console.log @refs.mapRef
-    React.findDOMNode(@refs.mapRef).toggleClass("col-md-6 no-padding")
-    React.findDOMNode(@refs.overviewRef).toggleClass("col-md-6 no-padding")
-    alert "finished resizing container"
 
   render: ->
     console.log "Rendering Home Component..."
