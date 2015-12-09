@@ -64,7 +64,7 @@ SetIntervalMixin =
 								for key of @state.cars
 									car = @state.cars[key]
 									React.createElement CarsOverviewRow, active: (@state.selected == car.id), key: car.id, onSelect: @showLogbook, car: car
-							R.div className: "",
+							R.div {className: ""},
 								R.div className: "row",
 									R.div className: "col-md-12",
 										R.div className: "pull-right",
