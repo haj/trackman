@@ -1,6 +1,6 @@
 R = React.DOM
 
-@CarsOverviewRow = React.createClass
+module.exports = React.createClass
 
   handleClick: (e) ->
     e.preventDefault()

@@ -1,6 +1,9 @@
 R = React.DOM
 
-@LogBook = React.createClass
+SimpleTable = require('./simple_table')
+SimpleGrid = require('./simple_grid')
+
+module.exports = React.createClass
 
 	getInitialState: ->
 		{data: [], car_id: [], loading: "nope"}

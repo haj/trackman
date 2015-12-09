@@ -32,8 +32,6 @@
 #
 # Core Require.
 #= require ./libraries/core
-#= require ./libraries/chat
-#= require ./libraries/demo
 #= require ./views/helpers/batch_action
 #
 # Our stuff Require.
@@ -55,19 +53,14 @@
 #= require ./libraries/query_report
 #= require bower_components/momentjs/min/moment.min
 #= require bower_components/pubsub-js/src/pubsub
+#= require bower_components/moment-duration-format/lib/moment-duration-format
 #
 # ########################### Views
 #= require_tree ./views
 
 #= require turbolinks
 
-# ############## R(ock)eact
-#= require react
-#= require react_ujs
-#= require bower_components/react-bootstrap/react-bootstrap.min
-#= require bower_components/react-motion/build/react-motion
-#= require bower_components/moment-duration-format/lib/moment-duration-format.js
-#= require react_bootstrap
+# React
 #= require components
 
 ready = ->
@@ -79,21 +72,6 @@ ready = ->
   window.currentView.render()
 
 $(document).ready(ready)
-# $(document).on('ready page:load', ready)
-# $(document).on('page:change', ready)
-  # $(document).on 'page:load', pageLoad
-  # $(document).on 'page:change', pageLoad
-
-  # $(document).on 'page:restore', pageLoad
-    # $(document).on 'page:restore', pageLoad
-    # $(document).on 'page:before-change', ->
-    #   window.currentView.cleanup()
-    #   true
-    # $(document).on 'page:restore', ->
-    #   window.currentView.cleanup()
-    #   pageLoad()
-    #   true
-
 
 
 

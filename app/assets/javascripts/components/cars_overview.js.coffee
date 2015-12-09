@@ -1,5 +1,8 @@
 R = React.DOM
 
+SimpleTable = require('./simple_table')
+CarsOverviewRow = require('./cars_overview_row')
+
 SetIntervalMixin =
   componentWillMount: ->
     @intervals = []
@@ -10,7 +13,7 @@ SetIntervalMixin =
   componentWillUnmount: ->
     @intervals.map clearInterval
 
-@CarsOverview = React.createClass
+module.exports = React.createClass
 
 	mixins: [SetIntervalMixin]
 
@@ -44,13 +47,6 @@ SetIntervalMixin =
 			R.div className: 'grid-title border-only-bot',
 				R.h4 className: "title-inline", "Overview"
 
-				# R.span className: 'options',
-				# 	R.ul className: '',
-				# 		R.li className: '',
-				# 			R.a {ref: "all_cars_click", href: "#", onClick: @handleFilter.bind(null, "All")}, "All"
-				# 		R.li className: '',
-				# 			R.a {ref: "active_cars_click", href: "#", onClick: @handleFilter.bind(null, "Active")}, "Active"
-
 			R.div className: 'grid-body no-border', style: {padding:'0px'},
 				R.div className: "lazy_content #{"loaded" if @state.loaded}",
 					if @state.cars.length == 0
@@ -69,6 +65,5 @@ SetIntervalMixin =
 									R.div className: "col-md-12",
 										R.div className: "pull-right",
 											R.button {className: "btn btn-white btn-small btn-sm btn-cons", disabled: "#{if @state.selected then '' else 'disabled'}", onClick: @handleClearSelected}, "Clear selected"
-											# R.button className: "btn btn-primary btn-xs btn-mini btn-cons", "New car"
 
 

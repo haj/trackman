@@ -1,0 +1,20 @@
+{
+  "name": "trackman",
+  "dependencies": {
+    "browserify": "~> 10.2.4",
+    "browserify-incremental": "^3.0.1",
+    "coffeeify": "~> 0.6",
+    "whatwg-fetch": "~> 0.10.1",
+    "reactify": "~> 1.1.1"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">= 0.10"
+  },
+  "devDependencies": {
+    "watchify": "^3.6.1"
+  },
+  "scripts": {
+    "start": "rails s"
+  }
+}

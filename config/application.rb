@@ -29,6 +29,12 @@ module Trackman
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    config.react.variant      = :production
+    config.react.addons       = true
+
+    config.browserify_rails.commandline_options = "-t coffeeify --extension=\".js.coffee\""
+    #config.browserify_rails.commandline_options << "-t reactify --extension=\".js.jsx\"  --extension=\".js.coffee.erb\" --extension=\".js.coffee.jsx\""
+
     config.assets.paths << "#{Rails.root}/app/assets/fonts"
     config.assets.precompile += %w( .svg .eot .woff .ttf .otf)
 

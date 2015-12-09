@@ -164,7 +164,7 @@ end
 gem 'rails-observers'
 
 # gem 'rack-mini-profiler'
-# gem 'sprockets-coffee-react'
+gem 'sprockets-coffee-react'
 
 gem "gelf"
 gem "lograge"
@@ -177,4 +177,5 @@ gem 'react-rails', '~> 1.3.0'
 gem "headjs-rails"
 gem "bower-rails"
 gem 'react-bootstrap-rails'
+gem 'browserify-rails'
 

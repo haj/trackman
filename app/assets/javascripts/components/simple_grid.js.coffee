@@ -1,6 +1,6 @@
 R = React.DOM
 
-@SimpleGrid = React.createClass
+module.exports = React.createClass
 
 	render: ->
 		R.div className: 'grid simple h-scroll dragme',

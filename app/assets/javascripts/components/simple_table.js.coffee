@@ -1,6 +1,6 @@
 R = React.DOM
 
-@SimpleTable = React.createClass
+module.exports = React.createClass
 
 	render: ->
 		window.children = @props.children
