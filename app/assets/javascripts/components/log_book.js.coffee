@@ -24,11 +24,17 @@ R = React.DOM
 						self.setState loading: "done"
 				error: (data) ->
 					self.setState data: []
+		).bind(@)
 
+		@pubsub_clear_selected_car = PubSub.subscribe 'clearSelectedCar', (() ->
+			@setState
+				data: []
+				loading: "nope"
 		).bind(@)
 
 	componentWillUnmount: ->
 		PubSub.unsubscribe @pubsub
+		PubSub.unsubscribe @pubsub_clear_selected_car
 
 	renderMessage: (msg) ->
 		R.div {className: 'row', style: {padding: '10px'}},

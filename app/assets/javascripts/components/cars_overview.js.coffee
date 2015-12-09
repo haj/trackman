@@ -12,32 +12,29 @@ SetIntervalMixin =
 
 @CarsOverview = React.createClass
 
-	color: "black"
-
 	mixins: [SetIntervalMixin]
 
 	getInitialState: ->
-		{cars: [], selected: null, filtered: null, loaded: false}
+		{cars: @props.cars, selected: null, filtered: null, loaded: false}
 
 	getDefaultProps: ->
 		{tableColumns: ['Type', 'Vehicle', 'Info', 'Location', 'Last Seen', 'Speed']}
 
+	componentWillMount: ->
+
 	componentWillReceiveProps: (props) ->
 		@setState cars: props.cars
 		@handleLoadedData()
-
-	componentWillUpdate: (nextProps, nextState) ->
-		console.log "will update"
-		console.log nextState.selected
-
-	handleFilter: (filtered) ->
-		@setState filtered: filtered
 
 	showLogbook: (props) ->
 		console.log "showLogbook clicked : "
 		@setState selected: props.id
 		PubSub.publish 'show_logbook', props
 		PubSub.publish 'select_car', props
+
+	handleClearSelected: ->
+		@setState selected: null
+		PubSub.publish 'clearSelectedCar'
 
 	handleLoadedData: ->
 		@setState loaded: true
@@ -62,10 +59,16 @@ SetIntervalMixin =
 								R.h5 {className: 'pull-left', style: {marginBottom: '0px'}}, "No cars registered yet."
 								React.createElement Button, {bsStyle: 'primary', bsSize: 'xsmall', className: 'pull-right', href: '/cars/new'}, "New car"
 					else
-						React.createElement SimpleTable, {columns: @props.tableColumns},
-							@state.cars.map ((data) ->
-								React.createElement CarsOverviewRow, active: (@state.selected == data.id), key: data.id, onSelect: @showLogbook, data: data
-							).bind(@)
-
+						R.div null,
+							React.createElement SimpleTable, {columns: @props.tableColumns},
+								for key of @state.cars
+									car = @state.cars[key]
+									React.createElement CarsOverviewRow, active: (@state.selected == car.id), key: car.id, onSelect: @showLogbook, car: car
+							R.div className: "",
+								R.div className: "row",
+									R.div className: "col-md-12",
+										R.div className: "pull-right",
+											R.button {className: "btn btn-white btn-small btn-sm btn-cons", disabled: "#{if @state.selected then '' else 'disabled'}", onClick: @handleClearSelected}, "Clear selected"
+											# R.button className: "btn btn-primary btn-xs btn-mini btn-cons", "New car"
 
 

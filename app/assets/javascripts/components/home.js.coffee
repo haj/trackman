@@ -16,14 +16,12 @@ R = React.DOM
     #   google.maps.event.trigger(map, "resize")
     # ).bind(@)
 
-  componentWillUnmount: ->
-    @pubsub.unsubscribe
+  # componentWillUnmount: ->
+  #   @pubsub.unsubscribe
 
   fetchData: ->
     $.getJSON @props.carsOverviewPath, ((data) ->
       @setState cars: data
-      console.log "Data received in Home Component..."
-      console.log @state.cars
     ).bind(@)
 
   fullWidthView: ->
@@ -44,7 +42,7 @@ R = React.DOM
 
       # Map
       R.div {className: "col-md-6 no-padding", ref: "mapRef"},
-        React.createElement Map, carsIndexPath: @props.carsIndexPath, cars: @state.cars
+        React.createElement Map, carsIndexPath: @props.carsIndexPath, cars: @state.cars, title: "All vehicles"
 
       # Cars Overview
       R.div {className: "col-md-6 no-padding", ref: "overviewRef"},

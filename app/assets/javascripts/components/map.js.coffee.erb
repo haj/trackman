@@ -9,7 +9,7 @@ R = React.DOM
   selectedMarker: null
 
   getInitialState: ->
-    {cars: [], title: "All vehicles", gmap: null, selectedCar: null}
+    {cars: @props.cars, gmap: null, selectedCar: null}
 
   componentWillMount: ->
     @pubsub = PubSub.subscribe "select_car", ((topic, props) ->
@@ -24,12 +24,20 @@ R = React.DOM
         @highlightMarker props.name
       else
         @setState selectedCar: null
-        @setState title: "All vehicles"
+        @setState title: null
         @fitBounds()
+    ).bind(@)
+
+    @pubsub_clear_selected_car = PubSub.subscribe 'clearSelectedCar', (() ->
+      @setState
+        selectedCar: null
+        title: null
+      @fitBounds()
     ).bind(@)
 
   componentWillUnmount: ->
     PubSub.unsubscribe @pubsub
+    PubSub.unsubscribe @pubsub_clear_selected_car
 
   componentDidMount: ->
     @setState gmap: @createMap()
@@ -159,7 +167,7 @@ R = React.DOM
   render: ->
     R.div className: 'grid simple h-scroll dragme',
       R.div className: 'grid-title border-only-bot',
-        R.h4 null, @state.title
+        R.h4 null, @state.title || @props.title
         R.div className: 'tools',
           # R.a className: 'config sizeMapFull-icon', style: {cursor: 'pointer'},
           #   R.i className: 'fa fa-arrows-h fa-lg', onClick: @resizeMap
