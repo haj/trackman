@@ -1,17 +1,21 @@
 R = React.DOM
 
+IntervalMixin = require('./utils/interval_mixin')
+
 LogBook = require('./log_book')
 CarsOverview = require('./cars_overview')
 Map = require('./map')
 
 module.exports = React.createClass
 
+  mixins: [IntervalMixin]
+
   getInitialState: ->
     {cars: []}
 
   componentWillMount: ->
     @fetchData()
-    @interval = setInterval @fetchData, 5000
+    @setInterval @fetchData, 5000
 
   fetchData: ->
     $.getJSON @props.carsOverviewPath, ((data) ->

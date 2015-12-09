@@ -3,19 +3,7 @@ R = React.DOM
 SimpleTable = require('./simple_table')
 CarsOverviewRow = require('./cars_overview_row')
 
-SetIntervalMixin =
-  componentWillMount: ->
-    @intervals = []
-
-  setInterval: ->
-    @intervals.push setInterval.apply(null, arguments)
-
-  componentWillUnmount: ->
-    @intervals.map clearInterval
-
 module.exports = React.createClass
-
-	mixins: [SetIntervalMixin]
 
 	getInitialState: ->
 		{cars: @props.cars, selected: null, filtered: null, loaded: false}
