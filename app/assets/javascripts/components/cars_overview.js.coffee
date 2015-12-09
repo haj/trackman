@@ -18,7 +18,7 @@ SetIntervalMixin =
 		{cars: @props.cars, selected: null, filtered: null, loaded: false}
 
 	getDefaultProps: ->
-		{tableColumns: ['Type', 'Vehicle', 'Info', 'Location', 'Last Seen', 'Speed']}
+		{tableColumns: ['Type', 'Vehicle', 'Location', 'Last Seen', 'Speed']}
 
 	componentWillMount: ->
 
