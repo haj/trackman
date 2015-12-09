@@ -140,6 +140,11 @@ class Location < ActiveRecord::Base
 				self.state = "stop"
 				self.step = self.previous_start_point.try(:step)
 				self.reverse_geocode
+				# calculating parking / driving time
+				previous_start_point = self.get_todays_start_locs.last
+				previous_start_point.parking_duration = self.calculate_parking_time
+				previous_start_point.driving_duration = self.calculate_driving_time
+				previous_start_point.save!
 			else
 				self.state = "signal"
 			end
