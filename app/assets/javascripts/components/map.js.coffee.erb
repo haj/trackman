@@ -47,7 +47,7 @@ R = React.DOM
     # google.maps.event.addListener @state.gmap, 'zoom_changed', => @handleZoomChange
 
   setMapTitle: (name, last_seen) ->
-    name + " | " + last_seen
+    name + " | " + moment(last_seen).fromNow()
 
   initialFitBounds: ->
     unless @didFitBounds
