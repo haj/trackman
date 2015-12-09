@@ -113,7 +113,7 @@ class Car < ActiveRecord::Base
 		def last_seen
 			unless self.last_active_position.nil?
 				unless self.last_active_position.time.nil?
-					return time_ago_in_words(self.last_active_position.time)
+					return self.last_active_position.time
 				end
 			end
 			"-"
