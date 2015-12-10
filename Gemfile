@@ -164,7 +164,7 @@ end
 gem 'rails-observers'
 
 # gem 'rack-mini-profiler'
-gem 'sprockets-coffee-react'
+# gem 'sprockets-coffee-react'
 
 gem "gelf"
 gem "lograge"
@@ -173,9 +173,10 @@ gem 'wkhtmltopdf-binary'
 gem 'prawn'
 gem 'prawn-table'
 
-gem 'react-rails', '~> 1.3.0'
+gem 'react-rails', '~> 1.4.0'
 gem "headjs-rails"
 gem "bower-rails"
 gem 'react-bootstrap-rails'
 gem 'browserify-rails'
+# gem 'react-router-rails', '~>0.13.3.2'
 
