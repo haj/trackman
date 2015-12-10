@@ -5,6 +5,7 @@ IntervalMixin = require('./utils/interval_mixin')
 LogBook = require('./log_book')
 CarsOverview = require('./cars_overview')
 Map = require('./map')
+Hello = require('./hello')
 
 module.exports = React.createClass
 
