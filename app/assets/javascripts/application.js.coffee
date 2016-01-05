@@ -24,6 +24,7 @@
 #= require ./libraries/page/jquery.dataTables.min
 #= require ./libraries/page/TableTools.min
 #= require ./libraries/datatables.responsive
+#= require ./libraries/page/d3
 #= require_directory ./libraries/page
 #
 # Before Core Require
