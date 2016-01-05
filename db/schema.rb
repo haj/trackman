@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151206223209) do
+ActiveRecord::Schema.define(version: 20151228174301) do
 
   create_table "alarm_notifications", force: true do |t|
     t.integer  "car_id"
@@ -228,6 +228,9 @@ ActiveRecord::Schema.define(version: 20151206223209) do
     t.string   "status"
     t.integer  "step"
     t.boolean  "ignite"
+    t.float    "avg",              limit: 24
+    t.float    "max",              limit: 24
+    t.float    "min",              limit: 24
   end
 
   create_table "mailboxer_conversation_opt_outs", force: true do |t|

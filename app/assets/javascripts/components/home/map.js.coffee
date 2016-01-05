@@ -5,14 +5,20 @@ module.exports = React.createClass
   markers: []
   infoWindows: []
   bounds: new google.maps.LatLngBounds()
+  routeBounds : new google.maps.LatLngBounds()
   didFitBounds: false
   selectedMarker: null
+  routePath: null
+  directionsDisplay: new google.maps.DirectionsRenderer
+  directionsService: new google.maps.DirectionsService
 
   getInitialState: ->
     {cars: @props.cars, gmap: null, selectedCar: null}
 
   componentWillMount: ->
-    @pubsub = PubSub.subscribe "select_car", ((topic, props) ->
+
+    # event coming from CarsOverview
+    @pubsub = PubSub.subscribe "show_car_on_map", ((topic, props) ->
       console.log "Selected Car : "
       console.log props
       @createMap() if @state.gmap == null
@@ -28,6 +34,7 @@ module.exports = React.createClass
         @fitBounds()
     ).bind(@)
 
+    # event coming from CarsOverview
     @pubsub_clear_selected_car = PubSub.subscribe 'clearSelectedCar', (() ->
       @setState
         selectedCar: null
@@ -35,16 +42,91 @@ module.exports = React.createClass
       @fitBounds()
     ).bind(@)
 
+    # event coming from LogBook
+    @pubsub_show_route = PubSub.subscribe 'showRoute', ((topic, data) ->
+      @routePath.setMap null if @routePath
+      @calcRouteDirectionService data
+      @fitBounds()
+    ).bind(@)
+
   componentWillUnmount: ->
     PubSub.unsubscribe @pubsub
     PubSub.unsubscribe @pubsub_clear_selected_car
+    PubSub.unsubscribe @pubsub_show_route
 
   componentDidMount: ->
     @setState gmap: @createMap()
-    # google.maps.event.trigger(@state.gmap, 'resize', () -> alert "resized")
-    # google.maps.event.trigger(@state.gmap, "resize");
-    # @infoWindow = @createInfoWindow()
-    # google.maps.event.addListener @state.gmap, 'zoom_changed', => @handleZoomChange
+
+  calcRouteDirectionService: (data) ->
+    console.log "calc route using direction service"
+    self = @
+    console.log data
+    origin_lat = data[0].latitude
+    origin_lng = data[0].longitude
+    destin_lat = data[data.length-1].latitude
+    destin_lng = data[data.length-1].longitude
+
+    origin = new (google.maps.LatLng)(origin_lat, origin_lng)
+    destination = new (google.maps.LatLng)(destin_lat, destin_lng)
+
+    waypts = []
+    i = 1
+    while i < data.length - 2
+        # status = data[i].infowindow.split('/')[1]
+        if data[i].state == "start" and waypts.length <= 8
+            waypts.push
+                location: new (google.maps.LatLng)(data[i].latitude, data[i].longitude)
+                stopover: true
+        i++
+
+    waypts.pop()
+    console.log waypts.length
+
+    request =
+        origin: origin
+        destination: destination
+        travelMode: google.maps.TravelMode.DRIVING
+        waypoints: waypts
+        optimizeWaypoints: true
+
+    @directionsService.route request, (response, status) ->
+        console.log response
+        if status == google.maps.DirectionsStatus.OK
+            self.directionsDisplay.setDirections response
+            window.directionsDisplayResponse = response
+        else
+          console.log status + ", Calculating using polylines"
+          self.calcRoutePolyline data
+        return
+
+    @directionsDisplay.setMap @state.gmap
+
+  calcRoutePolyline: (data) ->
+    console.log "calc route using polylines"
+    routeCoordinates = []
+
+    for l in data
+
+      point =
+        lat: l.latitude
+        lng: l.longitude
+
+      routeCoordinates.push point
+
+    console.log routeCoordinates.length
+    console.log routeCoordinates
+
+    @routePath = new google.maps.Polyline
+      path: routeCoordinates
+      geodesic: false
+      strokeColor: '#FF0000'
+      strokeOpacity: 1.0
+      strokeWeight: 2
+
+    @routePath.setMap @state.gmap
+    @zoomToObject @routePath
+    # @state.gmap.setCenter @routeBounds.getCenter()
+    # @state.gmap.setCenter @routePath.getCenter
 
   setMapTitle: (name, last_seen) ->
     name + " | " + moment(last_seen).fromNow()
@@ -123,6 +205,7 @@ module.exports = React.createClass
       el if el.title == name
     @selectedMarker = marker[0]
     @selectedMarker.setAnimation google.maps.Animation.BOUNCE if marker != null
+    @routePath.setMap null if @routePath
 
   clearMarkers: ->
     for marker in @markers
@@ -144,6 +227,15 @@ module.exports = React.createClass
 
   handleZoomChange: ->
     alert "Zoom Changed!"
+
+  zoomToObject: (obj) ->
+    @bounds = new google.maps.LatLngBounds()
+    points = obj.getPath().getArray()
+    n = 0
+    while n < points.length
+      @bounds.extend points[n]
+      n++
+    @state.gmap.fitBounds @bounds
 
   resizeMap: ->
     console.log "Resizing the map"

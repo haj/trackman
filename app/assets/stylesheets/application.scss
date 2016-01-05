@@ -151,3 +151,23 @@
 .loaded {
 	opacity: 1;
 }
+
+.list-group-item:last-child {
+	border-radius: 0px !important;
+}
+
+.list-group-item:first-child {
+	border-radius: 0px !important;
+}
+
+
+.table.no-bottom{
+	margin-bottom: 0px;
+}
+
+.position_row {
+	height: 50px;
+	& > td {
+		vertical-align: middle !important;
+	}
+}

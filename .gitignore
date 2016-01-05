@@ -27,3 +27,5 @@ coverage/*
 coverage/**
 
 /.vagrant
+
+mysql_dumps/*

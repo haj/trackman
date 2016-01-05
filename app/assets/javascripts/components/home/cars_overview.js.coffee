@@ -5,7 +5,7 @@ CarsOverviewRow = require('./cars_overview_row')
 module.exports = React.createClass
 
 	getInitialState: ->
-		{cars: @props.cars, selected: null, filtered: null, loaded: false}
+		{cars: @props.cars, selected: null, loaded: false}
 
 	componentWillMount: ->
 
@@ -15,9 +15,10 @@ module.exports = React.createClass
 
 	showLogbook: (props) ->
 		console.log "showLogbook clicked : "
+		console.log props
 		@setState selected: props.id
 		PubSub.publish 'show_logbook', props
-		PubSub.publish 'select_car', props
+		PubSub.publish 'show_car_on_map', props
 
 	handleClearSelected: ->
 		@setState selected: null

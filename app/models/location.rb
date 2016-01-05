@@ -136,48 +136,39 @@ class Location < ActiveRecord::Base
 
 		else
 
-			if previous.ignition_is_on?
-				self.state = "stop"
-				self.step = self.previous_start_point.try(:step)
-				self.reverse_geocode
-				# calculating parking / driving time
-				previous_start_point = self.get_todays_start_locs.last
-				previous_start_point.parking_duration = self.calculate_parking_time
-				previous_start_point.driving_duration = self.calculate_driving_time
-				previous_start_point.save!
-			else
-				self.state = "signal"
+			unless previous.nil?
+
+				if previous.ignition_is_on?
+					self.state = "stop"
+					self.step = self.previous_start_point.try(:step)
+					self.reverse_geocode
+
+					# calculating parking / driving time
+					previous_start_point = self.get_todays_start_locs.last
+					unless previous_start_point.nil?
+						previous_start_point.parking_duration = previous_start_point.calculate_parking_time
+						previous_start_point.driving_duration = self.calculate_driving_time
+						previous_start_point.save!
+					end
+
+					arr_speed = self.get_todays_locs.map{|l| l.speed}
+
+					#calculate avg speed of the day
+					self.avg = arr_speed.inject{ |sum, el| sum+el }.to_f / arr_speed.size
+
+					#calculate max speed of the day
+					self.max = arr_speed.max
+
+					#calculate min speed of the day
+					self.min = arr_speed.min
+
+				else
+					self.state = "signal"
+				end
+
 			end
 
 		end
-
-		# if self.is_first_position_of_day? || self.been_parked?
-		# 	self.state = "start"
-		# 	self.set_as_current_step
-		# 	self.reverse_geocode
-
-		# 	if self.been_parked?
-		# 		# self.previous_locations_with_same_time.destroy_all
-		# 		previous = self.previous
-
-		# 		if previous.state == "onroad"
-		# 			previous.state = "stop"
-		# 			previous.step = self.step - 1
-		# 			previous.save!
-		# 			previous.reverse_geocode
-
-		# 			# calculating parking / driving time
-		# 			previous_start_point = self.get_todays_start_locs.last
-		# 			previous_start_point.parking_duration = self.calculate_parking_time
-		# 			previous_start_point.driving_duration = self.calculate_driving_time
-		# 			previous_start_point.save!
-		# 		end
-
-		# 	end
-
-		# else
-		# 	self.state = "onroad"
-		# end
 
 		self.save!
 	end
@@ -187,7 +178,7 @@ class Location < ActiveRecord::Base
 	end
 
 	def calculate_parking_time
-		(self.time - self.previous.time).to_i
+		(self.time - self.previous_stop_point.time).to_i if self.previous_stop_point
 	end
 
 	def calculate_driving_time
@@ -220,6 +211,21 @@ class Location < ActiveRecord::Base
 
 	def to_time
 		self.time.strftime('%H:%M:%S')
+	end
+
+	def self.reset_all_locations
+			Location.all.destroy_all
+	    Traccar::Position.all.where(:deviceId => 4).where('DATE(fixTime) > ? and DATE(fixTime) <= ?', 6.days.ago.to_date, 3.days.ago.to_date).each do |p|
+	    		device = Device.find_by_emei(Traccar::Device.find(p.deviceId).uniqueId)
+	        l = Location.create(device_id: device.id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
+		    	jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
+		    	ignite = JSON[jsoned_xml]["info"]["power"]
+		    	l.ignite = ignite if ignite != ""
+		    	l.save!
+	    end
+	    Location.order(:time).each do |l|
+		    l.analyze_me
+	    end
 	end
 
 	def self.reset_locations_of_today
@@ -287,6 +293,10 @@ class Location < ActiveRecord::Base
 
 	def previous_start_point
 		Location.order(:time).where('device_id = ?', self.device_id).where('DATE(time) = ? and time < ? and state = ?', self.time.to_date, self.time, 'start').last
+	end
+
+	def previous_stop_point
+		Location.order(:time).where('device_id = ?', self.device_id).where('time < ? and state = ?', self.time, 'stop').last
 	end
 
 	def previous

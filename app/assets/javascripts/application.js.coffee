@@ -37,9 +37,18 @@
 # Our stuff Require.
 #= require jquery_nested_form
 #= require ./libraries/facebox
+#= require ./libraries/jquery-scrolltofixed-min
 #= require ./libraries/best_in_place
 #= require ./libraries/bootstrap-datepicker
 #= require ./libraries/jquery.timepicker
+#= require ./libraries/jspdf.min
+#= require ./libraries/jspdf_from_html
+#= require ./libraries/jspdf_split_text_to_size
+#= require ./libraries/jspdf_standard_fonts_metrics
+#= require ./libraries/jspdf_addhtml
+#= require ./libraries/html2canvas.min
+#= require ./libraries/FileSaver.min
+
 #= require ./libraries/datepair
 #= require chosen-jquery
 #= require cocoon
