@@ -108,6 +108,12 @@ Rails.application.configure do
 
   config.react.addons = true
   config.react.variant = :production
+  config.react.jsx_transformer_class = React::JSX::JSXTransformer
+  config.react.jsx_transform_options = {
+    harmony: true,
+    strip_types: true, # for removing Flow type annotations
+    asset_path: "#{Rails.root}/app/assets/javascripts/libraries/JSXTransformer.js", # if your JSXTransformer is somewhere else
+  }
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
