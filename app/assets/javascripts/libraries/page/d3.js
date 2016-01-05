@@ -1,1 +1,3 @@
-var nothing = "nothing"
+module.exports({
+
+})
