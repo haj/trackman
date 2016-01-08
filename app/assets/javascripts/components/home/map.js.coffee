@@ -18,7 +18,7 @@ module.exports = React.createClass
   componentWillMount: ->
 
     # event coming from CarsOverview
-    @pubsub = PubSub.subscribe "show_car_on_map", ((topic, props) ->
+    @pubsub = PubSub.subscribe "show_last_route_on_map", ((topic, props) ->
       console.log "Selected Car : "
       console.log props
       @createMap() if @state.gmap == null
@@ -27,7 +27,7 @@ module.exports = React.createClass
         @setState title: @setMapTitle props.name, props.last_seen
         @state.gmap.panTo new google.maps.LatLng(props.lat, props.lon)
         @state.gmap.setZoom 16
-        @highlightMarker props.name
+        # @highlightMarker props.name
       else
         @setState selectedCar: null
         @setState title: null

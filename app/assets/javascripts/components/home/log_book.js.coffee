@@ -49,6 +49,7 @@ module.exports = React.createClass
 							self.setState data: data
 							self.setState selectedDate: data[data.length - 1][0]
 							self.setState selectedData: data[data.length - 1][1]
+							PubSub.publish "showRoute", self.state.selectedData
 							self.setState loading: "done"
 					error: (data) ->
 						self.setState
@@ -58,6 +59,10 @@ module.exports = React.createClass
 							data: []
 							car_id: null
 							loading: "nothing"
+			else
+				@setState selectedDate: @state.data[@state.data.length - 1][0]
+				@setState selectedData: @state.data[@state.data.length - 1][1]
+				PubSub.publish "showRoute", @state.selectedData
 
 		).bind(@)
 

@@ -18,7 +18,7 @@ module.exports = React.createClass
 		console.log props
 		@setState selected: props.id
 		PubSub.publish 'show_logbook', props
-		PubSub.publish 'show_car_on_map', props
+		# PubSub.publish 'show_last_route_on_map', props
 
 	handleClearSelected: ->
 		@setState selected: null

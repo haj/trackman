@@ -26,6 +26,8 @@ class HomeController < ApplicationController
 				@array_dates = dates_in_range d, d.tomorrow
 			end
 
+			@data = @car.locations_grouped_by_these_dates @array_dates
+
 			logger.warn "Logbook is rendered for : "
 			logger.warn @array_dates
 		end
