@@ -38,6 +38,7 @@ class Car < ActiveRecord::Base
 		scope :untraceable, -> { where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL)") }
 		scope :with_driver, -> { where("id IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)") }
 		scope :without_driver, -> { where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)") }
+		scope :locations_of_the_following_dates, -> array_dates { where("DATE(time) IN (?)", array_dates) }
 
 	acts_as_tenant(:company)
 
@@ -66,10 +67,7 @@ class Car < ActiveRecord::Base
 		end
 
 		def locations_grouped_by_these_dates dates
-			locations = self.locations.order(:time).select{|l| dates.include? l.time.to_date and (l.state == "start" or l.state == "stop" or l.state == "idle")}
-			.group_by{|l| l.time.to_date}
-			puts locations
-			locations
+			self.locations.order(:time).where('DATE(time) in (?) and state in (?)', dates, ['start','stop','idle']).group_by{|l| l.time.to_date}
 		end
 
 		def last_location
