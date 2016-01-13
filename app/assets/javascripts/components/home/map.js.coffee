@@ -4,12 +4,12 @@ module.exports = React.createClass
   map: null
   markers: []
   infoWindows: []
-  bounds: new google.maps.LatLngBounds()
-  routeBounds : new google.maps.LatLngBounds()
+  boundsToAllCars: new google.maps.LatLngBounds()
+  boundsToRoute: new google.maps.LatLngBounds()
   didFitBounds: false
   selectedMarker: null
   routePath: null
-  directionsDisplay: new google.maps.DirectionsRenderer
+  directionsDisplay: new google.maps.DirectionsRenderer {suppressMarkers: true}
   directionsService: new google.maps.DirectionsService
 
   getInitialState: ->
@@ -18,35 +18,43 @@ module.exports = React.createClass
   componentWillMount: ->
 
     # event coming from CarsOverview
-    @pubsub = PubSub.subscribe "show_last_route_on_map", ((topic, props) ->
-      console.log "Selected Car : "
-      console.log props
-      @createMap() if @state.gmap == null
-      if props.hasOwnProperty('lat') and props.hasOwnProperty('lon')
-        @setState selectedCar: props
-        @setState title: @setMapTitle props.name, props.last_seen
-        @state.gmap.panTo new google.maps.LatLng(props.lat, props.lon)
-        @state.gmap.setZoom 16
-        # @highlightMarker props.name
-      else
-        @setState selectedCar: null
-        @setState title: null
-        @fitBounds()
-    ).bind(@)
+    # @pubsub = PubSub.subscribe "show_last_route_on_map", ((topic, props) ->
+    #   console.log "Selected Car : "
+    #   console.log props
+    #   @createMap() if @state.gmap == null
+    #   if props.hasOwnProperty('lat') and props.hasOwnProperty('lon')
+    #     console.log "flag 1"
+    #     @setState selectedCar: props
+    #     @setState title: @setMapTitle props.name, props.last_seen
+    #     @state.gmap.panTo new google.maps.LatLng(props.lat, props.lon)
+    #     @state.gmap.setZoom 16
+    #     # @highlightMarker props.name
+    #   else
+    #     @setState selectedCar: null
+    #     @setState title: null
+    #     @fitBounds()
+    # ).bind(@)
 
     # event coming from CarsOverview
     @pubsub_clear_selected_car = PubSub.subscribe 'clearSelectedCar', (() ->
       @setState
         selectedCar: null
         title: null
-      @fitBounds()
+      @routePath.setMap null
+      @routePath = null
+      @fitBounds(@boundsToAllCars)
     ).bind(@)
 
     # event coming from LogBook
     @pubsub_show_route = PubSub.subscribe 'showRoute', ((topic, data) ->
+      console.log "DATA HERE"
+      console.log data
+      @setState selectedCar: data.car
+      console.log @state
+      @setState title: @setMapTitle @state.selectedCar.name, @state.selectedCar.last_seen
       @routePath.setMap null if @routePath
-      @calcRouteDirectionService data
-      @fitBounds()
+      @calcRouteDirectionService data.locations
+      @state.gmap.fitBounds
     ).bind(@)
 
   componentWillUnmount: ->
@@ -87,7 +95,7 @@ module.exports = React.createClass
         destination: destination
         travelMode: google.maps.TravelMode.DRIVING
         waypoints: waypts
-        optimizeWaypoints: true
+        optimizeWaypoints: false
 
     @directionsService.route request, (response, status) ->
         console.log response
@@ -125,7 +133,6 @@ module.exports = React.createClass
 
     @routePath.setMap @state.gmap
     @zoomToObject @routePath
-    # @state.gmap.setCenter @routeBounds.getCenter()
     # @state.gmap.setCenter @routePath.getCenter
 
   setMapTitle: (name, last_seen) ->
@@ -133,7 +140,7 @@ module.exports = React.createClass
 
   initialFitBounds: ->
     unless @didFitBounds
-      @fitBounds()
+      @fitBounds @boundsToAllCars
       @didFitBounds = true
 
   componentWillReceiveProps: (props) ->
@@ -173,12 +180,8 @@ module.exports = React.createClass
     # )
     map
 
-  focusAllVehicles: ->
-    @setState title: "All vehicles"
-    @fitBounds
-
-  fitBounds: ->
-    @state.gmap.fitBounds(@bounds) if @state.gmap != null
+  fitBounds: (whatBounds) ->
+    @state.gmap.fitBounds(whatBounds) if @state.gmap != null
 
   createMarkers: (cars) ->
     console.log "Here the markers"
@@ -198,7 +201,7 @@ module.exports = React.createClass
     if !isNaN(marker.position.G) || !isNaN(marker.position.K)
       marker.addListener "click", => @createInfoWindow marker
       @markers.push marker
-      @bounds.extend marker.getPosition()
+      @boundsToAllCars.extend marker.getPosition()
 
   highlightMarker: (name) ->
     marker = @markers.filter (el, i) ->
@@ -229,32 +232,19 @@ module.exports = React.createClass
     alert "Zoom Changed!"
 
   zoomToObject: (obj) ->
-    @bounds = new google.maps.LatLngBounds()
+    @boundsToRoute = new google.maps.LatLngBounds()
     points = obj.getPath().getArray()
     n = 0
     while n < points.length
-      @bounds.extend points[n]
+      @boundsToRoute.extend points[n]
       n++
-    @state.gmap.fitBounds @bounds
+    @fitBounds @boundsToRoute
 
   resizeMap: ->
     console.log "Resizing the map"
     PubSub.publish "toggleWidthView", @state.gmap
     # google.maps.event.trigger(@state.gmap, 'resize')
     # @state.gmap.setCenter(@state.gmap.getCenter())
-
-  springCallBack: () ->
-    console.log "Called Callback Spring"
-    # @style = {
-    #   width: val,
-    #   height: val,
-    #   position: 'absolute',
-    #   top: val*0.25,
-    #   left: val*0.25,
-    #   border: '1px solid red'
-    # }
-
-    # R.div style: {style}, val
 
   render: ->
     R.div className: 'grid simple h-scroll dragme',

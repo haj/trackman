@@ -38,6 +38,8 @@ module.exports = React.createClass
 					type: 'get'
 					success: (data) ->
 						if data.length == 0
+							# Nothing found for the current car => Showing intiial state of the map.
+							PubSub.publish "clearSelectedCar"
 							self.setState
 								selectedData: []
 								selectedDate: null
@@ -49,7 +51,9 @@ module.exports = React.createClass
 							self.setState data: data
 							self.setState selectedDate: data[data.length - 1][0]
 							self.setState selectedData: data[data.length - 1][1]
-							PubSub.publish "showRoute", self.state.selectedData
+							console.log  "HERREEREREre"
+							console.log self.state
+							PubSub.publish "showRoute", {locations: self.state.selectedData, car: self.state.car}
 							self.setState loading: "done"
 					error: (data) ->
 						self.setState
@@ -62,14 +66,18 @@ module.exports = React.createClass
 			else
 				@setState selectedDate: @state.data[@state.data.length - 1][0]
 				@setState selectedData: @state.data[@state.data.length - 1][1]
-				PubSub.publish "showRoute", @state.selectedData
+				PubSub.publish "showRoute", {locations: @state.selectedData, car: @state.car}
 
 		).bind(@)
 
 		# event coming from CarsOverview
 		@pubsub_clear_selected_car = PubSub.subscribe 'clearSelectedCar', (() ->
 			@setState
+				selectedData: []
+				selectedDate: null
+				car: null
 				data: []
+				car_id: null
 				loading: "nope"
 		).bind(@)
 
@@ -94,7 +102,7 @@ module.exports = React.createClass
 		date = $(e.target).data("date")
 		@setState selectedData: @state.data[id][1]
 		@setState selectedDate: date
-		PubSub.publish 'showRoute', @state.data[id][1]
+		PubSub.publish 'showRoute', {locations: @state.data[id][1], car: @state.car}
 
 	generatePdf: (e) ->
 		window.scrollTo(0, 0)

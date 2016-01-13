@@ -24,7 +24,7 @@
             pixelOffset: new google.maps.Size(-60,-60)
             boxStyle:
                 width: "170px"
-                
+
     class @Maps
         @refresh : () ->
             if window.current_mode == "road"
@@ -38,7 +38,7 @@
             position = new (google.maps.LatLng)(lat, lng)
             window.map.setCenter(position)
             window.map.setZoom(19)
-            
+
         @switch_to_pins : (data) ->
 
             window.current_mode = "road"
@@ -56,18 +56,18 @@
 
                     date = one_marker.infowindow.split('/')[0]
                     status = one_marker.infowindow.split('/')[1]
-                    
+
                     if status == "start" || status == "stop"
 
                         if status == "start"
                             pin = "<span class='badge badge-success'>"+(i+1)+"</span>"
-                        
+
                         if status == "stop"
                             pin = "<span class='badge badge-danger'>"+(i+1)+"</span>"
                             i++
 
                         content = "<div><b>Date:</b><br/>" + date + "</div>"
-                        
+
                         marker = handler.addMarker
                             lat:               one_marker.lat
                             lng:               one_marker.lng
@@ -110,13 +110,7 @@
 
             window.current_mode = "directions"
 
-            directionsDisplay = new (google.maps.DirectionsRenderer)({
-                suppressMarkers: true
-                # polylineOptions:
-                    # strokeColor: "blue"
-                    # strokeOpacity: 0.4
-                    # strokeWeight: 5
-            })
+            directionsDisplay = new (google.maps.DirectionsRenderer) {suppressMarkers: true }
 
             directionsService = new (google.maps.DirectionsService)
 
@@ -134,7 +128,7 @@
                 i = 1
                 while i < data.length - 2
                     status = data[i].infowindow.split('/')[1]
-                    if status == "start"                 
+                    if status == "start"
                         waypts.push
                             location: new (google.maps.LatLng)(data[i].lat, data[i].lng)
                             stopover: true
@@ -143,7 +137,7 @@
                 waypts.pop()
                 console.log waypts.length
 
-                request = 
+                request =
                     origin: origin
                     destination: destination
                     travelMode: google.maps.TravelMode.DRIVING
@@ -183,13 +177,13 @@
                 # for one_marker in legs
 
                 #     content = "<div><b>Date:</b><br/>" + date + "</div>"
-                    
+
                 #     start_marker = handler.addMarker
                 #         lat:               one_marker.start_location.A
                 #         lng:               one_marker.start_location.F
                 #         custom_marker:     "<span style='margin-left:15px' class='badge badge-success'>"+(j+1)+"</span>"
                 #         position_infowindow: content
-                    
+
                 #     handler.bounds.extendWith(start_marker)
 
                 #     end_marker = handler.addMarker
@@ -211,18 +205,18 @@
 
                         if status == "start"
                             pin = "<span style='margin-left:15px' class='badge badge-success'>"+(j+1)+"</span>"
-                        
+
                         if status == "stop"
                             pin = "<span style='margin-right:15px' class='badge badge-danger'>"+(j+1)+"</span>"
                             j++
 
                         content = "<div><b>Date:</b><br/>" + date + "</div>"
-                        
+
                         start_marker = handler.addMarker
                             lat:               one_marker.lat
                             lng:               one_marker.lng
                             custom_marker:     pin
                             position_infowindow: content
-                        
+
                         handler.bounds.extendWith(start_marker)
 
