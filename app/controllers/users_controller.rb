@@ -3,8 +3,6 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   has_scope :by_role
-  
-  
 
   def index
     @q = apply_scopes(User).all.search(params[:q])
@@ -31,7 +29,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    
+
   end
 
   # POST /users
@@ -87,6 +85,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:email, :password, :first_name, :last_name)
+      params.require(:user).permit(:email, :password, :first_name, :last_name, :password_confirmation)
     end
 end

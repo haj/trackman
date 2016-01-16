@@ -1,23 +1,30 @@
 class RegistrationsController < Devise::RegistrationsController
-	
+
 	before_filter :configure_permitted_parameters
 
-
 	def create
+
+		logger.warn "Signin up!"
 
 		@company = Company.new(company_params)
 		build_resource(sign_up_params)
 		resource.roles << :manager
 
-		if @company.valid? && resource.valid?
+		# valid ---> logger.warn @company.valid?
+		logger.warn resource.inspect
+		logger.warn @company.valid?
+		logger.warn "resource"
+
+		if @company.valid? and resource.valid?
 			@company.save!
 			ActsAsTenant.current_tenant = @company
 			resource_saved = resource.save
-			
+			logger.warn "Resource"
+
 			if resource_saved
 				if resource.active_for_authentication?
-					#set_flash_message :notice, :signed_up if is_flashing_format?
-					#sign_up(resource_name, resource)
+					# set_flash_message :notice, :signed_up if is_flashing_format?
+					# sign_up(resource_name, resource)
 					respond_with resource, location: after_sign_up_path_for(resource)
 				else
 					set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
@@ -34,18 +41,15 @@ class RegistrationsController < Devise::RegistrationsController
 			end
 			clean_up_passwords resource
 			respond_with resource
-		end		
+		end
 
-		
-
-		
 	end
 
 	def company_params
-      params.require(:company).permit(:name, :subdomain, :time_zone)
-    end
+     params.require(:company).permit(:name, :subdomain, :time_zone)
+  end
 
-    def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(resource)
 	  root_url(subdomain: resource.subdomain)
 	end
 

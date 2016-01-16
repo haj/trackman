@@ -55,11 +55,11 @@ class User < ActiveRecord::Base
 
 	def self.available_drivers
 		users = User.where(car_id: nil)
-		return users.select { |user| user.has_role?(:driver) } 
+		return users.select { |user| user.has_role?(:driver) }
 	end
 
 	def name_with_email
-		"#{self.first_name} #{self.last_name} #{self.email}" 
+		"#{self.first_name} #{self.last_name} #{self.email}"
 	end
 
 	# These methods are required by the mailboxer gem
@@ -68,7 +68,7 @@ class User < ActiveRecord::Base
 		self.company.subdomain
 	end
 
-	def name 
+	def name
 		"#{self.first_name} #{self.last_name}"
 	end
 
@@ -115,12 +115,12 @@ class User < ActiveRecord::Base
 				payment = Payment.new(profile_id: response.params['profile_id'], user_id: self.id)
 				payment.save!
 
-				return { success: true, message: "Purchase complete" } 
+				return { success: true, message: "Purchase complete" }
 		  	else
-				return { success: false, message: "Error: #{response.message}" } 
+				return { success: false, message: "Error: #{response.message}" }
 		  	end
 		else
-		  	return { success: false, message: "Error: credit card is not valid. #{credit_card.errors.full_messages.join('. ')}" } 
+		  	return { success: false, message: "Error: credit card is not valid. #{credit_card.errors.full_messages.join('. ')}" }
 		end
 	end
 
@@ -139,7 +139,7 @@ class User < ActiveRecord::Base
 		  return { success: true, message: "Recurring payment cancelled" }
 		else
 		  return { success: false, message: "Recurring payment couldn't be cancelled. Reason: #{response.inspect}" }
-		end 
+		end
 	end
 
 	def time_zone

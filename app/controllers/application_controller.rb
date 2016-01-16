@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_current_tenant
   before_filter :bootstrap
+  # before_filter :configure_permitted_parameters, if: :devise_controller?
 
   #around_filter :user_time_zone
 
@@ -81,6 +82,10 @@ class ApplicationController < ActionController::Base
     ActsAsTenant.current_tenant
   end
 
+  # def configure_permitted_parameters
+  #   devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:first_name, :last_name, :email, :password, :password_confirmation) }
+  # end
+
   layout :guest_user_layout
 
   private
@@ -100,9 +105,5 @@ class ApplicationController < ActionController::Base
         "application"
       end
     end
-
-
-
-
 
 end
