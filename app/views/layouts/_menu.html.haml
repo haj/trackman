@@ -9,10 +9,10 @@
     %li{:class => ("active" if current_page?(alarm_notifications_path))}
       %a{:href => alarm_notifications_path}
         = fa_icon "exclamation-triangle"
-        %span.title 
+        %span.title
           Alerts
         %span.badge.badge-danger.pull-right
-          4
+          0
 
   %li
     %a{:href => "javascript:;"}
@@ -34,13 +34,13 @@
     %li{:class => ("active" if current_page?(reports_path))}
       %a{:href => reports_path}
         = fa_icon "file-text-o"
-        %span.title 
-          Reports          
+        %span.title
+          Reports
 
     / %li
     /   %a{:href => history_cars_path}
     /     = fa_icon "area-chart"
-    /     %span.title 
+    /     %span.title
     /       History
 
   - if is_manager?(current_user)
@@ -87,7 +87,7 @@
         /   %a{:href => work_schedule_groups_path}
         /     = fa_icon "sitemap"
         /     %span.title Work Schedule Groups
-  
+
   - if is_admin?(current_user)
     / BEGIN TWO LEVEL MENU
     %li
