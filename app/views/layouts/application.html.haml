@@ -7,9 +7,9 @@
 
     %title Trackman
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
     = stylesheet_link_tag 'application', media: 'all'
+
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1"}
 
     %script{:src => "//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry", :type => "text/javascript"}
 
@@ -98,7 +98,7 @@
       / END TOP NAVIGATION BAR
     / END HEADER
     / BEGIN CONTENT
-    .page-container.row-fluid
+    .page-container.row
       / BEGIN SIDEBAR
       / BEGIN MENU
       #main-menu.page-sidebar.mini
@@ -110,7 +110,7 @@
             / END TWO LEVEL MENU
           / END SIDEBAR MENU
       / BEGIN SCROLL UP HOVER
-      %a.scrollup{:href => "#"} Scroll
+      / %a.scrollup{:href => "#"} Scroll
       / END SCROLL UP HOVER
       / END MENU
       / BEGIN SIDEBAR FOOTER WIDGET
@@ -123,5 +123,6 @@
       / BEGIN PAGE CONTAINER
 
       .page-content
-        .col-md-12
+        .clearfix
+        .content
           = yield

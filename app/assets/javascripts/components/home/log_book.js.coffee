@@ -168,45 +168,47 @@ module.exports = React.createClass
 		date = (time) ->
 			time.substring(11, 19)
 
-		R.div {className: 'col-md-12', ref: 'logbook'},
+		R.div null,
 
-			R.div className: "col-md-2 no-padding",
-				React.createElement SimpleGrid, title: 'LogBook', style: {padding: '0px'},
-					unless @state.loading == "done"
-						@renderMessage @state.loading
-					else
-						R.div className: 'list-group',
-							for x in @state.data
-								R.div null,
-									R.a {className: "list-group-item #{if @state.selectedData == x[1] then 'active' else ''}", onClick: @show_data_for_date, ref: x[0], 'data-zakid': ++i || i = 0, 'data-date': x[0]}, x[0]
-										# R.h5 {className: 'list-group-item-heading', 'data-zakid': ++i || i = 0}, x[0]
-										# R.p {className: 'list-group-item-text', 'data-zakid': ++i || i = 0}, "Information about the day..."
+			R.div {className: '', ref: 'logbook'},
 
-			R.div className: "col-md-10 no-padding",
-				React.createElement SimpleGrid, title: '...', style: {padding: '0px'}, showGeneratePdf: @state.selectedDate != null, generatePdf: @generatePdf,
-
-					unless @state.loading == "done"
-						@renderMessage @state.loading
-					else
-						if @state.selectedData
-							React.createElement Table, {className: 'mi-size', ref: 'logbook_data', style: {borderBottom: '1px solid #eee'}, striped: true, condensed: false, responsive: true, hover: true},
-								R.thead null,
-									R.tr null,
-										R.th null, "State"
-										R.th null, "Time"
-										R.th null, "Parking/Driving time"
-										R.th null, "Location"
-										R.th null, "Speed"
-								R.tbody null,
-										$.map @state.selectedData, (item, key) ->
-											R.tr {key: key, className: 'position_row', style: {verticalAlign: 'middle'}},
-												R.td className: 'col-md-1', step item.state, item.step
-												R.td className: 'col-md-1', "#{date item.time}"
-												R.td className: 'col-md-2', duration item
-												R.td className: 'col-md-6', item.address
-												R.td className: 'col-md-2', "#{Math.floor(item.speed)} km/h"
+				R.div className: "col-md-2 no-padding",
+					React.createElement SimpleGrid, title: 'LogBook', style: {padding: '0px'},
+						unless @state.loading == "done"
+							@renderMessage @state.loading
 						else
-							@renderMessage "Select a date"
+							R.div className: 'list-group',
+								for x in @state.data
+									R.div null,
+										R.a {className: "list-group-item #{if @state.selectedData == x[1] then 'active' else ''}", onClick: @show_data_for_date, ref: x[0], 'data-zakid': ++i || i = 0, 'data-date': x[0]}, x[0]
+											# R.h5 {className: 'list-group-item-heading', 'data-zakid': ++i || i = 0}, x[0]
+											# R.p {className: 'list-group-item-text', 'data-zakid': ++i || i = 0}, "Information about the day..."
+
+				R.div className: "col-md-10 no-padding",
+					React.createElement SimpleGrid, title: '...', style: {padding: '0px'}, showGeneratePdf: @state.selectedDate != null, generatePdf: @generatePdf,
+
+						unless @state.loading == "done"
+							@renderMessage @state.loading
+						else
+							if @state.selectedData
+								React.createElement Table, {className: 'mi-size', ref: 'logbook_data', style: {borderBottom: '1px solid #eee'}, striped: true, condensed: false, responsive: true, hover: true},
+									R.thead null,
+										R.tr null,
+											R.th null, "State"
+											R.th null, "Time"
+											R.th null, "Parking/Driving time"
+											R.th null, "Location"
+											R.th null, "Speed"
+									R.tbody null,
+											$.map @state.selectedData, (item, key) ->
+												R.tr {key: key, className: 'position_row', style: {verticalAlign: 'middle'}},
+													R.td className: 'col-md-1', step item.state, item.step
+													R.td className: 'col-md-1', "#{date item.time}"
+													R.td className: 'col-md-2', duration item
+													R.td className: 'col-md-6', item.address
+													R.td className: 'col-md-2', "#{Math.floor(item.speed)} km/h"
+							else
+								@renderMessage "Select a date"
 
 
 

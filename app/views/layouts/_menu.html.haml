@@ -14,6 +14,7 @@
         %span.badge.badge-danger.pull-right
           0
 
+
   %li
     %a{:href => "javascript:;"}
       = fa_icon "envelope"
@@ -123,3 +124,9 @@
             %li= link_to "Plans", plans_path
             %li= link_to "Plan types", plan_types_path
           %li= link_to "Features", features_path
+
+  %li#sign_out_from_mobile{style: "display: none;"}
+    %a{:href => destroy_user_session_path, data: {method: "delete"}}
+      = fa_icon "sign-out"
+      %span.title Sign out
+

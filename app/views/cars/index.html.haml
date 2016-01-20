@@ -1,47 +1,46 @@
-.content
-  .row
-    .col-md-8.col-lg-8.col-sm-8.col-xs-8 
-      .page-title
-        %h3
-          Vehicles
-          = link_to 'New', new_car_path, class: "btn btn-success btn-small"
+.row
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8
+    .page-title
+      %h3
+        Vehicles
+        = link_to 'New', new_car_path, class: "btn btn-success btn-small"
 
-  .row.to-be-toggled
-    .col-md-12
-      .pull-right  
-        = form_tag '', :method => :get do
-          = select_tag('by_car_model', content_tag(:option,'Vehicle Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name', params[:by_car_model] ))
-          = select_tag('by_car_type', content_tag(:option,'Vehicle Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name', params[:by_car_type]))
-          = submit_tag 'Apply Filters', :class => "btn btn-primary"
+.row.to-be-toggled
+  .col-md-12
+    .pull-right
+      = form_tag '', :method => :get do
+        = select_tag('by_car_model', content_tag(:option,'Vehicle Models ...', :value=>"")+options_from_collection_for_select(CarModel.all, 'id', 'name', params[:by_car_model] ))
+        = select_tag('by_car_type', content_tag(:option,'Vehicle Types ...', :value=>"")+options_from_collection_for_select(CarType.all, 'id', 'name', params[:by_car_type]))
+        = submit_tag 'Apply Filters', :class => "btn btn-primary"
 
-  %br/
+%br/
 
-  .row
-    .col-md-12
-      = form_tag batch_destroy_cars_path, id: "destroy_cars", :method => :put do
-        .row
-          .col-md-12
-            .grid.simple 
-              .grid-body
-                %table.table.no-more-tables
-                  %thead
+.row
+  .col-md-12
+    = form_tag batch_destroy_cars_path, id: "destroy_cars", :method => :put do
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-body
+              %table.table.no-more-tables
+                %thead
+                  %tr
+                    %th
+                    = content_tag :th, sort_link(@q, :name)
+                    = content_tag :th, sort_link(@q, :numberplate)
+                    = content_tag :th, sort_link(@q, :car_model)
+                    = content_tag :th, sort_link(@q, :car_type)
+                    %th
+                %tbody
+
+                  - @cars.each do |car|
                     %tr
-                      %th
-                      = content_tag :th, sort_link(@q, :name)
-                      = content_tag :th, sort_link(@q, :numberplate)
-                      = content_tag :th, sort_link(@q, :car_model)
-                      = content_tag :th, sort_link(@q, :car_type)
-                      %th
-                  %tbody
-                    
-                    - @cars.each do |car|
-                      %tr
-                        %td.small-cell.v-align-middle= check_box_tag "car_ids[]", car.id, nil , class: "car_checkbox"
-                        %td= link_to car.name, car
-                        %td= car.numberplate
-                        %td= car.try(:car_model).try(:name)
-                        %td= car.try(:car_type).try(:name)
-                        %td= link_to 'Edit', edit_car_path(car)            
+                      %td.small-cell.v-align-middle= check_box_tag "car_ids[]", car.id, nil , class: "car_checkbox"
+                      %td= link_to car.name, car
+                      %td= car.numberplate
+                      %td= car.try(:car_model).try(:name)
+                      %td= car.try(:car_type).try(:name)
+                      %td= link_to 'Edit', edit_car_path(car)
 
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner

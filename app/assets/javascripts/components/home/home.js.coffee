@@ -23,20 +23,23 @@ module.exports = React.createClass
     ).bind(@)
 
   render: ->
-    R.div className: "col-md-12",
+    R.div null,
+      R.div className: "row",
+        R.div className: "col-md-12",
+          # Map
+          R.div {className: "col-md-6 no-padding"},
+            React.createElement Map,
+              carsIndexPath: @props.carsIndexPath,
+              cars: @state.cars, title: "All vehicles",
+              pinIcon: @props.pinIcon
 
-      # Map
-      R.div {className: "col-md-6 no-padding"},
-        React.createElement Map,
-          carsIndexPath: @props.carsIndexPath,
-          cars: @state.cars, title: "All vehicles",
-          pinIcon: @props.pinIcon
+          # Cars Overview
+          R.div {className: "col-md-6 no-padding"},
+            React.createElement CarsOverview,
+            carsOverviewPath: @props.carsOverviewPath,
+            cars: @state.cars
 
-      # Cars Overview
-      R.div {className: "col-md-6 no-padding"},
-        React.createElement CarsOverview,
-        carsOverviewPath: @props.carsOverviewPath,
-        cars: @state.cars
-
-      # Logbook
-      React.createElement LogBook
+      R.div className: "row",
+        # Logbook
+        R.div className: "col-md-12",
+        React.createElement LogBook
