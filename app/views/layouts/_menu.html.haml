@@ -130,3 +130,8 @@
       = fa_icon "sign-out"
       %span.title Sign out
 
+  / - if current_user.company
+  /   %li= link_to "Settings", user_path(current_user)
+  /   - if is_manager?(current_user)
+  /     %li= link_to "Company Settings", company_path(current_user.company.id)
+
