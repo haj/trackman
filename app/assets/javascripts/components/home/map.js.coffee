@@ -1,9 +1,56 @@
 R = React.DOM
 
+CustomMarker = (latlng, map, args) ->
+  @latlng = latlng
+  @args = args
+  @setMap map
+
+CustomMarker.prototype = new google.maps.OverlayView()
+
+CustomMarker::draw = () ->
+  self = @
+  div = @div
+  if !div
+    div = @div = document.createElement('div')
+    div.className = "marker"
+    div.style.position = 'absolute'
+    div.style.cursor = 'pointer'
+    div.innerHTML = self.args.html_marker
+
+    # if typeof self.args.marker_id != 'undefined'
+    #   div.dataset.marker_id = self.args.marker_id
+
+    google.maps.event.addDomListener div, 'click', (event) ->
+      google.maps.event.trigger self, 'click'
+
+    panes = @getPanes()
+    panes.overlayImage.appendChild div
+
+  point = @getProjection().fromLatLngToDivPixel(@latlng)
+  if point
+    div.style.left = point.x + 'px'
+    div.style.top = point.y + 'px'
+
+CustomMarker::remove = ->
+  # if @div
+  #   console.log "OKAY"
+  #   console.log @div
+  #   console.log @div.parentNode
+  #   @div.parentNode.removeChild @div
+  #   # @div.parentNode.innerHTML = ""
+  #   # @div.innerHTML = ""
+  #   console.log @div
+  #   @div = null
+  #   console.log @div
+
+CustomMarker::getPosition = ->
+  @latlng
+
 module.exports = React.createClass
   map: null
   markers: []
-  infoWindows: []
+  routeMarkers: []
+  infoWindow: null
   boundsToAllCars: new google.maps.LatLngBounds()
   boundsToRoute: new google.maps.LatLngBounds()
   didFitBounds: false
@@ -13,7 +60,7 @@ module.exports = React.createClass
   directionsService: new google.maps.DirectionsService
 
   getInitialState: ->
-    {cars: @props.cars, gmap: null, selectedCar: null}
+    {cars: @props.cars, gmap: null, selectedCar: null, data: null}
 
   componentWillMount: ->
 
@@ -54,6 +101,7 @@ module.exports = React.createClass
       @setState title: @setMapTitle @state.selectedCar.name, @state.selectedCar.last_seen
       @routePath.setMap null if @routePath
       @calcRouteDirectionService data.locations
+      @showStepsOfRoute data.locations
       @state.gmap.fitBounds
     ).bind(@)
 
@@ -108,6 +156,7 @@ module.exports = React.createClass
         return
 
     @directionsDisplay.setMap @state.gmap
+    console.log @state.data
 
   calcRoutePolyline: (data) ->
     console.log "calc route using polylines"
@@ -183,23 +232,31 @@ module.exports = React.createClass
   fitBounds: (whatBounds) ->
     @state.gmap.fitBounds(whatBounds) if @state.gmap != null
 
+## Markers for showing the cars #########
+
   createMarkers: (cars) ->
     console.log "Here the markers"
     console.log @markers
     @clearMarkers() if @markers != []
     for car in cars
-      @createMarker car.lat, car.lon, car.name
+      @createMarker car
     @state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon) if @state.selectedCar != null
 
-  createMarker: (lat, lon, name) ->
+  createMarker: (car) ->
     marker = new google.maps.Marker
-      position: new google.maps.LatLng(lat, lon)
+      position: new google.maps.LatLng(car.lat, car.lon)
       map: @state.gmap
       icon: @props.pinIcon
-      title: name
+      title: car.name
     console.log marker
     if !isNaN(marker.position.G) || !isNaN(marker.position.K)
-      marker.addListener "click", => @createInfoWindow marker
+      google.maps.event.addListener marker, "click", (() ->
+        if @infoWindow
+          # alert 'cool'
+          @infoWindow.close()
+        @createInfoWindow marker, car
+      ).bind(@)
+
       @markers.push marker
       @boundsToAllCars.extend marker.getPosition()
 
@@ -215,18 +272,58 @@ module.exports = React.createClass
       marker.setMap(null)
     @markers = []
 
-  createInfoWindow: (marker) ->
-    contentString = "<div class='InfoWindow'>I'm a Window that contains Info Yay</div>"
-    infoWindow = new google.maps.InfoWindow
+## Markers for showing the cars #########
+
+  createInfoWindow: (marker, car) ->
+    contentString =
+    "<div class='InfoWindow'>
+      <h5>#{car.name}</h5>
+      <p>#{car.last_location}</p>
+      <p>#{car.last_seen}</p>
+      <p>#{car.numberplate}</p>
+      <p>#{car.type}</p>
+    </div>"
+    @infoWindow = new google.maps.InfoWindow
       content: contentString
       map: @state.gmap
       pixelOffset:
         width: 0
         height: -40
 
-    infoWindow.setPosition marker.getPosition()
-    # @infoWindows.push infoWindow
-    # infoWindow.open()
+    @infoWindow.setPosition marker.getPosition()
+
+
+  ## Create markers for routes
+
+  showStepsOfRoute: (data) ->
+
+    if @routeMarkers != []
+      $.map @routeMarkers, (marker) ->
+        marker.div.parentNode.removeChild marker.div
+      @routeMarkers = []
+
+    j = 0
+    for pos in data
+      status = pos.state
+      if status == "start" || status == "stop"
+          if status == "start"
+              pin = "<span style='margin-left:15px' class='badge badge-success'>"+(j+1)+"</span>"
+
+          if status == "idle"
+              pin = "<span style='margin-left:0px' class='badge badge-warning'>"+(j+1)+"</span>"
+
+          if status == "stop"
+              pin = "<span style='margin-right:15px' class='badge badge-danger'>"+(j+1)+"</span>"
+              j++
+
+          content = "<div><b>Date:</b><br/>" + pos.time + "</div>"
+
+          marker = new CustomMarker(new google.maps.LatLng(pos.latitude, pos.longitude),
+            @state.gmap,{html_marker: pin})
+
+          @routeMarkers.push marker
+
+  ############################
 
   handleZoomChange: ->
     alert "Zoom Changed!"

@@ -15,7 +15,7 @@ module.exports = React.createClass
 
   componentWillMount: ->
     @fetchData()
-    @setInterval @fetchData, 5000
+    # @setInterval @fetchData, 5000
 
   fetchData: ->
     api.get(@props.carsOverviewPath).then ((data) ->

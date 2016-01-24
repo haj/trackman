@@ -51,8 +51,6 @@ module.exports = React.createClass
 							self.setState data: data
 							self.setState selectedDate: data[data.length - 1][0]
 							self.setState selectedData: data[data.length - 1][1]
-							console.log  "HERREEREREre"
-							console.log self.state
 							PubSub.publish "showRoute", {locations: self.state.selectedData, car: self.state.car}
 							self.setState loading: "done"
 					error: (data) ->
