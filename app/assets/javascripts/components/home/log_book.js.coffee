@@ -6,7 +6,7 @@ rasterizeHTML = require('rasterizehtml')
 module.exports = React.createClass
 
 	getInitialState: ->
-		{data: [], car_id: null, loading: "nope", selectedData: [], car: null, selectedDate: null}
+		{data: [], car_id: null, loading: "nope", selectedData: [], car: null, selectedDate: null, max: null, avg: null}
 		# loading : nothing, loading, done
 
 	componentDidMount: ->
@@ -147,6 +147,9 @@ module.exports = React.createClass
 
 	render: ->
 
+		selectedData = @state.selectedData
+		selectedDate = @state.selectedDate
+
 		step = (state, step) ->
 			if state == "start"
 				R.a {className: 'badge badge-success'}, step
@@ -166,6 +169,23 @@ module.exports = React.createClass
 		date = (time) ->
 			time.substring(11, 19)
 
+		getMax = (arr, prop) ->
+		  max = undefined
+		  i = 0
+		  while i < arr.length
+		    if !max or parseInt(arr[i][prop]) > parseInt(max[prop])
+		      max = arr[i] if arr[i][prop] != null
+		    i++
+		  max
+
+		logbook_title = () ->
+			if selectedDate != null
+				max = getMax(selectedData, 'max')
+				avg = getMax(selectedData, 'avg')
+				"#{selectedDate} | MAX SPEED : #{Math.round(max.max) if max} KM | AVG SPEED : #{Math.round(avg.avg) if avg} KM"
+			else
+				"..."
+
 		R.div null,
 
 			R.div {className: '', ref: 'logbook'},
@@ -183,7 +203,7 @@ module.exports = React.createClass
 											# R.p {className: 'list-group-item-text', 'data-zakid': ++i || i = 0}, "Information about the day..."
 
 				R.div className: "col-md-10 no-padding",
-					React.createElement SimpleGrid, title: '...', style: {padding: '0px'}, showGeneratePdf: @state.selectedDate != null, generatePdf: @generatePdf,
+					React.createElement SimpleGrid, title: logbook_title(), style: {padding: '0px'}, showGeneratePdf: @state.selectedDate != null, generatePdf: @generatePdf,
 
 						unless @state.loading == "done"
 							@renderMessage @state.loading
