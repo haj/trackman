@@ -17,6 +17,8 @@ gem 'sqlite3'
 
 gem 'datejs-rails'
 
+gem 'roo'
+
 gem "query_report"
 
 gem "rails-settings-cached", "0.4.1"
@@ -161,6 +163,7 @@ group :development, :test do
   gem "rails_best_practices"
 end
 
+gem 'rest_in_place'
 gem 'rails-observers'
 
 # gem 'rack-mini-profiler'

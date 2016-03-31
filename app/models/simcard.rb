@@ -21,7 +21,7 @@ class Simcard < ActiveRecord::Base
 	
 	acts_as_paranoid
 
-	validates :name, :telephone_number, :teleprovider_id, :monthly_price, presence: true
+	validates :telephone_number, :teleprovider_id, :monthly_price, presence: true
 	
 	acts_as_tenant(:company)
 
@@ -34,6 +34,6 @@ class Simcard < ActiveRecord::Base
 	end 
 
 	def name
-		return "##{self.id} #{self.telephone_number} (#{self.teleprovider.name})"
+		return "#{self.id} #{self.telephone_number} (#{self.teleprovider.name})"
 	end
 end

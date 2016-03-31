@@ -1,7 +1,7 @@
 class DevicesController < ApplicationController
   before_action :set_device, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
-  
+
   has_scope :by_device_model
   has_scope :by_device_type
   has_scope :has_simcard do |controller, scope, value|
@@ -11,7 +11,7 @@ class DevicesController < ApplicationController
       scope.with_simcard
     elsif value == "false"
       scope.without_simcard
-    end 
+    end
   end
 
   has_scope :available do |controller, scope, value|
@@ -21,7 +21,7 @@ class DevicesController < ApplicationController
       scope.available
     elsif value == "false"
       scope.used
-    end 
+    end
   end
 
   def index
@@ -30,6 +30,21 @@ class DevicesController < ApplicationController
     respond_to do |format|
       format.html
     end
+  end
+
+  def import
+    if params[:file] != nil
+      status = Device.import(params[:file])
+      flash[status[:alert]] = status[:message]
+      redirect_to device_manage_path
+    else
+      flash[:danger] = 'You need to upload at least one document (.xls / .csv / .xlsx)'
+      redirect_to device_manage_path
+    end
+  end
+
+  def manage
+    @devices = Device.all
   end
 
   # GET /devices/1
@@ -50,7 +65,7 @@ class DevicesController < ApplicationController
   # POST /devices.json
   def create
     @device = Device.new(device_params)
-    
+
     if @device.valid?
       # device = Traccar::Device.create(name: device_params['name'], uniqueId: device_params['emei'])
       # device.users << Traccar::User.first
@@ -65,20 +80,20 @@ class DevicesController < ApplicationController
       else
         render :new
       end
-    else 
+    else
       render :new
     end
   end
 
   def update
     if @device.update(device_params)
-      if !simcard_params[:simcard_id].empty?
-        simcard = Simcard.find(simcard_params[:simcard_id])
-        simcard.update_attribute(:device_id, @device.id)
-      end
-      redirect_to @device, notice: 'Device was successfully updated.'
+      # if !simcard_params[:simcard_id].empty?
+      #   simcard = Simcard.find(simcard_params[:simcard_id])
+      #   simcard.update_attribute(:device_id, @device.id)
+      # end
+      redirect_to device_manage_path, notice: 'Device''s name was successfully updated.'
     else
-      render :edit
+      redirect_to device_manage_path
     end
   end
 
@@ -88,8 +103,8 @@ class DevicesController < ApplicationController
       @device = Device.find(device_id)
       traccar_user = Traccar::User.first
       traccar_device = Traccar::Device.where(uniqueId: @device.emei).first
-      
-      # remove join record 
+
+      # remove join record
       if traccar_device.users.delete(traccar_user)
         traccar_device.positions.delete_all
         traccar_device.delete
@@ -105,7 +120,7 @@ class DevicesController < ApplicationController
     traccar_user = Traccar::User.first
     traccar_device = Traccar::Device.where(uniqueId: @device.emei).first
 
-    # Remove join record 
+    # Remove join record
     if traccar_device.users.delete(traccar_user)
       traccar_device.positions.delete_all
       traccar_device.delete

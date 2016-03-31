@@ -33,7 +33,7 @@
           %span.title Sentbox
 
     %li{:class => ("active" if current_page?(reports_path))}
-      %a{:href => reports_path}
+      %a{:href => reports_vehicles_path}
         = fa_icon "file-text-o"
         %span.title
           Reports
@@ -111,6 +111,7 @@
             %span.title Devices
             %span.arrow
           %ul.sub-menu
+            %li= link_to "Manage Devices", device_manage_path
             %li= link_to "Device Manufacturers", device_manufacturers_path
             %li= link_to "Device Models", device_models_path
             %li= link_to "Device Types", device_types_path

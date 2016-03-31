@@ -1,0 +1,46 @@
+.row
+  .col-md-8
+    .grid.simple
+      .grid-title
+        %h4
+          All
+          %span.semi-bold Devices
+      .grid-body
+        .row
+          .col-md-12
+            %table.table
+              %tr
+                %th Name
+                %th Device ID
+                %th IMEI
+                %th ICCD
+                %th Telephone Number
+                %th Status
+                %th Actions
+              - @devices.each do |d|
+                %tr
+                  %td.rest-in-place{id: "#{dom_id d}", data: {url: "/devices/#{d.id}", object:'device', attribute: 'name', placeholder: 'Enter a name'}}= d.name
+                  %td
+                  %td= d.emei
+                  %td
+                  %td
+                  %td
+                    .label.label-success= "Active"
+                  %td
+
+
+
+  .col-md-4
+    .grid.simple
+      .grid-title
+        %h4
+          Manage
+          %span.semi-bold Devices
+      .grid-body
+        .row
+          .col-md-12
+            = form_tag import_devices_path, multipart: true, class: 'form' do
+              .form-group
+                %label{:for => "file_upload"} Upload Excel / CSV file
+                = file_field_tag :file, class: 'form-control', id: 'file_upload'
+              = submit_tag "Import", class: 'btn btn-primary'

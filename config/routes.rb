@@ -241,6 +241,9 @@ Rails.application.routes.draw do
     resources :devices
   end
 
+  get 'manage_devices' => 'devices#manage', as: 'device_manage'
+  post 'import_devices' => 'devices#import', as: 'import_devices'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

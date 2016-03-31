@@ -49,6 +49,7 @@
 #= require ./libraries/html2canvas.min
 #= require ./libraries/FileSaver.min
 
+#= require 'rest_in_place'
 #= require ./libraries/datepair
 #= require chosen-jquery
 #= require cocoon
