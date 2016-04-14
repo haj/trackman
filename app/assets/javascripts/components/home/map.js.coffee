@@ -100,8 +100,8 @@ module.exports = React.createClass
         allCars: false
       @setState title: @setMapTitle @state.selectedCar.name, @state.selectedCar.last_seen
       @routePath.setMap null if @routePath
-      # @calcRouteDirectionService data.locations
-      @calcRoutePolyline data.locations
+      @calcRouteDirectionService data.locations
+      # @calcRoutePolyline data.locations
       # @showStepsOfRoute data.locations
       @state.gmap.fitBounds
     ).bind(@)
