@@ -122,6 +122,7 @@ class Location < ActiveRecord::Base
 		statistics.tdistance += distance
 		puts "#{statistics.tdistance.inspect}"
 		statistics.tdistance = statistics.tdistance.round(2)
+		statistics.time = self.time.to_date
 		puts "#{statistics.inspect}"
 
 		if self.device.car.name == "Zak's Phone 2"
