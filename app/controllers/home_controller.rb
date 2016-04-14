@@ -19,12 +19,12 @@ class HomeController < ApplicationController
 
 			@array_dates = dates_in_range Settings.start_date, Settings.end_date
 
-			# if Rails.env.development?
-			# 	d = DateTime.now.change({ month: 12, day: 17, year: 2015}).to_date
-			# 	p d.to_date
-			# 	p d.tomorrow.tomorrow.tomorrow.tomorrow.to_date
-			# 	@array_dates = dates_in_range d, d.tomorrow
-			# end
+			if Rails.env.development?
+				d = DateTime.now.change({ month: 12, day: 17, year: 2015}).to_date
+				p d.to_date
+				p d.tomorrow.tomorrow.tomorrow.tomorrow.to_date
+				@array_dates = dates_in_range d, d.tomorrow
+			end
 
 			if Rails.env.development?
 				

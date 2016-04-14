@@ -108,22 +108,26 @@ class Location < ActiveRecord::Base
 	def analyze_me
 		previous = self.previous
 
-		puts "Loc previous : #{previous.lat} , #{previous.lng}"
-		puts "Loc current : #{self.lat} , #{self.lng}"
-		puts "Distance : #{self.distance_from [previous.latitude, previous.longitude]} KM"
-		distance = self.distance_from [previous.latitude, previous.longitude]
+		if previous != nil
+			puts "Loc previous : #{previous.lat} , #{previous.lng}"
+			puts "Loc current : #{self.lat} , #{self.lng}"
+			puts "Distance : #{self.distance_from [previous.latitude, previous.longitude]} KM"
+			distance = self.distance_from [previous.latitude, previous.longitude]
+
+			statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id, time: self.time.to_date)
+			statistics.tdistance += distance
+			statistics.tdistance = statistics.tdistance.round(2)
+			puts "#{statistics.tdistance.inspect}"
+			puts "#{statistics.inspect}"
+		end
 
 		puts "Analyze me started!!!!"
 		# puts "#{self.device.car.name.inspect}"
 		# puts "#{self.is_first_position_of_day?}"
 		# puts "#{self.ignite}"
 
-		statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id, time: self.time.to_date)
-		statistics.tdistance += distance
-		puts "#{statistics.tdistance.inspect}"
-		statistics.tdistance = statistics.tdistance.round(2)
+
 		# statistics.time = self.time.to_date
-		puts "#{statistics.inspect}"
 
 		if self.device.car.name == "Zak's Phone 2"
 			self.ignite = true
@@ -170,8 +174,10 @@ class Location < ActiveRecord::Base
 					unless previous_start_point.nil?
 						previous_start_point.parking_duration = previous_start_point.calculate_parking_time
 						previous_start_point.driving_duration = self.calculate_driving_time
-						statistics.tparktime += previous_start_point.parking_duration
-						statistics.tdrivtime += previous_start_point.driving_duration
+						if statistics != nil
+							statistics.tparktime += previous_start_point.parking_duration
+							statistics.tdrivtime += previous_start_point.driving_duration
+						end
 						previous_start_point.save!
 					end
 
@@ -179,11 +185,11 @@ class Location < ActiveRecord::Base
 
 					#calculate avg speed of the day
 					self.avg = arr_speed.inject{ |sum, el| sum+el }.to_f / arr_speed.size
-					statistics.avgspeed = arr_speed / arr_speed.max
+					statistics.avgspeed = arr_speed / arr_speed.max if statistics != nil
 
 					#calculate max speed of the day
 					self.max = arr_speed.max
-					statistics.maxspeed = arr_speed.max
+					statistics.maxspeed = arr_speed.max if statistics != nil
 
 					#calculate min speed of the day
 					self.min = arr_speed.min
@@ -199,7 +205,7 @@ class Location < ActiveRecord::Base
 		end
 
 		puts "SAVING ...."
-		statistics.save!
+		statistics.save! if statistics != nil
 		puts "#{statistics.inspect}"
 		self.save!
 	end
@@ -246,7 +252,8 @@ class Location < ActiveRecord::Base
 
 	def self.reset_all_locations
 			Location.all.destroy_all
-	    Traccar::Position.all.where(:deviceId => 4).where('DATE(fixTime) > ? and DATE(fixTime) <= ?', 6.days.ago.to_date, 3.days.ago.to_date).each do |p|
+	    Traccar::Position.all.where(:deviceId => 4).where('DATE(fixTime) > ? and DATE(fixTime) <= ?', "2015-11-05 18:15:07", "2015-11-30 18:15:07").each do |p|
+	    		puts "cool"
 	    		device = Device.find_by_emei(Traccar::Device.find(p.deviceId).uniqueId)
 	        l = Location.create(device_id: device.id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
 		    	jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
@@ -294,7 +301,7 @@ class Location < ActiveRecord::Base
 	end
 
 	def self.analyze_locations
-	    Location.order(:time).all.each do |l|
+	    Location.order(:time).where(:device_id => 4).each do |l|
 	    	# Location.where('time = ? and id != ?', l.time, l.id).destroy_all
 		    l.analyze_me
 	    end

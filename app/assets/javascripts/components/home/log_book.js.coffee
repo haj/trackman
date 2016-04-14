@@ -6,7 +6,7 @@ rasterizeHTML = require('rasterizehtml')
 module.exports = React.createClass
 
 	getInitialState: ->
-		{data: [], car_id: null, loading: "nope", selectedData: [], car: null, selectedDate: null, max: null, avg: null, tdistance: 0}
+		{data: [], car_id: null, loading: "nope", selectedData: [], car: null, selectedDate: null, max: null, avg: null, tdistance: "[waiting...]"}
 		# loading : nothing, loading, done
 
 	componentDidMount: ->
@@ -51,7 +51,7 @@ module.exports = React.createClass
 							self.setState selectedDate: data[data.length - 1][0]
 							self.setState selectedData: data[data.length - 1][1]
 							PubSub.publish "showRoute", {locations: self.state.selectedData, car: self.state.car}
-							self.get_car_statistics(self.state.car.id)
+							self.get_car_statistics self.state.car.id
 							self.setState loading: "done"
 					error: (data) ->
 						self.setState
@@ -65,7 +65,6 @@ module.exports = React.createClass
 				@setState selectedDate: @state.data[@state.data.length - 1][0]
 				@setState selectedData: @state.data[@state.data.length - 1][1]
 				PubSub.publish "showRoute", {locations: @state.selectedData, car: @state.car}
-
 		).bind(@)
 
 		# event coming from CarsOverview
@@ -150,7 +149,8 @@ module.exports = React.createClass
 		api.getWithParams(@props.carsStatisticsPath, {car_id: @state.car.id, date: @state.selectedDate}).then ((stats) ->
 			console.log "HEEEERE !!"
 			console.log  stats
-			@setState tdistance: stats.tdistance
+			if stats != null
+				@setState tdistance: stats.tdistance
 		).bind(@)
 
 	render: ->
