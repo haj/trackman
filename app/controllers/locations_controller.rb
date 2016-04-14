@@ -23,7 +23,7 @@ class LocationsController < ApplicationController
         l.ignite = ignite
     end
 
-    puts l.inspect
+    # puts l.inspect
 
     # logger.warn l.valid_position
     l.analyze_me

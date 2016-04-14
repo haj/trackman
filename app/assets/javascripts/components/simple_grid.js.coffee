@@ -3,7 +3,7 @@ R = React.DOM
 module.exports = React.createClass
 
 	render: ->
-		R.div className: 'grid simple h-scroll dragme',
+		R.div className: 'grid simple dragme',
 			R.div className: 'grid-title border-only-bot',
 				R.h4 null, @props.title
 				R.div className: 'tools',

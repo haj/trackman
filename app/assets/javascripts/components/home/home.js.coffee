@@ -42,4 +42,5 @@ module.exports = React.createClass
       R.div className: "row",
         # Logbook
         R.div className: "col-md-12",
-        React.createElement LogBook
+        React.createElement LogBook,
+        carsStatisticsPath: @props.carsStatisticsPath

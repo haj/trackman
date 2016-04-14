@@ -207,6 +207,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "car_statistics" => "car_statistics#get_stats", as: "car_statistics"
+
   resources :companies
 
   devise_for :users, controllers: { registrations: "registrations", :invitations => 'invitations' }

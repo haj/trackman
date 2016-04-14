@@ -28,7 +28,7 @@ module.exports = React.createClass
 		@setState loaded: true
 
 	render: ->
-		R.div className: 'grid simple cars_overview overview h-scroll dragme',
+		R.div className: 'grid simple cars_overview overview dragme',
 			R.div className: 'grid-title border-only-bot',
 				R.h4 className: "title-inline", "Overview"
 

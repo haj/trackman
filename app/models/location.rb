@@ -108,10 +108,31 @@ class Location < ActiveRecord::Base
 	def analyze_me
 		previous = self.previous
 
+		puts "Loc previous : #{previous.lat} , #{previous.lng}"
+		puts "Loc current : #{self.lat} , #{self.lng}"
+		puts "Distance : #{self.distance_from [previous.latitude, previous.longitude]} KM"
+		distance = self.distance_from [previous.latitude, previous.longitude]
+
+		puts "Analyze me started!!!!"
+		# puts "#{self.device.car.name.inspect}"
+		# puts "#{self.is_first_position_of_day?}"
+		# puts "#{self.ignite}"
+
+		statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id)
+		statistics.tdistance += distance
+		puts "#{statistics.tdistance.inspect}"
+		statistics.tdistance = statistics.tdistance.round(2)
+		puts "#{statistics.inspect}"
+
+		if self.device.car.name == "Zak's Phone 2"
+			self.ignite = true
+		end
+
 		if self.ignition_is_on?
 
 			if self.is_first_position_of_day? or (previous.state == "stop" or previous.state == "signal")
 
+				puts "Yes"
 				self.state = "start"
 				self.set_as_current_step
 				self.reverse_geocode
@@ -148,6 +169,8 @@ class Location < ActiveRecord::Base
 					unless previous_start_point.nil?
 						previous_start_point.parking_duration = previous_start_point.calculate_parking_time
 						previous_start_point.driving_duration = self.calculate_driving_time
+						statistics.tparktime += previous_start_point.parking_duration
+						statistics.tdrivtime += previous_start_point.driving_duration
 						previous_start_point.save!
 					end
 
@@ -155,12 +178,16 @@ class Location < ActiveRecord::Base
 
 					#calculate avg speed of the day
 					self.avg = arr_speed.inject{ |sum, el| sum+el }.to_f / arr_speed.size
+					statistics.avgspeed = arr_speed / arr_speed.max
 
 					#calculate max speed of the day
 					self.max = arr_speed.max
+					statistics.maxspeed = arr_speed.max
 
 					#calculate min speed of the day
 					self.min = arr_speed.min
+
+					# Calcutaing distance
 
 				else
 					self.state = "signal"
@@ -170,6 +197,9 @@ class Location < ActiveRecord::Base
 
 		end
 
+		puts "SAVING ...."
+		statistics.save!
+		puts "#{statistics.inspect}"
 		self.save!
 	end
 
@@ -252,6 +282,14 @@ class Location < ActiveRecord::Base
 	    	l.analyze_me
 	    	l.save!
 	    end
+	end
+
+	def lat
+		self.latitude
+	end
+
+	def lng
+		self.longitude
 	end
 
 	def self.analyze_locations

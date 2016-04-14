@@ -6,7 +6,7 @@ rasterizeHTML = require('rasterizehtml')
 module.exports = React.createClass
 
 	getInitialState: ->
-		{data: [], car_id: null, loading: "nope", selectedData: [], car: null, selectedDate: null, max: null, avg: null}
+		{data: [], car_id: null, loading: "nope", selectedData: [], car: null, selectedDate: null, max: null, avg: null, tdistance: 0}
 		# loading : nothing, loading, done
 
 	componentDidMount: ->
@@ -21,7 +21,6 @@ module.exports = React.createClass
 			car_id: null
 
 	componentWillMount: ->
-
 		# event coming from CarsOverview
 		@pubsub = PubSub.subscribe 'show_logbook', ((topic, props) ->
 			# console.log props
@@ -52,6 +51,7 @@ module.exports = React.createClass
 							self.setState selectedDate: data[data.length - 1][0]
 							self.setState selectedData: data[data.length - 1][1]
 							PubSub.publish "showRoute", {locations: self.state.selectedData, car: self.state.car}
+							self.get_car_statistics(self.state.car.id)
 							self.setState loading: "done"
 					error: (data) ->
 						self.setState
@@ -145,10 +145,19 @@ module.exports = React.createClass
 		# doc.autoPrint()
 		# doc.output("dataurlnewwindow")
 
+	get_car_statistics: ->
+		console.log "getting cars statistics !!!"
+		api.getWithParams(@props.carsStatisticsPath, {car_id: @state.car.id, date: @state.selectedDate}).then ((stats) ->
+			@setState tdistance: stats.tdistance
+			console.log "HEEEERE !!"
+			console.log  stats
+		).bind(@)
+
 	render: ->
 
 		selectedData = @state.selectedData
 		selectedDate = @state.selectedDate
+		self = @
 
 		step = (state, step) ->
 			if state == "start"
@@ -182,14 +191,13 @@ module.exports = React.createClass
 			if selectedDate != null
 				max = getMax(selectedData, 'max')
 				avg = getMax(selectedData, 'avg')
-				"#{selectedDate} | MAX SPEED : #{Math.round(max.max) if max} KM | AVG SPEED : #{Math.round(avg.avg) if avg} KM"
+				"#{selectedDate} | MAX SPEED : #{Math.round(max.max) if max} KM | AVG SPEED : #{Math.round(avg.avg) if avg} KM | TOTAL DISTANCE : #{self.state.tdistance} KM"
 			else
 				"..."
 
 		R.div null,
 
 			R.div {className: '', ref: 'logbook'},
-
 				R.div className: "col-md-2 no-padding",
 					React.createElement SimpleGrid, title: 'LogBook', style: {padding: '0px'},
 						unless @state.loading == "done"

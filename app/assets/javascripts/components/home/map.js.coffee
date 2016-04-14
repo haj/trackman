@@ -49,7 +49,7 @@ CustomMarker::getPosition = ->
 module.exports = React.createClass
   map: null
   markers: []
-  routeMarkers: []
+  # routeMarkers: []
   infoWindow: null
   boundsToAllCars: new google.maps.LatLngBounds()
   boundsToRoute: new google.maps.LatLngBounds()
@@ -60,7 +60,7 @@ module.exports = React.createClass
   directionsService: new google.maps.DirectionsService
 
   getInitialState: ->
-    {cars: @props.cars, gmap: null, selectedCar: null, data: null}
+    {cars: @props.cars, gmap: null, selectedCar: null, data: null, carMarkers: [], allCars: true, marker: null}
 
   componentWillMount: ->
 
@@ -87,21 +87,21 @@ module.exports = React.createClass
       @setState
         selectedCar: null
         title: null
-      @routePath.setMap null
+        allCars: true
+      # @routePath.setMap null
       @routePath = null
       @fitBounds(@boundsToAllCars)
     ).bind(@)
 
     # event coming from LogBook
     @pubsub_show_route = PubSub.subscribe 'showRoute', ((topic, data) ->
-      console.log "DATA HERE"
-      console.log data
-      @setState selectedCar: data.car
-      console.log @state
+      @setState
+        selectedCar: data.car
+        allCars: false
       @setState title: @setMapTitle @state.selectedCar.name, @state.selectedCar.last_seen
       @routePath.setMap null if @routePath
       @calcRouteDirectionService data.locations
-      @showStepsOfRoute data.locations
+      # @showStepsOfRoute data.locations
       @state.gmap.fitBounds
     ).bind(@)
 
@@ -193,8 +193,12 @@ module.exports = React.createClass
       @didFitBounds = true
 
   componentWillReceiveProps: (props) ->
-    @setState cars: props.cars
+    # @clearMarkers()
     @createMarkers props.cars
+
+    @setState 
+      cars: props.cars
+
     @initialFitBounds()
 
   # shouldComponentUpdate: (nextProps, nextState) ->
@@ -220,9 +224,11 @@ module.exports = React.createClass
     mapOptions =
       minZoom: 1
       maxZoom: 16
-      zoom: 13
+      zoom: 14
       center: casablanca
     map = new google.maps.Map(ReactDOM.findDOMNode(@refs.map_canvas), mapOptions)
+    @createMarkers @state.cars
+
     # google.maps.event.trigger(map, 'resize')
     # google.maps.event.addListener(map, 'bounds_changed', () ->
     #   alert "bounds changed"
@@ -236,8 +242,8 @@ module.exports = React.createClass
 
   createMarkers: (cars) ->
     console.log "Here the markers"
-    console.log @markers
-    @clearMarkers() if @markers != []
+    console.log @markers.length
+    @clearMarkers()
     for car in cars
       @createMarker car
     @state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon) if @state.selectedCar != null
@@ -248,17 +254,20 @@ module.exports = React.createClass
       map: @state.gmap
       icon: @props.pinIcon
       title: car.name
+    console.log "Making a marker"
     console.log marker
     if !isNaN(marker.position.G) || !isNaN(marker.position.K)
       google.maps.event.addListener marker, "click", (() ->
         if @infoWindow
-          # alert 'cool'
+          alert 'cool'
           @infoWindow.close()
         @createInfoWindow marker, car
       ).bind(@)
 
       @markers.push marker
+      window.markers = @markers
       @boundsToAllCars.extend marker.getPosition()
+    return marker
 
   highlightMarker: (name) ->
     marker = @markers.filter (el, i) ->
@@ -344,7 +353,7 @@ module.exports = React.createClass
     # @state.gmap.setCenter(@state.gmap.getCenter())
 
   render: ->
-    R.div className: 'grid simple h-scroll dragme',
+    R.div className: 'grid simple dragme',
       R.div className: 'grid-title border-only-bot',
         R.h4 null, @state.title || @props.title
         R.div className: 'tools',

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151228174301) do
+ActiveRecord::Schema.define(version: 20160414124455) do
 
   create_table "alarm_notifications", force: true do |t|
     t.integer  "car_id"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20151228174301) do
     t.integer  "tdrivtime"
     t.float    "maxspeed",  limit: 24
     t.float    "avgspeed",  limit: 24
+    t.float    "tdistance", limit: 24
   end
 
   create_table "car_types", force: true do |t|
