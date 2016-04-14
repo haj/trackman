@@ -118,11 +118,11 @@ class Location < ActiveRecord::Base
 		# puts "#{self.is_first_position_of_day?}"
 		# puts "#{self.ignite}"
 
-		statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id)
+		statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id, time: self.time.to_date)
 		statistics.tdistance += distance
 		puts "#{statistics.tdistance.inspect}"
 		statistics.tdistance = statistics.tdistance.round(2)
-		statistics.time = self.time.to_date
+		# statistics.time = self.time.to_date
 		puts "#{statistics.inspect}"
 
 		if self.device.car.name == "Zak's Phone 2"
