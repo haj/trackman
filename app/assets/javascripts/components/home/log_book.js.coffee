@@ -148,9 +148,9 @@ module.exports = React.createClass
 	get_car_statistics: ->
 		console.log "getting cars statistics !!!"
 		api.getWithParams(@props.carsStatisticsPath, {car_id: @state.car.id, date: @state.selectedDate}).then ((stats) ->
-			@setState tdistance: stats.tdistance
 			console.log "HEEEERE !!"
 			console.log  stats
+			@setState tdistance: stats.tdistance
 		).bind(@)
 
 	render: ->
