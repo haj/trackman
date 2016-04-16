@@ -33,4 +33,11 @@ class LocationsController < ApplicationController
     render :text => ""
   end
 
+  def get_all_positions_for_car(car_id, date)
+  	c = Car.find car_id
+  	positions = Traccar::Position.where(:deviceId => c.device.id, :time => date)
+  	render json: positions.to_json
+  end
+
+
 end

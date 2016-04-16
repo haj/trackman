@@ -67,7 +67,8 @@ class Car < ActiveRecord::Base
 		end
 
 		def locations_grouped_by_these_dates dates
-			self.locations.order(:time).where('DATE(time) in (?) and state in (?)', dates, ['start','stop','idle']).group_by{|l| l.time.to_date}
+			# self.locations.order(:time).where('DATE(time) in (?) and state in (?)', dates, ['start','stop','idle']).group_by{|l| l.time.to_date}
+			self.locations.order(:time).where('DATE(time) in (?)', dates).group_by{|l| l.time.to_date}
 		end
 
 		def last_location

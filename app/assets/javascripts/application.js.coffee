@@ -74,13 +74,13 @@
 #= require components
 
 ready = ->
-  className = $('body').attr('data-class-name')
-  window.currentView = try
-    eval("new #{className}()")
-  catch error
-    new Views.ApplicationView()
-  window.currentView.render()
-
+	className = $('body').attr('data-class-name')
+	window.currentView = try
+		eval("new #{className}()")
+	catch error
+		new Views.ApplicationView()
+	window.currentView.render()
+	
 $(document).ready(ready)
 
 

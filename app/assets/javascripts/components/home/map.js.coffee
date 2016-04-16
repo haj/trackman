@@ -56,8 +56,6 @@ module.exports = React.createClass
   didFitBounds: false
   selectedMarker: null
   routePath: null
-  directionsDisplay: new google.maps.DirectionsRenderer {suppressMarkers: true}
-  directionsService: new google.maps.DirectionsService
 
   getInitialState: ->
     {activeCars: @props.activeCars, cars: @props.cars, gmap: null, selectedCar: null, data: null, carMarkers: [], allCars: true, marker: null}
@@ -88,7 +86,7 @@ module.exports = React.createClass
         selectedCar: null
         title: null
         allCars: true
-      # @routePath.setMap null
+      @routePath.setMap null
       @routePath = null
       @fitBounds(@boundsToAllCars)
     ).bind(@)
@@ -100,8 +98,7 @@ module.exports = React.createClass
         allCars: false
       @setState title: @setMapTitle @state.selectedCar.name, @state.selectedCar.last_seen
       @routePath.setMap null if @routePath
-      @calcRouteDirectionService data.locations
-      # @calcRoutePolyline data.locations
+      @calcRoutePolyline data.locations
       # @showStepsOfRoute data.locations
       @state.gmap.fitBounds
     ).bind(@)
@@ -115,62 +112,27 @@ module.exports = React.createClass
     console.log "Did mouuuunt"
     @setState gmap: @createMap()
 
-  calcRouteDirectionService: (data) ->
-    console.log "calc route using direction service"
-    self = @
-    console.log data
-    origin_lat = data[0].latitude
-    origin_lng = data[0].longitude
-    destin_lat = data[data.length-1].latitude
-    destin_lng = data[data.length-1].longitude
-
-    origin = new (google.maps.LatLng)(origin_lat, origin_lng)
-    destination = new (google.maps.LatLng)(destin_lat, destin_lng)
-
-    waypts = []
-    i = 1
-    while i < data.length - 2
-        # status = data[i].infowindow.split('/')[1]
-        if data[i].state == "start" and waypts.length <= 8
-            waypts.push
-                location: new (google.maps.LatLng)(data[i].latitude, data[i].longitude)
-                stopover: true
-        i++
-
-    waypts.pop()
-    console.log waypts.length
-
-    request =
-        origin: origin
-        destination: destination
-        travelMode: google.maps.TravelMode.DRIVING
-        waypoints: waypts
-        optimizeWaypoints: false
-
-    @directionsService.route request, (response, status) ->
-        console.log response
-        if status == google.maps.DirectionsStatus.OK
-            self.directionsDisplay.setDirections response
-            window.directionsDisplayResponse = response
-        else
-          console.log status + ", Calculating using polylines"
-          self.calcRoutePolyline data
-        return
-
-    @directionsDisplay.setMap @state.gmap
-    console.log @state.data
-
   calcRoutePolyline: (data) ->
     console.log "calc route using polylines"
     routeCoordinates = []
 
-    for l in data
+    $.each data, ((index, pos) ->
+
+      l = pos
 
       point =
         lat: l.latitude
         lng: l.longitude
 
+       # if index == 0
+       # 	@createRouteMarker point.lat, point.lng, "Departure"
+
+       # if index == data.length - 1
+       # 	@createRouteMarker point.lat, point.lng, "Arrival"
+
       routeCoordinates.push point
+
+    ).bind(@)
 
     console.log routeCoordinates.length
     console.log routeCoordinates
@@ -184,7 +146,14 @@ module.exports = React.createClass
 
     @routePath.setMap @state.gmap
     @zoomToObject @routePath
-    # @state.gmap.setCenter @routePath.getCenter
+    # @state.gmap.setCenter @routePath.getCenter()
+
+  createRouteMarker: (lat, lng, title) ->
+    marker = new google.maps.Marker
+      position: new google.maps.LatLng(lat, lng)
+      map: @state.gmap
+      icon: @props.pinIcon
+      title: title
 
   setMapTitle: (name, last_seen) ->
     name + " | " + moment(last_seen).fromNow()
@@ -270,6 +239,17 @@ module.exports = React.createClass
     console.log @boundsToAllCars
     console.log "get markers positions"
     console.log marker.getPosition()
+    return marker
+
+    # google.maps.event.addListener marker, "click", (() ->
+    #   if @infoWindow
+    #     @infoWindow.close()
+    #   @createInfoWindow marker, car
+    # ).bind(@)
+
+    @markers.push marker
+    @boundsToRoute.extend marker.getPosition()
+    @fitBounds @boundsToRoute
     return marker
 
   highlightMarker: (name) ->

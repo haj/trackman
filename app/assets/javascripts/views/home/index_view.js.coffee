@@ -2,7 +2,6 @@ window.Views.Home ||= {}
 class Views.Home.IndexView extends Views.ApplicationView
   render: ->
     super()
-
     # Cars.Show.all()
 
     # show_road = (data) ->

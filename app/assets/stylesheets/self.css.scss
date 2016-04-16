@@ -55,3 +55,44 @@
 	-o-transition: all .1s ease-in-out !important;
 	transition: all .1s ease-in-out !important;
 }
+
+.list-group-item.logbook {
+	padding: 0px;
+	.list-group-item-heading {
+		font-size: 15px;
+		padding: 11px 15px;
+		margin-bottom: 0px;
+	}
+	.list-group-item-content {
+		padding: 15px 15px 10px;
+		display: none;
+	}
+}
+
+.list-group-item.logbook:hover {
+}
+
+.list-group-item.logbook.active:hover, .list-group-item.logbook.active:focus {
+	background-color: white;
+	border-color:#ddd;
+	background-image: none;
+	.list-group-item-content {
+		color: black;
+	}
+}
+
+.list-group-item.logbook.active {
+	background-color: white;
+	border-color:#ddd;
+	background-image: none;
+	background-image: none;
+	.list-group-item-heading {
+		background-image: linear-gradient(to bottom, #428bca 0, #3278b3 100%);
+		color: white;
+	}
+	.list-group-item-content {
+		color: black;
+		background-color: none;
+		display: inline-block;
+	}
+}
