@@ -11,7 +11,7 @@ module.exports = React.createClass
   mixins: [IntervalMixin]
 
   getInitialState: ->
-    {cars: []}
+    {cars: [], active_cars: []}
 
   componentWillMount: ->
     @fetchData()
@@ -20,6 +20,10 @@ module.exports = React.createClass
   fetchData: ->
     api.get(@props.carsOverviewPath).then ((data) ->
       @setState cars: data
+      @setState active_cars: $.grep @state.cars, (e) ->
+        e.last_seen != "-"
+      console.log "fetch active cars in home"
+      console.log @state.active_cars
     ).bind(@)
 
   render: ->
@@ -31,16 +35,20 @@ module.exports = React.createClass
             React.createElement Map,
               carsIndexPath: @props.carsIndexPath,
               cars: @state.cars, title: "All vehicles",
-              pinIcon: @props.pinIcon
+              pinIcon: @props.pinIcon,
+              activeCars: @state.active_cars
 
           # Cars Overview
           R.div {className: "col-md-6 no-padding"},
             React.createElement CarsOverview,
             carsOverviewPath: @props.carsOverviewPath,
-            cars: @state.cars
+            cars: @state.cars,
+            activeCars: @state.active_cars
 
       R.div className: "row",
         # Logbook
         R.div className: "col-md-12",
         React.createElement LogBook,
-        carsStatisticsPath: @props.carsStatisticsPath
+        carsStatisticsPath: @props.carsStatisticsPath,
+        activeCars: @state.active_cars,
+        cars: @state.cars

@@ -7,8 +7,6 @@ module.exports = React.createClass
 	getInitialState: ->
 		{cars: @props.cars, selected: null, loaded: false}
 
-	componentWillMount: ->
-
 	componentWillReceiveProps: (props) ->
 		@setState cars: props.cars
 		@handleLoadedData()
@@ -16,8 +14,9 @@ module.exports = React.createClass
 	showLogbook: (props) ->
 		console.log "showLogbook clicked : "
 		console.log props
-		@setState selected: props.id
-		PubSub.publish 'show_logbook', props
+		if props.last_seen != "-"
+			@setState selected: props.id
+			PubSub.publish 'show_logbook', props
 		# PubSub.publish 'show_last_route_on_map', props
 
 	handleClearSelected: ->

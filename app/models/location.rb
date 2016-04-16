@@ -175,8 +175,10 @@ class Location < ActiveRecord::Base
 						previous_start_point.parking_duration = previous_start_point.calculate_parking_time
 						previous_start_point.driving_duration = self.calculate_driving_time
 						if statistics != nil
-							statistics.tparktime += previous_start_point.parking_duration
-							statistics.tdrivtime += previous_start_point.driving_duration
+							puts "#{statistics.tparktime}"
+							puts "#{previous_start_point.parking_duration}"
+							statistics.tparktime += previous_start_point.parking_duration if previous_start_point.parking_duration != nil
+							statistics.tdrivtime += previous_start_point.driving_duration if previous_start_point.driving_duration != nil
 						end
 						previous_start_point.save!
 					end
@@ -185,16 +187,17 @@ class Location < ActiveRecord::Base
 
 					#calculate avg speed of the day
 					self.avg = arr_speed.inject{ |sum, el| sum+el }.to_f / arr_speed.size
-					statistics.avgspeed = arr_speed / arr_speed.max if statistics != nil
 
 					#calculate max speed of the day
 					self.max = arr_speed.max
-					statistics.maxspeed = arr_speed.max if statistics != nil
 
 					#calculate min speed of the day
 					self.min = arr_speed.min
 
-					# Calcutaing distance
+					if statistics != nil 
+						statistics.avgspeed = arr_speed.inject{ |sum, el| sum+el }.to_f / arr_speed.size
+						statistics.maxspeed = self.get_todays_locs.map{|l| l.speed}.max
+					end
 
 				else
 					self.state = "signal"
@@ -252,7 +255,7 @@ class Location < ActiveRecord::Base
 
 	def self.reset_all_locations
 			Location.all.destroy_all
-	    Traccar::Position.all.where(:deviceId => 4).where('DATE(fixTime) > ? and DATE(fixTime) <= ?', "2015-11-05 18:15:07", "2015-11-30 18:15:07").each do |p|
+	    Traccar::Position.all.where(:deviceId => 4).where('DATE(fixTime) > ? and DATE(fixTime) <= ?', "2015-11-05 06:15:07", "2015-11-10 21:15:07").each do |p|
 	    		puts "cool"
 	    		device = Device.find_by_emei(Traccar::Device.find(p.deviceId).uniqueId)
 	        l = Location.create(device_id: device.id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)

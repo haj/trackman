@@ -60,7 +60,7 @@ module.exports = React.createClass
   directionsService: new google.maps.DirectionsService
 
   getInitialState: ->
-    {cars: @props.cars, gmap: null, selectedCar: null, data: null, carMarkers: [], allCars: true, marker: null}
+    {activeCars: @props.activeCars, cars: @props.cars, gmap: null, selectedCar: null, data: null, carMarkers: [], allCars: true, marker: null}
 
   componentWillMount: ->
 
@@ -112,6 +112,7 @@ module.exports = React.createClass
     PubSub.unsubscribe @pubsub_show_route
 
   componentDidMount: ->
+    console.log "Did mouuuunt"
     @setState gmap: @createMap()
 
   calcRouteDirectionService: (data) ->
@@ -195,12 +196,11 @@ module.exports = React.createClass
 
   componentWillReceiveProps: (props) ->
     # @clearMarkers()
-    @createMarkers props.cars
+    @createMarkers props.activeCars
 
     @setState 
       cars: props.cars
-
-    @initialFitBounds()
+      activeCars: props.activeCars
 
   # shouldComponentUpdate: (nextProps, nextState) ->
   #   console.log "shouldComponentUpdate"
@@ -228,7 +228,7 @@ module.exports = React.createClass
       zoom: 14
       center: casablanca
     map = new google.maps.Map(ReactDOM.findDOMNode(@refs.map_canvas), mapOptions)
-    @createMarkers @state.cars
+    @createMarkers @state.activeCars
 
     # google.maps.event.trigger(map, 'resize')
     # google.maps.event.addListener(map, 'bounds_changed', () ->
@@ -243,6 +243,7 @@ module.exports = React.createClass
 
   createMarkers: (cars) ->
     console.log "Here the markers"
+    console.log @state.active_cars
     console.log @markers.length
     @clearMarkers()
     for car in cars
@@ -257,17 +258,18 @@ module.exports = React.createClass
       title: car.name
     console.log "Making a marker"
     console.log marker
-    if !isNaN(marker.position.G) || !isNaN(marker.position.K)
-      google.maps.event.addListener marker, "click", (() ->
-        if @infoWindow
-          alert 'cool'
-          @infoWindow.close()
-        @createInfoWindow marker, car
-      ).bind(@)
+    google.maps.event.addListener marker, "click", (() ->
+      if @infoWindow
+        @infoWindow.close()
+      @createInfoWindow marker, car
+    ).bind(@)
 
-      @markers.push marker
-      window.markers = @markers
-      @boundsToAllCars.extend marker.getPosition()
+    @markers.push marker
+    @boundsToAllCars.extend marker.getPosition()
+    @fitBounds @boundsToAllCars
+    console.log @boundsToAllCars
+    console.log "get markers positions"
+    console.log marker.getPosition()
     return marker
 
   highlightMarker: (name) ->
