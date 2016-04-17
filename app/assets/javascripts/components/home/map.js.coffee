@@ -48,8 +48,8 @@ CustomMarker::getPosition = ->
 
 module.exports = React.createClass
   map: null
-  markers: []
-  # routeMarkers: []
+  carMarkers: []
+  routeMarkers: []
   infoWindow: null
   boundsToAllCars: new google.maps.LatLngBounds()
   boundsToRoute: new google.maps.LatLngBounds()
@@ -124,6 +124,9 @@ module.exports = React.createClass
         lat: l.latitude
         lng: l.longitude
 
+       # if pos.state == "start" or pos.state == "stop"
+       	# @createRouteMarker point.lat, point.lng, pos.address
+
        # if index == 0
        # 	@createRouteMarker point.lat, point.lng, "Departure"
 
@@ -165,7 +168,7 @@ module.exports = React.createClass
 
   componentWillReceiveProps: (props) ->
     # @clearMarkers()
-    @createMarkers props.activeCars
+    @createCarMarkers props.activeCars
 
     @setState 
       cars: props.cars
@@ -197,7 +200,7 @@ module.exports = React.createClass
       zoom: 14
       center: casablanca
     map = new google.maps.Map(ReactDOM.findDOMNode(@refs.map_canvas), mapOptions)
-    @createMarkers @state.activeCars
+    @createCarMarkers @state.activeCars
 
     # google.maps.event.trigger(map, 'resize')
     # google.maps.event.addListener(map, 'bounds_changed', () ->
@@ -210,20 +213,20 @@ module.exports = React.createClass
 
 ## Markers for showing the cars #########
 
-  createMarkers: (cars) ->
+  createCarMarkers: (cars) ->
     console.log "Here the markers"
     console.log @state.active_cars
-    console.log @markers.length
-    @clearMarkers()
+    console.log @carMarkers.length
+    @clearCarMarkers()
     for car in cars
-      @createMarker car
+      @createCarMarker car
     @state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon) if @state.selectedCar != null
 
-  createMarker: (car) ->
+  createCarMarker: (car) ->
     marker = new google.maps.Marker
       position: new google.maps.LatLng(car.lat, car.lon)
       map: @state.gmap
-      icon: @props.pinIcon
+      icon: @props.carIcon
       title: car.name
     console.log "Making a marker"
     console.log marker
@@ -233,7 +236,7 @@ module.exports = React.createClass
       @createInfoWindow marker, car
     ).bind(@)
 
-    @markers.push marker
+    @carMarkers.push marker
     @boundsToAllCars.extend marker.getPosition()
     @fitBounds @boundsToAllCars
     console.log @boundsToAllCars
@@ -247,11 +250,6 @@ module.exports = React.createClass
     #   @createInfoWindow marker, car
     # ).bind(@)
 
-    @markers.push marker
-    @boundsToRoute.extend marker.getPosition()
-    @fitBounds @boundsToRoute
-    return marker
-
   highlightMarker: (name) ->
     marker = @markers.filter (el, i) ->
       el if el.title == name
@@ -259,10 +257,10 @@ module.exports = React.createClass
     @selectedMarker.setAnimation google.maps.Animation.BOUNCE if marker != null
     @routePath.setMap null if @routePath
 
-  clearMarkers: ->
-    for marker in @markers
+  clearCarMarkers: ->
+    for marker in @carMarkers
       marker.setMap(null)
-    @markers = []
+    @carMarkers = []
 
 ## Markers for showing the cars #########
 

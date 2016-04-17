@@ -38,6 +38,7 @@ module.exports = React.createClass
 					data: car_id: props.id
 					type: 'get'
 					success: (data) ->
+						console.log "Yelah jat"
 						data.reverse()
 						if data.length == 0
 							# Nothing found for the current car => Showing intiial state of the map.
@@ -129,7 +130,7 @@ module.exports = React.createClass
 		date = item[0]
 		data = $.grep item[1], (pos) ->
 			pos.state == "start" or pos.state == "stop" or pos.state == "idle"
-			
+
 		if date != @state.selectedDate
 			@setState
 				selectedData: data

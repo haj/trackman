@@ -36,6 +36,8 @@ module.exports = React.createClass
               carsIndexPath: @props.carsIndexPath,
               cars: @state.cars, title: "All vehicles",
               pinIcon: @props.pinIcon,
+              carIcon: @props.carIcon,
+              parkingIcon: @props.parkingIcon,
               activeCars: @state.active_cars
 
           # Cars Overview
