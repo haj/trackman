@@ -40,11 +40,11 @@ module.exports = React.createClass
 			<a href="#" className={@isActive()} onClick={@handleOnClick}>
 				<h4 className="list-group-item-heading">{@state.date}</h4>
 				<div className="list-group-item-content">
-					<p>Distance : {@state.statistics_for_day.tdistance} Km</p>
-					<p>Max speed : {@state.statistics_for_day.max} Km/h</p>
-					<p>Avg speed : {@state.statistics_for_day.avg} Km/h</p>
-					<p>Parking duration : {tparktime}</p>
-					<p>Driving duration : {tdrivtime}</p>
+					<p className = "stats-value">Distance : {@state.statistics_for_day.tdistance} <span>Km</span></p>
+					<p className = "stats-value">Max speed : {@state.statistics_for_day.max} <span>Km/h</span></p>
+					<p className = "stats-value">Avg speed : {@state.statistics_for_day.avg} <span>Km/h</span></p>
+					<p className = "stats-value">Parking duration : {tparktime}</p>
+					<p className = "stats-value">Driving duration : {tdrivtime}</p>
 				</div>
 			</a>
 		)

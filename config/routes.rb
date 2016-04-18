@@ -208,6 +208,7 @@ Rails.application.routes.draw do
   end
 
   get "car_statistics" => "car_statistics#get_stats", as: "car_statistics"
+  get "get_car_route" => "locations#get_car_route", as: "get_car_route"
 
   resources :companies
 

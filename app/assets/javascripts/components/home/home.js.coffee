@@ -1,7 +1,6 @@
 R = React.DOM
 
 IntervalMixin = require('../utils/interval_mixin')
-
 LogBook = require('./log_book')
 CarsOverview = require('./cars_overview')
 Map = require('./map')
@@ -38,6 +37,7 @@ module.exports = React.createClass
               pinIcon: @props.pinIcon,
               carIcon: @props.carIcon,
               parkingIcon: @props.parkingIcon,
+              emptyIcon: @props.emptyIcon,
               activeCars: @state.active_cars
 
           # Cars Overview

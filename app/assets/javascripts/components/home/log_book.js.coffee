@@ -55,16 +55,10 @@ module.exports = React.createClass
 							console.log "all data"
 							console.log data
 							self.setState data: data
-							# self.setState dataMin: $.grep data[1], (day) ->
-							# 	day[1].state == "start" or day[1].state == "stop" or day[1].state == "idle" 
-							self.setState posForMap: data[0][1]
 							self.setState selectedDate: data[0][0]
 							self.setState selectedData: $.grep data[0][1], (pos) ->
 								pos.state == "start" or pos.state == "stop" or pos.state == "idle"
-							# self.setState dataMin: [self.state.listDates, self.state.selectedData]
-							console.log "Pos for map"
-							console.log self.state.posForMap
-							PubSub.publish "showRoute", {locations: self.state.posForMap, car: self.state.car}
+							PubSub.publish "showRoute", {date: data[0][0], car: self.state.car}
 							self.setState loading: "done"
 					error: (data) ->
 						self.setState
@@ -76,11 +70,10 @@ module.exports = React.createClass
 							posForMap: []
 							loading: "nothing"
 			else
-				@setState posForMap: data[0][1]
 				@setState selectedDate: @state.data[0][0]
 				@setState selectedData: @state.data[0][1], (pos) ->
 					pos.state == "start" or pos.state == "stop" or pos.state == "idle"
-				PubSub.publish "showRoute", {locations: @state.posForMap, car: @state.car}
+				PubSub.publish "showRoute", {date: @state.data[0][0], car: @state.car}
 		).bind(@)
 
 		# event coming from CarsOverview
@@ -139,8 +132,7 @@ module.exports = React.createClass
 
 		console.log "Pos for map"
 		console.log @state.posForMap
-		PubSub.publish 'showRoute', {locations: item[1], car: @state.car}
-
+		PubSub.publish 'showRoute', {date: item[0], car: @state.car}
 	render: ->
 		console.log "Logbook render"
 		selectedData = @state.selectedData

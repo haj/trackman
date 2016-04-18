@@ -258,7 +258,7 @@ class Location < ActiveRecord::Base
 	    Traccar::Position.all.where(:deviceId => 4).where('DATE(fixTime) > ? and DATE(fixTime) <= ?', "2015-11-05 06:15:07", "2015-11-10 21:15:07").each do |p|
 	    		puts "cool"
 	    		device = Device.find_by_emei(Traccar::Device.find(p.deviceId).uniqueId)
-	        l = Location.create(device_id: device.id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
+	        l = Location.create(device_id: device.id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid, position_id: p.id)
 		    	jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
 		    	ignite = JSON[jsoned_xml]["info"]["power"]
 		    	l.ignite = ignite if ignite != ""
