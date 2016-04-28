@@ -186,13 +186,12 @@ module.exports = React.createClass
 				lng: l.longitude
 
 			if l.state == "start"
-				console.log l.step
 				marker = new MarkerWithLabel
 					position: latlng
-					labelContent: "#{l.step}"
+					labelContent: "#{l.trip_step}"
 					labelClass: "gmlabels"
-					labelAnchor: new google.maps.Point(10, 28)
-					labelInBackground: true
+					labelAnchor: new google.maps.Point(10.5, 26.5)
+					labelInBackground: false
 					icon: @props.emptyIcon
 					#on: @pinSymbol('red')
 				marker.desc = "My cool description"
@@ -231,7 +230,7 @@ module.exports = React.createClass
 			geodesic: false
 			strokeColor: "#3b7fb8"
 			strokeOpacity: 1.0
-			strokeWeight: 2
+			strokeWeight: 3
 
 		@routePath.setMap @state.gmap
 		# @zoomToObject @routePath

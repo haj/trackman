@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414124455) do
+ActiveRecord::Schema.define(version: 20160425045805) do
 
   create_table "alarm_notifications", force: true do |t|
     t.integer  "car_id"
@@ -80,9 +80,13 @@ ActiveRecord::Schema.define(version: 20160414124455) do
     t.datetime "time"
     t.integer  "tparktime"
     t.integer  "tdrivtime"
-    t.float    "maxspeed",  limit: 24
-    t.float    "avgspeed",  limit: 24
-    t.float    "tdistance", limit: 24
+    t.float    "maxspeed",      limit: 24
+    t.float    "avgspeed",      limit: 24
+    t.float    "tdistance",     limit: 24
+    t.integer  "steps_counter"
+    t.integer  "last_start_id"
+    t.integer  "last_stop_id"
+    t.integer  "last_is_id"
   end
 
   create_table "car_types", force: true do |t|
@@ -227,11 +231,13 @@ ActiveRecord::Schema.define(version: 20160414124455) do
     t.float    "longitude",        limit: 24
     t.float    "latitude",         limit: 24
     t.string   "status"
-    t.integer  "step"
+    t.integer  "ignite_step"
     t.boolean  "ignite"
     t.float    "avg",              limit: 24
     t.float    "max",              limit: 24
     t.float    "min",              limit: 24
+    t.integer  "trip_step"
+    t.float    "step_distance",    limit: 24
   end
 
   create_table "mailboxer_conversation_opt_outs", force: true do |t|

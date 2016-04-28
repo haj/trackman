@@ -135,8 +135,10 @@ div.overlay-label {
   background-color: #fff;
   font-family: "Lucida Grande", "Arial", sans-serif;
   font-size: 10px;
+  border-radius: 10px;
   font-weight: bold;
   text-align: center;
   width: 20px;
   white-space: nowrap;
+  z-index: -10;
 }

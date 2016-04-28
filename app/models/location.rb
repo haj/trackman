@@ -48,7 +48,7 @@ class Location < ActiveRecord::Base
 	def is_last_point?
 		if self.get_todays_locs.count > 1 and self.previous.state != "stop"
 			self.state = "stop"
-			self.step = self.previous.step
+			self.ignite_step = self.previous.ignite_step
 			logger.warn locs.last.inspect
 			self.save!
 			true
@@ -108,103 +108,68 @@ class Location < ActiveRecord::Base
 	def analyze_me
 		previous = self.previous
 
-		if previous != nil
-			puts "Loc previous : #{previous.lat} , #{previous.lng}"
-			puts "Loc current : #{self.lat} , #{self.lng}"
-			puts "Distance : #{self.distance_from [previous.latitude, previous.longitude]} KM"
-			distance = self.distance_from [previous.latitude, previous.longitude]
+		statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id, time: self.time.to_date)
 
-			statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id, time: self.time.to_date)
-			statistics.tdistance += distance
+		if previous != nil
+			distance_from_previous = self.distance_from [previous.latitude, previous.longitude]
+			statistics.tdistance += distance_from_previous
 			statistics.tdistance = statistics.tdistance.round(2)
-			puts "#{statistics.tdistance.inspect}"
-			puts "#{statistics.inspect}"
 		end
 
 		puts "Analyze me started!!!!"
-		# puts "#{self.device.car.name.inspect}"
-		# puts "#{self.is_first_position_of_day?}"
-		# puts "#{self.ignite}"
 
+		# self.ignite = true if Rails.env.development?
 
-		# statistics.time = self.time.to_date
+		if self.is_first_position_of_day? or statistics.last_is_stop?
 
-		if self.device.car.name == "Zak's Phone 2"
-			self.ignite = true
-		end
-
-		if self.ignition_is_on?
-
-			if self.is_first_position_of_day? or (previous.state == "stop" or previous.state == "signal")
-
-				puts "Yes"
+			if self.ignition_is_on?
 				self.state = "start"
-				self.set_as_current_step
+				statistics.steps_counter += 1
+				statistics.last_start = self
+				statistics.last_is = self
+				self.trip_step = statistics.steps_counter
 				self.reverse_geocode
-				logger.warn "current : "
-				logger.warn self.inspect
-				if self.previous
-					logger.warn "previous : "
-					logger.warn self.previous.inspect
-				end
-
 			else
-
-				if self.been_idled?
-					self.state = "idle"
-					self.step = self.previous_start_point.try(:step)
-					self.reverse_geocode
-				else
-					self.state = "onroad"
-				end
-
+				self.state = "ignore"
 			end
 
 		else
 
-			unless previous.nil?
+			if self.ignition_is_on?
+				self.state = "onroad"
+			else # if ignition is off
+				distance_from_last_start = self.distance_from [statistics.last_start.latitude, statistics.last_start.longitude]
+				duration_since_last_start = (self.time - statistics.last_start.time).to_i
+				if statistics.last_stop
+				distance_from_last_stop = self.distance_from [statistics.last_stop.latitude, statistics.last_stop.longitude]
+				duration_since_last_stop = (self.time - statistics.last_stop.time).to_i
+				end
 
-				if previous.ignition_is_on?
+				if (distance_from_last_start >= 0.01 or duration_since_last_start > 300) and statistics.last_is_start? # 10 meters
 					self.state = "stop"
-					self.step = self.previous_start_point.try(:step)
+					self.ignite_step = self.previous_start_point.try(:ignite_step)
+					self.trip_step = statistics.steps_counter
 					self.reverse_geocode
+					statistics.last_stop = self
+					statistics.last_is = self
 
 					# calculating parking / driving time
-					previous_start_point = self.get_todays_start_locs.last
-					unless previous_start_point.nil?
-						previous_start_point.parking_duration = previous_start_point.calculate_parking_time
-						previous_start_point.driving_duration = self.calculate_driving_time
-						if statistics != nil
-							puts "#{statistics.tparktime}"
-							puts "#{previous_start_point.parking_duration}"
-							statistics.tparktime += previous_start_point.parking_duration if previous_start_point.parking_duration != nil
-							statistics.tdrivtime += previous_start_point.driving_duration if previous_start_point.driving_duration != nil
-						end
-						previous_start_point.save!
-					end
+					previous_start_point = statistics.last_start
+					previous_start_point.driving_duration = duration_since_last_start
+					previous_start_point.parking_duration = previous_start_point.calculate_parking_time
+					previous_start_point.save!
+
+					statistics.tparktime += previous_start_point.parking_duration if previous_start_point.parking_duration != nil
+					statistics.tdrivtime += previous_start_point.driving_duration if previous_start_point.driving_duration != nil
 
 					arr_speed = self.get_todays_locs.map{|l| l.speed}
 
-					#calculate avg speed of the day
-					self.avg = arr_speed.inject{ |sum, el| sum+el }.to_f / arr_speed.size
-
-					#calculate max speed of the day
-					self.max = arr_speed.max
-
-					#calculate min speed of the day
-					self.min = arr_speed.min
-
-					if statistics != nil 
-						statistics.avgspeed = arr_speed.inject{ |sum, el| sum+el }.to_f / arr_speed.size
-						statistics.maxspeed = self.get_todays_locs.map{|l| l.speed}.max
-					end
-
+					statistics.avgspeed = arr_speed.inject{ |sum, el| sum+el }.to_f / arr_speed.size
+					statistics.maxspeed = self.get_todays_locs.map{|l| l.speed}.max
 				else
-					self.state = "signal"
+					self.state = "ignore"
 				end
-
 			end
-
 		end
 
 		puts "SAVING ...."
@@ -226,11 +191,11 @@ class Location < ActiveRecord::Base
 	end
 
 	def set_as_current_step
-		self.step = self.get_todays_start_locs.count + 1
+		self.ignite_step = self.get_todays_start_locs.count + 1
 	end
 
 	def set_as_next_step
-		self.step = self.get_todays_start_locs.last.step + 1 if self.get_todays_start_locs.last != nil
+		self.ignite_step = self.get_todays_start_locs.last.ignite_step + 1 if self.get_todays_start_locs.last != nil
 		self.save!
 	end
 
@@ -280,6 +245,26 @@ class Location < ActiveRecord::Base
 		    	l.save!
 	    end
 	    Location.order(:time).where("DATE(time) = ?", DateTime.now.to_date).each do |l|
+		    l.analyze_me
+	    end
+	end
+
+	def self.analyze_locations_off time, did
+	    Location.order(:time).where("DATE(time) = ? and device_id = ?", time, did).each do |l|
+		    l.analyze_me
+	    end
+	end
+
+	def self.reset_locations_off time, did
+	    Location.where("DATE(time) = ?", time).destroy_all
+	    Traccar::Position.where("DATE(fixTime) = ? and deviceId = ?", time, did).each do |p|
+	        l = Location.create(device_id: did, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
+		    	jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
+		    	ignite = JSON[jsoned_xml]["info"]["power"]
+		    	l.ignite = ignite if ignite != ""
+		    	l.save!
+	    end
+	    Location.order(:time).where("DATE(time) = ? and device_id = ?", time, did).each do |l|
 		    l.analyze_me
 	    end
 	end

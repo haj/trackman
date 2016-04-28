@@ -148,12 +148,14 @@ module.exports = React.createClass
 				R.a {className: 'badge badge-warning'}, step
 
 		duration = (item) ->
+			console.log "item"
+			console.log item
 			parking_duration = moment.duration(parseInt(item.parking_duration), "seconds").format("h [hrs], m [min]")
 			driving_duration = moment.duration(parseInt(item.driving_duration), "seconds").format("h [hrs], m [min]")
 			if item.parking_duration || item.driving_duration
 				R.div null,
 					R.div null, "P : #{parking_duration}"
-					R.div null, "D : #{driving_duration}"
+					R.div null, "D : #{driving_duration} (#{item.step_distance || ""} Km)"
 
 		date = (time) ->
 			time.substring(11, 19)
@@ -187,7 +189,7 @@ module.exports = React.createClass
 									R.tbody null,
 											$.map @state.selectedData, (item, key) ->
 												R.tr {key: key, className: 'position_row', style: {verticalAlign: 'middle'}},
-													R.td className: 'col-md-1', step item.state, item.step
+													R.td className: 'col-md-1', step item.state, item.trip_step
 													R.td className: 'col-md-1', "#{date item.time}"
 													R.td className: 'col-md-2', duration item
 													R.td className: 'col-md-6', item.address
