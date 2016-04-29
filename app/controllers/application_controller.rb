@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_tenant
   helper_method :js_class_name
+  helper_method :css_class_name
 
   before_filter :set_current_tenant
   before_filter :bootstrap
@@ -19,6 +20,15 @@ class ApplicationController < ActionController::Base
     else action_name
     end.camelize
     "Views.#{self.class.name.gsub('::', '.').gsub(/Controller$/, '')}.#{action}View"
+  end
+
+    def css_class_name
+    action = case action_name
+      when 'create' then 'New'
+      when 'update' then 'Edit'
+    else action_name
+    end
+    "#{self.class.name.gsub('::', '.').gsub(/Controller$/, '')}#{action}"
   end
 
   # This will set the current tenant manually depending on the subdomain

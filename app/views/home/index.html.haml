@@ -1,56 +1,56 @@
-.row
-  .col-xs-12.col-md-12
-    .grid.simple.grid-no-mbot.sin-border
-      .grid-body.mi-padding.no-border.border-bot.grid-without-title
-        %form{:class => "form-no-horizontal-spacing"}
-          %div#logbook_bot.row.column-seperation
+/ .row
+/   .col-xs-12.col-md-12
+/     .grid.simple.grid-no-mbot.sin-border
+/       .grid-body.mi-padding.no-border.border-bot.grid-without-title
+/         %form{:class => "form-no-horizontal-spacing"}
+/           %div#logbook_bot.row.column-seperation
 
-            %div.col-md-6
+/             %div.col-md-6
 
-              %div.row
-                %div.col-md-6
-                  %div.input-append.default.date.no-padding
-                    %div.form-group
-                      %div
-                        %input{:type => "text", :class => "datepicker start-date form-control", :placeholder => "Start Date", :value => Settings.start_date.strftime("%d/%m/%Y")}/
-                        %span.add-on
-                          %span.arrow
-                          %i.fa.fa-calendar
+/               %div.row
+/                 %div.col-md-6
+/                   %div.input-append.default.date.no-padding
+/                     %div.form-group
+/                       %div
+/                         %input{:type => "text", :class => "datepicker start-date form-control", :placeholder => "Start Date", :value => Settings.start_date.strftime("%d/%m/%Y")}/
+/                         %span.add-on
+/                           %span.arrow
+/                           %i.fa.fa-calendar
 
-                %div.col-md-6
-                  %div.input-append.default.date.no-padding
-                    %div.form-group
-                      %div
-                        %input{:type => "text", :placeholder => "Time", :class => "timepicker start-time form-control", :value => Settings.start_time, :data => {:provide => "timepicker"}}/
-                        %span.add-on
-                          %span.arrow
-                          %i.fa.fa-clock-o
+/                 %div.col-md-6
+/                   %div.input-append.default.date.no-padding
+/                     %div.form-group
+/                       %div
+/                         %input{:type => "text", :placeholder => "Time", :class => "timepicker start-time form-control", :value => Settings.start_time, :data => {:provide => "timepicker"}}/
+/                         %span.add-on
+/                           %span.arrow
+/                           %i.fa.fa-clock-o
 
-            %div.col-md-6
+/             %div.col-md-6
 
-              %div.row
-                %div.col-md-5
-                  %div.input-append.default.date.no-padding
-                    %div.form-group
-                      %div
-                        %input{:type => "text", :class => "datepicker end-date form-control", :placeholder => "End Date", :value => Settings.end_date.strftime("%d/%m/%Y")}/
-                        %span.add-on
-                          %span.arrow
-                          %i.fa.fa-calendar
+/               %div.row
+/                 %div.col-md-5
+/                   %div.input-append.default.date.no-padding
+/                     %div.form-group
+/                       %div
+/                         %input{:type => "text", :class => "datepicker end-date form-control", :placeholder => "End Date", :value => Settings.end_date.strftime("%d/%m/%Y")}/
+/                         %span.add-on
+/                           %span.arrow
+/                           %i.fa.fa-calendar
 
-                %div.col-md-5
-                  %div.input-append.default.date.no-padding
-                    %div.form-group
-                      %div
-                        %input{:type => "text", :placeholder => "Time", :class => "timepicker end-time form-control", :value => Settings.end_time, :data => {:provide => "timepicker"}}/
-                        %span.add-on
-                          %span.arrow
-                          %i.fa.fa-clock-o
+/                 %div.col-md-5
+/                   %div.input-append.default.date.no-padding
+/                     %div.form-group
+/                       %div
+/                         %input{:type => "text", :placeholder => "Time", :class => "timepicker end-time form-control", :value => Settings.end_time, :data => {:provide => "timepicker"}}/
+/                         %span.add-on
+/                           %span.arrow
+/                           %i.fa.fa-clock-o
 
-                %div.col-md-2
-                  %div.form-group
-                    %div
-                      %input{:type => "button", id: 'apply_date_filter', :class => "btn btn-default btn-smll", value: 'Apply Filter'}/
+/                 %div.col-md-2
+/                   %div.form-group
+/                     %div
+/                       %input{:type => "button", id: 'apply_date_filter', :class => "btn btn-default btn-smll", value: 'Apply Filter'}/
 
 %div
   = react_component "Home",

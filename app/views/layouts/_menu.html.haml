@@ -2,7 +2,8 @@
   / BEGIN SELECTED LINK
   %li{:class => ("active" if current_page?(root_path))}
     %a{:href => root_path}
-      = fa_icon "home"
+      / = fa_icon "location-arrow"
+      = fa_icon "map-marker"
       %span.title Home
 
   - if is_manager?(current_user)

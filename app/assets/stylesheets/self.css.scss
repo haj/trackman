@@ -142,3 +142,42 @@ div.overlay-label {
   white-space: nowrap;
   z-index: -10;
 }
+
+.navbar-inverse {
+	// border-bottom: 1px solid #e5e9ec;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+.logbook_section .grid.simple {
+	margin-bottom: 0px;
+}
+
+.cars_overview {
+	.grid-title {
+		padding: 14px 35px 7px 25px !important;
+	}
+	.tools {
+		padding: 7px 0px 0 10px;	
+	}
+}
+
+@media (max-width: 500px) {
+	.Homeindex {
+		.home-cars-overview{
+			position: relative !important;
+			padding: 0px;
+			& .overview {
+				margin-bottom: 0px;
+			}
+		}
+	}
+}

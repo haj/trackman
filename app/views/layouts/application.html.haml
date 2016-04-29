@@ -27,7 +27,7 @@
 
     = csrf_meta_tags
 
-  %body.error-body{'data-class-name' => js_class_name, class: 'condense-menu'}
+  %body.error-body{'data-class-name' => js_class_name, class: "condense-menu #{css_class_name}"}
 
     = include_gon(watch: true, init: true)
 
@@ -41,7 +41,7 @@
           %ul#main-menu-toggle-wrapper.nav.pull-left.notifcation-center{:style => "display:none"}
             %li.dropdown
               %a#main-menu-toggle{:href => "#main-menu"}
-                .iconset.top-menu-toggle-white
+                .iconset.top-menu-toggle-dark
 
           =link_to root_path do
             = image_tag "logo-white.png", :class => "logo-image logo logo-white"
@@ -69,10 +69,10 @@
             %ul.nav.quick-section{style: 'margin-left: 0px;'}
               %li.quicklinks
                 =link_to root_path do
-                  = image_tag "logo.png", :class => "logo-image logo logo-dark"
+                  = image_tag "logo-white.png", :class => "logo-image logo logo-dark"
               %li.quicklinks{style: 'margin-top: 17px; margin-left:10px; margin-right:17px;'}
                 %a#layout-condensed-toggle-two{:href => "#"}
-                  .iconset.top-menu-toggle-dark
+                  .iconset.top-menu-toggle-white
             / END SLIM NAVIGATION TOGGLE
           / END HEADER LEFT SIDE SECTION
           / BEGIN HEADER RIGHT SIDE SECTION
@@ -81,7 +81,7 @@
               / BEGIN SETTINGS
               %li.quicklinks{style: 'padding-top:18px;'}
                 %a#user-options.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                  .iconset.top-settings-dark
+                  .iconset.top-settings
                 %ul.dropdown-menu.pull-right{"aria-labelledby" => "user-options", :role => "menu"}
                   - if current_user.company
                     %li= link_to "Settings", user_path(current_user)
@@ -129,4 +129,4 @@
             %div{class: "alert alert-#{key}"}
               = value
           = yield
-          = debug(params) if Rails.env.development?
+          =# debug(params) if Rails.env.development?

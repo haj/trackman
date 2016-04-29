@@ -1,4 +1,6 @@
 //@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+// #0aa699
+// #22262e
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -151,7 +153,7 @@ body.menu-non-fixed .page-sidebar {
 }
 .header .navbar-inner {
   background-image: none !important;
-  background-color: #ffffff !important;
+  background-color: #22262e !important;
   width: 100%;
   margin: 0;
   border: 0px;
@@ -605,7 +607,7 @@ body.menu-non-fixed .page-sidebar {
 .page-sidebar.mini {
   width: 50px;
   overflow: visible !important;
-  background-color: #0aa699 !important;
+  background-color: #22262e !important;
   height: 100%;
   margin-top: 0;
   position: absolute;
@@ -615,7 +617,7 @@ body.menu-non-fixed .page-sidebar {
   padding: 60px 0 0;
 }
 .page-sidebar.mini .page-sidebar-wrapper > ul > li.active {
-  background: #0b9c8f;
+  background: #efc47d;
 }
 .page-sidebar.mini .page-sidebar-wrapper > ul > li > ul.sub-menu {
   position: absolute;
@@ -630,7 +632,14 @@ body.menu-non-fixed .page-sidebar {
   color: #ffffff;
 }
 .page-sidebar.mini .page-sidebar-wrapper > ul > li a i {
-  color: #ffffff;
+  color: #8b91a0;
+  color: #fff;
+  opacity: .5;
+  font-size: 13px;
+}
+
+.page-sidebar.mini .page-sidebar-wrapper > ul > li a i.fa-map-marker {
+  font-size: 24px;
 }
 .page-sidebar.mini .page-sidebar-wrapper > p {
   display: none;
@@ -741,15 +750,16 @@ body.menu-non-fixed .page-sidebar {
 .page-sidebar.mini .page-sidebar-wrapper > ul > li.open > a,
 .page-sidebar.mini .page-sidebar-wrapper > ul > li > a:hover,
 .page-sidebar.mini .page-sidebar-wrapper > ul > li:hover > a {
-  background: #0b9c8f;
+  background: none;
 }
 .page-sidebar.mini .page-sidebar-wrapper > ul > li > a:hover,
 .page-sidebar.mini .page-sidebar-wrapper > ul > li:hover > a {
-  background: #0b9c8f;
+  background: none;
 }
 .page-sidebar.mini .page-sidebar-wrapper > ul > li.active > a i,
 .page-sidebar .page-sidebar-wrapper > ul > li:hover > a i {
   color: #ffffff !important;
+  opacity: 1;
 }
 .page-sidebar .page-sidebar-wrapper ul > li > a > .arrow:before,
 .page-sidebar .page-sidebar-wrapper > ul > li > a > .arrow.open:before {

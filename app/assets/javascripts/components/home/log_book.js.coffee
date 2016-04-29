@@ -161,7 +161,7 @@ module.exports = React.createClass
 			time.substring(11, 19)
 
 		R.div null,
-			R.div {className: '', ref: 'logbook'},
+			R.div {className: 'logbook_section', ref: 'logbook'},
 				R.div className: "col-md-2 no-padding",
 					React.createElement SimpleGrid, title: '...', style: {padding: '0px'},
 						unless @state.loading == "done"

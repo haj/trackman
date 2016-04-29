@@ -28,12 +28,12 @@ module.exports = React.createClass
   render: ->
     R.div null,
       R.div className: "row",
-        R.div className: "col-md-12",
+        R.div className: "col-md-12 top-analyze-view", style: {position: "relative"},
           # Map
-          R.div {className: "col-md-6 no-padding"},
+          R.div {className: "col-md-12 home-map no-padding"},
             React.createElement Map,
               carsIndexPath: @props.carsIndexPath,
-              cars: @state.cars, title: "All vehicles",
+              cars: @state.cars, title: "Map Overview",
               pinIcon: @props.pinIcon,
               carIcon: @props.carIcon,
               parkingIcon: @props.parkingIcon,
@@ -41,7 +41,7 @@ module.exports = React.createClass
               activeCars: @state.active_cars
 
           # Cars Overview
-          R.div {className: "col-md-6 no-padding"},
+          R.div {className: "col-md- home-cars-overview", style: {position: "absolute", right: "0px", top: "0px"}},
             React.createElement CarsOverview,
             carsOverviewPath: @props.carsOverviewPath,
             cars: @state.cars,
