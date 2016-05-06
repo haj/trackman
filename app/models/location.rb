@@ -118,7 +118,7 @@ class Location < ActiveRecord::Base
 
 		puts "Analyze me started!!!!"
 
-		# self.ignite = true if Rails.env.development?
+		self.ignite = true if self.device_id == 13
 
 		if self.is_first_position_of_day? or statistics.last_is_stop?
 

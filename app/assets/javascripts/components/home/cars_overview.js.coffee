@@ -33,10 +33,10 @@ module.exports = React.createClass
 			if @state.selected != props.id
 				@setState selected: props.id
 				PubSub.publish 'show_logbook', props
-		# PubSub.publish 'show_last_route_on_map', props
 
 	handleClearSelected: ->
 		@setState selected: null
+		@toggleCarsOverview()
 		PubSub.publish 'clearSelectedCar'
 
 	handleLoadedData: ->

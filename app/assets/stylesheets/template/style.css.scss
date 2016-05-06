@@ -652,6 +652,8 @@ body.menu-non-fixed .page-sidebar {
 }
 .page-sidebar.mini .slimScrollDiv .page-sidebar-wrapper {
   overflow: visible !important;
+  position: fixed;
+  background-color: #22262e;
 }
 .page-sidebar.mini .user-info {
   display: none;
@@ -796,7 +798,7 @@ body.menu-non-fixed .page-sidebar {
 .header .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {
-  background-color: #ffffff;
+  background-color: #22262e;
 }
 .open {
   position: relative;
@@ -1194,6 +1196,7 @@ body.menu-non-fixed .page-sidebar {
   margin-top: 0px;
 }
 .page-content {
+  z-index: 1;
   margin-top: 0px;
   padding: 0px;
   background-color: #e5e9ec;
@@ -1539,6 +1542,7 @@ body.menu-non-fixed .page-sidebar {
 }
 .mini .page-sidebar-wrapper {
   overflow: visible !important;
+  z-index: 2;
 }
 .h-ribbon {
   width: 100%;

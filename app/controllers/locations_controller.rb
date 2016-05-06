@@ -6,7 +6,7 @@ class LocationsController < ApplicationController
     device_id = params[:device_id]
     unique_id = params[:unique_id]
     position_id = params[:position_id]
-    fix_time = params[:fix_time].to_time
+    fix_time = params[:fix_time]
     valid = params[:valid]
     speed = params[:speed]
     status = params[:status]
@@ -16,8 +16,14 @@ class LocationsController < ApplicationController
     jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other))
     ignite = JSON[jsoned_xml]["info"]["power"]
 
+    puts "time ==>"
+    puts fix_time
+
     l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
         position_id: position_id, status: status)
+
+    puts l.time.utc
+    puts l.time.to_date
 
     if ignite != ""
         l.ignite = ignite

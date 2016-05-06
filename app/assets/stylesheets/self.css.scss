@@ -36,18 +36,53 @@ div.overlay {
 
 div.overlay-label {
     position: absolute;
+    z-index: 1;
+    -webkit-transition: all 500ms ease-in-out 1s;
+    -moz-transition: all 500ms ease-in-out 1s;
+    -o-transition: all 500ms ease-in-out 1s;
+    transition: all 500ms ease-in-out 1s;
+}
+
+div.overlay-label.live-label {
+    border-radius: 2px;
+    font-size: 30px;
+    padding: 5px 8px;
+    width: auto;
+    left: 0;
+    right: 0;
+    opacity: .8;
+    margin:0 auto;
+    background-color: #0aa699;
+    text-align: center;
+    color: #fff;
+}
+
+div.overlay-label.live-stats {
+    border-radius: 2px;
+    font-size:18px;
+    padding: 5px 8px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: .8;
+    margin:0 auto;
+    background-color: #0aa699;
+    text-align: center;
+    color: #fff;
+}
+
+div.overlay-label.loading-label {
+    border-radius: 2px;
     bottom: 0px;
-    font-size: 17px;
+    font-size: 20px;
     padding: 5px 8px;
     width: 150px;
     left: 0;
     right: 0;
     margin:0 auto;
-    font-weight: bold;
-    background-color: #fff;
+    background-color: #22262e;
     text-align: center;
-    color: #239787;
-    z-index: 1;
+    color: #fff;
 }
 
 .transition-custom{

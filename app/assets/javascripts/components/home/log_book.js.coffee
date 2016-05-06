@@ -148,8 +148,6 @@ module.exports = React.createClass
 				R.a {className: 'badge badge-warning'}, step
 
 		duration = (item) ->
-			console.log "item"
-			console.log item
 			parking_duration = moment.duration(parseInt(item.parking_duration), "seconds").format("h [hrs], m [min]")
 			driving_duration = moment.duration(parseInt(item.driving_duration), "seconds").format("h [hrs], m [min]")
 			if item.parking_duration || item.driving_duration

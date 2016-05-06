@@ -4,7 +4,7 @@
     %a{:href => root_path}
       / = fa_icon "location-arrow"
       = fa_icon "map-marker"
-      %span.title Home
+      %span.title Overview
 
   - if is_manager?(current_user)
     %li{:class => ("active" if current_page?(alarm_notifications_path))}
@@ -13,7 +13,7 @@
         %span.title
           Alerts
         %span.badge.badge-danger.pull-right
-          0
+          =AlarmNotification.all.count
 
 
   %li

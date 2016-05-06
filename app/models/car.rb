@@ -1,5 +1,5 @@
-# == Schema Information
 #
+# == Schema Information
 # Table name: cars
 #
 #  id               :integer          not null, primary key
@@ -22,6 +22,7 @@
 class Car < ActiveRecord::Base
 	acts_as_paranoid
 	acts_as_messageable
+	include PublicActivity::Common
 
 	include ActionView::Helpers::DateHelper
 
@@ -247,7 +248,7 @@ class Car < ActiveRecord::Base
 
 			def check_alarms
 				# don't waste time checking if vehicle doesn't have device
-				return if !self.has_device?
+				return unless self.device
 
 				results = {}
 
@@ -260,7 +261,10 @@ class Car < ActiveRecord::Base
 						end
 
 						# create alarm notification (so the same alarm doesn't get triggered too much times)
-						AlarmNotification.create(alarm_id: alarm.id, car_id: self.id)
+						@alarm = AlarmNotification.create(alarm_id: alarm.id, car_id: self.id)
+						
+						puts "Create activity for notification"
+						@alarm.create_activity :create, owner: self
 
 						results["#{alarm.name}"] = {status: true, car_id: self.id }
 						Rails.logger.debug "Alarm : #{alarm.name} | Status : true"

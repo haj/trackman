@@ -61,7 +61,7 @@ module.exports = React.createClass
 	routePath: null
 
 	getInitialState: ->
-		{activeCars: @props.activeCars, cars: @props.cars, gmap: null, selectedCar: {}, data: null, carMarkers: [], allCars: true, marker: null, loading: false}
+		{activeCars: @props.activeCars, cars: @props.cars, gmap: null, selectedCar: {}, data: null, carMarkers: [], allCars: true, marker: null, loading: false, isLive: false}
 
 	componentWillMount: ->
 		# event coming from CarsOverview
@@ -87,6 +87,7 @@ module.exports = React.createClass
 			@setState
 				title: null
 				allCars: true
+				selectedCar: {routes:[]}
 			@routePath.setMap null
 			@routePath = null
 			@clearRouteMarkers()
@@ -102,6 +103,7 @@ module.exports = React.createClass
 				$merge:	data.car
 
 			@setState
+					isLive: false
 					selectedCar: selectedCar
 					allCars: false
 
@@ -228,9 +230,10 @@ module.exports = React.createClass
 		@routePath = new google.maps.Polyline
 			path: routeCoordinates
 			geodesic: false
-			strokeColor: "#3b7fb8"
+			# strokeColor: "#3b7fb8"
+			strokeColor: "#22262e"
 			strokeOpacity: 1.0
-			strokeWeight: 3
+			strokeWeight: 2
 
 		@routePath.setMap @state.gmap
 		# @zoomToObject @routePath
@@ -267,6 +270,16 @@ module.exports = React.createClass
 	componentWillReceiveProps: (props) ->
 		# @clearMarkers()
 		@createCarMarkers props.activeCars
+		CurrentCarid = @state.selectedCar.id
+
+		if @state.selectedCar.hasOwnProperty("id")
+			matches = jQuery.grep props.cars, (item) ->
+				return item.id == CurrentCarid
+			if matches.length
+				selectedCar = React.addons.update @state.selectedCar,
+					$merge: matches[0]
+				@setState selectedCar: selectedCar
+				@setState title: @setMapTitle selectedCar.name, selectedCar.last_seen
 
 		@setState 
 			cars: props.cars
@@ -322,8 +335,22 @@ module.exports = React.createClass
 		for car in cars
 			@createCarMarker car
 
+		console.log "current bounds and selected Car"
+		console.log @boundsToAllCars
+		console.log @state.selectedCar
 		if @state.selectedCar.hasOwnProperty('lon') and @state.selectedCar.hasOwnProperty('lat')
-			@state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon) 
+			# if moment("#{@state.selectedCar.last_seen}").toDate().isToday()
+			window.currentTime = moment().utc()
+			window.lastTime = moment("#{@state.selectedCar.last_seen}").utc()
+			window.selectedCar = @state.selectedCar
+			if window.currentTime.utc().diff(window.lastTime.utc()) <= 295000
+				console.log "the diff between current time and last seen time is below 5 minutes."
+				@setState isLive: true
+				@state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon)
+			else
+				@setState isLive: false
+		else
+			@fitBounds @boundsToAllCars
 
 	createCarMarker: (car) ->
 		marker = new google.maps.Marker
@@ -341,7 +368,6 @@ module.exports = React.createClass
 
 		@carMarkers.push marker
 		@boundsToAllCars.extend marker.getPosition()
-		@fitBounds @boundsToAllCars
 		return marker
 
 		# google.maps.event.addListener marker, "click", (() ->
@@ -444,7 +470,9 @@ module.exports = React.createClass
 				R.div className: "GMap", style: {height: "600px", width: "100%", position: "relative"},
 					R.div, null
 						# R.div className: "overlay standard #{if !@state.loading then "hidde" else ""}"
-						R.div className: "overlay-label standard #{if !@state.loading then "hidde" else ""}", "Loading ..."
+						R.div className: "overlay-label standard loading-label #{if !@state.loading then "hidde" else ""}", "Loading ..."
+						R.div className: "overlay-label standard live-label #{if !@state.isLive then "hidde" else ""}", "Live"
+						R.div className: "overlay-label standard live-stats #{if !@state.isLive then "hidde" else ""}", "#{@state.selectedCar.speed} Km/h"
 						R.div ref: "map_canvas", key: "map_canvas", style: {height: '100%', width: '100%'}
 
 

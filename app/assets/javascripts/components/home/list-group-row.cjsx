@@ -36,9 +36,10 @@ module.exports = React.createClass
 	render: ->
 		tparktime = moment.duration(parseInt(@state.statistics_for_day.tparktime), "seconds").format("h [hrs], m [min]")
 		tdrivtime = moment.duration(parseInt(@state.statistics_for_day.tdrivtime), "seconds").format("h [hrs], m [min]")
+		dateString = moment(@state.date).toDate().toDateString()
 		return (
 			<a href="#" className={@isActive()} onClick={@handleOnClick}>
-				<h4 className="list-group-item-heading">{@state.date}</h4>
+				<h4 className="list-group-item-heading">{dateString}</h4>
 				<div className="list-group-item-content">
 					<p className = "stats-value">Distance : {@state.statistics_for_day.tdistance} <span>Km</span></p>
 					<p className = "stats-value">Max speed : {@state.statistics_for_day.max} <span>Km/h</span></p>
