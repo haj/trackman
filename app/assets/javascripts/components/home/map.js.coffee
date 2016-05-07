@@ -230,8 +230,8 @@ module.exports = React.createClass
 		@routePath = new google.maps.Polyline
 			path: routeCoordinates
 			geodesic: false
-			# strokeColor: "#3b7fb8"
-			strokeColor: "#22262e"
+			strokeColor: "#3b7fb8"
+			# strokeColor: "#22262e"
 			strokeOpacity: 1.0
 			strokeWeight: 2
 
