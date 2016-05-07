@@ -29,6 +29,11 @@ class HomeController < ApplicationController
 
 			@array_dates = dates_in_range Settings.start_date, Settings.end_date
 
+			last_day = @car.last_position.time.to_date
+			and_before = last_day.yesterday
+
+			@array_dates = dates_in_range and_before, last_day
+
 			if Rails.env.development?
 				d = DateTime.now.change({ month: 11, day: 06, year: 2015}).to_date
 				e = DateTime.now.change({ month: 11, day: 10, year: 2015}).to_date
@@ -37,10 +42,6 @@ class HomeController < ApplicationController
 				else
 					@array_dates = dates_in_range d, e
 				end
-			end
-
-			if Rails.env.development?
-				
 			end
 
 			logger.warn "Ready to load Data for logbook_data"
