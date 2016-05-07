@@ -5,7 +5,7 @@
 
 # Example:
 #
-# set :output, "/path/to/my/cron_log.log"
+set :output, "log/cron_log.log"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -26,9 +26,10 @@
 # whenever --update-crontab --set environment='development'
 
 
-# every 5.minute do 
-# 	rake "check_alarms"
-# end
+every 1.minute do 
+    rake "alarms:check"
+    p "Check Alarms is has run!"
+end
 
 # every 5.minute do 
 # 	rake "jobs:workoff"
@@ -37,13 +38,13 @@
 set :environment, "development"
 set :output, "./log/cron_log.log"
 
-every 1.minute do
-	rake "geocoder:reverse"
-end
+# every 1.minute do
+# 	rake "geocoder:reverse"
+# end
 
-every 1.day do
+# every 1.day do
 	
-end
+# end
 
 # every 1.day, :at => '5:00 am' do
   # runner "MyModel.task_to_run_at_four_thirty_in_the_morning"

@@ -15,6 +15,7 @@
 class AlarmNotification < ActiveRecord::Base
 	belongs_to :alarm
 	belongs_to :car 
+        include PublicActivity::Common
 
 	acts_as_tenant(:company)
 end

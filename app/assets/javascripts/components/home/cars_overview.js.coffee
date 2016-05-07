@@ -11,25 +11,43 @@ module.exports = React.createClass
 		@setState cars: props.cars
 		@handleLoadedData()
 
+	toggleCarsOverview: ->
+		$(".cars_overview .grid-body").toggle()
+
+	showCarsOverview: ->
+		$(".cars_overview .grid-body").show()
+
+	hideCarsOverview: ->
+		$(".cars_overview .grid-body").hide()
+
+	componentDidMount: ->
+		$(".cars_overview .toggle").on("click", ->
+			$(".cars_overview .grid-body").toggle()
+		).bind(@)
+
 	showLogbook: (props) ->
 		console.log "showLogbook clicked : "
 		console.log props
 		if props.last_seen != "-"
-			@setState selected: props.id
-			PubSub.publish 'show_logbook', props
-		# PubSub.publish 'show_last_route_on_map', props
+			@toggleCarsOverview()
+			if @state.selected != props.id
+				@setState selected: props.id
+				PubSub.publish 'show_logbook', props
 
 	handleClearSelected: ->
 		@setState selected: null
+		@toggleCarsOverview()
 		PubSub.publish 'clearSelectedCar'
 
 	handleLoadedData: ->
 		@setState loaded: true
 
 	render: ->
-		R.div className: 'grid simple cars_overview overview dragme',
-			R.div className: 'grid-title border-only-bot',
-				R.h4 className: "title-inline", "Overview"
+		R.div className: 'grid simple cars_overview overview',
+			R.div className: 'grid-title border-only-bo no-border toggle', style: {cursor: "pointer"},
+				R.h4 className: "title-inline noselect", "Cars Overview"
+				R.div className: "tools",
+					R.a href: "javascript:;", className: "collapse"
 
 			R.div className: 'grid-body no-border', style: {padding:'0px'},
 				R.div className: "lazy_content #{"loaded" if @state.loaded}",

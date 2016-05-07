@@ -178,7 +178,7 @@ class Device < ActiveRecord::Base
 
 		return true if last_position.nil?
 
-		seconds = Time.zone.now - last_position.time.in_time_zone
+		seconds = Time.zone.now - last_position.fixTime.in_time_zone
 
 		#return "#{time_ago_in_words(last_position.time)} ago OR #{since} seconds"
 

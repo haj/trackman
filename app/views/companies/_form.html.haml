@@ -15,7 +15,7 @@
     = f.text_field :subdomain, :class => "form-control"
   .form-group
     = f.label :time_zone, :class => "form-label"
-    = f.time_zone_select :time_zone, nil, {}, {:class => 'form-control'}
+    = f.time_zone_select :time_zone, ActiveSupport::TimeZone.all, {}, {:class => 'form-control'}
     = "Current Time zone : #{@company.time_zone}"
   .form-group
     = f.submit "Save", :class => "btn btn-primary"

@@ -75,6 +75,7 @@ gem "geocoder"
 gem 'rails_admin'
 
 gem 'xml-to-json'
+gem 'public_activity'
 
 # stuff required for testing purposes
 group :development, :test do

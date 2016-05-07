@@ -34,13 +34,24 @@ class Alarm < ActiveRecord::Base
 
 	def verify(car_id)
 
+		p "car_id = #{car_id}"
+
 		trigger_alarm = false
 
 		# Go through rules associated with this alarm
 		self.rules.all.each do |rule|
 
+			p "rule =>"
+			p rule
+
+			p "alarm =>"
+			p self
+
 			conj = AlarmRule.where(rule_id: rule.id, alarm_id: self.id).first.conjunction
 			result = rule.verify(self.id, car_id)
+
+			p "result =>"
+			p result
 
 			if conj.nil? || conj.downcase == "or"
 				trigger_alarm = trigger_alarm || result

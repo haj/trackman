@@ -1,12 +1,13 @@
 R = React.DOM
 
 SimpleGrid = require('../simple_grid')
+ListGroupRow = require('./list-group-row')
 rasterizeHTML = require('rasterizehtml')
 
 module.exports = React.createClass
 
 	getInitialState: ->
-		{data: [], car_id: null, loading: "nope", selectedData: [], car: null, selectedDate: null, max: null, avg: null, tdistance:  null}
+		{data: [], car_id: null, loading: "nope", selectedData: [], posForMap: [], car: null, selectedDate: null, listDates: [], dataMin: []}
 
 	componentDidMount: ->
 		console.log "Logbook Did Mount"
@@ -37,6 +38,8 @@ module.exports = React.createClass
 					data: car_id: props.id
 					type: 'get'
 					success: (data) ->
+						console.log "Yelah jat"
+						data.reverse()
 						if data.length == 0
 							# Nothing found for the current car => Showing intiial state of the map.
 							PubSub.publish "clearSelectedCar"
@@ -45,14 +48,17 @@ module.exports = React.createClass
 								selectedDate: null
 								car: null
 								data: []
+								posForMap: []
 								car_id: null
 								loading: "nothing"
 						else
+							console.log "all data"
+							console.log data
 							self.setState data: data
-							self.setState selectedDate: data[data.length - 1][0]
-							self.setState selectedData: data[data.length - 1][1]
-							PubSub.publish "showRoute", {locations: self.state.selectedData, car: self.state.car}
-							self.get_car_statistics self.state.car.id
+							self.setState selectedDate: data[0][0]
+							self.setState selectedData: $.grep data[0][1], (pos) ->
+								pos.state == "start" or pos.state == "stop" or pos.state == "idle"
+							PubSub.publish "showRoute", {date: data[0][0], car: self.state.car}
 							self.setState loading: "done"
 					error: (data) ->
 						self.setState
@@ -61,11 +67,13 @@ module.exports = React.createClass
 							car: null
 							data: []
 							car_id: null
+							posForMap: []
 							loading: "nothing"
 			else
-				@setState selectedDate: @state.data[@state.data.length - 1][0]
-				@setState selectedData: @state.data[@state.data.length - 1][1]
-				PubSub.publish "showRoute", {locations: @state.selectedData, car: @state.car}
+				@setState selectedDate: @state.data[0][0]
+				@setState selectedData: @state.data[0][1], (pos) ->
+					pos.state == "start" or pos.state == "stop" or pos.state == "idle"
+				PubSub.publish "showRoute", {date: @state.data[0][0], car: @state.car}
 		).bind(@)
 
 		# event coming from CarsOverview
@@ -74,6 +82,7 @@ module.exports = React.createClass
 				selectedData: []
 				selectedDate: null
 				car: null
+				posForMap: []
 				data: []
 				car_id: null
 				loading: "nope"
@@ -110,36 +119,20 @@ module.exports = React.createClass
 		doc.addHTML table, 0, 60, options, ->
 			doc.save('logbook.pdf')
 
-	show_data_for_date: (e) ->
-		console.log "Clicked on a date"
-		e.stopPropagation()
-		id = $(e.target).data("zakid")
-		date = $(e.target).data("date")
+	show_data_for_date: (item, e) ->
+		date = item[0]
+		data = $.grep item[1], (pos) ->
+			pos.state == "start" or pos.state == "stop" or pos.state == "idle"
+
 		if date != @state.selectedDate
-			@setState selectedData: @state.data[id][1]
-			@setState selectedDate: date
-			PubSub.publish 'showRoute', {locations: @state.data[id][1], car: @state.car}
-			@get_car_statistics()
+			@setState
+				selectedData: data
+				selectedDate: date
+				posForMap: item[1]
 
-	get_car_statistics: ->
-		console.log "getting cars statistics !!!"
-		@setState {
-			tdistance: @state.tdistance || "00.00"
-			avg: @state.avgspeed || "00.00"
-			max: @state.maxspeed || "00.00" } , ( ->
-				api.getWithParams(@props.carsStatisticsPath, {car_id: @state.car.id, date: @state.selectedDate}).then ((stats) ->
-					@setState
-						tdistance: stats.tdistance.toFixed(2)
-						avg: stats.avgspeed.toFixed(2)
-						max: stats.maxspeed.toFixed(2)
-				).bind(@)
-			).bind(@)
-
-		# console.log "STAAATE"
-		# console.log @state
-		# @setState tdistance: "cool"
-		# console.log @state
-
+		console.log "Pos for map"
+		console.log @state.posForMap
+		PubSub.publish 'showRoute', {date: item[0], car: @state.car}
 	render: ->
 		console.log "Logbook render"
 		selectedData = @state.selectedData
@@ -160,34 +153,24 @@ module.exports = React.createClass
 			if item.parking_duration || item.driving_duration
 				R.div null,
 					R.div null, "P : #{parking_duration}"
-					R.div null, "D : #{driving_duration}"
+					R.div null, "D : #{driving_duration} (#{item.step_distance || ""} Km)"
 
 		date = (time) ->
 			time.substring(11, 19)
 
-		logbook_title = () ->
-			if selectedDate != null
-				"#{self.state.selectedDate} | MAX SPEED : #{self.state.max} KM | AVG SPEED : #{self.state.avg} KM | TOTAL DISTANCE : #{self.state.tdistance} KM"
-			else
-				"..."
-
 		R.div null,
-
-			R.div {className: '', ref: 'logbook'},
+			R.div {className: 'logbook_section', ref: 'logbook'},
 				R.div className: "col-md-2 no-padding",
-					React.createElement SimpleGrid, title: 'LogBook', style: {padding: '0px'},
+					React.createElement SimpleGrid, title: '...', style: {padding: '0px'},
 						unless @state.loading == "done"
 							@renderMessage @state.loading
 						else
 							R.div className: 'list-group',
-								for x in @state.data
-									R.div null,
-										R.a {className: "list-group-item #{if @state.selectedData == x[1] then 'active' else ""}", onClick: @show_data_for_date, ref: x[0], 'data-zakid': ++i || i = 0, 'data-date': x[0]}, x[0]
-											# R.h5 {className: 'list-group-item-heading', 'data-zakid': ++i || i = 0}, x[0]
-											# R.p {className: 'list-group-item-text', 'data-zakid': ++i || i = 0}, "Information about the day..."
+								for item in @state.data
+									React.createElement ListGroupRow, onClick: @show_data_for_date.bind(@, item), date: item[0], car: @state.car, selectedDate: @state.selectedDate
 
 				R.div className: "col-md-10 no-padding",
-					React.createElement SimpleGrid, title: logbook_title(), style: {padding: '0px'}, showGeneratePdf: @state.selectedDate != null, generatePdf: @generatePdf,
+					React.createElement SimpleGrid, title: "Logbook" || "...", style: {padding: '0px'}, showGeneratePdf: @state.selectedDate != null, generatePdf: @generatePdf,
 
 						unless @state.loading == "done"
 							@renderMessage @state.loading
@@ -204,7 +187,7 @@ module.exports = React.createClass
 									R.tbody null,
 											$.map @state.selectedData, (item, key) ->
 												R.tr {key: key, className: 'position_row', style: {verticalAlign: 'middle'}},
-													R.td className: 'col-md-1', step item.state, item.step
+													R.td className: 'col-md-1', step item.state, item.trip_step
 													R.td className: 'col-md-1', "#{date item.time}"
 													R.td className: 'col-md-2', duration item
 													R.td className: 'col-md-6', item.address

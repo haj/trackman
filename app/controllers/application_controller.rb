@@ -2,9 +2,11 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-
+  include PublicActivity::StoreController
+  
   helper_method :current_tenant
   helper_method :js_class_name
+  helper_method :css_class_name
 
   before_filter :set_current_tenant
   before_filter :bootstrap
@@ -19,6 +21,15 @@ class ApplicationController < ActionController::Base
     else action_name
     end.camelize
     "Views.#{self.class.name.gsub('::', '.').gsub(/Controller$/, '')}.#{action}View"
+  end
+
+    def css_class_name
+    action = case action_name
+      when 'create' then 'New'
+      when 'update' then 'Edit'
+    else action_name
+    end
+    "#{self.class.name.gsub('::', '.').gsub(/Controller$/, '')}#{action}"
   end
 
   # This will set the current tenant manually depending on the subdomain
@@ -85,18 +96,19 @@ class ApplicationController < ActionController::Base
   # def configure_permitted_parameters
   #   devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:first_name, :last_name, :email, :password, :password_confirmation) }
   # end
-
+  def user_time_zone(&block)
+    if current_user && !current_user.company.nil? && !current_user.company.time_zone.nil?
+      Time.use_zone(current_user.company.time_zone, &block)
+    else
+      Time.use_zone("UTC", &block)
+    end
+  end
+  
   layout :guest_user_layout
 
   private
 
-    def user_time_zone(&block)
-      if current_user && !current_user.company.nil? && !current_user.company.time_zone.nil?
-        Time.use_zone(current_user.company.time_zone, &block)
-      else
-        Time.use_zone("UTC", &block)
-      end
-    end
+
 
     def guest_user_layout
       if current_user.nil?

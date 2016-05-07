@@ -24,6 +24,7 @@
 #= require ./libraries/page/jquery.dataTables.min
 #= require ./libraries/page/TableTools.min
 #= require ./libraries/datatables.responsive
+#= require ./libraries/markerwithlabel
 # require_directory ./libraries/page
 #
 # Before Core Require
@@ -43,6 +44,7 @@
 #= require ./libraries/jquery.timepicker
 #= require ./libraries/jspdf.min
 #= require ./libraries/jspdf_from_html
+#= require ./libraries/oms.min
 #= require ./libraries/jspdf_split_text_to_size
 #= require ./libraries/jspdf_standard_fonts_metrics
 #= require ./libraries/jspdf_addhtml
@@ -74,13 +76,13 @@
 #= require components
 
 ready = ->
-  className = $('body').attr('data-class-name')
-  window.currentView = try
-    eval("new #{className}()")
-  catch error
-    new Views.ApplicationView()
-  window.currentView.render()
-
+	className = $('body').attr('data-class-name')
+	window.currentView = try
+		eval("new #{className}()")
+	catch error
+		new Views.ApplicationView()
+	window.currentView.render()
+	
 $(document).ready(ready)
 
 

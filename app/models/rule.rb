@@ -50,53 +50,28 @@ class Rule < ActiveRecord::Base
 		# Vehicle stopped for more than params["threshold"] minutes
 		def stopped_for_more_than(car_id, params)
 
-			threshold = params["threshold"].to_i
+			@car = Car.find car_id
+
+			duration = params["threshold"].to_i
 
 			# this represent to which point in time we'll go back to look if car stopped for more than X minutes
-			scope = threshold*2
+			# scope = threshold*2
 
-			rule_alerts = RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, threshold.minutes.ago)
+			rule_alerts = RuleNotification.where("rule_id = ? AND car_id = ? AND created_at >= ?", self.id, car_id, duration.minutes.ago)
 
 			# if a previous alarm of this type was triggered, then cancel this one
 			if rule_alerts.count != 0
-				#Rails.logger.debug "[stopped_for_more_than] RETURNED [FALSE] FOR #{car_id} BECAUSE OF [RuleNotification]"
 				return false
 			end
+					
+			since_last_seen = (@car.last_seen - DateTime.now).abs
+			since_last_seen_in_minutes = (since_last_seen / 1.minute).round
 
-			states = Car.find(car_id).states.where(" created_at >= ? " , scope.minutes.ago).where(:no_data => false).order("created_at ASC")
-			
-			# let's consider duration_threshold to be X, then the user is looking if the car stopped for more than X minutes.  
-			duration_threshold = params["threshold"].to_i
-
-			#puts states.count
-			previous_state = states.first
-
-
-			# How it works : 
-			# Basically we'll start with the first state where the car wasn't moving, and keep iterating over states and updating duration_sum
-			# as long as the next state represent the car in a stopped state. 
-			# we'll stop if we go over the duration_threshold, in that case, the car stopped for more than the threshold
-			# also if we while iterating over states we find that the car started moving again, then we bring duration_sum back to zero
-			# and keep iterating until we hit a state where the car stopped again, and then we try to see if duration_sum could go over the duration_threshold
-			# we do this in a loop until we go over all states. 
-			# 
-
-			duration_sum = 0 
-			states.each do |car_current_state| 
-				if car_current_state.moving == false #this means car wasn't moving at the moment
-					# we calculate how much time between the two states
-					duration_sum += (car_current_state.created_at  - previous_state.created_at)/60
-
-					# we check if that time is considered greater than the threshold the user set through duration_threshold
-					if duration_sum >= duration_threshold
-						RuleNotification.create(rule_id: self.id, car_id: car_id)
-						return true
-					end
-				else #this means car started moving again
-					duration_sum = 0
-				end
-				previous_state = car_current_state
+			if since_last_seen_in_minutes >= duration
+				RuleNotification.create(rule_id: self.id, car_id: car_id)
+				return true
 			end
+
 			return false
 		end
 
