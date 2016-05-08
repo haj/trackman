@@ -87,13 +87,17 @@ group :development, :test do
   gem 'guard-rspec'
   gem "factory_girl_rails"
   gem "capybara"
-
+  gem 'capistrano', '~> 3.1'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-rvm',     require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma',   require: false
 end
 
 group :development, :test do
 	gem 'html2haml', :git => 'git://github.com/haml/html2haml.git'
 end
-
+gem 'puma'
 gem 'safe_attributes'
 
 gem 'gmaps4rails'
@@ -115,9 +119,6 @@ gem "less-rails"
 gem 'gon'
 gem "ransack"
 
-
-gem 'rvm-capistrano'
-gem 'capistrano', '2.15.5'
 
 gem "devise-async"
 gem 'daemons' #required by delayed_job
