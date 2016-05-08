@@ -35,10 +35,7 @@ module Trackman
     config.react.addons       = true
 
     config.browserify_rails.source_map_environments << 'development'
-    config.browserify_rails.commandline_options = [
-        "-t [coffee-reactify --extension .cjsx]",
-        "-t [coffee-reactify --extension .js.coffee]"
-    ]
+    config.browserify_rails.commandline_options = "-t coffee-reactify --extension=\".cjsx\" --extension=\".js.coffee\""
 
     config.assets.paths << "#{Rails.root}/app/assets/fonts"
     config.assets.precompile += %w( .svg .eot .woff .ttf .otf)
