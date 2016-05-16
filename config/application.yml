@@ -17,7 +17,7 @@ test:
   DB_PASSWORD: "153624"
 
 production:
-  DB_NAME: trackman_production
+  DB_NAME: trackman_prod
   DB_TRACCAR_NAME: traccar
   DB_USER: root
   DB_PASSWORD: "153624"
