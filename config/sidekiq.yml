@@ -6,4 +6,12 @@ development:
   :pidfile: ./tmp/pids/sidekiq.pid
   :concurrency: 10
   :queues:
-    - [reverse_geocoding, 7]
+    - [traccar, 10]
+
+production:
+  :logfile: ./log/sidekiq_production.log
+  :verbose: true
+  :pidfile: ./tmp/pids/sidekiq.pid
+  :concurrency: 10
+  :queues:
+    - [traccar, 10]

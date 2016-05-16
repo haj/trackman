@@ -30,8 +30,8 @@ Rails.application.configure do
   config.middleware.use ExceptionNotification::Rack,
     :email => {
       :email_prefix => "[Trackman Exceptions] ",
-      :sender_address => %{"notifier" <notifier@braksa.com>},
-      :exception_recipients => %w{zakaria.braksa@gmail.com}
+      :sender_address => %{"notifier" <notifier@trackman.com>},
+      :exception_recipients => %w{boulaidzac@gmail.com}
     }
 
   # Full error reports are disabled and caching is turned on.

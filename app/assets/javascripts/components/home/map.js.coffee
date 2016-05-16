@@ -59,9 +59,10 @@ module.exports = React.createClass
 	didFitBounds: false
 	selectedMarker: null
 	routePath: null
+	follow: true
 
 	getInitialState: ->
-		{activeCars: @props.activeCars, cars: @props.cars, gmap: null, selectedCar: {}, data: null, carMarkers: [], allCars: true, marker: null, loading: false, isLive: false}
+		{activeCars: @props.activeCars, cars: @props.cars, gmap: null, selectedCar: {}, data: null, carMarkers: [], allCars: true, marker: null, loading: false, isLive: false, followCar: true}
 
 	componentWillMount: ->
 		# event coming from CarsOverview
@@ -98,6 +99,8 @@ module.exports = React.createClass
 		@pubsub_show_route = PubSub.subscribe 'showRoute', ((topic, data) ->
 
 			locations = []
+
+			@follow = true
 
 			selectedCar = React.addons.update @state.selectedCar,	
 				$merge:	data.car
@@ -157,7 +160,6 @@ module.exports = React.createClass
 		@setState selectedCar: selectedCar
 
 		@setState gmap: @createMap()
-
 
 	pinSymbol: (color) ->
 	    path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z'
@@ -303,6 +305,8 @@ module.exports = React.createClass
 		# console.log @props.cars
 
 	createMap: ->
+		self = @
+
 		copenhagen = new google.maps.LatLng(55.6759400, 12.5655300)
 		casablanca = new google.maps.LatLng(33.5883100, -7.6113800)
 		mapOptions =
@@ -315,10 +319,12 @@ module.exports = React.createClass
 		@createCarMarkers @state.activeCars
 		@oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied: true})
 
-		# google.maps.event.trigger(map, 'resize')
-		# google.maps.event.addListener(map, 'bounds_changed', () ->
-		#   alert "bounds changed"
-		# )
+		google.maps.event.addListener map, 'dragstart', () ->
+		  self.follow = false
+
+		google.maps.event.addListener map, 'dblclick', () ->
+		  self.follow = true
+
 		map
 
 	fitBounds: (whatBounds) ->
@@ -339,14 +345,14 @@ module.exports = React.createClass
 		console.log @boundsToAllCars
 		console.log @state.selectedCar
 		if @state.selectedCar.hasOwnProperty('lon') and @state.selectedCar.hasOwnProperty('lat')
-			# if moment("#{@state.selectedCar.last_seen}").toDate().isToday()
 			window.currentTime = moment().utc()
 			window.lastTime = moment("#{@state.selectedCar.last_seen}").utc()
 			window.selectedCar = @state.selectedCar
 			if window.currentTime.utc().diff(window.lastTime.utc()) <= 295000
 				console.log "the diff between current time and last seen time is below 5 minutes."
 				@setState isLive: true
-				@state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon)
+				if @follow
+					@state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon)
 			else
 				@setState isLive: false
 		else

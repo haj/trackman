@@ -1,6 +1,8 @@
 class LocationsController < ApplicationController
 
   def get_traccar_data
+    logger.info "Sidekiq Job Started !"
+    # TraccarWorker.perform_async(params)
     lat = params[:latitude]
     lon = params[:longitude]
     device_id = params[:device_id]
@@ -29,14 +31,11 @@ class LocationsController < ApplicationController
         l.ignite = ignite
     end
 
-    # puts l.inspect
-
-    # logger.warn l.valid_position
     l.analyze_me
 
     puts "!!! FROM TRACCAR !!!"
     puts params
-    render :text => ""
+    render :json => nil
   end
 
   def get_car_route

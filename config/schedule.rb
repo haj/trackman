@@ -39,7 +39,8 @@ set :environment, "development"
 set :output, "./log/cron_log.log"
 
 # every 1.minute do
-# 	rake "geocoder:reverse"
+	# rake "geocoder:reverse"
+        
 # end
 
 # every 1.day do

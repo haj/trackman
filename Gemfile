@@ -152,7 +152,6 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'sidekiq'
 
 gem 'chosen-rails'
-gem 'puma'
 
 group :development, :test do
   gem 'railroady'
