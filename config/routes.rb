@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   get 'one_car_render_pin' => 'home#one_car_render_pin'
   get 'one_car_render_directions' => 'home#one_car_render_directions'
   get 'apply_filter' => 'home#apply_filter'
+  post 'set_minimum_parking_time' => "home#set_minimum_parking_time"
 
   get 'reports' => 'reporting#index'
   get 'reports/devices' => 'reporting#devices', as: 'reports_devices'

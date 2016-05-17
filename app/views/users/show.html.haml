@@ -30,6 +30,19 @@
     .col-md-6
       .grid.simple
         .grid-title
+          %h4 Logbook Settings
+        .grid-body
+          %div{style:'margin: 0 auto;'}
+            = form_tag url_for(controller: "home", action: "set_minimum_parking_time"), :method => 'post' do
+              %label{:class => "form-label"} Minimum parking time (minutes)
+              %small Changes will be applied for future data
+              %input.form-control{:type => "number", min: 1, max: 15, value: "#{Settings.minimum_parking_time}", name: "mpt"}
+              %div.form-actions{style: 'text-align: right;'}
+                %input{:type => "submit", :value => "Save", class: 'btn btn-primary btn-con'}/
+
+    .col-md-6
+      .grid.simple
+        .grid-title
           %h4 PDF Report
         .grid-body
           %div{style:'margin: 0 auto;'}
@@ -39,6 +52,7 @@
               %input.form-control{:type => "text", placeholder: 'PDF Footer Title'}/
               %div.form-actions{style: 'text-align: right;'}
                 %input{:type => "submit", :value => "Save", class: 'btn btn-primary btn-con'}/
+
         / .form-group
         /   %strong Last name:
         /   = @user.last_name

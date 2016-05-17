@@ -62,7 +62,7 @@ module.exports = React.createClass
 	follow: true
 
 	getInitialState: ->
-		{activeCars: @props.activeCars, cars: @props.cars, gmap: null, selectedCar: {}, data: null, carMarkers: [], allCars: true, marker: null, loading: false, isLive: false, followCar: true}
+		{activeCars: @props.activeCars, cars: @props.cars, gmap: null, selectedCar: {}, data: null, carMarkers: [], allCars: true, marker: null, loading: false, isLive: false, followCar: true, logbookDate: null}
 
 	componentWillMount: ->
 		# event coming from CarsOverview
@@ -109,6 +109,7 @@ module.exports = React.createClass
 					isLive: false
 					selectedCar: selectedCar
 					allCars: false
+					logbookDate: data.date
 
 			@setState title: @setMapTitle @state.selectedCar.name, @state.selectedCar.last_seen
 			@routePath.setMap null if @routePath
@@ -348,11 +349,15 @@ module.exports = React.createClass
 			window.currentTime = moment().utc()
 			window.lastTime = moment("#{@state.selectedCar.last_seen}").utc()
 			window.selectedCar = @state.selectedCar
-			if window.currentTime.utc().diff(window.lastTime.utc()) <= 295000
-				console.log "the diff between current time and last seen time is below 5 minutes."
-				@setState isLive: true
-				if @follow
-					@state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon)
+
+			if moment("#{@state.logbookDate}").toDate().isToday()
+				if window.currentTime.utc().diff(window.lastTime.utc()) <=  60000
+					console.log "the diff between current time and last seen time is below 1 minute."
+					@setState isLive: true
+					if @follow
+						@state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon)
+				else
+					@setState isLive: false
 			else
 				@setState isLive: false
 		else

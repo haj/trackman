@@ -58,6 +58,15 @@ class HomeController < ApplicationController
 		render json: @notifications
 	end
 
+	def set_minimum_parking_time
+		if params["mpt"] != ""
+			if params["mpt"].to_i >= 1 and params["mpt"].to_i <= 15
+				Settings.minimum_parking_time = params["mpt"]
+			end
+		end
+		redirect_to :back
+	end
+
 	def apply_filter
 		Settings.start_date = params[:start_date].to_date
 		Settings.end_date = params[:end_date].to_date

@@ -123,12 +123,24 @@ class Location < ActiveRecord::Base
 		if self.is_first_position_of_day? or statistics.last_is_stop?
 
 			if self.ignition_is_on?
-				self.state = "start"
-				statistics.steps_counter += 1
-				statistics.last_start = self
-				statistics.last_is = self
-				self.trip_step = statistics.steps_counter
-				self.reverse_geocode
+				if statistics.last_stop
+					duration_since_last_stop = (self.time - statistics.last_stop.time).to_i
+					if duration_since_last_stop > Settings.minimum_parking_time * 60
+						self.state = "start"
+						statistics.steps_counter += 1
+						statistics.last_start = self
+						statistics.last_is = self
+						self.trip_step = statistics.steps_counter
+						self.reverse_geocode
+					end
+				else
+					self.state = "start"
+					statistics.steps_counter += 1
+					statistics.last_start = self
+					statistics.last_is = self
+					self.trip_step = statistics.steps_counter
+					self.reverse_geocode
+				end
 			else
 				self.state = "ignore"
 			end
