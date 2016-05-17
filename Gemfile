@@ -11,6 +11,8 @@ gem 'rails', '4.1.6'
 gem 'mysql2'
 gem 'sqlite3'
 
+gem 'capistrano-rails-console'
+
 # group :test do
 #   gem 'sqlite3'
 # end
