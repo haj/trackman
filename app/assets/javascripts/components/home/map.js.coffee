@@ -482,7 +482,7 @@ module.exports = React.createClass
 					R.div, null
 						# R.div className: "overlay standard #{if !@state.loading then "hidde" else ""}"
 						R.div className: "overlay-label standard loading-label #{if !@state.loading then "hidde" else ""}", "Loading ..."
-						R.div className: "overlay-label standard live-label #{if !@state.isLive then "hidde" else ""}", "Live"
+						R.div className: "overlay-label standard live-label #{if !@state.isLive then "hidde" else ""}", "#{@state.selectedCar.name} - Live"
 						R.div className: "overlay-label standard live-stats #{if !@state.isLive then "hidde" else ""}", "#{@state.selectedCar.speed} Km/h"
 						R.div ref: "map_canvas", key: "map_canvas", style: {height: '100%', width: '100%'}
 
