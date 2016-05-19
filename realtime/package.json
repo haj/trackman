@@ -1,0 +1,9 @@
+{
+  "name" : "Trackman-real-time",
+  "description" : "providing real-time sychronization for Trackman",
+  "version" : "0.0.1",
+  "dependencies" : {
+    "socket.io" : "1.4.5",
+    "redis": "2.6.0-2"
+  }
+}

@@ -50,6 +50,7 @@
 #= require ./libraries/jspdf_addhtml
 #= require ./libraries/html2canvas.min
 #= require ./libraries/FileSaver.min
+#= require ./libraries/socket-io
 
 #= require 'rest_in_place'
 #= require ./libraries/datepair

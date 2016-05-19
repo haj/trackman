@@ -12,11 +12,27 @@ module.exports = React.createClass
 	getInitialState: ->
 		{cars: [], active_cars: []}
 
+	# connectToSocket: ->
+	# 	window.app.socket = io.connect('http://0.0.0.0:5001')
+	# 	window.app.socket.on 'rt-change', (message) ->
+	# 	# publish the change on the client side, the channel == the resource
+	#     		window.app.trigger message.resource, message
+
+	componentDidMount: ->
+		# window.socket.emit("init")
+
 	componentWillMount: ->
+		# window.socket = io()
+		# window.socket.on("init", @testAlertFunction)
 		@fetchData()
-		@setInterval @fetchData, 5000
+		# @setInterval @fetchData, 5000
+
+	testAlertFunction: ->
+		alert("Alert Function")
 
 	fetchData: ->
+		self = @
+
 		api.get(@props.carsOverviewPath).then ((data) ->
 			@setState cars: data
 			@setState active_cars: $.grep @state.cars, (e) ->
@@ -24,6 +40,10 @@ module.exports = React.createClass
 			console.log "fetch active cars in home"
 			console.log @state.active_cars
 		).bind(@)
+
+		setTimeout () ->
+			self.fetchData()
+		, 5000
 
 	render: ->
 		R.div null,

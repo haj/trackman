@@ -14,6 +14,12 @@ class Location < ActiveRecord::Base
 	belongs_to :position, :class_name => 'Traccar::Position'
 	belongs_to :device
 
+	after_create :push_to_ui
+
+	def push_to_ui
+		$redis.publish 'rt-change', self.to_json
+	end
+
   reverse_geocoded_by :latitude, :longitude do |location,results|
     if geo = results.first
       location.update_attributes(address: geo.address, country: geo.country, city: geo.city)
@@ -355,6 +361,39 @@ class Location < ActiveRecord::Base
 
 	def next
 		Location.order(:time).where('device_id = ?', self.device_id).where('time > ? and DATE(time) = ?', self.time, self.time.to_date).first
+	end
+
+	def self.get_traccar_data params
+	    lat = params[:latitude]
+	    lon = params[:longitude]
+	    device_id = params[:device_id]
+	    unique_id = params[:unique_id]
+	    position_id = params[:position_id]
+	    fix_time = params[:fix_time]
+	    valid = params[:valid]
+	    speed = params[:speed] # Speed in Knots
+	    status = params[:status]
+	    device = Device.find_by_emei(unique_id)
+
+	    position = Traccar::Position.find position_id
+	    jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other))
+	    ignite = JSON[jsoned_xml]["info"]["power"]
+
+	    # Conversion of speed from knots to km/h
+	    speed = speed.to_f * 1.852
+
+	    l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
+	        position_id: position_id, status: status)
+
+	    if ignite != ""
+	        l.ignite = ignite
+	    end
+
+	    l.analyze_me
+
+	    puts "!!! FROM TRACCAR !!!"
+	    puts params
+	    # render :json => nil
 	end
 
   # Takes a bunch of locations and return it in a Gmaps4rails format
