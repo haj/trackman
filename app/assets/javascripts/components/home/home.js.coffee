@@ -32,18 +32,16 @@ module.exports = React.createClass
 
 	fetchData: ->
 		self = @
-
 		api.get(@props.carsOverviewPath).then ((data) ->
 			@setState cars: data
 			@setState active_cars: $.grep @state.cars, (e) ->
 				e.last_seen != "-"
+			setTimeout () ->
+				self.fetchData()
+			, 5000
 			console.log "fetch active cars in home"
 			console.log @state.active_cars
 		).bind(@)
-
-		setTimeout () ->
-			self.fetchData()
-		, 5000
 
 	render: ->
 		R.div null,
