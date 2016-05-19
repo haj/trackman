@@ -14,11 +14,11 @@ class Location < ActiveRecord::Base
 	belongs_to :position, :class_name => 'Traccar::Position'
 	belongs_to :device
 
-	after_create :push_to_ui
+	# after_create :push_to_ui
 
-	def push_to_ui
-		$redis.publish 'rt-change', self.to_json
-	end
+	# def push_to_ui
+	# 	$redis.publish 'rt-change', self.to_json
+	# end
 
   reverse_geocoded_by :latitude, :longitude do |location,results|
     if geo = results.first
