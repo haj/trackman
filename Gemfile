@@ -78,6 +78,7 @@ gem 'rails_admin'
 
 gem 'xml-to-json'
 gem 'public_activity'
+gem 'redis'
 
 # stuff required for testing purposes
 group :development, :test do

@@ -23,7 +23,7 @@ module.exports = React.createClass
 	componentDidMount: ->
 		$(".cars_overview .toggle").on("click", ->
 			$(".cars_overview .grid-body").toggle()
-		).bind(@)
+		)
 
 	showLogbook: (props) ->
 		console.log "showLogbook clicked : "

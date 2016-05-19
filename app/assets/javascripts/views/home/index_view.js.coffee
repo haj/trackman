@@ -1,7 +1,19 @@
 window.Views.Home ||= {}
 class Views.Home.IndexView extends Views.ApplicationView
+
+	# connect: ->
+	# 	window.socket = io.connect('http://0.0.0.0:5001')
+	# 	window.socket.on 'rt-change', (message) ->
+	# 	# publish the change on the client side, the channel == the resource
+	# 		alert message
+	# 		console.log message
+	# 		window.trigger message.resource, message
+
+
 	render: ->
 		super()
+
+		# @connect()
 
 		$(".page-content").css("overflow", "hidden")
 

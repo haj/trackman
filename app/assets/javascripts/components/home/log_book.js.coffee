@@ -11,7 +11,11 @@ module.exports = React.createClass
 
 	componentDidMount: ->
 		console.log "Logbook Did Mount"
+		# app.on("mount_logbook", @testAlertFunction, @)
 		# $('[data-toggle="tooltip"]').tooltip()
+
+	testAlertFunction: ->
+		alert("Alert Function")
 
 	emptyComponent: ->
 		@setState
