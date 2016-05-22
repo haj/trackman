@@ -154,7 +154,7 @@ module.exports = React.createClass
 			if item.parking_duration || item.driving_duration
 				R.div null,
 					R.div null, "P : #{parking_duration}"
-					R.div null, "D : #{driving_duration} (#{item.step_distance || ""} Km)"
+					R.div null, "D : #{driving_duration}"
 
 		date = (time) ->
 			time.substring(11, 19)
@@ -180,11 +180,11 @@ module.exports = React.createClass
 								React.createElement Table, {className: 'mi-size', ref: 'logbook_data', style: {borderBottom: '1px solid #eee'}, striped: true, condensed: false, responsive: true, hover: true},
 									R.thead null,
 										R.tr null,
-											R.th null, "State"
+											R.th null, "Steps"
 											R.th null, "Time"
 											R.th null, "Parking/Driving time"
 											R.th null, "Location"
-											R.th null, "Speed"
+											# R.th null, "Speed"
 									R.tbody null,
 											$.map @state.selectedData, (item, key) ->
 												R.tr {key: key, className: 'position_row', style: {verticalAlign: 'middle'}},
@@ -192,7 +192,7 @@ module.exports = React.createClass
 													R.td className: 'col-md-1', "#{date item.time}"
 													R.td className: 'col-md-2', duration item
 													R.td className: 'col-md-6', item.address
-													R.td className: 'col-md-2', "#{Math.floor(item.speed)} km/h"
+													# R.td className: 'col-md-2', "#{Math.floor(item.speed)} km/h"
 							else
 								@renderMessage "Select a date"
 

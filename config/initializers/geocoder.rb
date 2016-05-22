@@ -7,6 +7,8 @@ Geocoder.configure(
   # IP address geocoding service (see below for supported options):
   #:ip_lookup => :maxmind,
 
+  :language => :en,
+
   # to use an API key:
   # :api_key => "",
 
