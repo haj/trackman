@@ -131,7 +131,7 @@ class Location < ActiveRecord::Base
 			if self.ignition_is_on?
 				if statistics.last_stop
 					duration_since_last_stop = (self.time - statistics.last_stop.time).to_i
-					if duration_since_last_stop > Settings.minimum_parking_time * 60
+					if duration_since_last_stop > Settings.minimum_parking_time.to_i * 60
 						self.state = "start"
 						statistics.steps_counter += 1
 						statistics.last_start = self
@@ -274,9 +274,14 @@ class Location < ActiveRecord::Base
 	end
 
 	def self.reset_locations_off time, did
-	    Location.where("DATE(time) = ?", time).destroy_all
-	    Traccar::Position.where("DATE(fixTime) = ? and deviceId = ?", time, did).each do |p|
-	        l = Location.create(device_id: did, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
+	    Location.where("DATE(time) = ? and device_id = ?", time, did).destroy_all
+	    device = Device.find(did)
+	    #reset car statistics
+	    device.car.car_statistics.where("DATE(time) = ?", time).destroy_all
+	    #Go through traccar position table
+	    traccar_device_id = Traccar::Device.find_by_uniqueId(device.emei).id
+	    Traccar::Position.where("DATE(fixTime) = ? and deviceId = ?", time, traccar_device_id).each do |p|
+	        l = Location.create(device_id: did, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed.to_f * 1.852, valid_position: p.valid)
 		    	jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
 		    	ignite = JSON[jsoned_xml]["info"]["power"]
 		    	l.ignite = ignite if ignite != ""
