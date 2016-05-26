@@ -12,23 +12,8 @@ module.exports = React.createClass
 	getInitialState: ->
 		{cars: [], active_cars: []}
 
-	# connectToSocket: ->
-	# 	window.app.socket = io.connect('http://0.0.0.0:5001')
-	# 	window.app.socket.on 'rt-change', (message) ->
-	# 	# publish the change on the client side, the channel == the resource
-	#     		window.app.trigger message.resource, message
-
-	componentDidMount: ->
-		# window.socket.emit("init")
-
 	componentWillMount: ->
-		# window.socket = io()
-		# window.socket.on("init", @testAlertFunction)
 		@fetchData()
-		# @setInterval @fetchData, 5000
-
-	testAlertFunction: ->
-		alert("Alert Function")
 
 	fetchData: ->
 		self = @

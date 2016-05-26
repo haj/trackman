@@ -32,7 +32,11 @@ class LocationsController < ApplicationController
         l.ignite = ignite
     end
 
-    
+    Location.where("device_id = ? and DATE(time) = ? and id != ?", l.device_id, l.time.to_date, l.id) do |loc|
+      if loc.time > l.time
+        loc.analyze_me
+      end
+    end
 
     l.analyze_me
 
