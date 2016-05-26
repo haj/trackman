@@ -32,6 +32,13 @@ class LocationsController < ApplicationController
         l.ignite = ignite
     end
 
+    # Check if previous positions need to be Reanalyzed
+    Location.where('device_id = ? and DATE(time) = ?', l.device_id, l.time.to_date).each do |loc|
+      if loc.time > l.time and l.id != loc.id
+        loc.analyze_me
+      end
+    end
+
     l.analyze_me
 
     puts "!!! FROM TRACCAR !!!"
