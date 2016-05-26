@@ -32,6 +32,8 @@ class LocationsController < ApplicationController
         l.ignite = ignite
     end
 
+    
+
     l.analyze_me
 
     puts "!!! FROM TRACCAR !!!"
