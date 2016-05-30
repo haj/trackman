@@ -1,47 +1,40 @@
 class LocationsController < ApplicationController
 
   def get_traccar_data
-    logger.info "Sidekiq Job Started !"
-    # TraccarWorker.perform_async(params)
-    lat = params[:latitude]
-    lon = params[:longitude]
-    device_id = params[:device_id]
-    unique_id = params[:unique_id]
-    position_id = params[:position_id]
-    fix_time = params[:fix_time]
-    valid = params[:valid]
-    speed = params[:speed] # Speed in Knots
-    status = params[:status]
-    device = Device.find_by_emei(unique_id)
+    TraccarWorker.perform_async(params)
+    # lat = params[:latitude]
+    # lon = params[:longitude]
+    # device_id = params[:device_id]
+    # unique_id = params[:unique_id]
+    # position_id = params[:position_id]
+    # fix_time = params[:fix_time]
+    # valid = params[:valid]
+    # speed = params[:speed] # Speed in Knots
+    # status = params[:status]
+    # device = Device.find_by_emei(unique_id)
 
-    position = Traccar::Position.find position_id
-    jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other))
-    ignite = JSON[jsoned_xml]["info"]["power"]
-    io24 = JSON[jsoned_xml]["info"]["io24"]
+    # position = Traccar::Position.find position_id
+    # jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other))
+    # ignite = JSON[jsoned_xml]["info"]["power"]
+    # io24 = JSON[jsoned_xml]["info"]["io24"]
 
-    if io24 != "" and !io24.nil?
-      speed = io24.to_f
-    else 
-      speed = speed.to_f * 1.852 # Conversion of speed from knots to km/h
-    end
+    # if io24 != "" and !io24.nil?
+    #   speed = io24.to_f
+    # else 
+    #   speed = speed.to_f * 1.852 # Conversion of speed from knots to km/h
+    # end
 
-    l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
-        position_id: position_id, status: status)
+    # l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
+    #     position_id: position_id, status: status)
 
-    if ignite != ""
-        l.ignite = ignite
-    end
+    # if ignite != ""
+    #     l.ignite = ignite
+    # end
 
-    Location.where("device_id = ? and DATE(time) = ? and id != ?", l.device_id, l.time.to_date, l.id) do |loc|
-      if loc.time > l.time
-        loc.analyze_me
-      end
-    end
+    # # l.analyze_me
 
-    l.analyze_me
-
-    puts "!!! FROM TRACCAR !!!"
-    puts params
+    # puts "!!! FROM TRACCAR !!!"
+    # puts params
     render :json => nil
   end
 
