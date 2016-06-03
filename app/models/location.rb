@@ -119,8 +119,10 @@ class Location < ActiveRecord::Base
 
 		if previous != nil
 			distance_from_previous = self.distance_from [previous.latitude, previous.longitude]
-			statistics.tdistance += distance_from_previous
-			statistics.tdistance = statistics.tdistance.round(2)
+			if !distance_from_previous.nil?
+				statistics.tdistance += distance_from_previous
+				statistics.tdistance = statistics.tdistance.round(2)
+			end
 		end
 
 		puts "Analyze me started!!!!"

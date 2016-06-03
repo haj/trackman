@@ -1,22 +1,26 @@
 class TraccarWorker
   include Sidekiq::Worker
-  sidekiq_options retry: false
+  sidekiq_options retry: true
   sidekiq_options queue: "traccar"
 
   def perform(params)
       logger.info "Sidekiq Job Started !"
 
-      lat = params[:latitude]
-      lon = params[:longitude]
-      device_id = params[:device_id]
-      unique_id = params[:unique_id]
-      position_id = params[:position_id]
-      fix_time = params[:fix_time]
-      valid = params[:valid]
-      speed = params[:speed] # Speed in Knots
-      status = params[:status]
+      lat = params["latitude"]
+      lon = params["longitude"]
+      device_id = params["device_id"]
+      unique_id = params["unique_id"]
+      position_id = params["position_id"].to_i
+      fix_time = params["fix_time"]
+      valid = params["valid"]
+      speed = params["speed"] # Speed in Knots
+      status = params["status"]
       device = Device.find_by_emei(unique_id)
 
+      logger.info "Params :"
+      logger.info params["position_id"].inspect
+      logger.info "Sleeping while position_id is #{position_id} !"
+      # sleep 2
       position = Traccar::Position.find position_id
       jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other))
       ignite = JSON[jsoned_xml]["info"]["power"]
@@ -36,11 +40,9 @@ class TraccarWorker
           loc.analyze_me
         end
       end
+
       l.analyze_me
-
-      puts "!!! FROM TRACCAR !!!"
-      puts params
-
+      logger.info params
   end
 
 end
