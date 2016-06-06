@@ -14,6 +14,6 @@
 #
 
 class State < ActiveRecord::Base
-	belongs_to :car
-	belongs_to :device
+  belongs_to :car
+  belongs_to :device
 end

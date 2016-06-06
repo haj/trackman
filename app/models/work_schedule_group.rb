@@ -11,7 +11,7 @@
 #
 
 class WorkScheduleGroup < ActiveRecord::Base
-	belongs_to :work_schedule
+  belongs_to :work_schedule
 
-	validates :name, :work_schedule_id, presence: true
+  validates :name, :work_schedule_id, presence: true
 end
