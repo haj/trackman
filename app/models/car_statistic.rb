@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: car_statistics
+#
+#  id            :integer          not null, primary key
+#  car_id        :integer
+#  time          :datetime
+#  tparktime     :integer
+#  tdrivtime     :integer
+#  maxspeed      :float(24)
+#  avgspeed      :float(24)
+#  tdistance     :float(24)
+#  steps_counter :integer
+#  last_start_id :integer
+#  last_stop_id  :integer
+#  last_is_id    :integer
+#
+
 class CarStatistic < ActiveRecord::Base
   belongs_to :car
   belongs_to :last_start, :class_name => "Location"

@@ -5,7 +5,7 @@
 #  id               :integer          not null, primary key
 #  telephone_number :string(255)
 #  teleprovider_id  :integer
-#  monthly_price    :float
+#  monthly_price    :float(24)
 #  device_id        :integer
 #  created_at       :datetime
 #  updated_at       :datetime

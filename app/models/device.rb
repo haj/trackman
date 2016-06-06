@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  name            :string(255)
 #  emei            :string(255)
-#  cost_price      :float
+#  cost_price      :float(24)
 #  created_at      :datetime
 #  updated_at      :datetime
 #  device_model_id :integer
@@ -54,7 +54,7 @@ class Device < ActiveRecord::Base
 
 	def self.sync_to_traccar
 		Device.all.each do |d|
-			if Traccar::Device.find_by_uniqueId(d.emei).nil?
+			if Traccar::Device.find_by_uniqueid(d.emei).nil?
 				d.save!
 			end
 		end
@@ -95,14 +95,14 @@ class Device < ActiveRecord::Base
 	end
 
 	def create_traccar_device
-		traccar_device = Traccar::Device.find_or_create_by(name: self.name, uniqueId: self.emei)
+		traccar_device = Traccar::Device.find_or_create_by(name: self.name, uniqueid: self.emei)
     traccar_device.users << Traccar::User.where(:name => "admin", :email => "admin")
 	end
 
 	def update_traccar_device
-		traccar_device = Traccar::Device.where(uniqueId: self.emei).first
+		traccar_device = Traccar::Device.where(uniqueid: self.emei).first
 		unless traccar_device.nil?
-			traccar_device.update_attributes(name: self.name, uniqueId: self.emei)
+			traccar_device.update_attributes(name: self.name, uniqueid: self.emei)
 		end
 	end
 
@@ -195,7 +195,7 @@ class Device < ActiveRecord::Base
 	end
 
 	def traccar_device
-		Traccar::Device.where(uniqueId: self.emei).first
+		Traccar::Device.where(uniqueid: self.emei).first
 	end
 
 end

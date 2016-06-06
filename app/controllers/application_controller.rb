@@ -3,6 +3,12 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   include PublicActivity::StoreController
+
+  # Rescue cancancan
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to main_app.root_path, :alert => exception.message
+  end
+
   
   helper_method :current_tenant
   helper_method :js_class_name
@@ -10,6 +16,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_current_tenant
   before_filter :bootstrap
+
   # before_filter :configure_permitted_parameters, if: :devise_controller?
 
   #around_filter :user_time_zone
@@ -59,11 +66,6 @@ class ApplicationController < ActionController::Base
         return Array.new
       end
     end
-  end
-
-  # cancan
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
   end
 
   # devise

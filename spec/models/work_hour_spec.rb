@@ -4,8 +4,8 @@
 #
 #  id               :integer          not null, primary key
 #  day_of_week      :integer
-#  starts_at        :datetime
-#  ends_at          :datetime
+#  starts_at        :time
+#  ends_at          :time
 #  created_at       :datetime
 #  updated_at       :datetime
 #  work_schedule_id :integer

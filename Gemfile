@@ -157,6 +157,9 @@ gem 'sidekiq'
 gem 'chosen-rails'
 
 group :development, :test do
+  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'pry-byebug'
+
   gem 'railroady'
   gem 'web-console', '~> 2.0'
   gem "awesome_print", require:"ap"

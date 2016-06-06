@@ -6,7 +6,7 @@
 #  rule_id     :integer          not null
 #  alarm_id    :integer          not null
 #  conjunction :string(255)
-#  params      :string(255)
+#  params      :text
 #  deleted_at  :datetime
 #
 

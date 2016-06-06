@@ -14,10 +14,14 @@ class Ability
   def admin
     can :manage, :all 
     manager  
+    can :access, :rails_admin
+    can :dashboard
   end
 
   def manager
     can :manage, :all
+    cannot :access, :rails_admin
+    cannot :dashboard
     # can :access, :rails_admin
     # can :dashboard
     # can :invite, User

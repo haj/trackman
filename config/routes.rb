@@ -13,6 +13,11 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
+  if !Rails.env.development?
+    Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+      [username, password] == ["trackman", "trackman"] 
+    end
+  end
 
   #############
   # Simlations

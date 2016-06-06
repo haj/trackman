@@ -99,6 +99,7 @@ GEM
     bullet (4.14.10)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.9.0)
+    byebug (8.2.5)
     cancancan (1.12.0)
     capistrano (3.5.0)
       airbrussh (>= 1.0.0)
@@ -336,6 +337,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.3.0)
+      byebug (~> 8.0)
+      pry (~> 0.10)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
     public_activity (1.5.0)
@@ -640,6 +644,7 @@ DEPENDENCIES
   pinp!
   prawn
   prawn-table
+  pry-byebug
   pry-rails
   public_activity
   puma
@@ -688,4 +693,4 @@ DEPENDENCIES
   xml-to-json
 
 BUNDLED WITH
-   1.10.5
+   1.11.2

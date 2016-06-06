@@ -3,8 +3,8 @@
 # Table name: vertices
 #
 #  id         :integer          not null, primary key
-#  latitude   :float
-#  longitude  :float
+#  latitude   :float(24)
+#  longitude  :float(24)
 #  region_id  :integer
 #  created_at :datetime
 #  updated_at :datetime

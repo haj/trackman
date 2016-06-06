@@ -11,10 +11,10 @@
 
 class Traccar::User < ActiveRecord::Base
   	establish_connection "secondary_#{Rails.env}".to_sym
-  	self.table_name = "user"
+  	self.table_name = "users"
 
   	has_many :devices, :through => :users_devices
-    has_many :users_devices, :class_name => "Traccar::UserDevice", :foreign_key => 'userId', :dependent => :destroy
+    has_many :users_devices, :class_name => "Traccar::UserDevice", :foreign_key => 'userid', :dependent => :destroy
 
   	def last_position
   		position = self.positions.last
