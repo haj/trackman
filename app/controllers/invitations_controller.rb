@@ -21,34 +21,33 @@ class InvitationsController < DeviseController
 
   # POST /resource/invitation
   def create
-    
     self.resource = invite_resource
 
     if resource.errors.empty?
-      	yield resource if block_given?
+    	yield resource if block_given?
 
-        self.resource.first_name = params[:first_name]
-        self.resource.last_name = params[:last_name]
+      self.resource.first_name = params[:first_name]
+      self.resource.last_name = params[:last_name]
 
-    		if params[:default_role] == "Driver"
-    			self.resource.roles << :driver
-    			self.resource.save
-    		elsif params[:default_role] == "Employee"
-    			self.resource.roles << :employee
-    			self.resource.save
-        elsif params[:default_role] == "Manager"
-          self.resource.roles << :manager
-          self.resource.save
-    		end
+  		if params[:default_role] == "Driver"
+  			self.resource.roles << :driver
+  			self.resource.save
+  		elsif params[:default_role] == "Employee"
+  			self.resource.roles << :employee
+  			self.resource.save
+      elsif params[:default_role] == "Manager"
+        self.resource.roles << :manager
+        self.resource.save
+  		end
 
-        logger.warn "user : #{resource}"
-        logger.warn "company id : #{resource.company_id}"
-        logger.warn "tenant : #{ActsAsTenant.current_tenant}"
+      logger.warn "user : #{resource}"
+      logger.warn "company id : #{resource.company_id}"
+      logger.warn "tenant : #{ActsAsTenant.current_tenant}"
 
-      	set_flash_message :notice, :send_instructions, :email => self.resource.email if self.resource.invitation_sent_at
-      	respond_with resource, :location => after_invite_path_for(resource)
+    	set_flash_message :notice, :send_instructions, :email => self.resource.email if self.resource.invitation_sent_at
+    	respond_with resource, :location => after_invite_path_for(resource)
     else
-      	respond_with_navigational(resource) { render :new }
+    	respond_with_navigational(resource) { render :new }
     end
   end
 

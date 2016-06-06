@@ -11,9 +11,15 @@
 #
 
 class AlarmRule < ActiveRecord::Base
-	self.table_name = "alarms_rules"
-	acts_as_paranoid
-	belongs_to :rules
-	belongs_to :alarms
-	serialize :params
+  self.table_name = "alarms_rules"
+
+  # INIT FROM GEM GOES HERE
+  acts_as_paranoid
+
+  # ASSOCIATION GOES HERE
+  belongs_to :rules
+  belongs_to :alarms
+
+  # SERIALIZE GOES HERE
+  serialize :params
 end

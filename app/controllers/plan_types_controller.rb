@@ -1,6 +1,8 @@
 class PlanTypesController < ApplicationController
-  before_action :set_plan_type, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
+
+  before_action :set_plan_type, only: [:show, :edit, :update, :destroy]
+
   # GET /plan_types
   # GET /plan_types.json
   def index
@@ -62,13 +64,14 @@ class PlanTypesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_plan_type
-      @plan_type = PlanType.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def plan_type_params
-      params.require(:plan_type).permit(:name, feature_ids: [])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_plan_type
+    @plan_type = PlanType.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def plan_type_params
+    params.require(:plan_type).permit(:name, feature_ids: [])
+  end
 end

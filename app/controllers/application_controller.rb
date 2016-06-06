@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to main_app.root_path, :alert => exception.message
   end
-
   
   helper_method :current_tenant
   helper_method :js_class_name
@@ -22,20 +21,22 @@ class ApplicationController < ActionController::Base
   #around_filter :user_time_zone
 
   def js_class_name
-    action = case action_name
+    action = 
+      case action_name
       when 'create' then 'New'
       when 'update' then 'Edit'
-    else action_name
-    end.camelize
+      else action_name
+      end.camelize
     "Views.#{self.class.name.gsub('::', '.').gsub(/Controller$/, '')}.#{action}View"
   end
 
     def css_class_name
-    action = case action_name
+    action = 
+      case action_name
       when 'create' then 'New'
       when 'update' then 'Edit'
-    else action_name
-    end
+      else action_name
+      end
     "#{self.class.name.gsub('::', '.').gsub(/Controller$/, '')}#{action}"
   end
 
@@ -70,10 +71,10 @@ class ApplicationController < ActionController::Base
 
   # devise
   before_filter do
-		resource = controller_name.singularize.to_sym
-		method = "#{resource}_params"
-		params[resource] &&= send(method) if respond_to?(method, true)
-	end
+    resource = controller_name.singularize.to_sym
+    method = "#{resource}_params"
+    params[resource] &&= send(method) if respond_to?(method, true)
+  end
 
   def not_found
     raise ActionController::RoutingError.new('Not Found')
@@ -110,14 +111,11 @@ class ApplicationController < ActionController::Base
 
   private
 
-
-
-    def guest_user_layout
-      if current_user.nil?
-        "guest"
-      else
-        "application"
-      end
+  def guest_user_layout
+    if current_user.nil?
+      "guest"
+    else
+      "application"
     end
-
+  end
 end

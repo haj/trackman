@@ -1,6 +1,7 @@
 class CarsController < ApplicationController
-  before_action :set_car, only: [:edit, :update, :destroy]
   load_and_authorize_resource
+
+  before_action :set_car, only: [:edit, :update, :destroy]
 
   # This list vehicles and enable the user to get vehicle positions
   def history
@@ -78,7 +79,7 @@ class CarsController < ApplicationController
     @car = Car.new(car_params)
     if @car.save
 
-      # assign device to this car
+      # assign device to this car -- Move this to after save / create
       if device_params.has_key?('device_id') && !device_params['device_id'].empty?
         device = Device.find(device_params['device_id'])
         if !device.nil?
@@ -86,7 +87,7 @@ class CarsController < ApplicationController
         end
       end
 
-      # assign driver to this car 
+      # assign driver to this car  -- Move this to after save / create
       if !user_params['user_id'].empty?
         user = User.find(user_params[:user_id]) 
         user.update_attribute(:car_id, @car.id)
@@ -102,6 +103,7 @@ class CarsController < ApplicationController
     respond_to do |format|
       if @car.update(car_params)
 
+        # Move this to after update
         if device_params.has_key?('device_id') && !device_params['device_id'].empty?
           
           # release previous device 
@@ -119,7 +121,7 @@ class CarsController < ApplicationController
           end 
         end
 
-         # assign driver to this car
+         # assign driver to this car - Move this to after update
         if !user_params['user_id'].empty?
           user = User.find(user_params[:user_id]) 
           user.update_attribute(:car_id, @car.id)

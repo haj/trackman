@@ -1,8 +1,7 @@
 class AlarmNotificationsController < ApplicationController
+  load_and_authorize_resource :except => [:create]
+
   before_action :set_alarm_notification, only: [:edit, :update, :destroy, :show]
-
- load_and_authorize_resource :except => [:create]
-
 
   def index
     @alerts = AlarmNotification.where(archived: false).order("created_at DESC")
@@ -32,13 +31,14 @@ class AlarmNotificationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_alarm_notification
-      @alarm_notification = AlarmNotification.find(params[:id])
-    end
+  
+  # Use callbacks to share common setup or constraints between actions.
+  def set_alarm_notification
+    @alarm_notification = AlarmNotification.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def alarm_notification_params
-      params.require(:alarm_notification).permit!
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def alarm_notification_params
+    params.require(:alarm_notification).permit!
+  end
 end

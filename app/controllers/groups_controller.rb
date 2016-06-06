@@ -12,7 +12,6 @@ class GroupsController < ApplicationController
   end
 
   def show
-
     @group = Group.find(params[:id])
     @alarms = @group.alarms
     @cars = @group.cars
@@ -33,8 +32,6 @@ class GroupsController < ApplicationController
       :resource => "groups", 
       :query_params => request.query_parameters
     })
-  
-
   end
 
   # GET /groups/new

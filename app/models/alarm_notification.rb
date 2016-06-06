@@ -13,9 +13,11 @@
 #
 
 class AlarmNotification < ActiveRecord::Base
+	# INIT GEM GOES HERE
+  include PublicActivity::Common
+	acts_as_tenant(:company)
+
+	# ASSOCIATION GOES HERE
 	belongs_to :alarm
 	belongs_to :car 
-        include PublicActivity::Common
-
-	acts_as_tenant(:company)
 end

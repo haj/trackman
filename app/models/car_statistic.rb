@@ -17,12 +17,16 @@
 #
 
 class CarStatistic < ActiveRecord::Base
+  # ASSOCIATION
   belongs_to :car
   belongs_to :last_start, :class_name => "Location"
   belongs_to :last_stop, :class_name => "Location"
   belongs_to :last_is, :class_name => "Location"
+
+  # CALLBACK
   after_initialize :init
 
+  # INSTANCE METHOD
   def init
     self.tdistance ||= 0.0
     self.tdrivtime ||= 0
@@ -31,7 +35,6 @@ class CarStatistic < ActiveRecord::Base
     self.avgspeed ||= 0.0
     self.steps_counter ||= 0
   end
-
 
   def last_is_start?
     if self.last_is.try(:state) == "start"
@@ -44,5 +47,4 @@ class CarStatistic < ActiveRecord::Base
   def last_is_stop?
     !last_is_start?
   end
-
 end

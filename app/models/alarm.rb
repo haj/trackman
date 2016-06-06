@@ -11,58 +11,59 @@
 #
 
 class Alarm < ActiveRecord::Base
+  # INIT GEM HERE
+  acts_as_paranoid
 
-	validates :name, presence: true
+  # ASSOCIATION GOES HERE
+  #alarms -> rules
+  has_and_belongs_to_many :rules
+  has_many :alarm_rules
+  has_many :alarm_notifications
 
-	acts_as_paranoid
+  #alarms -> groups
+  # has_many :group_alarms
+  # has_and_belongs_to_many :groups
 
-	#alarms -> rules
-	has_and_belongs_to_many :rules
-	has_many :alarm_rules
+  #alarms -> cars
+  # has_and_belongs_to_many :cars
+  # has_many :car_alarms
 
-	has_many :alarm_notifications
 
-	#alarms -> groups
-	# has_many :group_alarms
-	# has_and_belongs_to_many :groups
+  # VALIDATION GOES HERE
+  validates :name, presence: true
 
-	#alarms -> cars
-	# has_and_belongs_to_many :cars
-	# has_many :car_alarms
+  # NESTED ATTR GOES HERE
+  accepts_nested_attributes_for :rules, :reject_if => :all_blank, :allow_destroy => true
 
-	accepts_nested_attributes_for :rules, :reject_if => :all_blank, :allow_destroy => true
+  # INSTANCE METHOD GOES HERE
+  def verify(car_id)
+    p "car_id = #{car_id}"
 
-	def verify(car_id)
+    trigger_alarm = false
 
-		p "car_id = #{car_id}"
+    # Go through rules associated with this alarm
+    self.rules.all.each do |rule|
 
-		trigger_alarm = false
+      p "rule =>"
+      p rule
 
-		# Go through rules associated with this alarm
-		self.rules.all.each do |rule|
+      p "alarm =>"
+      p self
 
-			p "rule =>"
-			p rule
+      conj = AlarmRule.where(rule_id: rule.id, alarm_id: self.id).first.conjunction
+      result = rule.verify(self.id, car_id)
 
-			p "alarm =>"
-			p self
+      p "result =>"
+      p result
 
-			conj = AlarmRule.where(rule_id: rule.id, alarm_id: self.id).first.conjunction
-			result = rule.verify(self.id, car_id)
+      if conj.nil? || conj.downcase == "or"
+        trigger_alarm = trigger_alarm || result
+      elsif conj.downcase == "and"
+        trigger_alarm = trigger_alarm && result
+      end
 
-			p "result =>"
-			p result
+    end
 
-			if conj.nil? || conj.downcase == "or"
-				trigger_alarm = trigger_alarm || result
-			elsif conj.downcase == "and"
-				trigger_alarm = trigger_alarm && result
-			end
-
-		end
-
-		return trigger_alarm
-
-	end
-
+    trigger_alarm
+  end
 end

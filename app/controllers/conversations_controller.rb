@@ -1,16 +1,5 @@
 class ConversationsController < ApplicationController
-  
   #load_and_authorize_resource
-
-
-  def show
-    @conversation = current_user.mailbox.conversations.find(params[:id])
-    @conversation.mark_as_read(current_user)
-  end
-
-  def new
-    @conversation = Mailboxer::Conversation.new
-  end
 
   def index
     if params[:read].present? && params[:read] == "true"
@@ -25,11 +14,14 @@ class ConversationsController < ApplicationController
     end
   end
 
-  def sentbox 
-    @sentbox = current_user.mailbox.sentbox
+  def show
+    @conversation = current_user.mailbox.conversations.find(params[:id])
+    @conversation.mark_as_read(current_user)
   end
 
-  
+  def new
+    @conversation = Mailboxer::Conversation.new
+  end
 
   # Create a brand new conversation
   def create
@@ -45,6 +37,9 @@ class ConversationsController < ApplicationController
     redirect_to conversations_path
   end
 
+  def sentbox 
+    @sentbox = current_user.mailbox.sentbox
+  end
 
   # Reply to an existing conversation
   def reply
@@ -62,8 +57,6 @@ class ConversationsController < ApplicationController
     @conversation.untrash(current_user)
     redirect_to :conversations
   end
-
-  
 
   def destroy
     @conversation = current_user.mailbox.conversations.find(params[:id])

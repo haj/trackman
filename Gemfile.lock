@@ -31,6 +31,14 @@ GIT
       sass-rails
 
 GIT
+  remote: git://github.com/seuros/capistrano-sidekiq.git
+  revision: 0794cf99be7bfe7f3e6828c4965db135d7e1c20b
+  specs:
+    capistrano-sidekiq (0.5.4)
+      capistrano
+      sidekiq (>= 3.4)
+
+GIT
   remote: git://github.com/seyhunak/twitter-bootstrap-rails.git
   revision: 1d93c5a77049b3d21d17c847ad0531d7714fa229
   branch: bootstrap3
@@ -595,6 +603,7 @@ DEPENDENCIES
   capistrano-rails (~> 1.1)
   capistrano-rails-console
   capistrano-rvm
+  capistrano-sidekiq!
   capistrano3-puma
   capybara
   chosen-rails
@@ -693,4 +702,4 @@ DEPENDENCIES
   xml-to-json
 
 BUNDLED WITH
-   1.11.2
+   1.12.5

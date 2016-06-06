@@ -12,6 +12,7 @@ gem 'mysql2'
 gem 'sqlite3'
 
 gem 'capistrano-rails-console'
+gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
 
 # group :test do
 #   gem 'sqlite3'

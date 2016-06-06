@@ -1,11 +1,7 @@
 class AlarmsController < ApplicationController
-  before_action :set_alarm, only: [:edit, :update, :destroy]
-
- load_and_authorize_resource :except => [:create]
-
-  # GET /alarms
-  # GET /alarms.json
+  load_and_authorize_resource :except => [:create]
   
+  before_action :set_alarm, only: [:edit, :update, :destroy]
 
   # GET /alarms/1
   # GET /alarms/1.json
@@ -14,11 +10,10 @@ class AlarmsController < ApplicationController
     @rules = @alarm.rules
 
     respond_to do |format|
-        format.html # show.html.erb
-        format.js # show.js.erb
-        format.json { render json: @alarm }
-    end
-    
+      format.html # show.html.erb
+      format.js # show.js.erb
+      format.json { render json: @alarm }
+    end    
   end
 
   # GET /alarms/new
@@ -33,7 +28,6 @@ class AlarmsController < ApplicationController
   # POST /alarms
   # POST /alarms.json
   def create
-
     hash = { name: alarm_params['name'] }
 
     @alarm = Alarm.new(hash)
@@ -99,13 +93,14 @@ class AlarmsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_alarm
-      @alarm = Alarm.find(params[:id])
-    end
+  
+  # Use callbacks to share common setup or constraints between actions.
+  def set_alarm
+    @alarm = Alarm.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def alarm_params
-      params.require(:alarm).permit!
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def alarm_params
+    params.require(:alarm).permit!
+  end
 end
