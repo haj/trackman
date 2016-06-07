@@ -1,7 +1,7 @@
 class LocationsController < ApplicationController
 
   def get_traccar_data
-    TraccarWorker.perform_async(params)
+    TraccarWorker.perform_async
     # lat = params[:latitude]
     # lon = params[:longitude]
     # device_id = params[:device_id]

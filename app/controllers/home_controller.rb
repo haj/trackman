@@ -24,7 +24,7 @@ class HomeController < ApplicationController
     car_id = params[:car_id]
     @car = Car.find(params[:car_id])
 
-    unless @car.last_position.nil?
+    if @car.last_position
       @dates = [Settings.start_date, Settings.end_date]
 
       @array_dates = dates_in_range Settings.start_date, Settings.end_date
@@ -45,7 +45,8 @@ class HomeController < ApplicationController
       end
 
       logger.warn "Ready to load Data for logbook_data"
-      @data = @car.locations_grouped_by_these_dates @array_dates
+      @data = @car.locations_grouped_by_these_dates [Date.today]
+      # @data = @car.locations_grouped_by_these_dates @array_dates
 
       logger.warn "Logbook is rendered for : "
       logger.warn @array_dates

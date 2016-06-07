@@ -3,33 +3,45 @@ class TraccarWorker
   sidekiq_options retry: true
   sidekiq_options queue: "traccar"
 
-  def perform(params)
+  def perform
       logger.info "Sidekiq Job Started !"
 
-      lat = params["latitude"]
-      lon = params["longitude"]
-      device_id = params["device_id"]
-      unique_id = params["unique_id"]
-      position_id = params["position_id"].to_i
-      fix_time = params["fix_time"]
-      valid = params["valid"]
-      speed = params["speed"] # Speed in Knots
-      status = params["status"]
+      last_position_id = ImportStatus.last
+
+      position = 
+        if last_position_id
+          Traccar::Position.where("id > ?", last_position_id.position_id).first
+        else
+          Traccar::Position.last
+        end
+
+      ImportStatus.create(position_id: position.id)
+
+      lat = position.latitude
+      lon = position.longitude
+      device_id = position.deviceid
+      unique_id = position.device.uniqueid
+      position_id = position.id
+      fix_time = position.fixtime
+      valid = position.valid
+      speed = position.speed # Speed in Knots
+      status = position.course
       device = Device.find_by_emei(unique_id)
 
       logger.info "Params :"
-      logger.info params["position_id"].inspect
+      logger.info position_id.inspect
       logger.info "Sleeping while position_id is #{position_id} !"
       # sleep 2
       position = Traccar::Position.find position_id
-      jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other))
-      ignite = JSON[jsoned_xml]["info"]["power"]
+
+      jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other)) rescue nil
+      ignite = JSON[jsoned_xml]["info"]["power"] rescue ""
 
       # Conversion of speed from knots to km/h
       speed = speed.to_f * 1.852
 
       l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
-          position_id: position_id, status: status)
+          position_id: position_id, status: status, ignite: true)
 
       if ignite != ""
           l.ignite = ignite
@@ -42,7 +54,7 @@ class TraccarWorker
       end
 
       l.analyze_me
-      logger.info params
+      # logger.info params
   end
 
 end
