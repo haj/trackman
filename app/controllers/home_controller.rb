@@ -34,19 +34,19 @@ class HomeController < ApplicationController
 
       @array_dates = dates_in_range and_before, last_day
 
-      if Rails.env.development?
-        d = DateTime.now.change({ month: 11, day: 06, year: 2015}).to_date
-        e = DateTime.now.change({ month: 11, day: 10, year: 2015}).to_date
-        if @car.device.id == 13
-          @array_dates = dates_in_range DateTime.now.yesterday.to_date, DateTime.now.to_date
-        else
-          @array_dates = dates_in_range d, e
-        end
-      end
+      # if Rails.env.development?
+      #   d = DateTime.now.change({ month: 11, day: 06, year: 2015}).to_date
+      #   e = DateTime.now.change({ month: 11, day: 10, year: 2015}).to_date
+      #   if @car.device.id == 13
+      #     @array_dates = dates_in_range DateTime.now.yesterday.to_date, DateTime.now.to_date
+      #   else
+      #     @array_dates = dates_in_range d, e
+      #   end
+      # end
 
       logger.warn "Ready to load Data for logbook_data"
-      @data = @car.locations_grouped_by_these_dates [Date.today]
-      # @data = @car.locations_grouped_by_these_dates @array_dates
+      # @data = @car.locations_grouped_by_these_dates [Date.today]
+      @data = @car.locations_grouped_by_these_dates @array_dates
 
       logger.warn "Logbook is rendered for : "
       logger.warn @array_dates

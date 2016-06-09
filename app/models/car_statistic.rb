@@ -45,6 +45,6 @@ class CarStatistic < ActiveRecord::Base
   end
 
   def last_is_stop?
-    !last_is_start?
+    !last_is_start? && !self.last_is.try(:state).nil?
   end
 end

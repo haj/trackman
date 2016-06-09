@@ -1,57 +1,13 @@
-# Use this file to easily define all of your cron jobs.
-#
-# It's helpful, but not entirely necessary to understand cron before proceeding.
-# http://en.wikipedia.org/wiki/Cron
-
-# Example:
-#
-set :output, "log/cron_log.log"
-#
-# every 2.hours do
-#   command "/usr/bin/some_great_command"
-#   runner "MyModel.some_method"
-#   rake "some:great:rake:task"
-# end
-#
-# every 4.days do
-#   runner "AnotherModel.prune_old_records"
-# end
-# Learn more: http://github.com/javan/whenever
-
-
-# To generate cron jobs for this file
-# whenever --update-crontab trackman
-
-# crontab -r 
-# whenever --update-crontab --set environment='development'
-
+# set :environment, "production"
+set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
+set :environment, "development"
 
 every 1.minute do 
-    rake "alarms:check"
-    p "Check Alarms is has run!"
+  rake "alarms:check"
+  p "Check Alarms is has run!"
 end
 
-# every 5.minute do 
-# 	rake "jobs:workoff"
-# end
+every 1.minute do
+  rake "traccar_work"
+end
 
-set :environment, "development"
-set :output, "./log/cron_log.log"
-
-# every 1.minute do
-	# rake "geocoder:reverse"
-        
-# end
-
-# every 1.day do
-	
-# end
-
-# every 1.day, :at => '5:00 am' do
-  # runner "MyModel.task_to_run_at_four_thirty_in_the_morning"
-# end
-
-# this recurring task is here just for testing purposes-only and should be removed later
-# every 1.minute do 
-# 	rake "simulate:random_cars"
-# end

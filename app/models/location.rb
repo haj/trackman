@@ -145,13 +145,11 @@ class Location < ActiveRecord::Base
       end
     end
 
-    puts "Analyze me started!!!!"
-
     self.ignite = true if self.device_id == 13
 
     if self.is_first_position_of_day? or statistics.last_is_stop?
 
-      if self.ignition_is_on?
+      if self.ignition_is_on? && (statistics.last_is_stop? || self.is_first_position_of_day?)
         if statistics.last_stop
           duration_since_last_stop = (self.time - statistics.last_stop.time).to_i
           if duration_since_last_stop > Settings.minimum_parking_time.to_i * 60
@@ -186,7 +184,7 @@ class Location < ActiveRecord::Base
         duration_since_last_stop = (self.time - statistics.last_stop.time).to_i
         end
 
-        if (distance_from_last_start >= 0.01 or duration_since_last_start > 300) and statistics.last_is_start? # 10 meters
+        if (distance_from_last_start >= 0.01 or duration_since_last_start > 300) && statistics.last_is_start? # 10 meters
           self.state = "stop"
           self.ignite_step = self.previous_start_point.try(:ignite_step)
           self.trip_step = statistics.steps_counter
@@ -213,9 +211,7 @@ class Location < ActiveRecord::Base
       end
     end
 
-    puts "SAVING ...."
     statistics.save! if statistics != nil
-    puts "#{statistics.inspect}"
     self.save!
   end
 
