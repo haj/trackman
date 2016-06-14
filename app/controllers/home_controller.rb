@@ -46,7 +46,7 @@ class HomeController < ApplicationController
 
       logger.warn "Ready to load Data for logbook_data"
       # @data = @car.locations_grouped_by_these_dates [Date.today]
-      @data = @car.locations_grouped_by_these_dates @array_dates
+      @data = Car.locations_grouped_by_these_dates(@array_dates, @car.id)
 
       logger.warn "Logbook is rendered for : "
       logger.warn @array_dates

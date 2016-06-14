@@ -133,6 +133,8 @@ class Location < ActiveRecord::Base
   # => rule 4 : if a car hasn't change position, don't generate a new location but ignore it.
   # => rule 5 : there is always a start after a stop
   def analyze_me
+    logger.info "ANALYZE ME STARTO"
+
     previous = self.previous
 
     statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id, time: self.time.to_date)
@@ -144,8 +146,6 @@ class Location < ActiveRecord::Base
         statistics.tdistance = statistics.tdistance.round(2)
       end
     end
-
-    self.ignite = true if self.device_id == 13
 
     if self.is_first_position_of_day? or statistics.last_is_stop?
 
@@ -211,6 +211,10 @@ class Location < ActiveRecord::Base
       end
     end
 
+    logger.info self.state
+    puts self.state
+    logger.info self
+    
     statistics.save! if statistics != nil
     self.save!
   end
