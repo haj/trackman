@@ -53,6 +53,19 @@
               %div.form-actions{style: 'text-align: right;'}
                 %input{:type => "submit", :value => "Save", class: 'btn btn-primary btn-con'}/
 
+    .col-md-6
+      .grid.simple
+        .grid-title
+          %h4 Time Log
+        .grid-body
+          %div{style:'margin: 0 auto;'}
+            = form_tag url_for(controller: "home", action: "update_time_log"), :method => 'put' do
+              %label{:class => "form-label"} First time log (Time)
+              %small Changes will be applied for future data
+              %input.form-control{:type => "text", value: current_user.time_log, name: "user[time_log]", class: "timepicker"}
+              %div.form-actions{style: 'text-align: right;'}
+                %input{:type => "submit", :value => "Save", class: 'btn btn-primary btn-con'}/
+
         / .form-group
         /   %strong Last name:
         /   = @user.last_name

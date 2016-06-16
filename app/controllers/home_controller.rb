@@ -68,6 +68,11 @@ class HomeController < ApplicationController
     redirect_to :back
   end
 
+  def update_time_log
+    current_user.update(time_log: params[:user][:time_log])
+    redirect_to :back
+  end
+
   def apply_filter
     Settings.start_date = params[:start_date].to_date
     Settings.end_date = params[:end_date].to_date

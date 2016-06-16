@@ -210,6 +210,7 @@ Rails.application.routes.draw do
       get 'test'
       get 'cars_overview'
       get 'logbook_data'
+      put 'update_time_log'
     end
   end
 

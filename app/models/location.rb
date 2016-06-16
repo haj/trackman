@@ -151,7 +151,7 @@ class Location < ActiveRecord::Base
 
       if self.ignition_is_on? && (statistics.last_is_stop? || self.is_first_position_of_day?)
         if statistics.last_stop
-          duration_since_last_stop = (self.time - statistics.last_stop.time).to_i
+            duration_since_last_stop = (self.time - statistics.last_stop.time).to_i
           if duration_since_last_stop > Settings.minimum_parking_time.to_i * 60
             self.state = "start"
             statistics.steps_counter += 1
@@ -224,7 +224,14 @@ class Location < ActiveRecord::Base
   end
 
   def calculate_parking_time
-    (self.time - self.previous_stop_point.time).to_i if self.previous_stop_point
+    statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id, time: self.time.to_date)
+
+    if statistics.last_is.trip_step == 1
+      time_log = self.device.car.driver.nil? ? '00:00:00' : self.device.car.driver
+      (self.time - time_log.to_time).to_i
+    else
+      (self.time - self.previous_stop_point.time).to_i if self.previous_stop_point
+    end
   end
 
   def calculate_driving_time
