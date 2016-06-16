@@ -1,4 +1,5 @@
 # Change these
+# server '82.196.1.211', port: 22, roles: [:web, :app, :db], primary: true
 server '185.14.187.130', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:haj/trackman.git'
@@ -6,6 +7,7 @@ set :application,     'trackman'
 set :user,            'deploy'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
+set :branch,          :auth_admin
 
 # Don't change these unless you know what you're doing
 set :pty,             true
