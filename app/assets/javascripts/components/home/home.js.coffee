@@ -1,32 +1,38 @@
 R = React.DOM
-
 IntervalMixin = require('../utils/interval_mixin')
 LogBook = require('./log_book')
 CarsOverview = require('./cars_overview')
 Map = require('./map')
+Reflux = require('reflux');
+Actions = require('../utils/actions')
+CarStore = require('../stores/cars-store')
+ReactInterval = require('react-interval')
 
 module.exports = React.createClass
 
-	mixins: [IntervalMixin]
+	mixins: [
+		IntervalMixin,
+		Reflux.listenTo CarStore, "onCarsStoreChange"
+	]
 
 	getInitialState: ->
 		{cars: [], active_cars: []}
 
+	fetchData: ->
+		Actions.getCars(@props.carsOverviewPath)
+		self = @
+		window.setTimeout ->
+			self.fetchData()
+		, 5000
+
 	componentWillMount: ->
 		@fetchData()
 
-	fetchData: ->
-		self = @
-		api.get(@props.carsOverviewPath).then ((data) ->
-			@setState cars: data
-			@setState active_cars: $.grep @state.cars, (e) ->
-				e.last_seen != "-"
-			setTimeout () ->
-				self.fetchData()
-			, 5000
-			console.log "fetch active cars in home"
-			console.log @state.active_cars
-		).bind(@)
+	onCarsStoreChange: (event, cars) ->
+		console.log("new !! =====????")
+		@setState cars: cars
+		@setState active_cars: $.grep @state.cars, (e) ->
+			e.last_seen != "-"
 
 	render: ->
 		R.div null,
