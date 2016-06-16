@@ -1,5 +1,5 @@
 # Change these
-server '82.196.1.211', port: 22, roles: [:web, :app, :db], primary: true
+server '185.14.187.130', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:haj/trackman.git'
 set :application,     'trackman'
