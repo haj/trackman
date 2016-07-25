@@ -36,7 +36,7 @@ class TraccarWorker
     speed = speed.to_f * 1.852
 
     l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
-        position_id: position_id, status: status, ignite: true )
+        position_id: position_id, status: status, ignite: false )
 
     if ignite != ""
       l.ignite = ignite

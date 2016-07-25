@@ -67,6 +67,7 @@ class Car < ActiveRecord::Base
     # self.locations.order(:time).where('DATE(time) in (?) and state in (?)', dates, ['start','stop']).group_by{|l| l.time.to_date}
     # self.locations.order(:time).where('DATE(time) in (?)', dates).group_by{|l| l.time.to_date}
     # self.locations.order(:time).where('state in (?)', ['start','stop']) 
+    # Location.find_by_sql(["SELECT * FROM locations INNER JOIN devices ON locations.device_id = devices.id INNER JOIN cars ON devices.car_id = cars.id WHERE (cars.id = ? AND locations.state in(?) AND DATE(locations.time) in (?)) GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates]).group_by{|l| l.time.to_date}
     Location.find_by_sql(["SELECT * FROM locations INNER JOIN devices ON locations.device_id = devices.id INNER JOIN cars ON devices.car_id = cars.id WHERE (cars.id = ? AND locations.state in(?) AND DATE(locations.time) in (?)) AND ((locations.parking_duration IS NOT ? AND locations.ignite = ?) OR (locations.parking_duration IS ? AND locations.ignite = ?)) GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates, nil, true, nil, false]).group_by{|l| l.time.to_date}
   end
 
