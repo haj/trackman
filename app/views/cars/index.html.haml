@@ -40,8 +40,10 @@
                       %td= car.numberplate
                       %td= car.try(:car_model).try(:name)
                       %td= car.try(:car_type).try(:name)
-                      %td= link_to 'Edit', edit_car_path(car)
-
+                      %td
+                        = link_to 'Edit', edit_car_path(car)
+                        &nbsp; | &nbsp; 
+                        = link_to 'Delete', car, method: :delete, data: { confirm: "Are you sure want to delete this car?" }
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner
     %button.btn.btn-danger.btn-add{type: "button", id: "batch_destroy"}

@@ -21,6 +21,7 @@
                     %th Name
                     %th Number of Rules
                     %th Number of Cars
+                    %th
                 %tbody
                   - @alarms.each do |alarm|
                     %tr
@@ -29,6 +30,10 @@
                       %td= link_to alarm.name, alarm
                       %td= alarm.try(:rules).try(:count)
                       %td= alarm.try(:cars).try(:count)
+                      %td
+                        = link_to 'Edit', edit_alarm_path(alarm)
+                        &nbsp; | &nbsp; 
+                        = link_to 'Delete', alarm, method: :delete, data: { confirm: "Are you sure want to delete this alaram?" }
 
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner

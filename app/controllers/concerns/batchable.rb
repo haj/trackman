@@ -22,8 +22,8 @@ module Batchable
     def set_model_name
       model          = self.class.to_s.rpartition("Controller").first
       @model         = eval(model.singularize)
-      @params        = params["#{model.singularize.downcase}_ids".to_sym]
-      @redirect_path = eval("#{model.downcase}_path")
+      @params        = params["#{model.singularize.underscore}_ids".to_sym]
+      @redirect_path = eval("#{model.underscore}_path")
     end
   end
 

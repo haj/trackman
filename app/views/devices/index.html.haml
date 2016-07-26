@@ -95,8 +95,10 @@
                       %td= link_to device.name, device
                       %td= device.emei
                       %td= device.cost_price
-                      %td= link_to 'Edit', edit_device_path(device)
-
+                      %td
+                        = link_to 'Edit', edit_device_path(device)
+                        &nbsp; | &nbsp;
+                        = link_to 'Delete', device, method: :delete, data: { confirm: 'Are you sure want to delete this device?' }
 
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner

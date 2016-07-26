@@ -18,6 +18,10 @@ class WorkSchedulesController < ApplicationController
   def show
   end
 
+  def edit
+    
+  end
+
   # GET /work_schedules/new
   def new
     @work_schedule = WorkSchedule.new
