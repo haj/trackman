@@ -1,4 +1,6 @@
 class DeviceTypesController < ApplicationController
+  include Batchable
+
   before_action :set_device_type, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
   # GET /device_types
@@ -53,15 +55,6 @@ class DeviceTypesController < ApplicationController
         format.json { render json: @device_type.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def batch_destroy
-    device_type_ids = params[:device_type_ids]
-    device_type_ids.each do |device_type_id|
-      @device_type = DeviceType.find(device_type_id)
-      @device_type.destroy
-    end
-    redirect_to device_types_path
   end
 
   def destroy

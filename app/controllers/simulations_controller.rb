@@ -43,11 +43,6 @@ class SimulationsController < ApplicationController
     redirect_to car_path(car)
   end
 
-
-
-
-
-
   private
     
 

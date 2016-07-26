@@ -1,4 +1,6 @@
 class WorkScheduleGroupsController < ApplicationController
+  include Batchable
+
   before_action :set_work_schedule_group, only: [:show, :edit, :update, :destroy]
 
   # GET /work_schedule_groups
@@ -52,15 +54,6 @@ class WorkScheduleGroupsController < ApplicationController
         format.json { render json: @work_schedule_group.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def batch_destroy
-    work_schedule_group_ids = params[:work_schedule_group_ids]
-    work_schedule_group_ids.each do |work_schedule_group_id|
-      @work_schedule_group = WorkScheduleGroup.find(work_schedule_group_id)
-      @work_schedule_group.destroy
-    end
-    redirect_to work_schedule_groups_path
   end
 
   # DELETE /work_schedule_groups/1

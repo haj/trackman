@@ -1,4 +1,6 @@
 class AlarmsController < ApplicationController
+  include Batchable
+
   load_and_authorize_resource :except => [:create]
   
   before_action :set_alarm, only: [:edit, :update, :destroy]
@@ -33,7 +35,6 @@ class AlarmsController < ApplicationController
     @alarm = Alarm.new(hash)
 
     if @alarm.save
-      logger.debug "[ALARMS] alarm saved"
       rules = alarm_params['rules_attributes']
 
       rules.each_with_index do |(key,value),index| 
@@ -79,15 +80,6 @@ class AlarmsController < ApplicationController
     end
   end
  
-  def batch_destroy
-    alarm_ids = params[:alarm_ids]
-    alarm_ids.each do |alarm_id|
-      @alarm = Alarm.find(alarm_id)
-      @alarm.destroy
-    end
-    redirect_to alarms_path
-  end
-
   def destroy
     @alarm.destroy
   end

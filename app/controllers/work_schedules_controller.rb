@@ -1,7 +1,8 @@
 class WorkSchedulesController < ApplicationController
+  include Batchable
+
   before_action :set_work_schedule, only: [:show, :edit, :update, :destroy]
-  #load_and_authorize_resource
-  
+  #load_and_authorize_resource  
 
   # GET /work_schedules
   # GET /work_schedules.json
@@ -47,15 +48,6 @@ class WorkSchedulesController < ApplicationController
       else
         render js: "window.location = '#{new_work_schedule_path}'"
       end
-  end
-
-  def batch_destroy
-    work_schedule_ids = params[:work_schedule_ids]
-    work_schedule_ids.each do |work_schedule_id|
-      @work_schedule = WorkSchedule.find(work_schedule_id)
-      @work_schedule.destroy
-    end
-    redirect_to work_schedules_path
   end
 
   # DELETE /work_schedules/1

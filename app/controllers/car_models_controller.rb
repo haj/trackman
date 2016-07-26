@@ -1,4 +1,6 @@
 class CarModelsController < ApplicationController
+  include Batchable
+
   before_action :set_car_model, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
 
@@ -58,15 +60,6 @@ class CarModelsController < ApplicationController
         format.json { render json: @car_model.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def batch_destroy
-    car_model_ids = params[:car_model_ids]
-    car_model_ids.each do |car_model|
-      @car_model = CarModel.find(car_model)
-      @car_model.destroy
-    end
-    redirect_to car_models_path
   end
 
   # DELETE /car_models/1

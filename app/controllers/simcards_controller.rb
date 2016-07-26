@@ -1,4 +1,6 @@
 class SimcardsController < ApplicationController
+  include Batchable
+
   before_action :set_simcard, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
 
@@ -70,15 +72,6 @@ class SimcardsController < ApplicationController
         format.json { render json: @simcard.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def batch_destroy
-    simcard_ids = params[:simcard_ids]
-    simcard_ids.each do |simcard_id|
-      @simcard = Simcard.find(simcard_id)
-      @simcard.destroy
-    end
-    redirect_to simcards_path
   end
 
   # DELETE /simcards/1

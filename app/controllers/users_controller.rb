@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  include Batchable
+
   before_action :set_user, only: [:show, :destroy, :update, :edit]
   load_and_authorize_resource
 
@@ -56,15 +58,6 @@ class UsersController < ApplicationController
     else
       render :edit
     end
-  end
-
-  def batch_destroy
-    user_ids = params[:user_ids]
-    user_ids.each do |user_id|
-      @user = User.find(user_id)
-      @user.destroy
-    end
-    redirect_to users_path
   end
 
   # DELETE /users/1

@@ -1,7 +1,9 @@
 class CarsController < ApplicationController
+  include Batchable
+
   load_and_authorize_resource
 
-  before_action :set_car, only: [:edit, :update, :destroy]
+  before_action :set_car, only: [:edit, :update, :destroy, :show, :reports, :positions]
 
   # This list vehicles and enable the user to get vehicle positions
   def history
@@ -13,11 +15,9 @@ class CarsController < ApplicationController
   end
 
   def reports
-    @car = Car.find(params[:id])
   end
   
   def positions
-    @car = Car.find(params[:id])
     @alarms = @car.alarms
     if @car.has_device?
       timezone = current_user.time_zone.to_s
@@ -50,7 +50,6 @@ class CarsController < ApplicationController
 
   def pdf
     @position = Traccar::Position.last
-    
   end
 
   # This list vehicles and enable the user to manage vehicles
@@ -63,7 +62,6 @@ class CarsController < ApplicationController
   end
 
   def show
-    @car = Car.find(params[:id])
     @alarms = @car.alarms
   end
 
@@ -134,15 +132,6 @@ class CarsController < ApplicationController
         format.json { render json: @car.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def batch_destroy
-    car_ids = params[:car_ids]
-    car_ids.each do |car_id|
-      @car = Car.find(car_id)
-      @car.destroy
-    end
-    redirect_to cars_path
   end
 
   def destroy

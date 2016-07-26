@@ -1,6 +1,9 @@
 class ConversationsController < ApplicationController
   #load_and_authorize_resource
 
+  before_action :set_conversation, only: [:reply, :destroy]
+
+
   def index
     if params[:read].present? && params[:read] == "true"
       @conversations = current_user.mailbox.inbox(:read => true)
@@ -31,9 +34,8 @@ class ConversationsController < ApplicationController
   end
 
   def mark_as_action
-    conversation_ids = params[:conversation_ids]
-    clicked_action = params[:clicked_action]
-    UserConversation.mark_as_action(clicked_action, conversation_ids, current_user.id)
+    UserConversation.mark_as_action(params[:clicked_action], params[:conversation_ids], current_user.try(:id))
+
     redirect_to conversations_path
   end
 
@@ -43,7 +45,6 @@ class ConversationsController < ApplicationController
 
   # Reply to an existing conversation
   def reply
-    @conversation = current_user.mailbox.conversations.find(params[:id])
     current_user.reply_to_conversation(@conversation, conversation_params['body'])
     redirect_to conversation_path(@conversation)
   end
@@ -59,7 +60,6 @@ class ConversationsController < ApplicationController
   end
 
   def destroy
-    @conversation = current_user.mailbox.conversations.find(params[:id])
     @conversation.destroy
     redirect_to conversations_user_path(current_user)
   end
@@ -68,6 +68,10 @@ class ConversationsController < ApplicationController
 
   def conversation_params
     params.require(:conversation).permit(:body, :subject, :recipient_id)
+  end
+
+  def set_conversation
+    @conversation = current_user.mailbox.conversations.find(params[:id])    
   end
 
 end

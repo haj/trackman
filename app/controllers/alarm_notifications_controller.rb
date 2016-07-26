@@ -1,7 +1,7 @@
 class AlarmNotificationsController < ApplicationController
   load_and_authorize_resource :except => [:create]
 
-  before_action :set_alarm_notification, only: [:edit, :update, :destroy, :show]
+  before_action :set_alarm_notification, only: [:edit, :update, :destroy, :show, :archive]
 
   def index
     @alerts = AlarmNotification.where(archived: false).order("created_at DESC")
@@ -25,7 +25,6 @@ class AlarmNotificationsController < ApplicationController
   end
 
   def archive
-    @alarm_notification = AlarmNotification.find(params[:id])
     @alarm_notification.update_attribute(:archived, true)
     redirect_to alarm_notifications_path
   end

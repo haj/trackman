@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+  include Batchable
+  
   before_action :set_group, only: [:edit, :update, :destroy]
   load_and_authorize_resource
   # GET /groups
@@ -90,15 +92,6 @@ class GroupsController < ApplicationController
     end
   end
 
-
-  def batch_destroy
-    group_ids = params[:group_ids]
-    group_ids.each do |group_id|
-      @group = Group.find(group_id)
-      @group.destroy
-    end
-    redirect_to groups_path
-  end
 
   # DELETE /groups/1
   # DELETE /groups/1.json

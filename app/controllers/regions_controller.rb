@@ -1,7 +1,8 @@
 class RegionsController < ApplicationController
+  include Batchable
+
   before_action :set_region, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
-
 
   def index
     @regions = Region.all
@@ -63,15 +64,6 @@ class RegionsController < ApplicationController
         format.json { render json: @region.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def batch_destroy
-    region_ids = params[:region_ids]
-    region_ids.each do |region_id|
-      @region = Region.find(region_id)
-      @region.destroy
-    end
-    redirect_to regions_path
   end
 
   # DELETE /regions/1

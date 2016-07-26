@@ -1,6 +1,9 @@
 class DeviceManufacturersController < ApplicationController
+  include Batchable
+
   before_action :set_device_manufacturer, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
+
   # GET /device_manufacturers
   # GET /device_manufacturers.json
   def index
@@ -53,15 +56,6 @@ class DeviceManufacturersController < ApplicationController
         format.json { render json: @device_manufacturer.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def batch_destroy
-    device_manufacturer_ids = params[:device_manufacturer_ids]
-    device_manufacturer_ids.each do |device_manufacturer_id|
-      @device_manufacturer = DeviceManufacturer.find(device_manufacturer_id)
-      @device_manufacturer.destroy
-    end
-    redirect_to device_manufacturers_path
   end
 
   # DELETE /device_manufacturers/1
