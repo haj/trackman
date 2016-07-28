@@ -2,6 +2,8 @@ class LocationsController < ApplicationController
 
   def get_traccar_data
     TraccarWorker.perform_async
+
+    render json: nil
   end
 
   def get_car_route

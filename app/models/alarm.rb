@@ -28,12 +28,18 @@ class Alarm < ActiveRecord::Base
   # has_and_belongs_to_many :cars
   # has_many :car_alarms
 
-
   # VALIDATION GOES HERE
   validates :name, presence: true
 
   # NESTED ATTR GOES HERE
   accepts_nested_attributes_for :rules, :reject_if => :all_blank, :allow_destroy => true
+
+  # Callback
+  after_create :update_conjuction
+
+  def update_conjuction
+    binding.pry
+  end
 
   # INSTANCE METHOD GOES HERE
   def verify(car_id)

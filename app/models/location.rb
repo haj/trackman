@@ -137,16 +137,89 @@ class Location < ActiveRecord::Base
 
     statistic_distance(statistics)
 
+    # if is_first_position_of_day? or statistics.last_is_stop?
+    #   ignition_start(statistics)
+    # else
+    #   ignition_stop(statistics)
+    # end
+    
+    # statistics.save!
+    # self.save!
+
+    # puts self.state
+
+    #
+    #
+    #
+    
+    # statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id, time: self.time.to_date)
+
+    # if previous
+    #   distance_from_previous = distance_from [previous.latitude, previous.longitude]
+    #   if distance_from_previous
+    #     statistics.tdistance += distance_from_previous
+    #     statistics.tdistance = statistics.tdistance.round(2)
+    #   end
+    # end    
+
     if is_first_position_of_day? or statistics.last_is_stop?
-      ignition_start(statistics)
+      duration_since_last_stop = (time - statistics.last_stop.time).to_i rescue 0
+
+      if ignition_is_on? && ((statistics.last_stop && (duration_since_last_stop > Settings.minimum_parking_time.to_i * 60)) || !statistics.last_stop)
+        self.state = "start"
+        statistics.steps_counter += 1
+        statistics.last_start = self
+        statistics.last_is = self
+        self.trip_step = statistics.steps_counter
+        self.reverse_geocode
+      else
+        self.state = "ignore"
+      end    
     else
-      ignition_stop(statistics)
+      if ignition_is_on?
+        self.state = "onroad"
+      else # if ignition is off
+        distance_from_last_start  = distance_from [statistics.last_start.latitude, statistics.last_start.longitude]
+        duration_since_last_start = (time - statistics.last_start.time).to_i
+        if statistics.last_stop
+          distance_from_last_stop  = distance_from [statistics.last_stop.latitude, statistics.last_stop.longitude]
+          duration_since_last_stop = (time - statistics.last_stop.time).to_i
+        end
+
+        if (distance_from_last_start >= 0.01 or duration_since_last_start > 300) && statistics.last_is_start? # 10 meters
+          self.state = "stop"
+          self.ignite_step = previous_start_point.try(:ignite_step)
+          self.trip_step = statistics.steps_counter
+          self.reverse_geocode
+          statistics.last_stop = self
+          statistics.last_is = self
+
+          # calculating parking / driving time
+          previous_start_point = statistics.last_start
+          previous_start_point.driving_duration = duration_since_last_start
+          previous_start_point.parking_duration = previous_start_point.calculate_parking_time
+          previous_start_point.save!
+
+          statistics.tparktime += previous_start_point.parking_duration if previous_start_point.parking_duration
+          statistics.tdrivtime += previous_start_point.driving_duration if previous_start_point.driving_duration
+
+          arr_speed = get_todays_locs.map{|l| l.speed}
+
+          statistics.avgspeed = arr_speed.inject{ |sum, el| sum+el }.to_f / arr_speed.size
+          statistics.maxspeed = self.get_todays_locs.map{|l| l.speed}.max    
+
+          # ignite_stop(statistics)
+        else
+          self.state = "ignore"
+        end
+      end    
     end
     
     statistics.save!
     self.save!
 
     puts self.state
+
   end
 
   #
