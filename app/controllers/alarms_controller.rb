@@ -32,12 +32,12 @@ class AlarmsController < ApplicationController
   def create
     hash = { name: alarm_params['name'] }
 
-    @alarm = Alarm.new(hash)
-
+    @alarm = Alarm.new(alarm_params)
     if @alarm.save
       rules = alarm_params['rules_attributes']
 
       rules.each_with_index do |(key,value),index| 
+        asd
         if value['_destroy'] != "1"
           # fetch current rule
           rule = Rule.find(value['id'].to_i) 
@@ -93,6 +93,9 @@ class AlarmsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def alarm_params
-    params.require(:alarm).permit!
+    params.require(:alarm).permit(
+      :name, 
+      alarm_rules_attributes: [:id, :rule_id, :_destroy, rules_attributes: [:id, :_destroy, :params]]
+    )
   end
 end

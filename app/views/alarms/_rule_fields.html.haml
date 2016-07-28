@@ -1,4 +1,3 @@
-
 .nested-fields
 	.grid.simple.conjunction_row
 		.grid-body
@@ -9,7 +8,7 @@
 		.grid-body
 			.form-group.form-inline
 				= f.label :name
-				= f.collection_select(:id, Rule.all, :id, :name)
+				= f.collection_select(:rule_id, Rule.all, :id, :name)
 
 			.params.form-group 
 				= f.fields_for :params do |p|

@@ -16,8 +16,8 @@ class Alarm < ActiveRecord::Base
 
   # ASSOCIATION GOES HERE
   #alarms -> rules
-  has_and_belongs_to_many :rules
   has_many :alarm_rules
+  has_many :rules, through: :alarm_rules
   has_many :alarm_notifications
 
   #alarms -> groups
@@ -32,12 +32,15 @@ class Alarm < ActiveRecord::Base
   validates :name, presence: true
 
   # NESTED ATTR GOES HERE
-  accepts_nested_attributes_for :rules, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :alarm_rules, :reject_if => :all_blank, :allow_destroy => true
 
   # Callback
-  after_create :update_conjuction
+  before_create :update_param_conjuction
 
-  def update_conjuction
+  # Attr accessor
+  attr_accessor :rule
+
+  def update_param_conjuction
     binding.pry
   end
 

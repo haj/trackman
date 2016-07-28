@@ -1,4 +1,3 @@
-
 = form_for @alarm do |f|
   - if @alarm.errors.any?
     #error_explanation
@@ -19,10 +18,10 @@
 
     .col-md-6         
       #rules
-        = f.fields_for :rules do |rule|
+        = f.fields_for :alarm_rules do |rule|
           = render 'rule_fields', :f => rule
         .links
-          = link_to_add_association 'Add Rule', f, :rules, :class => "btn btn-info", id: "new_alarm"
+          = link_to_add_association 'Add Rule', f, :alarm_rules, :class => "btn btn-info", id: "new_alarm", partial: 'rule_fields'
   .row
     .col-md-12
       = f.submit 'Save', class: "btn btn-primary"

@@ -11,7 +11,7 @@
 #
 
 class Rule < ActiveRecord::Base
-  has_and_belongs_to_many :alarms
+  has_many :alarms, through: :alarm_rules
   has_many :alarm_rules
   has_many :parameters
 
