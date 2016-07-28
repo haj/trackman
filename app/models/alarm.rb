@@ -16,8 +16,8 @@ class Alarm < ActiveRecord::Base
 
   # ASSOCIATION GOES HERE
   #alarms -> rules
-  has_many :alarm_rules
   has_many :rules, through: :alarm_rules
+  has_many :alarm_rules
   has_many :alarm_notifications
 
   #alarms -> groups
@@ -33,16 +33,6 @@ class Alarm < ActiveRecord::Base
 
   # NESTED ATTR GOES HERE
   accepts_nested_attributes_for :alarm_rules, :reject_if => :all_blank, :allow_destroy => true
-
-  # Callback
-  before_create :update_param_conjuction
-
-  # Attr accessor
-  attr_accessor :rule
-
-  def update_param_conjuction
-    binding.pry
-  end
 
   # INSTANCE METHOD GOES HERE
   def verify(car_id)

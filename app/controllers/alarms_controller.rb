@@ -9,7 +9,6 @@ class AlarmsController < ApplicationController
   # GET /alarms/1.json
   def show
     @alarm = Alarm.find(params[:id])
-    @rules = @alarm.rules
 
     respond_to do |format|
       format.html # show.html.erb
@@ -30,29 +29,8 @@ class AlarmsController < ApplicationController
   # POST /alarms
   # POST /alarms.json
   def create
-    hash = { name: alarm_params['name'] }
-
     @alarm = Alarm.new(alarm_params)
     if @alarm.save
-      rules = alarm_params['rules_attributes']
-
-      rules.each_with_index do |(key,value),index| 
-        asd
-        if value['_destroy'] != "1"
-          # fetch current rule
-          rule = Rule.find(value['id'].to_i) 
-          @alarm.rules << rule
-          # get the alarm -> rule record
-          alarm_rule = AlarmRule.where(alarm_id: @alarm.id, rule_id: rule.id).first
-          # update the params for current alarm -> rule
-          alarm_rule.update_attribute(:params, value['params'])
-          # update the conjunction
-          if index != 0 
-            alarm_rule.update_attribute(:conjunction, value['conjunction']['value'].to_s)
-          end
-        end
-      end
-
       redirect_to @alarm, notice: 'Alarm was successfully created.'
     else
       render :new
@@ -93,9 +71,13 @@ class AlarmsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def alarm_params
+    rule_params = Rule.all.map(&:params).flatten.map{ |e| e.name.to_sym }.uniq rescue []
+
     params.require(:alarm).permit(
       :name, 
-      alarm_rules_attributes: [:id, :rule_id, :_destroy, rules_attributes: [:id, :_destroy, :params]]
+      alarm_rules_attributes: [
+        :id, :rule_id, :_destroy, :conjunction, { params: [rule_params] }
+      ]
     )
   end
 end

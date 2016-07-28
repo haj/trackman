@@ -2,8 +2,7 @@
 	.grid.simple.conjunction_row
 		.grid-body
 			.form-group.conjunction_field
-				= f.fields_for :conjunction do |c|
-					= c.select :value, ['And', 'Or'] 
+				= f.select :conjunction, ['And', 'Or'] 
 	.grid.simple
 		.grid-body
 			.form-group.form-inline
