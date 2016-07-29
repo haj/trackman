@@ -24,10 +24,9 @@ class CarsController < ApplicationController
       
       Time.use_zone(timezone) do
         dates = params[:dates]
-        @positions = @car.positions_with_dates(dates, timezone)
-        if dates.nil?
-          @title = "Last #{@positions.count} positions"
-        end
+        @positions = @car.positions_with_dates(dates, timezone)        
+        @title = "Last #{@positions.count} positions" if dates.nil?
+
         @markers = Traccar::Position.markers(@positions)        
         gon.watch.data = @markers
         gon.push({
@@ -78,18 +77,18 @@ class CarsController < ApplicationController
     if @car.save
 
       # assign device to this car -- Move this to after save / create
-      if device_params.has_key?('device_id') && !device_params['device_id'].empty?
-        device = Device.find(device_params['device_id'])
-        if !device.nil?
-          device.update_attribute(:car_id, @car.id)
-        end
-      end
+      # if device_params.has_key?('device_id') && !device_params['device_id'].empty?
+      #   device = Device.find(device_params['device_id'])
+      #   if !device.nil?
+      #     device.update_attribute(:car_id, @car.id)
+      #   end
+      # end
 
-      # assign driver to this car  -- Move this to after save / create
-      if !user_params['user_id'].empty?
-        user = User.find(user_params[:user_id]) 
-        user.update_attribute(:car_id, @car.id)
-      end
+      # # assign driver to this car  -- Move this to after save / create
+      # if !user_params['user_id'].empty?
+      #   user = User.find(user_params[:user_id]) 
+      #   user.update_attribute(:car_id, @car.id)
+      # end
 
       redirect_to @car, notice: 'Vehicle was successfully created.'
     else
@@ -100,10 +99,8 @@ class CarsController < ApplicationController
   def update
     respond_to do |format|
       if @car.update(car_params)
-
         # Move this to after update
         if device_params.has_key?('device_id') && !device_params['device_id'].empty?
-          
           # release previous device 
           if @car.has_device?
             @car.device.update_attribute(:car_id, nil)
@@ -180,7 +177,7 @@ class CarsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def car_params
-      params.require(:car).permit(:name, :mileage, :numberplate, :work_schedule_id, :car_model_id, :car_type_id, :registration_no, :year, :color, :group_id, alarm_ids: [])
+      params.require(:car).permit(:name, :mileage, :numberplate, :work_schedule_id, :car_model_id, :car_type_id, :device_id, :registration_no, :user_id, :year, :color, :group_id, alarm_ids: [])
     end
 
     def device_params

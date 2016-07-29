@@ -56,7 +56,27 @@ class Car < ActiveRecord::Base
   scope :locations_of_the_following_dates, -> array_dates { where("DATE(time) IN (?)", array_dates) }
 
   # ATTR ACCESSOR GOES HERE
+  attr_accessor :device_id, :user_id
   accepts_nested_attributes_for :alarms
+
+  # Callback
+  after_save :update_device, :update_driver
+
+  def update_driver
+    if user_id.present?
+      user = User.find(user_id) 
+      user.update(car_id: self.id)
+    end    
+  end
+
+  def update_device
+    if self.device_id.present?
+      self.device.update(car_id: nil) if self.device
+
+      device = Device.find(self.device_id)
+      device.update(car_id: self.id)
+    end
+  end
 
   # INSTNCE METHOD GOES HERE
   def locations_grouped_by_dates
