@@ -17,6 +17,25 @@
 #
 
 class CarStatistic < ActiveRecord::Base
+  include AASM
+
+  aasm do
+    state :stop, :initial => true
+    state :onroad, :start
+
+    event :run do
+      transitions :from => [:start, :onroad], :to => :onroad
+    end
+
+    event :park do
+      transitions :from => :onroad, :to => :stop
+    end
+
+    event :new_start do
+      transitions :from => :stop, :to => :start
+    end
+  end
+
   # ASSOCIATION
   belongs_to :car
   belongs_to :last_start, :class_name => "Location"

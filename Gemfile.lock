@@ -52,6 +52,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (4.11.0)
     actionmailer (4.1.6)
       actionpack (= 4.1.6)
       actionview (= 4.1.6)
@@ -590,6 +591,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   acts_as_tenant
   annotate (>= 2.6.0)
   awesome_print
