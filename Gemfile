@@ -90,6 +90,7 @@ gem "bower-rails"
 gem 'react-bootstrap-rails'
 gem 'browserify-rails'
 gem 'aasm' #State Machine
+gem 'sidekiq-unique-jobs'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

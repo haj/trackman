@@ -2,7 +2,8 @@ class TraccarWorker
   include Sidekiq::Worker
   sidekiq_options retry: true
   sidekiq_options queue: "traccar"
-
+  sidekiq_options unique: :while_executing
+  
   def perform
     last_position_id = ImportStatus.last
 
@@ -36,7 +37,7 @@ class TraccarWorker
     speed = speed.to_f * 1.852
 
     l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
-        position_id: position_id, status: status, ignite: true )
+        position_id: position_id, status: status, ignite: false )
 
     if ignite != ""
       l.ignite = ignite
