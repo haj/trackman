@@ -28,7 +28,7 @@ class CarStatistic < ActiveRecord::Base
     end
 
     event :park do
-      transitions :from => :onroad, :to => :stop
+      transitions :from => [:start, :onroad], :to => :stop
     end
 
     event :new_start do

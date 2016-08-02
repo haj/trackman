@@ -61,6 +61,10 @@ class Location < ActiveRecord::Base
     self.get_todays_locs.empty?
   end
 
+  def is_first_park_of_the_day?
+    self.get_todays_locs.where("state = ?", "stop").present?
+  end
+
   # rule 1
   def is_first_point?
     if self.get_todays_locs.count == 0
@@ -235,6 +239,7 @@ class Location < ActiveRecord::Base
   def on_start(statistics)
     if (ignition_is_on? || is_first_position_of_day?) && !statistics.start?
       self.state = "start"
+      self.parking_duration = (Time.now - Date.today.to_time).to_i if is_first_position_of_day?
       statistics.new_start
       statistics.steps_counter += 1
       statistics.last_start = self
