@@ -213,8 +213,6 @@ class Location < ActiveRecord::Base
       on_start(statistics)
     end
 
-    puts statistics.aasm_state
-
     statistics.save!
     self.save!    
   end
