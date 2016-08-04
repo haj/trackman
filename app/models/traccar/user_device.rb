@@ -14,5 +14,5 @@ class Traccar::UserDevice < ActiveRecord::Base
      				   foreign_key: :deviceId
 
     belongs_to :user, class_name: 'Traccar::User',
-    				 foreign_key: :userid
+    				 foreign_key: :userId
 end
