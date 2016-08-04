@@ -10,7 +10,7 @@
 
 class Traccar::Device < ActiveRecord::Base
   	establish_connection "secondary_#{Rails.env}".to_sym
-  	self.table_name = "devices"
+  	self.table_name = "device"
 
     # validation
     validates_uniqueness_of :uniqueId, case_sensitive: false

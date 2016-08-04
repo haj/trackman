@@ -31,13 +31,13 @@ class TraccarWorker
 
     jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other
       )) rescue nil
-    ignite = JSON[jsoned_xml]["info"]["power"] rescue ""
+    ignite = JSON[jsoned_xml]["info"]["power"] rescue true
 
     # Conversion of speed from knots to km/h
     speed = speed.to_f * 1.852
 
     l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
-        position_id: position_id, status: status, ignite: false )
+        position_id: position_id, status: status, ignite: ignite )
 
     if ignite != ""
       l.ignite = ignite

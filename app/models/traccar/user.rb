@@ -11,7 +11,7 @@
 
 class Traccar::User < ActiveRecord::Base
   	establish_connection "secondary_#{Rails.env}".to_sym
-  	self.table_name = "users"
+  	self.table_name = "user"
 
   	has_many :devices, :through => :users_devices
     has_many :users_devices, :class_name => "Traccar::UserDevice", :foreign_key => 'userid', :dependent => :destroy

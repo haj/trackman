@@ -19,7 +19,7 @@
 
 class Traccar::Position < ActiveRecord::Base
   establish_connection "secondary_#{Rails.env}".to_sym
-  self.table_name = "positions"
+  self.table_name = "position"
 
   include SafeAttributes::Base
 
