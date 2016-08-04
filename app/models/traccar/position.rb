@@ -23,7 +23,7 @@ class Traccar::Position < ActiveRecord::Base
 
   include SafeAttributes::Base
 
-  belongs_to :device, :class_name => 'Traccar::Device', :foreign_key => 'deviceid'
+  belongs_to :device, :class_name => 'Traccar::Device', :foreign_key => 'deviceId'
   has_one :location, :class_name => 'Location'
 
   bad_attribute_names :valid?

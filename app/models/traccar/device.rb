@@ -15,8 +15,8 @@ class Traccar::Device < ActiveRecord::Base
     # validation
     validates_uniqueness_of :uniqueId, case_sensitive: false
 
-  	has_many :positions, :class_name => 'Traccar::Position', :foreign_key => 'deviceid', :dependent => :destroy
-    has_many :users_devices, :class_name => "Traccar::UserDevice", :foreign_key => 'deviceid'
+  	has_many :positions, :class_name => 'Traccar::Position', :foreign_key => 'deviceId', :dependent => :destroy
+    has_many :users_devices, :class_name => "Traccar::UserDevice", :foreign_key => 'deviceId'
     has_many :users, :through => :users_devices
 
   	def last_position
