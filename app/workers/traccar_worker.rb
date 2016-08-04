@@ -5,26 +5,15 @@ class TraccarWorker
   sidekiq_options unique: :while_executing
   
   def perform
-    last_position_id = ImportStatus.last
-
-    position = 
-      if last_position_id
-        Traccar::Position.where("id > ?", last_position_id.position_id).first
-      else
-        Traccar::Position.last
-      end
-
-    ImportStatus.create(position_id: position.id)
-
-    lat = position.latitude
-    lon = position.longitude
-    device_id = position.deviceid
-    unique_id = position.device.uniqueid
-    position_id = position.id
-    fix_time = position.fixtime
-    valid = position.valid
-    speed = position.speed # Speed in Knots
-    status = position.course
+    lat = params["latitude"]
+    lon = params["longitude"]
+    device_id = params["device_id"]
+    unique_id = params["unique_id"]
+    position_id = params["position_id"].to_i
+    fix_time = params["fix_time"]
+    valid = params["valid"]
+    speed = params["speed"] # Speed in Knots
+    status = params["status"]
     device = Device.find_by_emei(unique_id)
 
     position = Traccar::Position.find position_id
@@ -37,7 +26,7 @@ class TraccarWorker
     speed = speed.to_f * 1.852
 
     l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
-        position_id: position_id, status: status, ignite: ignite )
+        position_id: position_id, status: status)
 
     if ignite != ""
       l.ignite = ignite
