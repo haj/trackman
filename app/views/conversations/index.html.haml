@@ -15,7 +15,7 @@
               %br/
               .row-fluid
                 .row-fluid.dataTables_wrapper
-                  %h2.inline= @inbox_title
+                  %h2.inline= inbox_title(params[:read])
                   .btn-group.m-l-10.m-b-10
                     %a.btn.btn-white.btn-mini.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
                       %span.anim150 Show

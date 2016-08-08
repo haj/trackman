@@ -1,4 +1,9 @@
+require "application_responder"
+
 class ApplicationController < ActionController::Base
+  self.responder = ApplicationResponder
+  respond_to :html
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -13,8 +18,8 @@ class ApplicationController < ActionController::Base
   helper_method :js_class_name
   helper_method :css_class_name
 
-  before_filter :set_current_tenant
-  before_filter :bootstrap
+  before_action :set_current_tenant
+  before_action :bootstrap
 
   # before_filter :configure_permitted_parameters, if: :devise_controller?
 

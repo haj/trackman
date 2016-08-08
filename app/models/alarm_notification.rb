@@ -13,11 +13,14 @@
 #
 
 class AlarmNotification < ActiveRecord::Base
-	# INIT GEM GOES HERE
+  # INIT GEM GOES HERE
   include PublicActivity::Common
-	acts_as_tenant(:company)
+  acts_as_tenant(:company)
 
-	# ASSOCIATION GOES HERE
-	belongs_to :alarm
-	belongs_to :car 
+  # ASSOCIATION GOES HERE
+  belongs_to :alarm
+  belongs_to :car 
+
+  # SCOPE
+  scope :not_archieved, -> { where(archived: false) }
 end

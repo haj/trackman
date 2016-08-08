@@ -1,35 +1,40 @@
 class CarModelsController < ApplicationController
+  # Include module / class
   include Batchable
 
-  before_action :set_car_model, only: [:show, :edit, :update, :destroy]
+  # Initialize something from GEM
   load_and_authorize_resource
-
   has_scope :by_car_manufacturer
+
+  # Callback controller
+  before_action :set_car_model, only: [:show, :edit, :update, :destroy]
+
 
   # GET /car_models
   # GET /car_models.json
   def index
-    @q = apply_scopes(CarModel).all.search(params[:q])
+    @q = apply_scopes(CarModel).search(params[:q])
     @car_models = @q.result(distinct: true)
 
-    # respond_to do |format|
-    #   format.html {render :layout => "index_template"}
-    # end
-
+    respond_with(@car_models)
   end
 
   # GET /car_models/1
   # GET /car_models/1.json
   def show
+    respond_with(@car_model)
   end
 
   # GET /car_models/new
   def new
     @car_model = CarModel.new
+
+    respond_with(@car_model)
   end
 
   # GET /car_models/1/edit
   def edit
+    respond_with(@car_model)
   end
 
   # POST /car_models
@@ -37,28 +42,20 @@ class CarModelsController < ApplicationController
   def create
     @car_model = CarModel.new(car_model_params)
 
-    respond_to do |format|
-      if @car_model.save
-        format.html { redirect_to @car_model, notice: 'Car model was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @car_model }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @car_model.errors, status: :unprocessable_entity }
-      end
+    if @car_model.save
+      respond_with(@car_model, location: @car_model, notice: 'Car model was successfully created.')
+    else
+      respond_with(@car_model)
     end
   end
 
   # PATCH/PUT /car_models/1
   # PATCH/PUT /car_models/1.json
   def update
-    respond_to do |format|
-      if @car_model.update(car_model_params)
-        format.html { redirect_to @car_model, notice: 'Car model was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @car_model.errors, status: :unprocessable_entity }
-      end
+    if @car_model.update(car_model_params)
+      respond_with(@car_model, location: @car_model, notice: 'Car model was successfully updated.')
+    else
+      respond_with(@car_model)
     end
   end
 
@@ -66,10 +63,8 @@ class CarModelsController < ApplicationController
   # DELETE /car_models/1.json
   def destroy
     @car_model.destroy
-    respond_to do |format|
-      format.html { redirect_to car_models_url }
-      format.json { head :no_content }
-    end
+
+    respond_with(@car_model, location: car_models_url)
   end
 
   private

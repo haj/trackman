@@ -1,8 +1,11 @@
 class CarTypesController < ApplicationController
+  # Include module / class
   include Batchable
 
+  # Initialize something from GEM
   load_and_authorize_resource
 
+  # Callback controller
   before_action :set_car_type, only: [:show, :edit, :update, :destroy]
 
   # GET /car_types
@@ -11,23 +14,25 @@ class CarTypesController < ApplicationController
     @q = CarType.search(params[:q])
     @car_types = @q.result(distinct: true)
 
-    # respond_to do |format|
-    #   format.html {render :layout => "index_template"}
-    # end
+    respond_with(@car_types)
   end
 
   # GET /car_types/1
   # GET /car_types/1.json
   def show
+    respond_with(@car_type)
   end
 
   # GET /car_types/new
   def new
     @car_type = CarType.new
+
+    respond_with(@car_type)
   end
 
   # GET /car_types/1/edit
   def edit
+    respond_with(@car_type)
   end
 
   # POST /car_types
@@ -35,37 +40,29 @@ class CarTypesController < ApplicationController
   def create
     @car_type = CarType.new(car_type_params)
 
-    respond_to do |format|
-      if @car_type.save
-        format.html { redirect_to @car_type, notice: 'Car type was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @car_type }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @car_type.errors, status: :unprocessable_entity }
-      end
+    if @car_type.save
+      respond_with(@car_type, location: @car_type, notice: 'Car type was successfully created.')
+    else
+      respond_with(@car_type)
     end
   end
 
   # PATCH/PUT /car_types/1
   # PATCH/PUT /car_types/1.json
   def update
-    respond_to do |format|
-      if @car_type.update(car_type_params)
-        format.html { redirect_to @car_type, notice: 'Car type was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @car_type.errors, status: :unprocessable_entity }
-      end
+    if @car_type.update(car_type_params)
+      respond_with(@car_type, location: @car_type, notice: 'Car type was successfully updated.')
+    else
+      respond_with(@car_type)
     end
   end
 
+  # DELETE /car_type/:id || car_type_path(:id)
+  # Delete specific car type
   def destroy
     @car_type.destroy
-    respond_to do |format|
-      format.html { redirect_to car_types_url }
-      format.json { head :no_content }
-    end
+
+    respond_with(@car_type, location: car_types_url)
   end
 
   private

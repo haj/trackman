@@ -85,7 +85,7 @@ class Car < ActiveRecord::Base
 
   def self.locations_grouped_by_these_dates(dates, car_id)
     # Location.find_by_sql(["SELECT * FROM locations INNER JOIN devices ON locations.device_id = devices.id INNER JOIN cars ON devices.car_id = cars.id WHERE (cars.id = ? AND locations.state in(?) AND DATE(locations.time) in (?)) GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates]).group_by{|l| l.time.to_date}
-    Location.find_by_sql(["SELECT * FROM locations INNER JOIN devices ON locations.device_id = devices.id INNER JOIN cars ON devices.car_id = cars.id WHERE (cars.id = ? AND locations.state in(?) AND DATE(locations.time) in (?)) AND ((locations.parking_duration IS NOT ? AND locations.ignite = ?) OR (locations.parking_duration IS ? AND locations.ignite = ?)) GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates, nil, true, nil, false]).group_by{|l| l.time.to_date}
+    Location.find_by_sql(["SELECT * FROM locations INNER JOIN devices ON locations.device_id = devices.id INNER JOIN cars ON devices.car_id = cars.id WHERE (cars.id = ? AND locations.state in(?) AND DATE(locations.time) in (?)) GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates]).group_by{|l| l.time.to_date}
   end
 
   def last_location
@@ -316,21 +316,14 @@ class Car < ActiveRecord::Base
       self.device.traccar_device.positions.order("time DESC").limit(100)
     else
       Time.use_zone("#{timezone}") do
-
-        positions = []
-
+        positions  = []
         start_date = Time.zone.parse("#{dates[:start_date]} #{dates[:start_time]}").utc
-
-        end_date = Time.zone.parse("#{dates[:end_date]} #{dates[:end_time]}").utc
+        end_date   = Time.zone.parse("#{dates[:end_date]} #{dates[:end_time]}").utc
 
         # dates[:limit_results] = 20 if dates[:limit_results].to_i == 0
-
         # positions = self.device.traccar_device.positions.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time ASC")
-        positions = Location.where("time >= ? AND time <= ?", start_date.to_s(:db),
-          end_date.to_s(:db)).order("time ASC")
 
-        Rails.logger.warn "positions #{positions.count}"
-        return positions
+        Location.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time ASC")
       end
     end
   end

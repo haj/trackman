@@ -1,16 +1,19 @@
 class GroupsController < ApplicationController
+  # Include module / class
   include Batchable
-  
-  before_action :set_group, only: [:edit, :update, :destroy]
   load_and_authorize_resource
+  
+  # Callback controller
+  before_action :set_group, only: [:edit, :update, :destroy]
+
+
   # GET /groups
   # GET /groups.json
   def index
     @q = Group.search(params[:q])
     @groups = @q.result(distinct: true)
-    respond_to do |format|
-      format.html {render :layout => "index_template"}
-    end
+
+    respond_with(@groups)
   end
 
   def show
@@ -39,10 +42,13 @@ class GroupsController < ApplicationController
   # GET /groups/new
   def new
     @group = Group.new
+
+    respond_with(@group)
   end
 
   # GET /groups/1/edit
   def edit
+    respond_with(@group)
   end
 
   def live

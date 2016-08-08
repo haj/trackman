@@ -1,9 +1,20 @@
 class AlarmsController < ApplicationController
+  # Include module / class
   include Batchable
 
-  load_and_authorize_resource :except => [:create]
-  
+  # Initialize something from GEM
+  load_and_authorize_resource :except => [:create]  
+
+  # Callback controller
   before_action :set_alarm, only: [:edit, :update, :destroy]
+
+  # GET /alarms || alarms_path
+  # List all alarms available in HTML Format 
+  def index
+    @alarms = Alarm.all
+
+    respond_with(@alarms)
+  end
 
   # GET /alarms/1
   # GET /alarms/1.json
@@ -12,7 +23,7 @@ class AlarmsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.js # show.js.erb
+      format.js   # show.js.erb
       format.json { render json: @alarm }
     end    
   end
@@ -20,10 +31,13 @@ class AlarmsController < ApplicationController
   # GET /alarms/new
   def new
     @alarm = Alarm.new
+
+    respond_with(@alarm)
   end
 
   # GET /alarms/1/edit
   def edit
+    respond_with(@alarm)
   end
 
   # POST /alarms
@@ -31,35 +45,28 @@ class AlarmsController < ApplicationController
   def create
     @alarm = Alarm.new(alarm_params)
     if @alarm.save
-      redirect_to @alarm, notice: 'Alarm was successfully created.'
+      respond_with(@alarm, location: @alarm, notice: 'Alarm was successfully created.')
     else
-      render :new
+      respond_with(@alarm)
     end
   end
 
   # PATCH/PUT /alarms/1
   # PATCH/PUT /alarms/1.json
   def update
-    respond_to do |format|
-      if @alarm.update(alarm_params)
-        format.html { redirect_to @alarm, notice: 'Alarm was successfully updated.' }
-        format.json { render :show, status: :ok, location: @alarm }
-      else
-        format.html { render :edit }
-        format.json { render json: @alarm.errors, status: :unprocessable_entity }
-      end
+    if @alarm.update(alarm_params)
+      respond_with(@alarm, location: @alarm, notice: 'Alarm was successfully updated.')
+    else
+      respond_with(@alarm)
     end
   end
- 
-  def index
-    @alarms = Alarm.all
-    respond_to do |format|
-      format.html
-    end
-  end
- 
+  
+  # Delete /alarms/:id || alarm_path(:id)
+  # Delete specific alarm
   def destroy
     @alarm.destroy
+
+    respond_with(@alarm, location: alarms_path, notice: 'Alarm was successfully deleted.')
   end
 
   private

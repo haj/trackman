@@ -9,9 +9,9 @@
 #
 
 class CarManufacturer < ActiveRecord::Base
-	# ASSOCIATION
-	has_many :car_models
+  # ASSOCIATION
+  has_many :car_models
 
-	# VALIDATION
-	validates :name, presence: true
+  # VALIDATION
+  validates :name, presence: true
 end

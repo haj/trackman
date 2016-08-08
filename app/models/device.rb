@@ -35,6 +35,10 @@ class Device < ActiveRecord::Base
   scope :without_simcard, -> { where("id NOT IN (SELECT device_id FROM Simcards WHERE device_id IS NOT NULL)") }
   scope :available, -> { where(:car_id => nil) }
   scope :used, -> { where("car_id IS NOT NULL") }
+  scope :specific_car, -> (car_id) { where(car_id: car_id) }
+
+  # Attr accessor
+  attr_accessor :sim_card_id
 
   # ASSOCIATION
   has_one :simcard, :dependent => :nullify
@@ -47,8 +51,9 @@ class Device < ActiveRecord::Base
 
   # CALLBACKS
   before_destroy :destroy_traccar_device
-  after_save :create_traccar_device
+  after_save :create_traccar_device, :assign_sim_card
   before_update :update_traccar_device
+
 
   # CLASS METHODS
   def self.sync_to_traccar
@@ -103,12 +108,23 @@ class Device < ActiveRecord::Base
 
   # INSTANCE METHOD
   def destroy_traccar_device
-    self.traccar_device.destroy unless self.traccar_device.nil?
+    if traccar_device
+      self.traccar_device.destroy
+      # traccar_device.users.delete(user) DELETE USER WHO ASSIGNED TO THIS DEVICE
+    end
   end
 
   def create_traccar_device
     traccar_device = Traccar::Device.find_or_create_by(name: self.name, uniqueid: self.emei)
+
+    # ASSIGN USERS TO DEVICE
     traccar_device.users << Traccar::User.where(:name => "admin", :email => "admin")
+  end
+
+  def assign_sim_card
+    if sim_card_id
+      Simcard.find(sim_card_id).update(device_id: id)
+    end
   end
 
   def update_traccar_device

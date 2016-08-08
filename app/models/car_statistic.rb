@@ -45,6 +45,9 @@ class CarStatistic < ActiveRecord::Base
   # CALLBACK
   after_initialize :init
 
+  # SCOPE
+  scope :car_date, -> (car_id, date) { where(car_id: car_id, time: date) }
+
   # INSTANCE METHOD
   def init
     self.tdistance ||= 0.0
