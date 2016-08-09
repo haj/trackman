@@ -36,6 +36,9 @@ class InvitationsController < DeviseController
         self.resource.save
       end
 
+      # Fix invitation email 
+      User.invite!(:email => self.resource.email, :first_name => params[:first_name], last_name: params[:last_name])
+
       set_flash_message :notice, :send_instructions, :email => self.resource.email if self.resource.invitation_sent_at
       respond_with resource, :location => after_invite_path_for(resource)
     else

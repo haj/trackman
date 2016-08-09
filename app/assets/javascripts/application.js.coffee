@@ -30,6 +30,7 @@
 # Before Core Require
 #= require ./libraries/datatables
 #= require ./libraries/messages_notifications
+#= require ./libraries/jquery.validate.min
 #
 # Core Require.
 #= require ./libraries/core
@@ -70,6 +71,7 @@
 # ########################### Views
 #= require_tree ./views
 
+#= require validation
 #= require turbolinks
 
 # React
