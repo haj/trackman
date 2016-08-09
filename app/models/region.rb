@@ -21,6 +21,21 @@ class Region < ActiveRecord::Base
   # VALIDATION
   validates :name, presence: true
 
+  # Attr Accessor
+  attr_accessor :vertices
+
+  # Callback
+  after_save :save_vertices
+
+  # Save vertices after save a region
+  def save_vertices
+    if self.vertices.present?
+      self.vertices['markers'].values.each do |vertex|
+        Vertex.create(latitude: vertex['latitude'], longitude: vertex['longitude'], region_id: id)
+      end
+    end
+  end
+
   # returns if point is inside a polygon
   def contains_point(latitude, longitude)
     points = []

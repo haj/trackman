@@ -1,26 +1,34 @@
 class PlanTypesController < ApplicationController
+  # Include module / class
   load_and_authorize_resource
 
+  # Callback controller
   before_action :set_plan_type, only: [:show, :edit, :update, :destroy]
 
   # GET /plan_types
   # GET /plan_types.json
   def index
     @plan_types = PlanType.all
+
+    respond_with(@plan_types)
   end
 
   # GET /plan_types/1
   # GET /plan_types/1.json
   def show
+    respond_with(@plan_type)
   end
 
   # GET /plan_types/new
   def new
     @plan_type = PlanType.new
+
+    respond_with(@plan_type)
   end
 
   # GET /plan_types/1/edit
   def edit
+    respond_with(@plan_type)
   end
 
   # POST /plan_types
@@ -28,28 +36,20 @@ class PlanTypesController < ApplicationController
   def create
     @plan_type = PlanType.new(plan_type_params)
 
-    respond_to do |format|
-      if @plan_type.save
-        format.html { redirect_to @plan_type, notice: 'Plan type was successfully created.' }
-        format.json { render :show, status: :created, location: @plan_type }
-      else
-        format.html { render :new }
-        format.json { render json: @plan_type.errors, status: :unprocessable_entity }
-      end
+    if @plan_type.save
+      respond_with(@plan_type, location: @plan_type, notice: 'Plan type was successfully created.')
+    else
+      respond_with(@plan_type)
     end
   end
 
   # PATCH/PUT /plan_types/1
   # PATCH/PUT /plan_types/1.json
   def update
-    respond_to do |format|
-      if @plan_type.update(plan_type_params)
-        format.html { redirect_to @plan_type, notice: 'Plan type was successfully updated.' }
-        format.json { render :show, status: :ok, location: @plan_type }
-      else
-        format.html { render :edit }
-        format.json { render json: @plan_type.errors, status: :unprocessable_entity }
-      end
+    if @plan_type.update(plan_type_params)
+      respond_with(@plan_type, location: @plan_type, notice: 'Plan type was successfully updated.')
+    else
+      respond_with(@plan_type)
     end
   end
 
@@ -57,10 +57,8 @@ class PlanTypesController < ApplicationController
   # DELETE /plan_types/1.json
   def destroy
     @plan_type.destroy
-    respond_to do |format|
-      format.html { redirect_to plan_types_url, notice: 'Plan type was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+
+    respond_with(@plan_type, location: plan_types_url)
   end
 
   private

@@ -41,6 +41,7 @@ module.exports = React.createClass
           url: "/home/logbook_data"
           data: car_id: props.id
           type: 'get'
+          dataType: 'json'
           success: (data) ->
             data.reverse()
             if data.length == 0

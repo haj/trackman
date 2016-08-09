@@ -489,4 +489,14 @@ class Location < ActiveRecord::Base
       marker.infowindow location.time.to_s+"/"+location.status
     end
   end
+
+  class << self
+    def device_with_date(date, device_id)
+      Location.find_by_sql(["
+        SELECT latitude, longitude, speed, state, address, ignite_step, trip_step 
+        FROM locations 
+        WHERE DATE(time) = ? and device_id = ?", date, device_id
+      ])      
+    end
+  end
 end

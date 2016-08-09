@@ -1,16 +1,12 @@
 class InvitationsController < DeviseController
-
+  # Callback controller
   prepend_before_filter :authenticate_inviter!, :only => [:new, :create]
   prepend_before_filter :has_invitations_left?, :only => [:create]
   prepend_before_filter :require_no_authentication, :only => [:edit, :update, :destroy]
   prepend_before_filter :resource_from_invitation_token, :only => [:edit, :destroy]
+  before_filter :set_current_tenant, :only => :create
   helper_method :after_sign_in_path_for
 
-  before_filter :set_current_tenant, :only => :create
-
-  def set_current_tenant
-    ActsAsTenant.current_tenant = current_user.company
-  end
 
   # GET /resource/invitation/new
   def new
@@ -24,30 +20,26 @@ class InvitationsController < DeviseController
     self.resource = invite_resource
 
     if resource.errors.empty?
-    	yield resource if block_given?
+      yield resource if block_given?
 
       self.resource.first_name = params[:first_name]
       self.resource.last_name = params[:last_name]
 
-  		if params[:default_role] == "Driver"
-  			self.resource.roles << :driver
-  			self.resource.save
-  		elsif params[:default_role] == "Employee"
-  			self.resource.roles << :employee
-  			self.resource.save
+      if params[:default_role] == "Driver"
+        self.resource.roles << :driver
+        self.resource.save
+      elsif params[:default_role] == "Employee"
+        self.resource.roles << :employee
+        self.resource.save
       elsif params[:default_role] == "Manager"
         self.resource.roles << :manager
         self.resource.save
-  		end
+      end
 
-      logger.warn "user : #{resource}"
-      logger.warn "company id : #{resource.company_id}"
-      logger.warn "tenant : #{ActsAsTenant.current_tenant}"
-
-    	set_flash_message :notice, :send_instructions, :email => self.resource.email if self.resource.invitation_sent_at
-    	respond_with resource, :location => after_invite_path_for(resource)
+      set_flash_message :notice, :send_instructions, :email => self.resource.email if self.resource.invitation_sent_at
+      respond_with resource, :location => after_invite_path_for(resource)
     else
-    	respond_with_navigational(resource) { render :new }
+      respond_with_navigational(resource) { render :new }
     end
   end
 
@@ -77,6 +69,10 @@ class InvitationsController < DeviseController
     resource.destroy
     set_flash_message :notice, :invitation_removed
     redirect_to after_sign_out_path_for(resource_name)
+  end
+
+  def set_current_tenant
+    ActsAsTenant.current_tenant = current_user.company
   end
 
   protected
@@ -122,7 +118,6 @@ class InvitationsController < DeviseController
 
 	def configure_permitted_parameters
 		# Only add some parameters
-		devise_parameter_sanitizer.for(:accept_invitation).concat [:default_role, :first_name, :last_name]	
-	end
-  
+		devise_parameter_sanitizer.for(:accept_invitation).concat [:default_role, :first_name, :last_name]
+	end  
 end

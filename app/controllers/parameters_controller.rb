@@ -1,25 +1,34 @@
 class ParametersController < ApplicationController
+  # Include module / class
   load_and_authorize_resource
+
+  # Callback controller
   before_action :set_parameter, only: [:show, :edit, :update, :destroy]
 
   # GET /parameters
   # GET /parameters.json
   def index
     @parameters = Parameter.all
+
+    respond_with(@parameters)
   end
 
   # GET /parameters/1
   # GET /parameters/1.json
   def show
+    respond_with(@parameter)
   end
 
   # GET /parameters/new
   def new
     @parameter = Parameter.new
+
+    respond_with(@parameter)
   end
 
   # GET /parameters/1/edit
   def edit
+    respond_with(@parameter)
   end
 
   # POST /parameters
@@ -27,28 +36,20 @@ class ParametersController < ApplicationController
   def create
     @parameter = Parameter.new(parameter_params)
 
-    respond_to do |format|
-      if @parameter.save
-        format.html { redirect_to @parameter, notice: 'Parameter was successfully created.' }
-        format.json { render :show, status: :created, location: @parameter }
-      else
-        format.html { render :new }
-        format.json { render json: @parameter.errors, status: :unprocessable_entity }
-      end
+    if @parameter.save
+      respond_with(@parameter, location: @parameter, notice: 'Parameter was successfully created.')
+    else
+      respond_with(@parameter)
     end
   end
 
   # PATCH/PUT /parameters/1
   # PATCH/PUT /parameters/1.json
   def update
-    respond_to do |format|
-      if @parameter.update(parameter_params)
-        format.html { redirect_to @parameter, notice: 'Parameter was successfully updated.' }
-        format.json { render :show, status: :ok, location: @parameter }
-      else
-        format.html { render :edit }
-        format.json { render json: @parameter.errors, status: :unprocessable_entity }
-      end
+    if @parameter.update(parameter_params)
+      respond_with(@parameter, location: @parameter, notice: 'Parameter was successfully updated.')
+    else
+      respond_with(@parameter)
     end
   end
 
@@ -56,10 +57,8 @@ class ParametersController < ApplicationController
   # DELETE /parameters/1.json
   def destroy
     @parameter.destroy
-    respond_to do |format|
-      format.html { redirect_to parameters_url, notice: 'Parameter was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+
+    respond_with(@parameter, location: parameters_url)
   end
 
   private

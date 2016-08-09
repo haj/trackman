@@ -1,26 +1,35 @@
 class TeleprovidersController < ApplicationController
-  before_action :set_teleprovider, only: [:show, :edit, :update, :destroy]
+  # Include module / class
   load_and_authorize_resource
+
+  # Callback controller
+  before_action :set_teleprovider, only: [:show, :edit, :update, :destroy]
   
   # GET /teleproviders
   # GET /teleproviders.json
   def index
     @q = Teleprovider.search(params[:q])
     @teleproviders = @q.result(distinct: true)
+
+    respond_with(@teleproviders)
   end
 
   # GET /teleproviders/1
   # GET /teleproviders/1.json
   def show
+    respond_with(@teleprovider)
   end
 
   # GET /teleproviders/new
   def new
     @teleprovider = Teleprovider.new
+
+    respond_with(@teleprovider)
   end
 
   # GET /teleproviders/1/edit
   def edit
+    respond_with(@teleprovider)
   end
 
   # POST /teleproviders
@@ -28,28 +37,20 @@ class TeleprovidersController < ApplicationController
   def create
     @teleprovider = Teleprovider.new(teleprovider_params)
 
-    respond_to do |format|
-      if @teleprovider.save
-        format.html { redirect_to @teleprovider, notice: 'Teleprovider was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @teleprovider }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @teleprovider.errors, status: :unprocessable_entity }
-      end
+    if @teleprovider.save
+      respond_with(@teleprovider, location: @teleprovider, notice: 'Teleprovider was successfully created.')
+    else
+      respond_with(@teleprovider)
     end
   end
 
   # PATCH/PUT /teleproviders/1
   # PATCH/PUT /teleproviders/1.json
   def update
-    respond_to do |format|
-      if @teleprovider.update(teleprovider_params)
-        format.html { redirect_to @teleprovider, notice: 'Teleprovider was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @teleprovider.errors, status: :unprocessable_entity }
-      end
+    if @teleprovider.update(teleprovider_params)
+      respond_with(@teleprovider, location: @teleprovider, notice: 'Teleprovider was successfully updated.')
+    else
+      respond_with(@teleprovider)
     end
   end
 
@@ -57,20 +58,19 @@ class TeleprovidersController < ApplicationController
   # DELETE /teleproviders/1.json
   def destroy
     @teleprovider.destroy
-    respond_to do |format|
-      format.html { redirect_to teleproviders_url }
-      format.json { head :no_content }
-    end
+
+    respond_with(@teleprovider, location: teleproviders_url)
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_teleprovider
-      @teleprovider = Teleprovider.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def teleprovider_params
-      params.require(:teleprovider).permit(:name, :apn)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_teleprovider
+    @teleprovider = Teleprovider.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def teleprovider_params
+    params.require(:teleprovider).permit(:name, :apn)
+  end
 end
