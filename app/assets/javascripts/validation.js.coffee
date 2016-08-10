@@ -1,12 +1,12 @@
 ready = ->
-  $("#new_car").validate
+  $("#form-car").validate
     rules:
       'car[name]':
         required: true
       'car[numberplate]':
         required: true
 
-  $("#new_device").validate
+  $("#form-device").validate
     rules:
       'device[name]':
         required: true
@@ -17,12 +17,12 @@ ready = ->
       'device[device_model_id]':
         required: true
 
-  $("#new_alarm").validate
+  $("#form-alarm").validate
     rules:
       'alarm[name]':
         required: true
 
-  $("#new_simcard").validate
+  $("#form-simcard").validate
     rules:
       'simcard[telephone_number]':
         required: true
@@ -31,7 +31,7 @@ ready = ->
       'simcard[monthly_price]':
         required: true
 
-  $("#new_user").validate
+  $("#form-users").validate
     rules:
       'first_name':
         required: true
@@ -40,6 +40,49 @@ ready = ->
       'user[email]':
         required: true
       'default_role':
+        required: true
+
+  $("#form-car-manufacture").validate
+    rules:
+      'car_manufacturer[name]':
+        required: true
+
+  $("#form-car-model").validate
+    rules:
+      'car_model[name]':
+        required: true
+      'car_model[car_manufacturer_id]':
+        required: true
+
+  $("#form-car-type").validate
+    rules:
+      'car_type[name]':
+        required: true
+
+  $("#form-device-manufacturer").validate
+    rules:
+      'device_manufacturer[name]':
+        required: true
+
+  $("#form-device-model").validate
+    rules:
+      'device_model[name]':
+        required: true
+      'device_model[device_manufacturer_id]':
+        required: true
+      'device_model[protocol]':
+        required: true
+
+  $("#form-device-type").validate
+    rules:
+      'device_type[name]':
+        required: true
+
+  $("#form-teleprovider").validate
+    rules:
+      'teleprovider[name]':
+        required: true
+      'teleprovider[apn]':
         required: true
 
 $(document).ready(ready)

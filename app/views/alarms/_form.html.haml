@@ -1,4 +1,4 @@
-= form_for @alarm do |f|
+= form_for(@alarm, html: { id: 'form-alarm' }) do |f|
   - if @alarm.errors.any?
     #error_explanation
       %h2= "#{pluralize(@alarm.errors.count, "error")} prohibited this alarm from being saved:"

@@ -1,4 +1,4 @@
-= form_for @device_model do |f|
+= form_for(@device_model, html: { id: 'form-device-model' }) do |f|
   - if @device_model.errors.any?
     #error_explanation
       %h2= "#{pluralize(@device_model.errors.count, "error")} prohibited this device_model from being saved:"

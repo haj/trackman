@@ -5,7 +5,7 @@
       %h3
         = title
 
-= form_for @car do |f|
+= form_for(@car, html: { id: 'form-car' }) do |f|
   .row
     .col-md-6
       .grid.simple

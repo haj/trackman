@@ -1,4 +1,4 @@
-= form_for @simcard do |f|
+= form_for(@simcard, html: { id: 'form-simcard' }) do |f|
   - if @simcard.errors.any?
     #error_explanation
       %h2= "#{pluralize(@simcard.errors.count, "error")} prohibited this simcard from being saved:"

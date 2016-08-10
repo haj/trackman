@@ -1,4 +1,4 @@
-= form_for(@user) do |f|
+= form_for(@user, html: { id: 'form-users' }) do |f|
   - if @user.errors.any?
     #error_explanation
       %h2

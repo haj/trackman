@@ -1,4 +1,4 @@
-= form_for @teleprovider do |f|
+= form_for(@teleprovider, html: { id: 'form-teleprovider' }) do |f|
   - if @teleprovider.errors.any?
     #error_explanation
       %h2= "#{pluralize(@teleprovider.errors.count, "error")} prohibited this teleprovider from being saved:"
