@@ -347,9 +347,9 @@ class Location < ActiveRecord::Base
 
   def self.reset_all_locations
       Location.all.destroy_all
-      Traccar::Position.all.where(:deviceid => 4).where('DATE(fixTime) > ? and DATE(fixTime) <= ?', "2015-11-05 06:15:07", "2015-11-10 21:15:07").each do |p|
+      Traccar::Position.all.where(:deviceId => 4).where('DATE(fixTime) > ? and DATE(fixTime) <= ?', "2015-11-05 06:15:07", "2015-11-10 21:15:07").each do |p|
           puts "cool"
-          device = Device.find_by_emei(Traccar::Device.find(p.deviceid).uniqueId)
+          device = Device.find_by_emei(Traccar::Device.find(p.deviceId).uniqueId)
           l = Location.create(device_id: device.id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid, position_id: p.id)
           jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
           ignite = JSON[jsoned_xml]["info"]["power"]
@@ -364,7 +364,7 @@ class Location < ActiveRecord::Base
   def self.reset_locations_of_today
       # Location.where("DATE(time) = ?", DateTime.now.to_date).destroy_all
       Traccar::Position.where("DATE(fixTime) = ?", DateTime.now.to_date).each do |p|
-          device = Device.find_by_emei(Traccar::Device.find(p.deviceid).uniqueId)
+          device = Device.find_by_emei(Traccar::Device.find(p.deviceId).uniqueId)
           l = Location.create(device_id: device.id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
           jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
           ignite = JSON[jsoned_xml]["info"]["power"]
@@ -389,7 +389,7 @@ class Location < ActiveRecord::Base
       device.car.car_statistics.where("DATE(time) = ?", time).destroy_all
       #Go through traccar position table
       traccar_device_id = Traccar::Device.find_by_uniqueId(device.emei).id
-      Traccar::Position.where("DATE(fixTime) = ? and deviceid = ?", time, traccar_device_id).each do |p|
+      Traccar::Position.where("DATE(fixTime) = ? and deviceId = ?", time, traccar_device_id).each do |p|
           l = Location.create(device_id: did, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed.to_f * 1.852, valid_position: p.valid)
           jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
           ignite = JSON[jsoned_xml]["info"]["power"]

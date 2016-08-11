@@ -2,7 +2,7 @@ class LocationsController < ApplicationController
   # GET /trac/Data
   # Run a worker - to update location when there's an update location from a device.
   def get_traccar_data
-    TraccarWorker.perform_async
+    TraccarWorker.perform_async(params)
 
     render json: nil
   end
