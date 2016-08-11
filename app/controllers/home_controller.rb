@@ -15,9 +15,9 @@ class HomeController < ApplicationController
     if is_manager?(current_user)
       respond_with(current_user)
     elsif is_employee?(current_user) || is_driver?(current_user)
-      respond_with(current_user, location: conversations_path)
+      redirect_to conversations_path
     else
-      respond_with(current_user, location: new_user_session_path)
+      redirect_to new_user_session_path
     end
   end
 

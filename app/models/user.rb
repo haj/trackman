@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   include RailsSettings::Extend
 
   devise :invitable, :database_authenticatable, :registerable,
-  :recoverable, :rememberable, :trackable, :async
+  :recoverable, :rememberable, :trackable, :async, :confirmable
 
   scope :by_role, -> role_name { where(roles_mask: self.mask_values_for(role_name.to_sym)) }
 

@@ -85,5 +85,33 @@ ready = ->
       'teleprovider[apn]':
         required: true
 
+  $("#form-rule").validate
+    rules:
+      'rule[name]':
+        required: true
+      'rule[method_name]':
+        required: true
+
+  $("#form-plan").validate
+    rules:
+      'plan[interval]':
+        required: true
+      'plan[price]':
+        required: true
+      'plan[currency]':
+        required: true
+      'plan[plan_type_id]':
+        required: true
+
+  $("#form-plan-type").validate
+    rules:
+      'plan_type[name]':
+        required: true
+
+  $("#form-feature").validate
+    rules:
+      'feature[name]':
+        required: true
+
 $(document).ready(ready)
 $(document).on('page:load', ready)

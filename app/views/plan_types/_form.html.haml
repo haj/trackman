@@ -1,4 +1,4 @@
-= form_for @plan_type do |f|
+= form_for(@plan_type, html: { id: 'form-plan-type' }) do |f|
   - if @plan_type.errors.any?
     #error_explanation
       %h2= "#{pluralize(@plan_type.errors.count, "error")} prohibited this plan type from being saved:"

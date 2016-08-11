@@ -1,4 +1,4 @@
-= form_for @feature do |f|
+= form_for(@feature, html: { id: 'form-feature' }) do |f|
   - if @feature.errors.any?
     #error_explanation
       %h2= "#{pluralize(@feature.errors.count, "error")} prohibited this feature from being saved:"
