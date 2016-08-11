@@ -83,11 +83,6 @@ class Car < ActiveRecord::Base
     self.locations.order(:time).group_by{|l| l.time.to_date}
   end
 
-  def self.locations_grouped_by_these_dates(dates, car_id)
-    # Location.find_by_sql(["SELECT * FROM locations INNER JOIN devices ON locations.device_id = devices.id INNER JOIN cars ON devices.car_id = cars.id WHERE (cars.id = ? AND locations.state in(?) AND DATE(locations.time) in (?)) GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates]).group_by{|l| l.time.to_date}
-    Location.find_by_sql(["SELECT * FROM locations INNER JOIN devices ON locations.device_id = devices.id INNER JOIN cars ON devices.car_id = cars.id WHERE (cars.id = ? AND locations.state in(?) AND DATE(locations.time) in (?)) GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates]).group_by{|l| l.time.to_date}
-  end
-
   def last_location
     unless self.last_position_with_address.nil?
       unless self.last_position_with_address.address.nil?
@@ -156,48 +151,12 @@ class Car < ActiveRecord::Base
     end
   end
 
-  # Cars for devices
-  def self.cars_without_devices(car_id)
-    if car_id.nil?
-      Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL AND deleted_at IS NULL)")
-    else
-      Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL AND car_id != #{car_id}) AND deleted_at IS NULL")
-    end
-  end
-
-  def self.cars_without_drivers(car_id)
-    if car_id.nil?
-      Car.where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)")
-    else
-      Car.where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL AND car_id != #{car_id})")
-    end
-  end
-
   def time
     self.positions.last.time
   end
 
   def address
     self.positions.last.address
-  end
-
-  # Positions
-  def self.all_positions(cars)
-    positions = Array.new
-
-    cars.each do |car|
-      if !car.last_position.nil?
-        positions << car.last_position
-      end
-    end
-
-    positions
-  end
-
-  def self.one_car_position(car)
-    position = Array.new
-    position << car.last_position
-    position
   end
 
   def positions
@@ -334,5 +293,56 @@ class Car < ActiveRecord::Base
   end
 
   def distance
+  end
+
+  # Class Method
+  class << self
+    # Positions
+    def all_positions(cars)
+      positions = Array.new
+
+      cars.each do |car|
+        if !car.last_position.nil?
+          positions << car.last_position
+        end
+      end
+
+      positions
+    end
+
+    def one_car_position(car)
+      position = Array.new
+      position << car.last_position
+      position
+    end
+
+    # Cars for devices
+    def cars_without_devices(car_id)
+      if car_id.nil?
+        Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL AND deleted_at IS NULL)")
+      else
+        Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL AND car_id != #{car_id}) AND deleted_at IS NULL")
+      end
+    end
+
+    def cars_without_drivers(car_id)
+      if car_id.nil?
+        Car.where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)")
+      else
+        Car.where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL AND car_id != #{car_id})")
+      end
+    end
+
+    def locations_grouped_by_these_dates(dates, car_id)
+      # Location.find_by_sql(["SELECT * FROM locations INNER JOIN devices ON locations.device_id = devices.id INNER JOIN cars ON devices.car_id = cars.id WHERE (cars.id = ? AND locations.state in(?) AND DATE(locations.time) in (?)) GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates]).group_by{|l| l.time.to_date}
+      Location.find_by_sql(["
+        SELECT * FROM locations 
+        INNER JOIN devices ON locations.device_id = devices.id 
+        INNER JOIN cars ON devices.car_id = cars.id 
+        WHERE (cars.id = ? AND locations.state in(?) AND DATE(locations.time) in (?)) 
+        GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates])
+      .group_by{|l| l.time.to_date}
+    end
+
   end
 end
