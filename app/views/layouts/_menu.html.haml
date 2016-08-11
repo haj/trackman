@@ -27,12 +27,13 @@
           = fa_icon "inbox"
           %span.title Inbox
           %span.badge.badge-disable.pull-right.m-r-30
-            1
+            = @inbox_count
       %li{:class => ("active" if current_page?(sentbox_conversations_path))}
         %a{:href => sentbox_conversations_path}
           = fa_icon "folder"
           %span.title Sentbox
-
+          %span.badge.badge-disable.pull-right.m-r-30
+            = @outbox_count
     %li{:class => ("active" if current_page?(reports_path))}
       %a{:href => reports_vehicles_path}
         = fa_icon "file-text-o"

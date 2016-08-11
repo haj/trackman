@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
 
   before_action :set_current_tenant
   before_action :bootstrap
+  before_action :mailbox_count, if: :user_signed_in?
 
   # before_filter :configure_permitted_parameters, if: :devise_controller?
 
@@ -122,5 +123,10 @@ class ApplicationController < ActionController::Base
     else
       "application"
     end
+  end
+
+  def mailbox_count
+    @inbox_count  = current_user.mailbox.inbox.count
+    @outbox_count = current_user.mailbox.sentbox.count
   end
 end
