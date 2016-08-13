@@ -32,18 +32,13 @@ class Company < ActiveRecord::Base
 
   # INSTANCE METHOD
   def setup_default_plan
-    if Plan.first
-     self.plan_id = Plan.first.id
-    end
+    self.plan_id = Plan.first.id if Plan.first
   end
 
   def current_plan
     subscription = self.subscriptions.where(active: true).first
-    if subscription
-      return subscription.plan
-    else
-      Plan.first
-    end
+    
+    subscription ? subscription.plan : Plan.first
   end
 
   def cancel_active_subscriptions

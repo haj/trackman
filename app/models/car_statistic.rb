@@ -17,6 +17,7 @@
 #
 
 class CarStatistic < ActiveRecord::Base
+  # Init Gem
   include AASM
 
   aasm do
@@ -62,11 +63,7 @@ class CarStatistic < ActiveRecord::Base
   end
 
   def last_is_start?
-    if self.last_is.try(:state) == "start"
-      true
-    else
-      false
-    end
+    self.last_is.try(:state) == "start"
   end
 
   def last_is_stop?

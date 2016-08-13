@@ -21,5 +21,4 @@ class GroupWorkHour < ActiveRecord::Base
 
   # validation
   validates :group_id, presence: true
-
 end

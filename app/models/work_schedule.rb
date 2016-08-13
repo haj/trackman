@@ -31,11 +31,12 @@ class WorkSchedule < ActiveRecord::Base
       end_time   = shift['end'].to_time
       wday_index = shift['wday']
       
-      if end_time.hour == 0 && end_time.min == 0
-        new_work_hour = WorkHour.create(starts_at: start_time.to_s(:db) , ends_at: Time.parse("23:59").to_s(:db) , day_of_week: wday_index)
-      else
-        new_work_hour = WorkHour.create(starts_at: start_time.to_s(:db) , ends_at: end_time.to_s(:db) , day_of_week: wday_index)
-      end
+      new_work_hour =
+        if end_time.hour == 0 && end_time.min == 0
+          WorkHour.create(starts_at: start_time.to_s(:db) , ends_at: Time.parse("23:59").to_s(:db) , day_of_week: wday_index)
+        else
+          WorkHour.create(starts_at: start_time.to_s(:db) , ends_at: end_time.to_s(:db) , day_of_week: wday_index)
+        end
 
       self.work_hours << new_work_hour
     end
@@ -49,17 +50,17 @@ class WorkSchedule < ActiveRecord::Base
       Time.use_zone('UTC') do
         self.work_hours.each do |work_hour|
           WorkHour.create do |new_work_hour|
-            new_work_hour.day_of_week = work_hour.day_of_week
-            new_work_hour.starts_at = Time.zone.parse(work_hour.starts_at.to_s).to_s(:db)
-            new_work_hour.ends_at = Time.zone.parse(work_hour.ends_at.to_s).to_s(:db)
+            new_work_hour.day_of_week      = work_hour.day_of_week
+            new_work_hour.starts_at        = Time.zone.parse(work_hour.starts_at.to_s).to_s(:db)
+            new_work_hour.ends_at          = Time.zone.parse(work_hour.ends_at.to_s).to_s(:db)
             new_work_hour.work_schedule_id = work_schedule.id
           end
         end 
       end
 
-      return work_schedule
+      work_schedule
     else
-      return false
+      false
     end
   end
 end

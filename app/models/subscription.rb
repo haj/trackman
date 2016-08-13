@@ -43,18 +43,19 @@ class Subscription < ActiveRecord::Base
     false
   end
 
-  def self.all_subscriptions
-    Paymill::Subscription.all
-  end
-
   def cancel 
     Paymill::Subscription.update_attributes self.paymill_id, cancel_at_period_end: true
     Paymill::Subscription.delete(self.paymill_id)
     self.update_attribute(:active, false)
   end
 
-  def self.cancel_all
-    Subscription.all.each { |subscription| subscription.cancel }
-  end
+  class << self
+    def cancel_all
+      Subscription.all.each { |subscription| subscription.cancel }
+    end
 
+    def all_subscriptions
+      Paymill::Subscription.all
+    end
+  end
 end
