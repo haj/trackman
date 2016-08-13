@@ -191,18 +191,16 @@ class Car < ActiveRecord::Base
   # return if the we're receiving data or not from the car
   def no_data?
     # check if last time a new position reported is longer than x minutes
-    has_no_device = !self.has_device?
-    has_no_data = self.device.no_data?
-    return has_no_device || has_no_data
+    !self.has_device? || self.device.no_data?
   end
 
   # Generate state card
   def capture_state
-    state = State.new
-    state.moving = self.moving?
-    state.no_data = self.no_data?
-    state.speed = self.speed
-    state.car_id = self.id
+    state           = State.new
+    state.moving    = self.moving?
+    state.no_data   = self.no_data?
+    state.speed     = self.speed
+    state.car_id    = self.id
     state.driver_id = self.driver.id if self.has_driver?
     state.device_id = self.device.id if self.has_device?
     state.save!
@@ -210,28 +208,22 @@ class Car < ActiveRecord::Base
 
   # dates = {start_date, start_time, end_date, end_time}
   def positions_with_dates(dates, timezone)
-    if dates.nil?
-      self.device.traccar_device.positions.order("time DESC").limit(100)
-    else
+    if dates.present?
       Time.use_zone("#{timezone}") do
         positions  = []
         start_date = Time.zone.parse("#{dates[:start_date]} #{dates[:start_time]}").utc
         end_date   = Time.zone.parse("#{dates[:end_date]} #{dates[:end_time]}").utc
 
-        # dates[:limit_results] = 20 if dates[:limit_results].to_i == 0
-        # positions = self.device.traccar_device.positions.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time ASC")
-
         Location.where("time >= ? AND time <= ?", start_date.to_s(:db), end_date.to_s(:db)).order("time ASC")
       end
+    else
+      self.device.traccar_device.positions.order("time DESC").limit(100)
     end
   end
 
   def positions_for_date(day)
     date = Chronic.parse(day.to_s)
     self.positions.where("time > ? AND time < ?", date, date + 1.day)
-  end
-
-  def distance
   end
 
   # Class Method
@@ -241,7 +233,7 @@ class Car < ActiveRecord::Base
       positions = Array.new
 
       cars.each do |car|
-        if !car.last_position.nil?
+        if car.last_position.present?
           positions << car.last_position
         end
       end
@@ -257,18 +249,18 @@ class Car < ActiveRecord::Base
 
     # Cars for devices
     def cars_without_devices(car_id)
-      if car_id.nil?
-        Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL AND deleted_at IS NULL)")
-      else
+      if car_id.present?
         Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL AND car_id != #{car_id}) AND deleted_at IS NULL")
+      else
+        Car.where("id NOT IN (SELECT car_id FROM devices WHERE car_id IS NOT NULL AND deleted_at IS NULL)")
       end
     end
 
     def cars_without_drivers(car_id)
-      if car_id.nil?
-        Car.where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)")
-      else
+      if car_id.present?
         Car.where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL AND car_id != #{car_id})")
+      else
+        Car.where("id NOT IN (SELECT car_id FROM users WHERE car_id IS NOT NULL)")
       end
     end
 
@@ -282,6 +274,5 @@ class Car < ActiveRecord::Base
         GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates])
       .group_by{|l| l.time.to_date}
     end
-
   end
 end
