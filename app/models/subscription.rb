@@ -25,28 +25,24 @@ class Subscription < ActiveRecord::Base
   belongs_to :company
 
   def save_with_payment
-    if valid?
-      client = Paymill::Client.create(email: email, description: name)
-      Rails.logger.warn "card_token : #{paymill_card_token}"
-      payment = Paymill::Payment.create(token: paymill_card_token, client: client.id)
-      Rails.logger.warn "payment : #{payment}"
-      subscription = Paymill::Subscription.create(offer: plan.paymill_id, client: client.id, payment: payment.id)
-      Rails.logger.warn "subscription : #{subscription}"
-      self.paymill_id = subscription.id
-      self.active = true
-      save!
-    end
+    begin
+      if valid?
+        client          = PaymillServices.create_client(email, name)
+        payment         = PaymillServices.create_payment(paymill_card_token, client.id)
+        subscription    = PaymillServices.create_subscription(plan.paymill_id, client.id, payment.id)
+        self.paymill_id = subscription.id
+        self.active     = true
+        save!
+      end
 
     rescue Paymill::PaymillError => e
       logger.error "Paymill error while creating customer: #{e.message}"
       errors.add :base, "There was a problem with your credit card. Please try again."
-    false
+    end
   end
 
   def cancel 
-    Paymill::Subscription.update_attributes self.paymill_id, cancel_at_period_end: true
-    Paymill::Subscription.delete(self.paymill_id)
-    self.update_attribute(:active, false)
+    PaymillServices.cancel(self.paymill_id, self.id)
   end
 
   class << self
@@ -55,7 +51,7 @@ class Subscription < ActiveRecord::Base
     end
 
     def all_subscriptions
-      Paymill::Subscription.all
+      PaymillServices.all_subscriptions
     end
   end
 end
