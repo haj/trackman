@@ -18,6 +18,6 @@ class State < ActiveRecord::Base
   belongs_to :device
 
   # validation
-  validates :car_id, :device_id, presence: true
+  validates :car_id, presence: true
 
 end
