@@ -10,12 +10,12 @@ module QueryReportEngineHelper
 
 
   def query_report_render_filter(filter, comparator)
-    hint = comparator.name
-    search_tag_name = comparator.search_tag_name
-    value = comparator.param_value
-
-    method_name = :"query_report_#{filter.type.to_s}_filter"
+    hint                = comparator.name
+    search_tag_name     = comparator.search_tag_name
+    value               = comparator.param_value
+    method_name         = :"query_report_#{filter.type.to_s}_filter"
     default_method_name = :"query_report_default_#{filter.type.to_s}_filter"
+
     if respond_to? method_name
       send method_name, search_tag_name, value, :placeholder => hint
     elsif respond_to? default_method_name
