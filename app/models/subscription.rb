@@ -14,8 +14,13 @@
 #
 
 class Subscription < ActiveRecord::Base
+  # validation
+  validates :email, :name, :company_id, :plan_id, presence: true
+
+  # Arre Accessor
   attr_accessor :paymill_card_token
 
+  # Association
   belongs_to :plan
   belongs_to :company
 

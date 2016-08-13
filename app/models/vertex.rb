@@ -12,7 +12,13 @@
 #
 
 class Vertex < ActiveRecord::Base
+  # Association
   belongs_to :region
 
+  # INIT BY GEM
   acts_as_tenant(:company)
+
+  # Validation
+  validates :latitude, :longitude, :region_id, presence: true
+
 end

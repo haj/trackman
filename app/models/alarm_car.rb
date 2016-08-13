@@ -15,4 +15,7 @@ class AlarmCar < ActiveRecord::Base
   # ASSOCIATION GOES HERE
   belongs_to :cars
   belongs_to :alarms
+
+  # VALIDATION GOES HERE
+  validates :car_id, :alarm_id, presence: true
 end

@@ -172,27 +172,27 @@ class Car < ActiveRecord::Base
   # Has?
 
   def has_device?
-    return !self.device.nil?
+    device.present?
   end
 
   def has_driver?
-    return !self.driver.nil?
+    driver.present?
   end
 
   def has_group?
-    return !self.group.nil?
+    group.present?
   end
 
   # Rule accessors
 
   # fetch name of the rule associated with this car
   def alarm_status(alarm)
-    self.car_alarms.where(alarm_id: rule.id, car_id: self.id).first.status
+    car_alarms.where(alarm_id: rule.id, car_id: id).first.status
   end
 
   # fetch last_alert time of the rule associated with this car
   def alarm_last_alert(alarm)
-    self.car_alarms.where(alarm_id: rule.id, car_id: self.id).first.last_alert
+    car_alarms.where(alarm_id: rule.id, car_id: id).first.last_alert
   end
 
   # Alarms
@@ -200,10 +200,10 @@ class Car < ActiveRecord::Base
 
   # return if the car is moving or not
   def moving?
-    if self.no_data?
-      return false
+    if no_data?
+      false
     else
-      return self.device.moving?
+      self.device.moving?
     end
   end
 

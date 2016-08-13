@@ -135,11 +135,11 @@ class Device < ActiveRecord::Base
   end
 
   def has_car?
-    !self.car_id.nil?
+    car_id.present?
   end
 
   def has_simcard?
-    !self.simcard.nil?
+    simcard.present?
   end
 
   def last_position
@@ -148,14 +148,14 @@ class Device < ActiveRecord::Base
   end
 
   def last_positions(number=2)
-    unless self.traccar_device.nil?
-      self.traccar_device.last_positions(number)
+    unless traccar_device.nil?
+      traccar_device.last_positions(number)
     end
   end
 
   def positions
-    unless self.traccar_device.nil?
-      self.traccar_device.positions
+    unless traccar_device.nil?
+      traccar_device.positions
     end
   end
 
@@ -206,7 +206,7 @@ class Device < ActiveRecord::Base
 
   # return the speed of the vehicle associated with the last position
   def speed
-    self.traccar_device.try(:positions).try(:last).try(:speed)
+    traccar_device.try(:positions).try(:last).try(:speed)
   end
 
   def traccar_device

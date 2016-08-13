@@ -45,6 +45,9 @@ class CarStatistic < ActiveRecord::Base
   # CALLBACK
   after_initialize :init
 
+  # validation
+  validates :car_id, presence: true
+
   # SCOPE
   scope :car_date, -> (car_id, date) { where(car_id: car_id, time: date) }
 

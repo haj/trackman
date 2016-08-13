@@ -33,6 +33,9 @@ class Location < ActiveRecord::Base
   belongs_to :position, :class_name => 'Traccar::Position'
   belongs_to :device
 
+  # validation
+  validates :device_id, :position_id, presence: true
+
   # CALLBACKS
   after_commit :get_traccar_data, on: :create
   # after_create :push_to_ui
