@@ -54,11 +54,11 @@ class CarStatistic < ActiveRecord::Base
 
   # INSTANCE METHOD
   def init
-    self.tdistance ||= 0.0
-    self.tdrivtime ||= 0
-    self.tparktime ||= 0
-    self.maxspeed ||= 0.0
-    self.avgspeed ||= 0.0
+    self.tdistance     ||= 0.0
+    self.tdrivtime     ||= 0
+    self.tparktime     ||= 0
+    self.maxspeed      ||= 0.0
+    self.avgspeed      ||= 0.0
     self.steps_counter ||= 0
   end
 

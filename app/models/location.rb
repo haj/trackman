@@ -319,10 +319,6 @@ class Location < ActiveRecord::Base
     Location.order(:time).where('device_id = ?', self.device_id).where('time > ? and DATE(time) = ?', self.time, self.time.to_date).first
   end
 
-  def get_traccar_data params    
-    # render :json => nil
-  end
-
   class << self
     # Takes a bunch of locations and return it in a Gmaps4rails format
     def markers(locations)
@@ -339,97 +335,6 @@ class Location < ActiveRecord::Base
         FROM locations 
         WHERE DATE(time) = ? and device_id = ?", date, device_id
       ])      
-    end
-
-    def reset_all_locations
-      Location.all.destroy_all
-
-      Traccar::Position.all.where(:deviceid => 4).where('DATE(fixTime) > ? and DATE(fixTime) <= ?', "2015-11-05 06:15:07", "2015-11-10 21:15:07").each do |p|
-        device     = Device.find_by_emei(Traccar::Device.find(p.deviceid).uniqueId)
-        l          = Location.create(device_id: device.id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid, position_id: p.id)
-        jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
-        ignite     = JSON[jsoned_xml]["info"]["power"]
-        l.ignite   = ignite if ignite != ""
-        l.save!
-      end
-
-      Location.order(:time).each do |l|
-        l.analyze_me
-      end
-    end
-
-    def reset_locations_of_today
-      Traccar::Position.where("DATE(fixTime) = ?", DateTime.now.to_date).each do |p|
-        device     = Device.find_by_emei(Traccar::Device.find(p.deviceid).uniqueId)
-        l          = Location.create(device_id: device.id, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed, valid_position: p.valid)
-        jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
-        ignite     = JSON[jsoned_xml]["info"]["power"]
-        l.ignite   = ignite if ignite != ""
-        l.save!
-      end
-
-      Location.order(:time).where("DATE(time) = ?", DateTime.now.to_date).each do |l|
-        l.analyze_me
-      end
-    end
-
-    def analyze_locations_off time, did
-      Location.order(:time).where("DATE(time) = ? and device_id = ?", time, did).each do |l|
-        l.analyze_me
-      end
-    end
-
-    def reset_locations_off time, did
-      Location.where("DATE(time) = ? and device_id = ?", time, did).destroy_all
-
-      device = Device.find(did)
-      device.car.car_statistics.where("DATE(time) = ?", time).destroy_all
-
-      traccar_device_id = Traccar::Device.find_by_uniqueId(device.emei).id
-
-      Traccar::Position.where("DATE(fixTime) = ? and deviceid = ?", time, traccar_device_id).each do |p|
-        l          = Location.create(device_id: did, latitude: p.latitude, longitude: p.longitude, time: p.fixTime, speed: p.speed.to_f * 1.852, valid_position: p.valid)
-        jsoned_xml = JSON.pretty_generate(Hash.from_xml(p.other))
-        ignite     = JSON[jsoned_xml]["info"]["power"]
-        l.ignite   = ignite if ignite != ""
-        l.save!
-      end
-
-      Location.order(:time).where("DATE(time) = ? and device_id = ?", time, did).each do |l|
-        l.analyze_me
-      end
-    end
-
-    def reset_locations
-      Location.all.each do |l|
-        l.state = ""
-        l.save!
-      end
-
-      Location.all.each do |l|
-        l.analyze_me
-        l.save!
-      end
-    end
-  
-    def analyze_locations
-      Location.order(:time).where(:device_id => 4).each do |l|
-        l.analyze_me
-      end
-    end
-
-    def analyze_locations_of_today
-      Location.order(:time).where("DATE(time) = ?", DateTime.now.to_date).each do |l|
-        l.analyze_me
-      end
-    end
-
-    def destroy_similar_in_time
-      Location.where('device_id', self.device_id).where('time = ?', self.time).destroy_all
-    end
-
-    def destroy_similar_in_address
-      Location.all.select{|l| l.device_id == self.device_id and l.id < self.id and self.time - l.time < 60 and self.time - l.time > 0}.destroy_all
     end
   end
 end

@@ -65,6 +65,7 @@ class Device < ActiveRecord::Base
 
     def import(file)
       status = {}
+      
       begin
         spreadsheet = open_spreadsheet(file)
         header      = spreadsheet.row(1)

@@ -32,6 +32,8 @@
 #
 
 class User < ActiveRecord::Base
+  ROLES = %w(admin manager employee driver) #["admin", "manager", "employee", "driver"]
+
   # Init Gem
   include RailsSettings::Extend
   include RoleModel
@@ -51,11 +53,9 @@ class User < ActiveRecord::Base
   validates_uniqueness_to_tenant :email
   validates :first_name, :last_name, :presence => true
 
-  # Association
+  # AssociationU
   belongs_to :company
   belongs_to :car
-
-  ROLES = %w(admin manager employee driver) #["admin", "manager", "employee", "driver"]
 
   class << self
     def available_drivers
@@ -87,65 +87,6 @@ class User < ActiveRecord::Base
 
   def list_roles
     self.roles.join(",")
-  end
-
-  def make_payment(plan, credit_card)
-    ActiveMerchant::Billing::Base.mode = :test
-
-    gateway = ActiveMerchant::Billing::PaypalGateway.new(
-      login: "cubbyhole_api1.example.com",
-      password: "1402685627",
-      signature: "An5ns1Kso7MWUdW4ErQKJJJ4qi4-Arz7-U0RTw-Z.YfMJ36hjzxSotLN"
-    )
-
-    credit_card = ActiveMerchant::Billing::CreditCard.new(
-      brand: credit_card.brand,
-      number: credit_card.number,
-      verification_value: credit_card.verification,
-      month: credit_card.month,
-      year: credit_card.year,
-      first_name: credit_card.first_name,
-      last_name: credit_card.last_name
-    )
-
-    monthly_price = plan.price * 10
-
-    if credit_card.valid?
-      response = gateway.recurring(monthly_price, credit_card, { :period => "Month" ,:frequency => 1, :start_date => Time.now, :description => "Cubbyhole Monthly Plan recurring payment" })
-
-      if response.success?
-        # change plan associated with this user
-        self.update_attribute(:plan_id, plan.id)
-
-        #create payment entry in db
-        payment = Payment.new(profile_id: response.params['profile_id'], user_id: self.id)
-        payment.save!
-
-        { success: true, message: "Purchase complete" }
-      else
-        { success: false, message: "Error: #{response.message}" }
-      end
-    else
-      { success: false, message: "Error: credit card is not valid. #{credit_card.errors.full_messages.join('. ')}" }
-    end
-  end
-
-  def cancel_payment(profile_id)
-    ActiveMerchant::Billing::Base.mode = :test
-
-    gateway = ActiveMerchant::Billing::PaypalGateway.new(
-      login: "cubbyhole_api1.example.com",
-      password: "1402685627",
-      signature: "An5ns1Kso7MWUdW4ErQKJJJ4qi4-Arz7-U0RTw-Z.YfMJ36hjzxSotLN"
-    )
-
-    response = gateway.cancel_recurring(profile_id)
-
-    if response.success?
-      { success: true, message: "Recurring payment cancelled" }
-    else
-      { success: false, message: "Recurring payment couldn't be cancelled. Reason: #{response.inspect}" }
-    end
   end
 
   def time_zone
