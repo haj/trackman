@@ -17,5 +17,5 @@ class AlarmGroup < ActiveRecord::Base
   belongs_to :alarms
 
   # VALIDATION GOES HERE
-  validates :group_id, :alarm_id, presence: true
+  validates :group_id, presence: true
 end

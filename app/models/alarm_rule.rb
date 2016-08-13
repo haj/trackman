@@ -24,5 +24,5 @@ class AlarmRule < ActiveRecord::Base
   serialize :params
 
   # VALIDATION GOES HERE
-  validates :rule_id, :alarm_id, presence: true
+  validates :rule_id, presence: true
 end

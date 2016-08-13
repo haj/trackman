@@ -22,7 +22,7 @@ class AlarmNotification < ActiveRecord::Base
   belongs_to :car 
 
   # VALIDATION GOES HERE
-  validates :car_id, :alarm_id, :driver_id, presence: true
+  validates :car_id, :driver_id, presence: true
 
   # SCOPE
   scope :not_archieved, -> { where(archived: false) }

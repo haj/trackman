@@ -40,8 +40,8 @@ class Car < ActiveRecord::Base
   has_many :states, :dependent => :destroy
   has_many :locations, :through => :device
   has_many :alarm_cars, :dependent => :destroy
-  #has_many :work_hours
-  has_and_belongs_to_many :alarms
+  has_many :alarm_cars
+  has_many :alarms, through: :alarm_cars
 
   # validation
   validates :name, :numberplate, presence: true
@@ -57,6 +57,8 @@ class Car < ActiveRecord::Base
 
   # ATTR ACCESSOR GOES HERE
   attr_accessor :device_id, :user_id
+
+  # Nested Attr
   accepts_nested_attributes_for :alarms
 
   # Callback
@@ -78,94 +80,88 @@ class Car < ActiveRecord::Base
     end
   end
 
-  # INSTNCE METHOD GOES HERE
-  def locations_grouped_by_dates
-    self.locations.order(:time).group_by{|l| l.time.to_date}
-  end
+  #############################
+  # INSTANCE METHOD GOES HERE #
+  #############################
 
+  # 
+  # Retrieve Last Location
+  #
   def last_location
-    unless self.last_position_with_address.nil?
-      unless self.last_position_with_address.address.nil?
-        return self.last_position_with_address.address.truncate(55)
-      end
-    end
-    "-"
+    self.last_position_with_address.address.truncate(55) rescue '-'
   end
 
+  #
+  # Retrieve Last Latitude
+  #
   def last_latitude
-    unless self.last_position.nil?
-      unless self.last_position.latitude.nil?
-        return self.last_position.latitude
-      end
-    end
-    nil
+    self.last_position.try(:latitude)
   end
 
+  #
+  # Retrieve Last Longitude
+  #
   def last_longitude
-    unless self.last_position.nil?
-      unless self.last_position.longitude.nil?
-        return self.last_position.longitude
-      end
-    end
-    nil
+    self.last_position.try(:longitude)
   end
 
+  #
+  # Retrieve Speed
+  #
   def speed
-    unless self.last_position.nil?
-      unless self.last_position.speed.nil?
-        return self.last_position.speed
-      end
-    end
-    "undefined"
+    self.last_position.speed rescue 'undefined'
   end
 
-
+  #
+  # Retrieve last seend
+  #
   def last_seen
-    unless self.last_active_position.nil?
-      unless self.last_active_position.time.nil?
-        return self.last_active_position.time
-      end
-    end
-    "-"
+    self.last_active_position.time rescue '-'
   end
 
+  #
+  # Retrieve last active position
+  #
   def last_active_position
-    unless self.device.nil?
-      return self.device.locations.where(:state => ["start", "stop", "onroad", "idle"]).last
-    end
+    self.device.locations.where(:state => ["start", "stop", "onroad", "idle"]).last if self.device
   end
 
-  # Generate a hash with latitude and longitude of the car (fetched through the device GPS data)
-  #   Also for this hash to be non-empty, the car must have a device associated with it in the database
-
+  #
+  # Retrieve last position
+  #
   def last_position
-    unless self.device.nil?
-      return self.device.locations.last
-      # return self.device.last_position
-    end
+    self.device.try(:last_position)
   end
 
+  #
+  # Retrieve last position with address
+  #
   def last_position_with_address
-    unless self.device.nil?
-      return self.device.locations.where.not(address: nil).last
-    end
+    self.device.locations.where.not(address: nil).last if self.device
   end
 
+  #
+  # Retrieve time
+  #
   def time
-    self.positions.last.time
+    self.positions.last.try(:time)
   end
 
+  #
+  # Retrieve address
+  #
   def address
-    self.positions.last.address
+    self.positions.last.try(:address)
   end
 
+  #
+  # Retrieve positions
+  #
   def positions
-    if self.device.nil?
-      # if this car doesn't have a device attached to it
-      #   then just send an empty hash for the position
-      return Hash.new
-    else
+    if self.device
       self.device.traccar_device.positions.order("time DESC")
+    else
+      Hash.new
     end
   end
 
@@ -183,21 +179,6 @@ class Car < ActiveRecord::Base
     group.present?
   end
 
-  # Rule accessors
-
-  # fetch name of the rule associated with this car
-  def alarm_status(alarm)
-    car_alarms.where(alarm_id: rule.id, car_id: id).first.status
-  end
-
-  # fetch last_alert time of the rule associated with this car
-  def alarm_last_alert(alarm)
-    car_alarms.where(alarm_id: rule.id, car_id: id).first.last_alert
-  end
-
-  # Alarms
-  # Verificators
-
   # return if the car is moving or not
   def moving?
     if no_data?
@@ -213,48 +194,6 @@ class Car < ActiveRecord::Base
     has_no_device = !self.has_device?
     has_no_data = self.device.no_data?
     return has_no_device || has_no_data
-  end
-
-  # Alarms trigger
-  def check_alarms
-    # don't waste time checking if vehicle doesn't have device
-    return unless self.device
-
-    results = {}
-
-    self.alarms.all.each do |alarm|
-      trigger = alarm.verify(self.id)
-
-      if trigger == true
-        if ActsAsTenant.current_tenant.nil?
-          ActsAsTenant.current_tenant = self.company
-        end
-
-        # create alarm notification (so the same alarm doesn't get triggered too much times)
-        @alarm = AlarmNotification.create(alarm_id: alarm.id, car_id: self.id)
-        
-        puts "Create activity for notification"
-        @alarm.create_activity :create, owner: self
-
-        results["#{alarm.name}"] = {status: true, car_id: self.id }
-        Rails.logger.debug "Alarm : #{alarm.name} | Status : true"
-
-        # Send email notification to managers
-        subject =  "Alarm : #{alarm.name}"
-        body = alarm.name
-        #self.company.users.first.notify(subject, body, self)
-        #send email to user with name of the alarm triggered
-        #AlarmMailer.alarm_email(self.company.users.first, self, alarm).deliver
-      else
-        results["#{alarm.name}"] = {status: false, car_id: self.id }
-        Rails.logger.debug "Alarm : #{alarm.name} | Status : false"
-      end
-    end
-
-    return results
-
-    # capture the current car state
-    # self.capture_state
   end
 
   # Generate state card
