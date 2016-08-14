@@ -74,7 +74,11 @@ class ConversationsController < ApplicationController
   def reply
     current_user.reply_to_conversation(@conversation, conversation_params['body'])
 
-    respond_with(@conversation, location: conversation_path(@conversation))
+    @message = @conversation.messages.last
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def trash
