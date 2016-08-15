@@ -120,7 +120,7 @@ class Device < ActiveRecord::Base
     traccar_device = Traccar::Device.find_or_create_by(name: self.name, uniqueid: self.emei)
 
     # ASSIGN USERS TO DEVICE
-    traccar_device.users << Traccar::User.where(:name => "admin", :email => "admin")
+    # traccar_device.users << Traccar::User.where(:name => "admin", :email => "admin")
   end
 
   def assign_sim_card
