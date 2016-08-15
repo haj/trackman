@@ -34,34 +34,33 @@ class Plan < ActiveRecord::Base
     end
   end
 
-  def self.all_offers
-    Paymill::Offer.all
-  end
-
-  def self.destroy_all_offers
-    Paymill::Offer.all.each do |offer|
-      Paymill::Offer.delete(offer.id)
-    end
-
-    Plan.all.each do |plan|
-      plan.update_attribute(:paymill_id, nil)
-    end
-  end
-
-  def self.create_all_offers
-    Plan.all.each { |plan| plan.create_offer }
-  end
-
-  def self.destroy_all_clients
-    Paymill::Client.all.each do |client|
-      Paymill::Client.delete client.id
-    end
-    
-  end
-
-  # accessors
-
   def name
     self.plan_type.name
+  end
+
+  class << self
+    def all_offers
+      Paymill::Offer.all
+    end
+
+    def destroy_all_offers
+      Paymill::Offer.all.each do |offer|
+        Paymill::Offer.delete(offer.id)
+      end
+
+      Plan.all.each do |plan|
+        plan.update_attribute(:paymill_id, nil)
+      end
+    end
+
+    def create_all_offers
+      Plan.all.each { |plan| plan.create_offer }
+    end
+
+    def destroy_all_clients
+      Paymill::Client.all.each do |client|
+        Paymill::Client.delete client.id
+      end    
+    end
   end
 end

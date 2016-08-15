@@ -14,4 +14,7 @@
 class Parameter < ActiveRecord::Base
   # ASSOCIATION
   belongs_to :rule
+
+  # validation
+  validates :rule_id, :name, presence: true
 end

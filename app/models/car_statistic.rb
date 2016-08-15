@@ -17,6 +17,7 @@
 #
 
 class CarStatistic < ActiveRecord::Base
+  # Init Gem
   include AASM
 
   aasm do
@@ -45,25 +46,24 @@ class CarStatistic < ActiveRecord::Base
   # CALLBACK
   after_initialize :init
 
+  # validation
+  validates :car_id, presence: true
+
   # SCOPE
   scope :car_date, -> (car_id, date) { where(car_id: car_id, time: date) }
 
   # INSTANCE METHOD
   def init
-    self.tdistance ||= 0.0
-    self.tdrivtime ||= 0
-    self.tparktime ||= 0
-    self.maxspeed ||= 0.0
-    self.avgspeed ||= 0.0
+    self.tdistance     ||= 0.0
+    self.tdrivtime     ||= 0
+    self.tparktime     ||= 0
+    self.maxspeed      ||= 0.0
+    self.avgspeed      ||= 0.0
     self.steps_counter ||= 0
   end
 
   def last_is_start?
-    if self.last_is.try(:state) == "start"
-      true
-    else
-      false
-    end
+    self.last_is.try(:state) == "start"
   end
 
   def last_is_stop?

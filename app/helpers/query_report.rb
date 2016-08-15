@@ -27,6 +27,5 @@ module QueryReport
     config.allow_email_report  = true
     config.record_table_class  = 'table table-bordered table-striped'
     config.search_button_class = 'btn btn-success'
-    # config.search_form_options = {class: 'form-inline'}
   end
 end

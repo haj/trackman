@@ -18,4 +18,7 @@ class GroupWorkHour < ActiveRecord::Base
   # SERIALIZE
   serialize :starts_at, Tod::TimeOfDay
   serialize :ends_at, Tod::TimeOfDay
+
+  # validation
+  validates :group_id, presence: true
 end

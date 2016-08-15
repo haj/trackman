@@ -20,4 +20,8 @@ class WorkHour < ActiveRecord::Base
 
   serialize :starts_at, Tod::TimeOfDay
   serialize :ends_at, Tod::TimeOfDay
+
+  # Validation
+  validates :day_of_week, :starts_at, presence: true
+
 end

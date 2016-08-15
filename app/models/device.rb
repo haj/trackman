@@ -56,88 +56,89 @@ class Device < ActiveRecord::Base
 
 
   # CLASS METHODS
-  def self.sync_to_traccar
-    Device.all.each do |d|
-      if Traccar::Device.find_by_uniqueId(d.emei).nil?
-        d.save!
+  class << self
+    def sync_to_traccar
+      Device.all.each do |d|
+        d.save! if Traccar::Device.find_by_uniqueid(d.emei).nil?
       end
     end
-  end
 
-  def self.import(file)
-    status = {}
-    begin
-      spreadsheet = open_spreadsheet(file)
-      header = spreadsheet.row(1)
-      (2..spreadsheet.last_row).each do |i|
-        row = Hash[[header, spreadsheet.row(i)].transpose]
-        device = find_by_id(row["id"]) || new
-        device.attributes = row.to_hash.slice(*accessible_attributes)
-        device.save!
-        status[:message] = "Devices imported!"
-        status[:alert] = "success"
+    def import(file)
+      status = {}
+      
+      begin
+        spreadsheet = open_spreadsheet(file)
+        header      = spreadsheet.row(1)
+        (2..spreadsheet.last_row).each do |i|
+          row               = Hash[[header, spreadsheet.row(i)].transpose]
+          device            = find_by_id(row["id"]) || new
+          device.attributes = row.to_hash.slice(*accessible_attributes)
+          status[:message]  = "Devices imported!"
+          status[:alert]    = "success"
+          device.save!
+        end
+      rescue => exception
+        status[:message] = exception
+        status[:alert]   = "danger"
       end
-    rescue => exception
-      status[:message] = exception
-      status[:alert] = "danger"
+
+      status
     end
 
-    return status
-  end
-
-  def self.open_spreadsheet(file)
-    case File.extname(file.original_filename)
-    when ".csv" then Csv.new(file.path, nil, :ignore)
-    when ".xls" then Excel.new(file.path, nil, :ignore)
-    when ".xlsx" then Excelx.new(file.path, nil, :ignore)
-    else raise "Unknown file type: #{file.original_filename}"
+    def open_spreadsheet(file)
+      case File.extname(file.original_filename)
+      when ".csv" 
+        Csv.new(file.path, nil, :ignore)
+      when ".xls" 
+        Excel.new(file.path, nil, :ignore)
+      when ".xlsx" 
+        Excelx.new(file.path, nil, :ignore)
+      else 
+        raise "Unknown file type: #{file.original_filename}"
+      end
     end
-  end
 
-  def self.available_devices
-    Device.where(:car_id => nil)
-  end
+    def available_devices
+      Device.where(:car_id => nil)
+    end
 
-  def self.without_simcards(device_id)
-    if device_id.nil?
-      Device.where("id NOT IN (SELECT device_id FROM simcards WHERE device_id IS NOT NULL)")
-    else
-      Device.where("id NOT IN (SELECT device_id FROM simcards WHERE device_id IS NOT NULL) OR id = #{device_id}")
+    def without_simcards(device_id)
+      if device_id.present?
+        Device.where("id NOT IN (SELECT device_id FROM simcards WHERE device_id IS NOT NULL) OR id = #{device_id}")
+      else
+        Device.where("id NOT IN (SELECT device_id FROM simcards WHERE device_id IS NOT NULL)")
+      end
     end
   end
 
   # INSTANCE METHOD
   def destroy_traccar_device
-    if traccar_device
-      self.traccar_device.destroy
-      # traccar_device.users.delete(user) DELETE USER WHO ASSIGNED TO THIS DEVICE
-    end
+    self.traccar_device.destroy if traccar_device
   end
 
   def create_traccar_device
     traccar_device = Traccar::Device.find_or_create_by(name: self.name, uniqueid: self.emei)
-    traccar_device.users << Traccar::User.where(:name => "admin", :email => "admin")
+
+    # ASSIGN USERS TO DEVICE
+    # traccar_device.users << Traccar::User.where(:name => "admin", :email => "admin")
   end
 
   def assign_sim_card
-    if sim_card_id
-      Simcard.find(sim_card_id).update(device_id: id)
-    end
+    Simcard.find(sim_card_id).update(device_id: id) if sim_card_id
   end
 
   def update_traccar_device
-    traccar_device = Traccar::Device.where(uniqueId: self.emei).first
-    unless traccar_device.nil?
-      traccar_device.update_attributes(name: self.name, uniqueId: self.emei)
-    end
+    traccar_device = Traccar::Device.where(uniqueid: self.emei).first
+
+    traccar_device.update_attributes(name: self.name, uniqueid: self.emei) if traccar_device
   end
 
   def has_car?
-    !self.car_id.nil?
+    car_id.present?
   end
 
   def has_simcard?
-    !self.simcard.nil?
+    simcard.present?
   end
 
   def last_position
@@ -146,43 +147,36 @@ class Device < ActiveRecord::Base
   end
 
   def last_positions(number=2)
-    unless self.traccar_device.nil?
-      self.traccar_device.last_positions(number)
-    end
+    traccar_device.last_positions(number) if traccar_device
   end
 
   def positions
-    unless self.traccar_device.nil?
-      self.traccar_device.positions
-    end
+    traccar_device.positions if traccar_device
   end
 
   # check if the device is reporting that the car is moving (or not)
   def moving?(precision = 0.0001)
-
     last_positions = self.last_positions(2).to_a
-
-    # find last state for this car
-    last_state = self.states.last
+    last_state    = self.states.last
 
     if last_positions.count == 2
-      latitude1 = last_positions[0].latitude
+      latitude1  = last_positions[0].latitude
       longitude1 = last_positions[0].longitude
-      latitude2 = last_positions[1].latitude
+      latitude2  = last_positions[1].latitude
       longitude2 = last_positions[1].longitude
-
-      threshold = precision
+      threshold  = precision
+      
       Time.use_zone('UTC') do
         if (latitude1 - latitude2).abs < threshold
-          self.update_attributes(:movement => false, :last_checked => Time.zone.now)
-          return false
+          self.update_attributes(movement: false, last_checked: Time.zone.now)
+          false
         else
-          self.update_attributes(:movement => true, :last_checked => Time.zone.now)
-          return true
+          self.update_attributes(movement: true, last_checked: Time.zone.now)
+          true
         end
       end
     else
-      return false
+      false
     end
   end
 
@@ -193,18 +187,12 @@ class Device < ActiveRecord::Base
 
     seconds = Time.zone.now - last_position.fixTime.in_time_zone
 
-    #return "#{time_ago_in_words(last_position.time)} ago OR #{since} seconds"
-
-    if seconds >= 20.minutes
-      return true
-    else
-      return false
-    end
+    seconds >= 20.minutes ? true : false
   end
 
   # return the speed of the vehicle associated with the last position
   def speed
-    self.traccar_device.try(:positions).try(:last).try(:speed)
+    traccar_device.try(:positions).try(:last).try(:speed)
   end
 
   def traccar_device

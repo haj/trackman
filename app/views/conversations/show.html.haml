@@ -1,5 +1,4 @@
 .content
-
   .row
     .col-md-12  
       .page-title
@@ -7,7 +6,8 @@
         %h3
           = "Conversation : #{@conversation.subject}"
 
-  %ul.cbp_tmtimeline
+  %ul.cbp_tmtimeline#conversation
+    = subscribe_to "/conversations/#{@conversation.id}"
     - @conversation.messages.each do |message|
       %li
         %time.cbp_tmtime{:datetime => "2013-04-10 18:30"}
@@ -30,7 +30,7 @@
 
 .row
   .col-md-12
-    = form_tag reply_conversation_path(@conversation) do
+    = form_tag(reply_conversation_path(@conversation), remote: true) do
       %ul.cbp_tmtimeline
         %li
           .cbp_tmlabel{style: "margino:0px !important;"}

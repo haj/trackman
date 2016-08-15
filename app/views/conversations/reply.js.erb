@@ -1,0 +1,5 @@
+<% publish_to "/conversations/#{@conversation.id}" do %>
+  $("#conversation").append("<%= j(render partial: '/conversations/partials/message', locals: { message: @message } ) %>")
+<% end %>
+
+$("#conversation_body").val("")

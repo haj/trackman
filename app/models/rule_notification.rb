@@ -10,5 +10,6 @@
 #
 
 class RuleNotification < ActiveRecord::Base
-	
+  # validation
+  validates :rule_id, :car_id, presence: true
 end

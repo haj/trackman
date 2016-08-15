@@ -14,42 +14,44 @@
 #
 
 class Subscription < ActiveRecord::Base
+  # validation
+  validates :email, :name, :company_id, :plan_id, presence: true
+
+  # Arre Accessor
   attr_accessor :paymill_card_token
 
+  # Association
   belongs_to :plan
   belongs_to :company
 
   def save_with_payment
-    if valid?
-      client = Paymill::Client.create(email: email, description: name)
-      Rails.logger.warn "card_token : #{paymill_card_token}"
-      payment = Paymill::Payment.create(token: paymill_card_token, client: client.id)
-      Rails.logger.warn "payment : #{payment}"
-      subscription = Paymill::Subscription.create(offer: plan.paymill_id, client: client.id, payment: payment.id)
-      Rails.logger.warn "subscription : #{subscription}"
-      self.paymill_id = subscription.id
-      self.active = true
-      save!
-    end
+    begin
+      if valid?
+        client          = PaymillServices.create_client(email, name)
+        payment         = PaymillServices.create_payment(paymill_card_token, client.id)
+        subscription    = PaymillServices.create_subscription(plan.paymill_id, client.id, payment.id)
+        self.paymill_id = subscription.id
+        self.active     = true
+        save!
+      end
 
     rescue Paymill::PaymillError => e
       logger.error "Paymill error while creating customer: #{e.message}"
       errors.add :base, "There was a problem with your credit card. Please try again."
-    false
-  end
-
-  def self.all_subscriptions
-    Paymill::Subscription.all
+    end
   end
 
   def cancel 
-    Paymill::Subscription.update_attributes self.paymill_id, cancel_at_period_end: true
-    Paymill::Subscription.delete(self.paymill_id)
-    self.update_attribute(:active, false)
+    PaymillServices.cancel(self.paymill_id, self.id)
   end
 
-  def self.cancel_all
-    Subscription.all.each { |subscription| subscription.cancel }
-  end
+  class << self
+    def cancel_all
+      Subscription.all.each { |subscription| subscription.cancel }
+    end
 
+    def all_subscriptions
+      PaymillServices.all_subscriptions
+    end
+  end
 end

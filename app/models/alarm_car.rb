@@ -13,6 +13,9 @@ class AlarmCar < ActiveRecord::Base
   self.table_name = "alarms_cars"
 
   # ASSOCIATION GOES HERE
-  belongs_to :cars
-  belongs_to :alarms
+  belongs_to :car
+  belongs_to :alarm
+
+  # VALIDATION GOES HERE
+  validates :car_id, :alarm_id, presence: true
 end

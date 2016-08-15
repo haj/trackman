@@ -31,11 +31,11 @@ class Simcard < ActiveRecord::Base
   belongs_to :teleprovider
   belongs_to :device
 
+  def name
+    "#{self.id} #{self.telephone_number} (#{self.teleprovider.name})"
+  end
+
   def self.available_simcards
     Simcard.where(:device_id => nil)
   end 
-
-  def name
-    return "#{self.id} #{self.telephone_number} (#{self.teleprovider.name})"
-  end
 end

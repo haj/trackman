@@ -13,12 +13,12 @@
 
 class Company < ActiveRecord::Base
   # ASSOCIATION
+  belongs_to :plan
   has_many :users, :dependent => :destroy
   has_many :cars, :dependent => :destroy
   has_many :devices, :dependent => :destroy
   has_many :simcards, :dependent => :destroy
   has_many :groups, :dependent => :destroy
-  belongs_to :plan
   has_many :subscriptions
   has_many :alarm_notifications
 
@@ -32,22 +32,17 @@ class Company < ActiveRecord::Base
 
   # INSTANCE METHOD
   def setup_default_plan
-    if !Plan.first.nil?
-     self.plan_id = Plan.first.id
-    end
+    self.plan_id = Plan.first.id if Plan.first
   end
 
   def current_plan
     subscription = self.subscriptions.where(active: true).first
-    if subscription
-      return subscription.plan
-    else
-      Plan.first
-    end
+    
+    subscription ? subscription.plan : Plan.first
   end
 
   def cancel_active_subscriptions
     # get the active subscription
-    self.subscriptions.where(active: true).each { |subscription| subscription.cancel }
+    subscriptions.where(active: true).each { |subscription| subscription.cancel }
   end
 end
