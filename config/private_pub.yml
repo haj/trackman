@@ -5,6 +5,6 @@ test:
   server: "http://localhost:9292/faye"
   secret_token: "secret"
 production:
-  server: "http://example.com/faye"
+  server: "http://emirates.trackman.com:9292/faye"
   secret_token: "960b5fdc3be8efac2f08e4ad5c4397e2cf22460320e62a94c7a989dac10be9f7"
   signature_expiration: 3600 # one hour
