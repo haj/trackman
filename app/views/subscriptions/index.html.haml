@@ -4,6 +4,8 @@
       %h4= "Current Plan : <strong>#{current_user.company.plan.plan_type.name}</strong>".html_safe 
       - if current_user.company.plan_id == 1
         %h5= "Upgrade Membership? click #{link_to 'here', new_subscription_path(plan_id: 2)}".html_safe
+      - else
+        %h5= link_to "Cancel Membership", cancel_subscription_path(@subscription), class: 'btn btn-danger', method: :put
       %br
       %h3
         Subscription Lists

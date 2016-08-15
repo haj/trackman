@@ -63,6 +63,7 @@ Rails.application.routes.draw do
   resources :subscriptions do
     member do
       get 'generate'
+      put "cancel"
     end
   end
 

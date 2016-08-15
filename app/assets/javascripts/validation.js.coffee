@@ -1,3 +1,11 @@
+handlePaymillResponse: (error, result) ->
+  if error
+    $('#paymill_error').text(error.apierror)
+    $('input[type=submit]').attr('disabled', false)
+  else
+    $('#subscription_paymill_card_token').val(result.token)
+    $('#new_subscription')[0].submit()
+
 ready = ->
   $("#form-car").validate
     rules:
@@ -112,6 +120,28 @@ ready = ->
     rules:
       'feature[name]':
         required: true
+
+  $("#new_subscription").validate
+    rules:
+      'subscription[name]':
+        required: true
+      'subscription[email]':
+        required: true
+      'subscription[card_number]':
+        required: true
+      'subscription[cvc]':
+        required: true
+      'subscription[year]':
+        required: true
+      'subscription[month]':
+        required: true
+    submitHandler: ()->
+      card =
+        number: $('#card_number').val()
+        cvc: $('#card_code').val()
+        exp_month: $('#card_month').val()
+        exp_year: $('#card_year').val()
+      paymill.createToken(card, handlePaymillResponse)
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

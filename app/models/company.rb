@@ -27,13 +27,7 @@ class Company < ActiveRecord::Base
   validates :subdomain, uniqueness: { case_sensitive: false }, presence: true
 
   # CALLBACK
-  before_save :setup_default_plan
   before_save { |company| company.subdomain = company.subdomain.downcase }
-
-  # INSTANCE METHOD
-  def setup_default_plan
-    self.plan_id = Plan.first.id if Plan.first
-  end
 
   def current_plan
     subscription = self.subscriptions.where(active: true).first

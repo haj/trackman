@@ -3,10 +3,11 @@ class SubscriptionsController < ApplicationController
   load_and_authorize_resource
 
   # Callback controller
-  before_action :set_subscription, only: [:show, :edit, :update, :destroy]
+  before_action :set_subscription, only: [:show, :edit, :update, :destroy, :cancel]
 
   def index
-    @subscriptions = Subscription.order(created_at: :desc).page(params[:page])    
+    @subscriptions = Subscription.includes(:plan).order(created_at: :desc).page(params[:page])    
+    @subscription  = current_user.company.subscriptions.active
   end
   
   # GET /subscriptions/1
@@ -45,15 +46,7 @@ class SubscriptionsController < ApplicationController
       begin
         @subscription = Subscription.new(subscription_params) 
         
-        if @subscription.save_with_payment
-          company = current_user.company
-      
-          # schedule to cancel all active subscriptions
-          company.cancel_active_subscriptions
-
-          # Add this subscription to the company list of subscriptions
-          company.subscriptions << @subscription
-
+        if @subscription.save
           respond_with(@subscription, location: subscriptions_path, notice: 'Thank you for subscribing!')
         else
           respond_with(@subscription)
@@ -90,6 +83,13 @@ class SubscriptionsController < ApplicationController
       format.html { redirect_to subscriptions_url, notice: 'Subscription was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # Cancel a runningsubscription
+  def cancel
+    @subscription.cancel
+
+    respond_with(@subscription, location: subscriptions_url, notice: 'Subscription successfully cancel.')    
   end
 
   private

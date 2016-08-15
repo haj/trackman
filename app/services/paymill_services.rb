@@ -12,7 +12,7 @@ class PaymillServices
     # Cancel a subscription
     #
     def cancel(paymill_id, subscription_id)
-      Paymill::Subscription.update_attributes paymill_id, cancel_at_period_end: true
+      # Paymill::Subscription.update_attributes paymill_id, cancel_at_period_end: true
       Paymill::Subscription.delete(paymill_id)
 
       Subscription.find(subscription_id).update_attribute(:active, false)
