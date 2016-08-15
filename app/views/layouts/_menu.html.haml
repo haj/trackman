@@ -73,7 +73,6 @@
           %a{:href => regions_path}
             = fa_icon "circle"
             %span.title Regions
-
         %li{:class => ("active" if current_page?(simcards_path))}
           %a{:href => simcards_path}
             = fa_icon "ticket"
@@ -82,6 +81,11 @@
           %a{:href => users_path}
             = fa_icon "users"
             %span.title Employees
+        %li{:class => ("active" if current_page?(subscriptions_path))}
+          %a{:href => subscriptions_path}
+            = fa_icon "users"
+            %span.title Subscriptions
+
         / %li
         /   %a{:href => groups_path}
         /     = fa_icon "sitemap"

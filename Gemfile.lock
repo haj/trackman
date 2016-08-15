@@ -677,6 +677,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   jquery-ui-rails
+  kaminari
   less-rails
   letter_opener
   lograge
@@ -739,6 +740,9 @@ DEPENDENCIES
   wicked_pdf
   wkhtmltopdf-binary
   xml-to-json
+
+RUBY VERSION
+   ruby 2.2.1p85
 
 BUNDLED WITH
    1.12.5

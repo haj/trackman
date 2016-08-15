@@ -14,6 +14,9 @@
 #
 
 class Subscription < ActiveRecord::Base
+  # INI GET
+  acts_as_tenant(:company)
+
   # validation
   validates :email, :name, :company_id, :plan_id, presence: true
 

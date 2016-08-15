@@ -5,6 +5,9 @@ class SubscriptionsController < ApplicationController
   # Callback controller
   before_action :set_subscription, only: [:show, :edit, :update, :destroy]
 
+  def index
+    @subscriptions = Subscription.order(created_at: :desc).page(params[:page])    
+  end
   
   # GET /subscriptions/1
   # GET /subscriptions/1.json
@@ -51,7 +54,7 @@ class SubscriptionsController < ApplicationController
           # Add this subscription to the company list of subscriptions
           company.subscriptions << @subscription
 
-          respond_with(@subscription, location: plans_path, notice: 'Thank you for subscribing!')
+          respond_with(@subscription, location: subscriptions_path, notice: 'Thank you for subscribing!')
         else
           respond_with(@subscription)
         end

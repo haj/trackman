@@ -65,7 +65,6 @@ gem 'retina_tag'
 gem "font-awesome-rails"
 gem 'paymill'
 gem 'seed-fu', '~> 2.3'
-gem 'exception_notification'
 gem 'database_cleaner', :group => [:test]
 gem 'ci_reporter_rspec'
 gem 'selenium-webdriver'
@@ -94,6 +93,7 @@ gem 'aasm' #State Machine
 gem 'sidekiq-unique-jobs'
 gem "private_pub"
 gem "thin"
+gem 'kaminari'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -120,4 +120,9 @@ group :development, :test do
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma',   require: false
   gem 'html2haml', :git => 'git://github.com/haml/html2haml.git'
+end
+
+
+group :production do
+  gem 'exception_notification'
 end
