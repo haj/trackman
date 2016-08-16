@@ -93,6 +93,7 @@ gem 'aasm' #State Machine
 gem 'sidekiq-unique-jobs'
 gem "private_pub"
 gem "thin"
+gem 'faye'
 gem 'kaminari'
 
 group :development, :test do
