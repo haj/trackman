@@ -9,7 +9,7 @@ class FeaturesController < ApplicationController
   # GET /features
   # GET /features.json
   def index
-    @features = Feature.all
+    @features = Feature.page(params[:page])
 
     respond_with(@features)
   end

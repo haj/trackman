@@ -13,7 +13,7 @@ class DeviceTypesController < ApplicationController
   # GET /device_types.json
   def index
     @q = DeviceType.search(params[:q])
-    @device_types = @q.result(distinct: true)
+    @device_types = @q.result(distinct: true).page(params[:page])
 
     respond_with(@device_types)
   end

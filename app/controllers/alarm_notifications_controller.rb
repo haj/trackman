@@ -11,7 +11,7 @@ class AlarmNotificationsController < ApplicationController
   # GET /alerts || alarm_notifications_path
   # List all alarm notifications
   def index
-    @alerts = AlarmNotification.not_archieved.order("created_at DESC")
+    @alerts = AlarmNotification.not_archieved.order("created_at DESC").page(params[:page])
 
     respond_with(@alerts)
   end

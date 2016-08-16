@@ -8,7 +8,7 @@ class RegionsController < ApplicationController
 
 
   def index
-    @regions = Region.all
+    @regions = Region.page(params[:page])
 
     respond_with(@regions)
   end

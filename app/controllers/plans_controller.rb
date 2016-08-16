@@ -8,7 +8,7 @@ class PlansController < ApplicationController
   # GET /plans
   # GET /plans.json
   def index
-    @plans = Plan.includes(:plan_type)
+    @plans = Plan.includes(:plan_type).page(params[:page])
 
     respond_with(@plans)
   end

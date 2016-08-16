@@ -30,6 +30,7 @@
                       &nbsp; | &nbsp; 
                       = link_to 'Delete', region, method: :delete, data: { confirm: "Are you sure want to delete this region?" }
 
+          = paginate @regions
 
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner

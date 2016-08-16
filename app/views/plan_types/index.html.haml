@@ -25,3 +25,5 @@
                   %td= link_to plan_type.name, plan_type
                   %td= link_to 'Edit', edit_plan_path(plan_type)
                   %td= link_to 'Destroy', plan_type, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+        = paginate @plan_types

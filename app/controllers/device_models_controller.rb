@@ -13,7 +13,7 @@ class DeviceModelsController < ApplicationController
   # GET /device_models.json
   def index
     @q = apply_scopes(DeviceModel).all.search(params[:q])
-    @device_models = @q.result(distinct: true)
+    @device_models = @q.result(distinct: true).page(params[:page])
 
     respond_with(@device_models)
   end

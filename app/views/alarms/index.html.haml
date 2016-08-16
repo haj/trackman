@@ -34,6 +34,8 @@
                         &nbsp; | &nbsp; 
                         = link_to 'Delete', alarm, method: :delete, data: { confirm: "Are you sure want to delete this alaram?" }
 
+            = paginate @alarms
+
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner
     %button.btn.btn-danger.btn-add{type: "button", id: "batch_destroy"}

@@ -12,7 +12,7 @@ class CarTypesController < ApplicationController
   # GET /car_types.json
   def index
     @q = CarType.search(params[:q])
-    @car_types = @q.result(distinct: true)
+    @car_types = @q.result(distinct: true).page(params[:page])
 
     respond_with(@car_types)
   end

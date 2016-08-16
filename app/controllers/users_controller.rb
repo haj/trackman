@@ -11,8 +11,8 @@ class UsersController < ApplicationController
 
   # GET /users || users_index_path
   def index
-    @q = apply_scopes(User).all.search(params[:q])
-    @users = @q.result(distinct: true)
+    @q     = apply_scopes(User).all.search(params[:q])
+    @users = @q.result(distinct: true).page(params[:page])
 
     respond_with(@users)
   end

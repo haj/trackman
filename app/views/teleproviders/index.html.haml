@@ -46,4 +46,5 @@
                       %td= link_to 'Edit', edit_teleprovider_path(teleprovider)
                       %td= link_to 'Destroy', teleprovider, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
+            = paginate @teleproviders
 

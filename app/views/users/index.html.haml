@@ -43,7 +43,9 @@
                   %td= link_to 'Edit', edit_user_path(user)
                   - if ! user.id == current_user.id
                     %td= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
-                    
+
+          = paginate @users
+
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner
     %button.btn.btn-danger.btn-add{type: "button", id: "batch_destroy"}

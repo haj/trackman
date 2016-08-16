@@ -32,7 +32,6 @@
                     = content_tag :th, sort_link(@q, :car_type)
                     %th
                 %tbody
-
                   - @cars.each do |car|
                     %tr
                       %td.small-cell.v-align-middle= check_box_tag "car_ids[]", car.id, nil , class: "car_checkbox"
@@ -44,6 +43,9 @@
                         = link_to 'Edit', edit_car_path(car)
                         &nbsp; | &nbsp; 
                         = link_to 'Delete', car, method: :delete, data: { confirm: "Are you sure want to delete this car?" }
+
+            = paginate @cars
+            
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner
     %button.btn.btn-danger.btn-add{type: "button", id: "batch_destroy"}

@@ -88,7 +88,6 @@
                     = content_tag :th, sort_link(@q, :cost_price)
                     %th
                 %tbody
-
                   - @devices.each do |device|
                     %tr
                       %td.small-cell.v-align-middle= check_box_tag "device_ids[]", device.id, nil , class: "device_checkbox"
@@ -99,6 +98,8 @@
                         = link_to 'Edit', edit_device_path(device)
                         &nbsp; | &nbsp;
                         = link_to 'Delete', device, method: :delete, data: { confirm: 'Are you sure want to delete this device?' }
+            = paginate @devices
+
 
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner

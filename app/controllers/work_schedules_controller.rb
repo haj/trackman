@@ -8,7 +8,7 @@ class WorkSchedulesController < ApplicationController
   # GET /work_schedules
   # GET /work_schedules.json
   def index
-    @work_schedules = WorkSchedule.all
+    @work_schedules = WorkSchedule.page(params[:page])
 
     respond_with(@work_schedules)
   end

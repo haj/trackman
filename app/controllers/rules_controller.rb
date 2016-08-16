@@ -8,7 +8,7 @@ class RulesController < ApplicationController
   # GET /rules
   # GET /rules.json
   def index
-    @rules = Rule.all
+    @rules = Rule.page(params[:page])
 
     respond_with(@rules)
   end

@@ -14,7 +14,7 @@ class CarModelsController < ApplicationController
   # GET /car_models.json
   def index
     @q = apply_scopes(CarModel).search(params[:q])
-    @car_models = @q.result(distinct: true)
+    @car_models = @q.result(distinct: true).page(params[:page])
 
     respond_with(@car_models)
   end

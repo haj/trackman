@@ -86,6 +86,8 @@
                           &nbsp; | &nbsp;
                           = link_to 'Destroy', simcard, method: :delete, data: { confirm: 'Are you sure want to delete this simcard?' }
 
+              = paginate @simcards
+
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner
     %button.btn.btn-danger.btn-add{type: "button", id: "batch_destroy"}

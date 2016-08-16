@@ -32,7 +32,7 @@ class DevicesController < ApplicationController
   # return all devices within scope
   def index
     @q       = apply_scopes(Device).all.search(params[:q])
-    @devices = @q.result(distinct: true)
+    @devices = @q.result(distinct: true).page(params[:page])
 
     respond_with(@devices)
   end
@@ -114,7 +114,7 @@ class DevicesController < ApplicationController
   # GET /manage_devices || import_devices_path
   # Manage all available devices
   def manage
-    @devices = Device.all
+    @devices = Device.page(params[:page])
 
     respond_with(@devices)
   end

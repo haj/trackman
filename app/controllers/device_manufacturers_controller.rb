@@ -12,7 +12,7 @@ class DeviceManufacturersController < ApplicationController
   # GET /device_manufacturers.json
   def index
     @q = DeviceManufacturer.search(params[:q])
-    @device_manufacturers = @q.result(distinct: true)
+    @device_manufacturers = @q.result(distinct: true).page(params[:page])
 
     respond_with(@device_manufacturers)
   end

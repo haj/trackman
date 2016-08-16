@@ -35,13 +35,14 @@
                       %th
                       = content_tag :th, sort_link(@q, :name)
                       %th
-                  %tbody
-                    
+                  %tbody                   
                     - @device_types.each do |device_type|
                       %tr 
                         %td.small-cell.v-align-middle= check_box_tag "device_type_ids[]", device_type.id, nil , class: "device_type_checkbox"
                         %td= link_to device_type.name, device_type
                         %td= link_to 'Edit', edit_device_type_path(device_type)
+
+              = paginate @device_types
 
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner

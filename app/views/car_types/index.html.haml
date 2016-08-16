@@ -43,6 +43,8 @@
                         %td= link_to car_type.name, car_type
                         %td= link_to 'Edit', edit_car_type_path(car_type)
 
+              = paginate @car_types  
+
 #quick-access.admin-bar{:style => "bottom: -115px;"}
   .admin-bar-inner
     %button.btn.btn-danger.btn-add{type: "button", id: "batch_destroy"}

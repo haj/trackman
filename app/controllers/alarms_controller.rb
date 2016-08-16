@@ -11,7 +11,7 @@ class AlarmsController < ApplicationController
   # GET /alarms || alarms_path
   # List all alarms available in HTML Format 
   def index
-    @alarms = Alarm.all
+    @alarms = Alarm.page(params[:page])
 
     respond_with(@alarms)
   end

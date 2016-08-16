@@ -21,7 +21,7 @@ class SimcardsController < ApplicationController
 
   def index
     @q        = apply_scopes(Simcard).all.search(params[:q])
-    @simcards = @q.result(distinct: true)
+    @simcards = @q.result(distinct: true).page(params[:page])
 
     respond_with(@simcards)
   end

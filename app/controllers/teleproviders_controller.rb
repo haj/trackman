@@ -9,7 +9,7 @@ class TeleprovidersController < ApplicationController
   # GET /teleproviders.json
   def index
     @q = Teleprovider.search(params[:q])
-    @teleproviders = @q.result(distinct: true)
+    @teleproviders = @q.result(distinct: true).page(params[:page])
 
     respond_with(@teleproviders)
   end

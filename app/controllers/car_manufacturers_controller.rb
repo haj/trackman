@@ -12,7 +12,7 @@ class CarManufacturersController < ApplicationController
   # GET /car_manufacturers
   def index
     @q = CarManufacturer.search(params[:q])
-    @car_manufacturers = @q.result(distinct: true)
+    @car_manufacturers = @q.result(distinct: true).page(params[:page])
 
     respond_with(@car_manufacturers)
   end
