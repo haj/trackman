@@ -41,7 +41,7 @@ class DeviceManufacturersController < ApplicationController
     @device_manufacturer = DeviceManufacturer.new(device_manufacturer_params)
 
     if @device_manufacturer.save
-      respond_with(@device_manufacturer, location: @device_manufacturer, notice: 'Device manufacturer was successfully created.')
+      respond_with(@device_manufacturer, location: device_manufacturers_url, notice: 'Device manufacturer was successfully created.')
     else
       respond_with(@device_manufacturer)
     end
@@ -51,7 +51,7 @@ class DeviceManufacturersController < ApplicationController
   # PATCH/PUT /device_manufacturers/1.json
   def update
     if @device_manufacturer.update(device_manufacturer_params)
-      respond_with(@device_manufacturer, location: @device_manufacturer, notice: 'Device manufacturer was successfully updated.')
+      respond_with(@device_manufacturer, location: device_manufacturers_url, notice: 'Device manufacturer was successfully updated.')
     else
       respond_with(@device_manufacturer)
     end

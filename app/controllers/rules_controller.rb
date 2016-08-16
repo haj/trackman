@@ -37,7 +37,7 @@ class RulesController < ApplicationController
     @rule = Rule.new(rule_params)
 
     if @rule.save
-      respond_with(@rule, location: @rule, notice: 'Rule was successfully created.')
+      respond_with(@rule, location: rules_url, notice: 'Rule was successfully created.')
     else
       respond_with(@rule)
     end
@@ -47,7 +47,7 @@ class RulesController < ApplicationController
   # PATCH/PUT /rules/1.json
   def update
     if @rule.update(rule_params)
-      respond_with(@rule, location: @rule, notice: 'Rule was successfully updated.')
+      respond_with(@rule, location: rules_url, notice: 'Rule was successfully updated.')
     else
       respond_with(@rule)
     end

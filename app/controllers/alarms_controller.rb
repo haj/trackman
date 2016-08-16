@@ -45,7 +45,7 @@ class AlarmsController < ApplicationController
   def create
     @alarm = Alarm.new(alarm_params)
     if @alarm.save
-      respond_with(@alarm, location: @alarm, notice: 'Alarm was successfully created.')
+      respond_with(@alarm, location: alarms_path, notice: 'Alarm was successfully created.')
     else
       respond_with(@alarm)
     end
@@ -55,7 +55,7 @@ class AlarmsController < ApplicationController
   # PATCH/PUT /alarms/1.json
   def update
     if @alarm.update(alarm_params)
-      respond_with(@alarm, location: @alarm, notice: 'Alarm was successfully updated.')
+      respond_with(@alarm, location: alarms_path, notice: 'Alarm was successfully updated.')
     else
       respond_with(@alarm)
     end

@@ -38,7 +38,7 @@ class TeleprovidersController < ApplicationController
     @teleprovider = Teleprovider.new(teleprovider_params)
 
     if @teleprovider.save
-      respond_with(@teleprovider, location: @teleprovider, notice: 'Teleprovider was successfully created.')
+      respond_with(@teleprovider, location: teleproviders_url, notice: 'Teleprovider was successfully created.')
     else
       respond_with(@teleprovider)
     end
@@ -48,7 +48,7 @@ class TeleprovidersController < ApplicationController
   # PATCH/PUT /teleproviders/1.json
   def update
     if @teleprovider.update(teleprovider_params)
-      respond_with(@teleprovider, location: @teleprovider, notice: 'Teleprovider was successfully updated.')
+      respond_with(@teleprovider, location: teleproviders_url, notice: 'Teleprovider was successfully updated.')
     else
       respond_with(@teleprovider)
     end

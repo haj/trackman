@@ -38,7 +38,7 @@ class FeaturesController < ApplicationController
     @feature = Feature.new(feature_params)
 
     if @feature.save
-      respond_with(@feature, location: @feature, notice: 'Feature was successfully created.')
+      respond_with(@feature, location: features_url, notice: 'Feature was successfully created.')
     else
       respond_with(@feature)
     end
@@ -48,7 +48,7 @@ class FeaturesController < ApplicationController
   # PATCH/PUT /features/1.json
   def update
     if @feature.update(feature_params)
-      respond_with(@feature, location: @feature, notice: 'Feature was successfully updated.')
+      respond_with(@feature, location: features_url, notice: 'Feature was successfully updated.')
     else
       respond_with(@feature)
     end

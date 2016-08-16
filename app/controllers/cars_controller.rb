@@ -47,7 +47,7 @@ class CarsController < ApplicationController
     @car = Car.new(car_params)
 
     if @car.save
-      respond_with(@car, location: @car, notice: 'Vehicle was successfully created.')
+      respond_with(@car, location: cars_url, notice: 'Vehicle was successfully created.')
     else
       respond_with(@car)
     end
@@ -57,7 +57,7 @@ class CarsController < ApplicationController
   # Update specific car
   def update
     if @car.update(car_params)
-      respond_with(@car, location: @car, notice: 'Vehicle was successfully updated.')
+      respond_with(@car, location: cars_url, notice: 'Vehicle was successfully updated.')
     else
       respond_with(@car)
     end

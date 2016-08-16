@@ -37,7 +37,7 @@ class WorkHoursController < ApplicationController
     @work_hour = WorkHour.new(work_hour_params)
 
     if @work_hour.save
-      respond_with(@work_hour, location: @work_hour, notice: 'Work hour was successfully created.')
+      respond_with(@work_hour, location: work_hours_url, notice: 'Work hour was successfully created.')
     else
       respond_with(@work_hour)
     end
@@ -47,7 +47,7 @@ class WorkHoursController < ApplicationController
   # PATCH/PUT /work_hours/1.json
   def update
     if @work_hour.update(work_hour_params)
-      respond_with(@work_hour, location: @work_hour, notice: 'Work hour was successfully updated.')
+      respond_with(@work_hour, location: work_hours_url, notice: 'Work hour was successfully updated.')
     else
       respond_with(@work_hour)
     end

@@ -37,7 +37,7 @@ class VerticesController < ApplicationController
     @vertex = Vertex.new(vertex_params)
 
     if @vertex.save
-      respond_with(@vertex, location: @vertex, notice: 'Vertex was successfully created.')
+      respond_with(@vertex, location: vertices_url, notice: 'Vertex was successfully created.')
     else
       respond_with(@vertex)
     end
@@ -47,7 +47,7 @@ class VerticesController < ApplicationController
   # PATCH/PUT /vertices/1.json
   def update
     if @vertex.update(vertex_params)
-      respond_with(@vertex, location: @vertex, notice: 'Vertex was successfully updated.')
+      respond_with(@vertex, location: vertices_url, notice: 'Vertex was successfully updated.')
     else
       respond_with(@vertex)
     end

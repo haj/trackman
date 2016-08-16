@@ -37,7 +37,7 @@ class ParametersController < ApplicationController
     @parameter = Parameter.new(parameter_params)
 
     if @parameter.save
-      respond_with(@parameter, location: @parameter, notice: 'Parameter was successfully created.')
+      respond_with(@parameter, location: parameters_url, notice: 'Parameter was successfully created.')
     else
       respond_with(@parameter)
     end
@@ -47,7 +47,7 @@ class ParametersController < ApplicationController
   # PATCH/PUT /parameters/1.json
   def update
     if @parameter.update(parameter_params)
-      respond_with(@parameter, location: @parameter, notice: 'Parameter was successfully updated.')
+      respond_with(@parameter, location: parameters_url, notice: 'Parameter was successfully updated.')
     else
       respond_with(@parameter)
     end

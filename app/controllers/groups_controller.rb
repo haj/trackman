@@ -57,7 +57,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
 
     if @group.save
-      respond_with(@group, location: @group, notice: 'Group was successfully created.')
+      respond_with(@group, location: groups_url, notice: 'Group was successfully created.')
     else
       respond_with(@group)
     end
@@ -67,7 +67,7 @@ class GroupsController < ApplicationController
   # PATCH/PUT /groups/1.json
   def update
     if @group.update(group_params)
-      respond_with(@group, location: @group, notice: 'Group was successfully updated.')
+      respond_with(@group, location: groups_url, notice: 'Group was successfully updated.')
     else
       respond_with(@group)
     end

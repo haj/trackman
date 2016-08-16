@@ -42,7 +42,7 @@ class DeviceModelsController < ApplicationController
     @device_model = DeviceModel.new(device_model_params)
 
     if @device_model.save
-      respond_with(@device_model, location: @device_model, notice: 'Device model was successfully created.')
+      respond_with(@device_model, location: device_models_url, notice: 'Device model was successfully created.')
     else
       respond_with(@device_model)
     end
@@ -52,7 +52,7 @@ class DeviceModelsController < ApplicationController
   # PATCH/PUT /device_models/1.json
   def update
     if @device_model.update(device_model_params)
-      respond_with(@device_model, location: @device_model, notice: 'Device model was successfully updated.')
+      respond_with(@device_model, location: device_models_url, notice: 'Device model was successfully updated.')
     else
       respond_with(@device_model)
     end

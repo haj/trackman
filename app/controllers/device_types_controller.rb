@@ -42,7 +42,7 @@ class DeviceTypesController < ApplicationController
     @device_type = DeviceType.new(device_type_params)
 
     if @device_type.save
-      respond_with(@device_type, location: @device_type, notice: 'Device type was successfully created.')
+      respond_with(@device_type, location: device_types_url, notice: 'Device type was successfully created.')
     else
       respond_with(@device_type)
     end
@@ -52,7 +52,7 @@ class DeviceTypesController < ApplicationController
   # PATCH/PUT /device_types/1.json
   def update
     if @device_type.update(device_type_params)
-      respond_with(@device_type, location: @device_type, notice: 'Device type was successfully updated.')
+      respond_with(@device_type, location: device_types_url, notice: 'Device type was successfully updated.')
     else
       respond_with(@device_type)
     end

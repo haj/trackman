@@ -37,7 +37,7 @@ class PlansController < ApplicationController
     @plan = Plan.new(plan_params)
 
     if @plan.save
-      respond_with(@plan, location: @plan, notice: 'Plan was successfully created.')
+      respond_with(@plan, location: plans_url, notice: 'Plan was successfully created.')
     else
       respond_with(@plan)
     end
@@ -47,7 +47,7 @@ class PlansController < ApplicationController
   # PATCH/PUT /plans/1.json
   def update
     if @plan.update(plan_params)
-      respond_with(@plan, location: @plan, notice: 'Plan was successfully updated.')
+      respond_with(@plan, location: plans_url, notice: 'Plan was successfully updated.')
     else
       respond_with(@plan)
     end

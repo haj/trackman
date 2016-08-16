@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      respond_with(@user, location: @user, notice: 'User was successfully created.')
+      respond_with(@user, location: users_url, notice: 'User was successfully created.')
     else
       respond_with(@user)
     end
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     if @user.update(user_params)
-      respond_with(@user, location: @user, notice: 'User was successfully updated.')
+      respond_with(@user, location: users_url, notice: 'User was successfully updated.')
     else
       respond_with(@user)
     end

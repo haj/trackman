@@ -39,7 +39,7 @@ class CarManufacturersController < ApplicationController
     @car_manufacturer = CarManufacturer.new(car_manufacturer_params)
 
     if @car_manufacturer.save
-      respond_with(@car_manufacturer, location: @car_manufacturer, notice: 'Car manufacturer was successfully created.')
+      respond_with(@car_manufacturer, location: car_manufacturers_url, notice: 'Car manufacturer was successfully created.')
     else
       respond_with(@car_manufacturer)
     end
@@ -48,7 +48,7 @@ class CarManufacturersController < ApplicationController
   # PATCH/PUT /car_manufacturers/1
   def update
     if @car_manufacturer.update(car_manufacturer_params)
-      respond_with(@car_manufacturer, location: @car_manufacturer, notice: 'Car manufacturer was successfully updated.')
+      respond_with(@car_manufacturer, location: car_manufacturers_url, notice: 'Car manufacturer was successfully updated.')
     else
       respond_with(@car_manufacturer)
     end

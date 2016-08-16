@@ -38,7 +38,7 @@ class WorkScheduleGroupsController < ApplicationController
     @work_schedule_group = WorkScheduleGroup.new(work_schedule_group_params)
 
     if @work_schedule_group.save
-      respond_with(@work_schedule_group, location: @work_schedule_group, notice: 'Work schedule group was successfully created.')
+      respond_with(@work_schedule_group, location: work_schedule_groups_url, notice: 'Work schedule group was successfully created.')
     else
       respond_with(@work_schedule_group)
     end
@@ -48,7 +48,7 @@ class WorkScheduleGroupsController < ApplicationController
   # PATCH/PUT /work_schedule_groups/1.json
   def update
     if @work_schedule_group.update(work_schedule_group_params)
-      respond_with(@work_schedule_group, location: @work_schedule_group, notice: 'Work schedule group was successfully updated.')
+      respond_with(@work_schedule_group, location: work_schedule_groups_url, notice: 'Work schedule group was successfully updated.')
     else
       respond_with(@work_schedule_group)
     end

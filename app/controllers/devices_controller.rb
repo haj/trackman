@@ -62,7 +62,7 @@ class DevicesController < ApplicationController
     @device = Device.new(device_params)
 
     if @device.save
-      respond_with(@device, location: @device, notice: 'Device was successfully created.')
+      respond_with(@device, location: devices_url, notice: 'Device was successfully created.')
     else
       respond_with(@device)
     end
@@ -72,7 +72,7 @@ class DevicesController < ApplicationController
   # Update specific device
   def update
     if @device.update(device_params)
-      respond_with(@device, location: @device, notice: 'Device was successfully updated.')
+      respond_with(@device, location: devices_url, notice: 'Device was successfully updated.')
     else
       respond_with(@devices)
     end

@@ -50,7 +50,7 @@ class SimcardsController < ApplicationController
     @simcard = Simcard.new(simcard_params)
 
     if @simcard.save
-      respond_with(@simcard, location: @simcard, notice: 'Simcard was successfully created.')
+      respond_with(@simcard, location: simcards_url, notice: 'Simcard was successfully created.')
     else
       respond_with(@simcard)
     end
@@ -60,7 +60,7 @@ class SimcardsController < ApplicationController
   # PATCH/PUT /simcards/1.json
   def update
     if @simcard.update(simcard_params)
-      respond_with(@simcard, location: @simcard, notice: 'Simcard was successfully updated')
+      respond_with(@simcard, location: simcards_url, notice: 'Simcard was successfully updated')
     else
       respond_with(@simcard)
     end

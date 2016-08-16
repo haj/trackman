@@ -44,7 +44,7 @@ class CompaniesController < ApplicationController
     @company = Company.new(company_params)
 
     if @company.save
-      respond_with(@company, location: @company, notice: 'Company was successfully created.')
+      respond_with(@company, location: companies_url, notice: 'Company was successfully created.')
     else
       respond_with(@company)
     end
@@ -54,7 +54,7 @@ class CompaniesController < ApplicationController
   # PATCH/PUT /companies/1.json
   def update
     if @company.update(company_params)
-      respond_with(@company, location: @company, notice: 'Company was successfully updated.')
+      respond_with(@company, location: companies_url, notice: 'Company was successfully updated.')
     else
       respond_with(@company)
     end

@@ -43,7 +43,7 @@ class CarModelsController < ApplicationController
     @car_model = CarModel.new(car_model_params)
 
     if @car_model.save
-      respond_with(@car_model, location: @car_model, notice: 'Car model was successfully created.')
+      respond_with(@car_model, location: car_models_url, notice: 'Car model was successfully created.')
     else
       respond_with(@car_model)
     end
@@ -53,7 +53,7 @@ class CarModelsController < ApplicationController
   # PATCH/PUT /car_models/1.json
   def update
     if @car_model.update(car_model_params)
-      respond_with(@car_model, location: @car_model, notice: 'Car model was successfully updated.')
+      respond_with(@car_model, location: car_models_url, notice: 'Car model was successfully updated.')
     else
       respond_with(@car_model)
     end

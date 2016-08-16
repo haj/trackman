@@ -37,7 +37,7 @@ class PlanTypesController < ApplicationController
     @plan_type = PlanType.new(plan_type_params)
 
     if @plan_type.save
-      respond_with(@plan_type, location: @plan_type, notice: 'Plan type was successfully created.')
+      respond_with(@plan_type, location: plan_types_url, notice: 'Plan type was successfully created.')
     else
       respond_with(@plan_type)
     end
@@ -47,7 +47,7 @@ class PlanTypesController < ApplicationController
   # PATCH/PUT /plan_types/1.json
   def update
     if @plan_type.update(plan_type_params)
-      respond_with(@plan_type, location: @plan_type, notice: 'Plan type was successfully updated.')
+      respond_with(@plan_type, location: plan_types_url, notice: 'Plan type was successfully updated.')
     else
       respond_with(@plan_type)
     end
