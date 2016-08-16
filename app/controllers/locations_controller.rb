@@ -11,7 +11,7 @@ class LocationsController < ApplicationController
   # Get route of a car
   def get_car_route
     car       = Car.find(params['car_id'])
-    positions = Location.device_with_date(params['date'], c.device_id)
+    positions = Location.device_with_date(params['date'], car.device_id)
 
     render json: positions.to_json
   end
