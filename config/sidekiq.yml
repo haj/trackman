@@ -13,7 +13,6 @@ development:
 production:
   :logfile: ./log/sidekiq_production.log
   :verbose: true
-  :pidfile: ./tmp/pids/sidekiq.pid
   :concurrency: 10
   :queues:
     - [mailer, 10]
