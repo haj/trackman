@@ -73,7 +73,7 @@ Rails.application.routes.draw do
 
   resources :alarm_notifications, :path => 'alerts' do
     member do
-      get 'archive'
+      put 'archive'
     end
     collection do
       put 'batch_archive'

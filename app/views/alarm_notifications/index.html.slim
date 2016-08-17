@@ -17,7 +17,7 @@
                     th Vehicle
                     th Alarm triggered
                     th Triggered at
-                    th
+                    th Action
                 tbody
                   - @alerts.each do |alert|
                     tr
@@ -29,6 +29,8 @@
                         = link_to alert.try(:alarm).try(:name), alert.alarm
                       td
                         = "#{pretty_date(alert.created_at)} at #{pretty_time(alert.created_at)}"
+                      td
+                        = link_to 'Archive', archive_alarm_notification_path(alert), data: { confirm: 'Are you sure want to archieve this alert?' }, method: :put
 
             p = paginate @alerts
 
