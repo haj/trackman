@@ -59,6 +59,8 @@
                           = car_model.try(:car_manufacturer).try(:name)
                         td
                           = link_to 'Edit', edit_car_model_path(car_model)
+                          | &nbsp; | &nbsp;
+                          = link_to 'Delete', car_model_path(car_model), method: :delete, data: { confirm: 'Are you sure want to delete this car model?' }
 
               p = paginate @car_models
               
