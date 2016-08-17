@@ -1,16 +1,15 @@
 = form_for(@alarm, html: { id: 'form-alarm' }) do |f|
   - if @alarm.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@alarm.errors.count, "error")} prohibited this alarm from being saved:"
-      %ul
+      h2 = "#{pluralize(@alarm.errors.count, "error")} prohibited this alarm from being saved:"
+      ul
         - @alarm.errors.full_messages.each do |msg|
-          %li= msg
+          li = msg
   .row
     .col-md-6
       .grid.simple
         .grid-title
-          %h4
-            Alarm details
+          h4 Alarm details
         .grid-body
           .form-group
             = f.label :name, class: "form-label"
