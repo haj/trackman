@@ -1,10 +1,10 @@
 = form_for(@device_type, html: { id: 'form-device-type' }) do |f|
   - if @device_type.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@device_type.errors.count, "error")} prohibited this device_type from being saved:"
-      %ul
+      h2 = "#{pluralize(@device_type.errors.count, "error")} prohibited this device_type from being saved:"
+      ul
         - @device_type.errors.full_messages.each do |msg|
-          %li= msg
+          li= msg
 
   .form-group
     = f.label :name, class: "form-label"

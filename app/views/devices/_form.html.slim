@@ -1,10 +1,10 @@
 = form_for(@device, html: { id: 'form-device' }) do |f|
   - if @device.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@device.errors.count, "error")} prohibited this device from being saved:"
-      %ul
+      h2 = "#{pluralize(@device.errors.count, "error")} prohibited this device from being saved:"
+      ul
         - @device.errors.full_messages.each do |msg|
-          %li= msg
+          li = msg
 
   .form-group
     = f.label :name, class: "form-label"
@@ -32,7 +32,6 @@
       - else
         = f.collection_select(:car_id, Car.cars_without_devices(nil), :id, :name, { :include_blank => "No Vehicles available at this moment" }, class: "form-control" )
       
-     
   .form-group
     = f.label :simcard, class: "form-label"
     - if @device.has_simcard?
