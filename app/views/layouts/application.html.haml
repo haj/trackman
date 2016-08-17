@@ -30,6 +30,7 @@
   %body.error-body{'data-class-name' => js_class_name, class: "condense-menu #{css_class_name}"}
 
     = include_gon(watch: true, init: true)
+    = render 'toastr_rails/flash'
 
     / BEGIN HEADER
     .header.navbar.navbar-inverse
@@ -125,8 +126,5 @@
       .page-content
         .clearfix
         .content
-          - flash.each do |key, value|
-            %div{class: "alert alert-#{key}"}
-              = value
           = yield
           //=# debug(params) if Rails.env.development?

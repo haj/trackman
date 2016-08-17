@@ -68,6 +68,7 @@
 #= require bower_components/pubsub-js/src/pubsub
 #= require bower_components/moment-duration-format/lib/moment-duration-format
 #= require private_pub
+#= require toastr_rails
 #
 # ########################### Views
 #= require_tree ./views
