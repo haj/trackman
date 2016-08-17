@@ -95,6 +95,7 @@ gem "private_pub"
 gem "thin"
 gem 'faye'
 gem 'kaminari'
+gem "slim-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
