@@ -26,15 +26,15 @@
                       = link_to work_schedule.name.capitalize, work_schedule
                     td
                       = link_to 'Edit', edit_work_schedule_path(work_schedule)
-                      &nbsp; | &nbsp; 
+                      | &nbsp; | &nbsp; 
                       = link_to 'Delete', work_schedule, method: :delete, data: { confirm: "Are you sure want to delete this work schedule?" }
 
           = paginate @work_schedules
 
 #quick-access.admin-bar style="bottom: -115px;"
   .admin-bar-inner
-    button.btn.btn-danger.btn-add{type: "button", id: "batch_destroy"}
+    button.btn.btn-danger.btn-add#batch_destroy type="button"
       i.icon-trash
-      Move to trash
-    button.btn.btn-white.btn-cancel{:type => "button"} Cancel
+      | Move to trash
+    button.btn.btn-white.btn-cancel type="button" Cancel
 / = render 'modal'

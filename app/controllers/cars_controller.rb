@@ -11,7 +11,7 @@ class CarsController < ApplicationController
   # GET /cars || cars_path
   # This list vehicles and enable the user to manage vehicles
   def index
-    @q    = apply_scopes(Car).all.search(params[:q])
+    @q    = apply_scopes(Car).includes(:car_model, :car_type).search(params[:q])
     @cars = @q.result(distinct: true).page(params[:page])
 
     respond_with(@cars)

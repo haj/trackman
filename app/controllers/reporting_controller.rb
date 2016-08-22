@@ -18,7 +18,7 @@ class ReportingController < ApplicationController
   end
 
   def devices
-    reporter(Device.where(nil), custom_view: true, template_class: PdfReportDevicesTemplate) do
+    reporter(Device.where(nil).includes(:device_type, :device_model), custom_view: true, template_class: PdfReportDevicesTemplate) do
       filter :name, type: :text
       filter :emei, type: :text
       filter :device_type, type: :text
@@ -41,12 +41,14 @@ class ReportingController < ApplicationController
       filter :teleprovider, type: :text
 
       column :telephone_number
-      column :teleprovider
+      column :teleprovider do |d|
+        link_to d.teleprovider.name, d
+      end
     end
   end
 
   def vehicles
-    reporter(Car.where(nil), custom_view: true, template_class: PdfReportVehiclesTemplate) do
+    reporter(Car.where(nil).includes(:car_model, :car_type), custom_view: true, template_class: PdfReportVehiclesTemplate) do
       filter :mileage, type: :text
       filter :numberplate, type: :text
       filter :car_type, type: :text

@@ -14,7 +14,7 @@
           span.date = "#{days_ago_in_words(Date.today, message.created_at)}"
           span.time
             span.animate-number = message.created_at.hour
-            \:
+            |:
             span.animate-number = message.created_at.min
         .cbp_tmicon.animated.bounceIn
           .user-profile

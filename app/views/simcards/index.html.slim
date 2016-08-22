@@ -82,7 +82,7 @@
                           = simcard.try(:teleprovider).try(:name)
                         td
                           = link_to 'Edit', edit_simcard_path(simcard)
-                          &nbsp; | &nbsp;
+                          | &nbsp; | &nbsp;
                           = link_to 'Destroy', simcard, method: :delete, data: { confirm: 'Are you sure want to delete this simcard?' }
 
               = paginate @simcards
@@ -92,6 +92,6 @@
     button.btn.btn-danger.btn-add#batch_destroy type="button"
       i.icon-trash
       Move to trash
-    button.btn.btn-white.btn-cancel{:type => "button"} Cancel
+    button.btn.btn-white.btn-cancel type="button" Cancel
 / = render 'modal'
 
