@@ -1,0 +1,17 @@
+= form_for(@teleprovider, html: { id: 'form-teleprovider' }) do |f|
+  - if @teleprovider.errors.any?
+    #error_explanation
+      h2
+        = "#{pluralize(@teleprovider.errors.count, "error")} prohibited this teleprovider from being saved:"
+      ul
+        - @teleprovider.errors.full_messages.each do |msg|
+          li = msg
+
+  .form-group
+    = f.label :name, :class => "form-label"
+    = f.text_field :name, :class => "form-control"
+  .form-group
+    = f.label :apn, :class => "form-label"
+    = f.text_field :apn, :class => "form-control"
+  .form-group
+    = f.submit 'Save', class: "btn btn-primary"

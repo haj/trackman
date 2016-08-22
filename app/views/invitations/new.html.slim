@@ -1,0 +1,40 @@
+.page-title
+  h3 = t "devise.invitations.new.header" 
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        h4
+          | Invitation 
+          span.semi-bold details
+        .tools
+          a.collapse href="javascript:;"
+          a.config data-toggle="modal" href="#grid-config"
+          a.reload href="javascript:;"
+          a.remove href="javascript:;"
+      .grid-body.no-border
+        br/
+        .row
+          .col-md-8.col-sm-8.col-xs-8
+            = form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f|
+              = devise_error_messages!
+              
+              .form-group
+                = f.label "Firstname", class: "form-label"
+                = text_field_tag 'first_name', nil,  class: "form-control"
+              .form-group
+                = f.label "Lastname", class: "form-label"
+                = text_field_tag 'last_name', nil, class: "form-control"
+              - resource.class.invite_key_fields.each do |field|
+                .form-group
+                  = f.label field, class: "form-label"
+                  = f.text_field field, class: "form-control"
+              .form-group
+                = f.label "Role", class: "form-label"
+                = radio_button_tag 'default_role', 'Driver', true
+                | Driver
+                = radio_button_tag 'default_role', 'Employee' 
+                | Employee
+                
+              .form-group
+              = f.submit t("devise.invitations.new.submit_button"), class: "btn btn-primary"

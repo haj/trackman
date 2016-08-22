@@ -1,0 +1,12 @@
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title.no-border
+        h3 Notification
+      .grid-body.no-border
+        p
+          b = @notification.subject
+        p
+          b = @notification.body
+          
+        = link_to 'Back', notifications_user_path(current_user)

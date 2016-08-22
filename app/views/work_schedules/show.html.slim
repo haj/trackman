@@ -1,0 +1,29 @@
+.row
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+    .page-title
+      = link_to raw("<i class='icon-custom-left'></i>"), work_schedules_path
+      h3 Work Schedule Group  
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+    /.pull-right= link_to 'Edit', edit_work_schedule_path(@work_schedule), class: "btn btn-success"
+
+
+.row
+  .col-md-12
+    .grid.simple
+      .grid-body 
+        .form-group
+          strong
+             Name:
+          = @work_schedule.name
+        .form-group
+          table.table
+            thead
+              tr 
+                td= "Day of week"
+                td= "Start hour"
+                td= "End Hour"
+            - @work_schedule.work_hours.each do |work_hour|
+              tr
+                td= work_hour.day_of_week
+                td= work_hour.starts_at
+                td= work_hour.ends_at
