@@ -1,18 +1,18 @@
 .row.login-container.animated.fadeInUp
   .col-md-8.col-md-offset-2.tiles.white.no-padding
     .p-t-30.p-l-40.p-b-20.xs-p-t-10.xs-p-l-10.xs-p-b-10
-      %h2.normal 
-        Sign in to
+      h2.normal 
+        | Sign in to
         - if ActsAsTenant.current_tenant.nil?
-          Trackman
+          |  Trackman
         - else
           = ActsAsTenant.try(:current_tenant).try(:name).try(:capitalize)
-      %p.p-b-20 Sign in with your Trackman credentials.
+      p.p-b-20 Sign in with your Trackman credentials.
       = link_to "Login", root_path, {:class => "btn btn-primary btn-cons", :id => "login_toggle"}
       or  
-      \#{link_to "Create an account", new_user_registration_path, {:class => "btn btn-info btn-cons", :id => "register_toggle"}}
+      = link_to "Create an account", new_user_registration_path, {:class => "btn btn-info btn-cons", :id => "register_toggle"}
     .tiles.grey.p-t-20.p-b-20.text-black
-      %div#frm_login.animated.fadeIn
+      div#frm_login.animated.fadeIn
         = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
           .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10.errors
             .col-md-12
@@ -31,10 +31,12 @@
                   = f.check_box :remember_me
                   = f.label :remember_me
           .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
-            .control-group.col-md-12
+            .pull-right
               = link_to "Forgot your password?", new_password_path(resource_name)
-          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
-            .col-md-12
-              = f.submit "Sign in", class: "btn btn-primary btn-cons pull-right", id: "sign-in"
+              br
+              = link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name)
+            .pull-left
+              .col-md-12
+                = f.submit "Sign in", class: "btn btn-primary btn-cons pull-right", id: "sign-in"
           
           

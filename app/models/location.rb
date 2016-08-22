@@ -177,7 +177,6 @@ class Location < ActiveRecord::Base
   #
   def on_start(statistics)
     if (ignition_is_on? || is_first_position_of_day?) && !statistics.start?
-      puts "start"
       self.state = "start"
       self.parking_duration = (Time.now - Date.today.to_time).to_i if is_first_position_of_day?
       statistics.new_start
@@ -193,7 +192,6 @@ class Location < ActiveRecord::Base
   # On road
   #
   def on_road(statistics)
-    puts "onroad"
     self.state = 'onroad'
     statistics.run    
   end
@@ -202,7 +200,6 @@ class Location < ActiveRecord::Base
   # on stop
   #
   def on_stop(statistics, duration_since_last_start)
-    puts "stop"
     self.state = "stop"
     self.ignite_step = previous_start_point.try(:ignite_step)
     self.trip_step = statistics.steps_counter

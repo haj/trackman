@@ -55,10 +55,10 @@ class ReportingController < ApplicationController
       column :mileage
       column :numberplate
       column :car_type do |c|
-        link_to c.car_type.name, c
+        link_to c.car_type.try(:name), c
       end
       column :car_model do |c|
-        link_to c.car_model.name, c
+        link_to c.car_model.try(:name), c
       end
     end
   end
