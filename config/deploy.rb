@@ -1,13 +1,18 @@
 # Change these
 server '82.196.1.211', port: 22, roles: [:web, :app, :db], primary: true
+# server '185.14.187.130', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:haj/trackman.git'
 set :application,     'trackman'
 set :user,            'deploy'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
+set :branch,          :auth_admin
 
 # Don't change these unless you know what you're doing
+set :rvm_type, :system
+set :rvm_ruby_version, '2.2.1'
+set :rvm_custom_path, '/usr/local/rvm/'
 set :pty,             true
 set :use_sudo,        false
 set :stage,           :production
@@ -52,7 +57,7 @@ namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     on roles(:app) do
-      unless `git rev-parse HEAD` == `git rev-parse origin/master`
+      unless `git rev-parse HEAD` == `git rev-parse origin/auth_admin`
         puts "WARNING: HEAD is not the same as origin/master"
         puts "Run `git push` to sync changes."
         exit

@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  name            :string(255)
 #  emei            :string(255)
-#  cost_price      :float
+#  cost_price      :float(24)
 #  created_at      :datetime
 #  updated_at      :datetime
 #  device_model_id :integer

@@ -14,42 +14,68 @@
 #
 
 class Subscription < ActiveRecord::Base
-	attr_accessor :paymill_card_token
+  # INI GET
+  acts_as_tenant(:company)
 
-	belongs_to :plan
-	belongs_to :company
+  # validation
+  validates :email, :name, :company_id, :plan_id, presence: true
 
-	def save_with_payment
-		if valid?
-			client = Paymill::Client.create(email: email, description: name)
-			Rails.logger.warn "card_token : #{paymill_card_token}"
-			payment = Paymill::Payment.create(token: paymill_card_token, client: client.id)
-			Rails.logger.warn "payment : #{payment}"
-			subscription = Paymill::Subscription.create(offer: plan.paymill_id, client: client.id, payment: payment.id)
-			Rails.logger.warn "subscription : #{subscription}"
-			self.paymill_id = subscription.id
-			self.active = true
-			save!
-		end
+  # Arre Accessor
+  attr_accessor :paymill_card_token
 
-		rescue Paymill::PaymillError => e
-			logger.error "Paymill error while creating customer: #{e.message}"
-			errors.add :base, "There was a problem with your credit card. Please try again."
-		false
-	end
+  # Association
+  belongs_to :plan
+  belongs_to :company
 
-	def self.all_subscriptions
-		Paymill::Subscription.all
-	end
+  # Callback
+  before_create :cancel_active_subscriptions, :save_with_payment
+  after_create :active_subscribe
 
-	def cancel 
-		Paymill::Subscription.update_attributes self.paymill_id, cancel_at_period_end: true
-		Paymill::Subscription.delete(self.paymill_id)
-		self.update_attribute(:active, false)
-	end
+  scope :active, -> { find_by(active: true) }
 
-	def self.cancel_all
-		Subscription.all.each { |subscription| subscription.cancel }
-	end
+  def cancel_active_subscriptions
+    # schedule to cancel all active subscriptions
+    subs = company.subscriptions.where(active: true)
 
+    subs.each { |subscription| PaymillServices.cancel(subscription.paymill_id, subscription.id) } if subs.present?
+  end
+
+  def active_subscribe
+    # Add this subscription to the company list of subscriptions
+    company.subscriptions << self
+    # Assign plan
+    company.plan_id = self.plan_id
+    # Save
+    company.save!    
+  end
+
+  def save_with_payment
+    begin
+      client          = PaymillServices.create_client(email, name)
+      payment         = PaymillServices.create_payment(paymill_card_token, client.id)
+      subscription    = PaymillServices.create_subscription(plan.paymill_id, client.id, payment.id)
+      self.paymill_id = subscription.id
+      self.active     = true
+
+    rescue Paymill::PaymillError => e
+      errors.add :base, "There was a problem with your credit card. Please try again."
+    end
+  end
+
+  def cancel
+    PaymillServices.cancel(self.paymill_id, self.id)
+
+    company.update_attribute(:plan_id, Plan.first.id)
+  end
+
+  class << self
+
+    def cancel_all
+      Subscription.all.each { |subscription| subscription.cancel }
+    end
+
+    def all_subscriptions
+      PaymillServices.all_subscriptions
+    end
+  end
 end

@@ -13,6 +13,11 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
+  if !Rails.env.development?
+    Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+      [username, password] == ["trackman", "trackman"] 
+    end
+  end
 
   #############
   # Simlations
@@ -58,6 +63,7 @@ Rails.application.routes.draw do
   resources :subscriptions do
     member do
       get 'generate'
+      put "cancel"
     end
   end
 
@@ -67,7 +73,7 @@ Rails.application.routes.draw do
 
   resources :alarm_notifications, :path => 'alerts' do
     member do
-      get 'archive'
+      put 'archive'
     end
     collection do
       put 'batch_archive'
@@ -202,9 +208,9 @@ Rails.application.routes.draw do
 
   resources :home do
     collection do
-      get 'test'
       get 'cars_overview'
       get 'logbook_data'
+      put 'update_time_log'
     end
   end
 

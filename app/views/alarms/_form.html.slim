@@ -1,0 +1,26 @@
+= form_for(@alarm, html: { id: 'form-alarm' }) do |f|
+  - if @alarm.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@alarm.errors.count, "error")} prohibited this alarm from being saved:"
+      ul
+        - @alarm.errors.full_messages.each do |msg|
+          li = msg
+  .row
+    .col-md-6
+      .grid.simple
+        .grid-title
+          h4 Alarm details
+        .grid-body
+          .form-group
+            = f.label :name, class: "form-label"
+            = f.text_field :name, class: "form-control"
+
+    .col-md-6         
+      #rules
+        = f.fields_for :alarm_rules do |rule|
+          = render 'rule_fields', :f => rule
+        .links
+          = link_to_add_association 'Add Rule', f, :alarm_rules, :class => "btn btn-info", id: "new_alarm", partial: 'rule_fields'
+  .row
+    .col-md-12
+      = f.submit 'Save', class: "btn btn-primary"

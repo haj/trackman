@@ -6,6 +6,8 @@ development:
   :pidfile: ./tmp/pids/sidekiq.pid
   :concurrency: 10
   :queues:
+    - [mailer, 10]
+    - [default, 10]
     - [traccar, 10]
 
 production:
@@ -14,4 +16,6 @@ production:
   :pidfile: ./tmp/pids/sidekiq.pid
   :concurrency: 10
   :queues:
+    - [mailer, 10]
+    - [default, 10]
     - [traccar, 10]

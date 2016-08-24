@@ -60,8 +60,6 @@ class Api::DevicesController < ApplicationController
     else
       redirect_to @device, notice: "Device couldn't be destroyed."
     end
-
-    
   end
 
   private

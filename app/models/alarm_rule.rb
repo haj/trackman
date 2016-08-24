@@ -6,14 +6,23 @@
 #  rule_id     :integer          not null
 #  alarm_id    :integer          not null
 #  conjunction :string(255)
-#  params      :string(255)
+#  params      :text
 #  deleted_at  :datetime
 #
 
 class AlarmRule < ActiveRecord::Base
-	self.table_name = "alarms_rules"
-	acts_as_paranoid
-	belongs_to :rules
-	belongs_to :alarms
-	serialize :params
+  self.table_name = "alarms_rules"
+
+  # INIT FROM GEM GOES HERE
+  acts_as_paranoid
+
+  # ASSOCIATION GOES HERE
+  belongs_to :rule
+  belongs_to :alarms
+
+  # SERIALIZE GOES HERE
+  serialize :params
+
+  # VALIDATION GOES HERE
+  validates :rule_id, presence: true
 end

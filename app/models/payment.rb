@@ -9,4 +9,6 @@
 #
 
 class Payment < ActiveRecord::Base
+  # validation
+  validates :company_id, presence: true
 end

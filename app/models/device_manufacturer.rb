@@ -9,7 +9,9 @@
 #
 
 class DeviceManufacturer < ActiveRecord::Base
-	has_many :device_models
+  # ASSOCIATION
+  has_many :device_models
 
-	validates :name, presence: true
+  # VALIDATION
+  validates :name, presence: true
 end

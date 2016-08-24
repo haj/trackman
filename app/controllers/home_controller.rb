@@ -1,101 +1,89 @@
 class HomeController < ApplicationController
-  # layout 'map'
+  # Include module / class
   include UsersHelper
   include ApplicationHelper
+
+  # Callback controller
   before_filter :set_settings, only: :index
 
-  	def index
-		if is_manager?(current_user)
 
-		elsif is_employee?(current_user) || is_driver?(current_user)
-			redirect_to conversations_path
-		else
-			redirect_to new_user_session_path
-		end
-	end
+  # GET /home || home_index_path
+  # If haven't login; redirect to session path
+  # If login as employee or driver; redirect to conversations path
+  # If manager; Stays at page
+  def index    
+    if is_manager?(current_user)
+      respond_with(current_user)
+    elsif is_employee?(current_user) || is_driver?(current_user)
+      redirect_to conversations_path
+    else
+      redirect_to new_user_session_path
+    end
+  end
 
-	def cars_overview
-		# @cars = nil
-		@cars = Car.all.includes(:device).includes(:car_type)
-	end
+  # GET /home/cars_overview || cars_overview_home_index_path
+  # Overview all cars; included device
+  def cars_overview
+    @cars = Car.all.includes(:device).includes(:car_type)
+  end
 
-	def logbook_data
-		# raise params.inspect
-		car_id = params[:car_id]
-		@car = Car.find(params[:car_id])
+  # GET /logbook_render || logbook_render_path || Render JSON
+  # Return log book of a car within 1 day.
+  def logbook_data
+    @car = Car.find(params[:car_id])
 
-		unless @car.last_position.nil?
-			@dates = [Settings.start_date, Settings.end_date]
+    if @car.last_position
+      last_day     = @car.last_position.time.to_date
+      and_before   = last_day.yesterday
+      @array_dates = dates_in_range and_before, last_day
+      @data        = Car.locations_grouped_by_these_dates(@array_dates, @car.id)
+    end
 
-			@array_dates = dates_in_range Settings.start_date, Settings.end_date
+    respond_to :json
+  end
 
-			last_day = @car.last_position.time.to_date
-			and_before = last_day.yesterday
+  # POST /set_minimum_parking_time || set_minimum_parking_time_path
+  # Set minimum parking time
+  def set_minimum_parking_time
+    if params["mpt"] != ""
+      if params["mpt"].to_i >= 1 and params["mpt"].to_i <= 15
+        Settings.minimum_parking_time = params["mpt"]
+      end
+    end
 
-			@array_dates = dates_in_range and_before, last_day
+    respond_with(current_user, location: :back)
+  end
 
-			if Rails.env.development?
-				d = DateTime.now.change({ month: 11, day: 06, year: 2015}).to_date
-				e = DateTime.now.change({ month: 11, day: 10, year: 2015}).to_date
-				if @car.device.id == 13
-					@array_dates = dates_in_range DateTime.now.yesterday.to_date, DateTime.now.to_date
-				else
-					@array_dates = dates_in_range d, e
-				end
-			end
+  # PUT  /home/update_time_log || update_time_log_home_index_path
+  # Update time log; This will be used as first time from parking time on new day
+  def update_time_log
+    current_user.update(time_log: params[:user][:time_log])
 
-			logger.warn "Ready to load Data for logbook_data"
-			@data = @car.locations_grouped_by_these_dates @array_dates
+    respond_with(current_user, location: :back)
+  end
 
-			logger.warn "Logbook is rendered for : "
-			logger.warn @array_dates
-		end
-	end
+  # GET /apply_filter || apply_filter_path
+  # Apply filter setting for start date; end date; start time; end time
+  def apply_filter
+    Settings.start_date = params[:start_date].to_date
+    Settings.end_date = params[:end_date].to_date
+    Settings.start_time = params[:start_time]
+    Settings.end_time = params[:end_time]
 
-	def notifications
-		@notifications = PublicActivity::Activity.order("created_at desc")
-		logger.warn @notifications.inspect
-		render json: @notifications
-	end
+    render :text => 'OK'
+  end
 
-	def set_minimum_parking_time
-		if params["mpt"] != ""
-			if params["mpt"].to_i >= 1 and params["mpt"].to_i <= 15
-				Settings.minimum_parking_time = params["mpt"]
-			end
-		end
-		redirect_to :back
-	end
+  # UNUSED METHOD
+  def notifications
+    @notifications = PublicActivity::Activity.order("created_at desc")
+    logger.warn @notifications.inspect
+    render json: @notifications
+  end
 
-	def apply_filter
-		Settings.start_date = params[:start_date].to_date
-		Settings.end_date = params[:end_date].to_date
-		Settings.start_time = params[:start_time]
-		Settings.end_time = params[:end_time]
-		render :text => 'OK'
-	end
-
-	  def set_settings
-		Settings.start_date = DateTime.yesterday.to_date
-		Settings.start_time = "05:00"
-		Settings.end_date = DateTime.now.to_date
-		Settings.end_time = DateTime.now.strftime("%H:%M")
-	  end
-
+  def set_settings
+    Settings.start_date = DateTime.yesterday.to_date
+    Settings.start_time = "05:00"
+    Settings.end_date = DateTime.now.to_date
+    Settings.end_time = DateTime.now.strftime("%H:%M")
+  end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

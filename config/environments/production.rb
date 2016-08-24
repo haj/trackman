@@ -31,7 +31,7 @@ Rails.application.configure do
     :email => {
       :email_prefix => "[Trackman Exceptions] ",
       :sender_address => %{"notifier" <notifier@trackman.com>},
-      :exception_recipients => %w{boulaidzac@gmail.com}
+      :exception_recipients => %w{andreasarnold02@gmail.com}
     }
 
   # Full error reports are disabled and caching is turned on.

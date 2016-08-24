@@ -30,6 +30,7 @@
 # Before Core Require
 #= require ./libraries/datatables
 #= require ./libraries/messages_notifications
+#= require ./libraries/jquery.validate.min
 #
 # Core Require.
 #= require ./libraries/core
@@ -66,23 +67,29 @@
 #= require bower_components/momentjs/min/moment.min
 #= require bower_components/pubsub-js/src/pubsub
 #= require bower_components/moment-duration-format/lib/moment-duration-format
+#= require private_pub
+#= require toastr_rails
 #
 # ########################### Views
 #= require_tree ./views
 
+#= require validation
 #= require turbolinks
 
 # React
 #= require components
 
 ready = ->
-	className = $('body').attr('data-class-name')
-	window.currentView = try
-		eval("new #{className}()")
-	catch error
-		new Views.ApplicationView()
-	window.currentView.render()
-	
+  className = $('body').attr('data-class-name')
+  window.currentView = try
+    eval("new #{className}()")
+  catch error
+    new Views.ApplicationView()
+  window.currentView.render()
+  
+
+  $('.timepicker').timepicker
+    'timeFormat': 'H:i:s'
 $(document).ready(ready)
 
 

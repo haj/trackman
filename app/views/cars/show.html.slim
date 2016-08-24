@@ -1,0 +1,87 @@
+.content
+  .row
+    .col-md-12
+      .pull-right
+        = link_to "Edit", edit_car_path(@car) ,class: "btn btn-success btn-small"
+
+  br/
+
+  .row
+    .col-md-12
+      .grid.simple.horizontal.green
+        .grid-title
+          h4 About this vehicle
+          .tools
+            a.collapse href="javascript:;"
+        .grid-body
+          table.table.table-bordered
+            tr
+              td Name
+              td 
+                = @car.try(:name)
+            tr
+              td Driver
+              td
+                - if @car.driver
+                  = @car.try(:driver).try(:name)
+                - else 
+                  | Vehicle has no driver
+            tr
+              td Mileage
+              td
+                = @car.mileage
+            tr
+              td Numberplate
+              td
+                = @car.numberplate
+            tr
+              td Device
+              td
+                - if @car.device
+                  = link_to @car.device.name, @car.device
+                - else
+                  | This vehicle has no device associated with it.
+            tr
+              td Vehicle model
+              td
+                = @car.try(:car_model).try(:name).try(:capitalize)
+            tr
+              td Vehicle type
+              td
+                = @car.try(:car_type).try(:name).try(:capitalize)
+            tr
+              td Registration no
+              td
+                = @car.registration_no
+            tr
+              td Year
+              td
+                = @car.year
+          
+            tr
+              td Color
+              td
+                = @car.color
+            tr
+              td Work Schedule:
+              td
+                - if @car.work_schedule && @car.work_schedule.name
+                  = link_to @car.work_schedule.name.capitalize, @car.work_schedule
+                - else 
+                  | This vehicle has no work schedule yet
+          
+
+.row
+  .col-md-12
+    .grid.simple.horizontal.green 
+      .grid-title
+        h4 Alarms
+        .tools
+          a.collapse href="javascript:;"
+      .grid-body
+        - if @alarms.count == 0 
+          | This vehicle has no alarms associated with it.
+        - else
+          - @alarms.each do |alarm| 
+            p
+              = link_to alarm.name, alarm

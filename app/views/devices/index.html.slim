@@ -1,0 +1,117 @@
+.row
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8
+    .page-title
+      h3 Devices
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4
+    .pull-right
+      = link_to 'Create', new_device_path, class: "btn btn-success"
+      = link_to 'Toggle Filters', "#", class: "btn btn-default toggle"
+
+
+
+.row.to-be-toggled
+  .col-md-12
+    = form_tag '', :method => :get do
+      .row
+        .col-md-3
+          .grid.simple
+            .grid-title
+              h4 Device Model
+              .tools
+                a.collapse href="javascript:;"
+            .grid-body
+              = select_tag(:by_device_model, content_tag(:option,'Device Models ...', :value=>"")+options_for_select(all_device_models, params[:by_device_model]), :class => "form-control")
+        .col-md-3
+          .grid.simple
+            .grid-title
+              h4 Device Type
+              .tools
+                a.collapse href="javascript:;"
+            .grid-body
+              = select_tag(:by_device_type, content_tag(:option,'Device Types ...', :value=>"")+options_for_select(all_device_types, params[:by_device_type]), :class => "form-control")
+        .col-md-3
+          .grid.simple
+            .grid-title
+              h4 Traceability
+              .tools
+                a.collapse href="javascript:;"
+            .grid-body
+              label
+                = radio_button_tag 'has_simcard', 'all' , checked_radio_button(params["has_simcard"], 'all')
+                = "All"
+              label
+                = radio_button_tag 'has_simcard', 'true' , checked_radio_button(params["has_simcard"], 'true')
+                = "With Simcard"
+              label
+                = radio_button_tag 'has_simcard', 'false' , checked_radio_button(params["has_simcard"], 'false')
+                = "Without Simcard"
+
+        .col-md-3
+          .grid.simple
+            .grid-title
+              h4 Driver
+              .tools
+                a.collapse href="javascript:;"
+            .grid-body
+              label
+                = radio_button_tag 'available', 'all' , checked_radio_button(params["has_simcard"], 'all')
+                = "All"
+              label
+                = radio_button_tag 'available', 'true' , checked_radio_button(params["has_simcard"], 'true')
+                = "Available"
+              label
+                = radio_button_tag 'available', 'false' , checked_radio_button(params["has_simcard"], 'false')
+                = "Used"
+      .row
+        .col-md-12
+          .pull-right= submit_tag 'Apply Filters', :class => "btn btn-default"
+      br/
+
+.row
+  .col-md-12
+    = form_tag batch_destroy_devices_path, id: "destroy_devices", :method => :put do
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-body
+              .pull-right
+                = search_form_for @q do |f|
+                  = f.search_field :name_cont, :placeholder => "Search with name"
+                  = f.submit "Search", :class => "btn btn-default"
+              table.table.no-more-tables
+                thead
+                  tr
+                    th
+                    = content_tag :th, sort_link(@q, :name)
+                    = content_tag :th, sort_link(@q, :emei)
+                    = content_tag :th, sort_link(@q, :cost_price)
+                    th
+                tbody
+                  - @devices.each do |device|
+                    tr
+                      td.small-cell.v-align-middle
+                        = check_box_tag "device_ids[]", device.id, nil , class: "device_checkbox"
+                      td
+                        = link_to device.name, device
+                      td
+                        = device.emei
+                      td
+                        = device.cost_price
+                      td
+                        = link_to 'Edit', edit_device_path(device)
+                        | &nbsp; | &nbsp;
+                        = link_to 'Delete', device, method: :delete, data: { confirm: 'Are you sure want to delete this device?' }
+            = paginate @devices
+
+
+#quick-access.admin-bar style="bottom: -115px;"
+  .admin-bar-inner
+    button.btn.btn-danger.btn-add#batch_destroy type="button"
+      i.icon-trash
+      | Move to trash
+    button.btn.btn-white.btn-cancel type="button" Cancel
+/ = render 'modal'
+
+
+
+

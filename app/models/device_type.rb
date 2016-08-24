@@ -9,6 +9,9 @@
 #
 
 class DeviceType < ActiveRecord::Base
-	has_many :devices
-	validates :name, presence: true
+  # ASSOCIATION
+  has_many :devices
+
+  # VALIDATION
+  validates :name, presence: true
 end

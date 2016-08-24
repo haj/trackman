@@ -1,0 +1,119 @@
+ul
+  / BEGIN SELECTED LINK
+  li class="#{'active' if current_page?(root_path)}"
+    a href="#{root_path}"
+      / = fa_icon "location-arrow"
+      = fa_icon "map-marker"
+      span.title Overview
+
+  - if is_manager?(current_user)
+    li class="#{'active' if current_page?(alarm_notifications_path)}"
+      a href="#{alarm_notifications_path}"
+        = fa_icon "exclamation-triangle"
+        span.title Alerts
+        span.badge.badge-danger.pull-right = @alerts_count
+
+  li
+    a href="javascript:;"
+      = fa_icon "envelope"
+      span.title Conversations
+      span.arrow
+    ul.sub-menu
+      li class="#{'active' if current_page?(conversations_path)}"
+        a href="#{conversations_path}"
+          = fa_icon "inbox"
+          span.title Inbox
+          span.badge.badge-disable.pull-right.m-r-30 = @inbox_count
+      li class="#{'active' if current_page?(sentbox_conversations_path)}"
+        a href="#{sentbox_conversations_path}"
+          = fa_icon "folder"
+          span.title Sentbox
+          span.badge.badge-disable.pull-right.m-r-30 = @outbox_count
+
+  li class="#{'active' if current_page?(reports_path)}"
+    a href="#{reports_vehicles_path}"
+      = fa_icon "file-text-o"
+      span.title Reports
+
+  - if is_manager?(current_user)
+    li
+      a href="javascript:;"
+        = fa_icon "th-list"
+        span.title Administration
+        span.arrow
+      ul.sub-menu
+        li class="#{'active' if current_page?(cars_path)}"
+          a href="#{cars_path}"
+            = fa_icon "truck"
+            span.title Vehicles
+        li class="#{'active' if current_page?(devices_path)}"
+          a href="#{devices_path}"
+            = fa_icon "bullseye"
+            span.title Devices
+        li class="#{'active' if current_page?(alarms_path)}"
+          a href="#{alarms_path}"
+            = fa_icon "bullhorn"
+            span.title Alarms
+        li class="#{'active' if current_page?(work_schedules_path)}"
+          a href="#{work_schedules_path}"
+            = fa_icon "calendar"
+            span.title Work Schedules
+        li class="#{'active' if current_page?(regions_path)}"
+          a href="#{regions_path}"
+            = fa_icon "circle"
+            span.title Regions
+        li class="#{'active' if current_page?(simcards_path)}"
+          a href="#{simcards_path}"
+            = fa_icon "ticket"
+            span.title Simcards
+        li class="#{'active' if current_page?(users_path)}"
+          a href="#{users_path}"
+            = fa_icon "users"
+            span.title Employees
+        li class="#{'active' if current_page?(subscriptions_path)}"
+          a href="#{subscriptions_path}"
+            = fa_icon "users"
+            span.title Subscriptions
+
+  - if is_admin?(current_user)
+    / BEGIN TWO LEVEL MENU
+    li
+      a href="javascript:;"
+        = fa_icon "gears"
+        span.title Trackman
+        span.arrow
+      ul.sub-menu
+        li = link_to "Companies", companies_path
+        li
+          a href="javascript:;"
+            span.title Cars
+            span.arrow
+          ul.sub-menu
+            li = link_to "Car Manufacturers", car_manufacturers_path
+            li = link_to "Car Models", car_models_path
+            li = link_to "Car Types", car_types_path
+        li
+          a href="javascript:;"
+            span.title Devices
+            span.arrow
+          ul.sub-menu
+            li = link_to "Manage Devices", device_manage_path
+            li = link_to "Device Manufacturers", device_manufacturers_path
+            li = link_to "Device Models", device_models_path
+            li = link_to "Device Types", device_types_path
+            li = link_to "Teleproviders", teleproviders_path
+        li = link_to "Rules", rules_path
+        li
+          a href="javascript:;"
+            span.title Billing/Plans
+            span.arrow
+          ul.sub-menu
+            li = link_to "Plans", plans_path
+            li = link_to "Plan types", plan_types_path
+          li = link_to "Features", features_path
+
+  li#sign_out_from_mobile style="display: none;"
+    a href="#{destroy_user_session_path}" data-method='delete'
+      = fa_icon "sign-out"
+      span.title Sign out
+

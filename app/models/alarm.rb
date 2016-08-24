@@ -11,58 +11,23 @@
 #
 
 class Alarm < ActiveRecord::Base
+  # INIT GEM HERE
+  acts_as_paranoid
 
-	validates :name, presence: true
+  # ASSOCIATION GOES HERE
+  has_many :rules, through: :alarm_rules
+  has_many :alarm_rules
+  has_many :alarm_notifications
+  has_many :alarm_cars
+  has_many :cars, through: :alarm_cars
 
-	acts_as_paranoid
+  #alarms -> groups
+  # has_many :group_alarms
+  # has_and_belongs_to_many :groups
 
-	#alarms -> rules
-	has_and_belongs_to_many :rules
-	has_many :alarm_rules
+  # VALIDATION GOES HERE
+  validates :name, presence: true
 
-	has_many :alarm_notifications
-
-	#alarms -> groups
-	# has_many :group_alarms
-	# has_and_belongs_to_many :groups
-
-	#alarms -> cars
-	# has_and_belongs_to_many :cars
-	# has_many :car_alarms
-
-	accepts_nested_attributes_for :rules, :reject_if => :all_blank, :allow_destroy => true
-
-	def verify(car_id)
-
-		p "car_id = #{car_id}"
-
-		trigger_alarm = false
-
-		# Go through rules associated with this alarm
-		self.rules.all.each do |rule|
-
-			p "rule =>"
-			p rule
-
-			p "alarm =>"
-			p self
-
-			conj = AlarmRule.where(rule_id: rule.id, alarm_id: self.id).first.conjunction
-			result = rule.verify(self.id, car_id)
-
-			p "result =>"
-			p result
-
-			if conj.nil? || conj.downcase == "or"
-				trigger_alarm = trigger_alarm || result
-			elsif conj.downcase == "and"
-				trigger_alarm = trigger_alarm && result
-			end
-
-		end
-
-		return trigger_alarm
-
-	end
-
+  # NESTED ATTR GOES HERE
+  accepts_nested_attributes_for :alarm_rules, :reject_if => :all_blank, :allow_destroy => true
 end

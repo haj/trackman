@@ -10,7 +10,9 @@
 #
 
 class Teleprovider < ActiveRecord::Base
-	has_many :simcards
+  # Association
+  has_many :simcards
 
-	validates :name, :apn, presence: true
+  # Validation
+  validates :name, :apn, presence: true
 end

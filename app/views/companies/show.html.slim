@@ -1,0 +1,51 @@
+.content
+  .row
+    .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+      .page-title
+        = link_to raw("<i class='icon-custom-left'></i>"), companies_path
+        h3
+          | Company 
+          = link_to 'Edit', edit_company_path(@company), class: "btn btn-success btn-small"
+
+  .row
+    .col-md-12
+      .grid.simple
+        .grid-body 
+          p
+            strong Name:
+            = @company.name.capitalize
+          p
+            strong Subdomain:
+            = @company.subdomain
+          p
+            strong Time zone:
+            = @company.time_zone
+          p
+            strong Billing plan:
+            = @company.try(:current_plan).try(:name)
+
+  .row
+    .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+      .page-title
+        h3 Employees 
+
+  .row
+    .col-md-12
+      .grid.simple
+        .grid-body  
+          table.table.no-more-tables
+            thead
+              tr
+                th Name
+                th Email
+                th Roles
+                th Joined at
+
+            tbody           
+              - @employees.each do |user|
+                - unless user.has_role?(:admin)
+                  tr
+                    td = link_to user.name.capitalize, user
+                    td = user.email
+                    td = user.roles.to_a.map{|role| role.capitalize}.join(', ')
+                    td = pretty_date(user.invitation_accepted_at, "-")

@@ -5,19 +5,23 @@ class Ability
   #http://railscasts.com/episodes/192-authorization-with-cancan
 
   def initialize(user)
-        @user = user || User.new # for guest
-        @user.roles.each { |role| send(role) }
-        # See the wiki for details:
-        # https://github.com/ryanb/cancan/wiki/Defining-Abilities
+    @user = user || User.new # for guest
+    @user.roles.each { |role| send(role) }
+    # See the wiki for details:
+    # https://github.com/ryanb/cancan/wiki/Defining-Abilities
   end
 
   def admin
     can :manage, :all 
-    manager  
+    can :access, :rails_admin
+    can :dashboard
+    # manager  
   end
 
   def manager
     can :manage, :all
+    cannot :access, :rails_admin
+    cannot :dashboard
     # can :access, :rails_admin
     # can :dashboard
     # can :invite, User

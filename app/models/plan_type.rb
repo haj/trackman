@@ -9,9 +9,11 @@
 #
 
 class PlanType < ActiveRecord::Base
-	has_many :plans
-	has_many :subscriptions
-	has_and_belongs_to_many :features
+  # ASSOCIATION
+  has_many :plans
+  has_many :subscriptions
+  has_and_belongs_to_many :features
 
-	validates :name, presence: true
+  # VALIDATION
+  validates :name, presence: true
 end

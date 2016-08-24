@@ -1,0 +1,35 @@
+.row
+  .col-md-8.col-lg-8.col-sm-8.col-xs-8
+    .page-title
+      h4 = "Current Plan : <strong>#{current_user.company.plan.plan_type.name}</strong>".html_safe 
+      - if current_user.company.plan_id == 1
+        h5 = "Upgrade Membership? click #{link_to 'here', new_subscription_path(plan_id: 2)}".html_safe
+      - else
+        h5 = link_to "Cancel Membership", cancel_subscription_path(@subscription), class: 'btn btn-danger', method: :put
+      br
+      h3 Subscription Lists
+  .col-md-4.col-lg-4.col-sm-4.col-xs-4
+    .pull-right
+
+.row
+  .col-md-12
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-body
+            table.table.no-more-tables
+              thead
+                tr
+                  th Plan
+                  th Price
+                  th Subscribe At
+                  th Status
+              tbody
+                - @subscriptions.each do |sub|
+                  tr
+                    td = sub.plan.plan_type.name
+                    td = "#{sub.plan.currency} #{sub.plan.price}"
+                    td = sub.created_at
+                    td = sub.active ? "Active" : "Expired"
+
+            p = paginate @subscriptions
