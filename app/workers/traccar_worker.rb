@@ -26,12 +26,9 @@ class TraccarWorker
     speed = position.speed # Speed in Knots
     status = position.course
     device = Device.find_by_emei(unique_id)
-
-    position = Traccar::Position.find position_id
-
-    jsoned_xml = JSON.pretty_generate(Hash.from_xml(position.other
-      )) rescue nil
-    ignite = JSON[jsoned_xml]["info"]["power"] rescue true
+    position   = Traccar::Position.find position_id
+    jsoned_xml = JSON.parse(position.attributes["attributes"])["power"] rescue true
+    ignite     = jsoned_xml.nil? ? true : jsoned_xml
 
     # Conversion of speed from knots to km/h
     speed = speed.to_f * 1.852
