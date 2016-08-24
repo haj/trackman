@@ -145,8 +145,6 @@ class Location < ActiveRecord::Base
 
     statistic_distance(statistics)
 
-    puts "a"
-    
     case statistics.aasm_state
     when 'start'
       on_road(statistics)
