@@ -5,7 +5,7 @@ class TraccarWorker
   sidekiq_options unique: :while_executing
   
   def perform
-    last_position_id = ImportStatus.last
+    last_position_id = ImportStatus.where.not(position_id: nil).last
 
     position = 
       if last_position_id
@@ -14,13 +14,15 @@ class TraccarWorker
         Traccar::Position.last
       end
 
-    ImportStatus.create(position_id: position.id)
+    position = position.present? ? position : Traccar::Position.last
+
+    ImportStatus.create(position_id: position.try(:id))
 
     lat = position.latitude
     lon = position.longitude
     device_id = position.deviceid
     unique_id = position.device.uniqueid
-    position_id = position.id
+    position_id = position.try(:id)
     fix_time = position.fixtime
     valid = position.valid
     speed = position.speed # Speed in Knots
@@ -33,8 +35,8 @@ class TraccarWorker
     # Conversion of speed from knots to km/h
     speed = speed.to_f * 1.852
 
-    l = Location.create(device_id: device.id, latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
-        position_id: position_id, status: status)
+    l = Location.create(device_id: device.try(:id), latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
+        position_id: position_id, status: status, ignite: false)
 
     if ignite != ""
       l.ignite = ignite

@@ -144,6 +144,8 @@ class Location < ActiveRecord::Base
     statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id, time: self.time.to_date)
 
     statistic_distance(statistics)
+
+    puts "a"
     
     case statistics.aasm_state
     when 'start'
@@ -153,6 +155,8 @@ class Location < ActiveRecord::Base
     else
       on_start(statistics)
     end
+
+    puts self.state
 
     statistics.save!
     self.save!    
