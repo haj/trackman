@@ -335,9 +335,9 @@ module.exports = React.createClass
 			console.log("dsa")
 			console.log(moment("#{@state.selectedCar.last_seen}").utc())
 			console.log(moment().utc())
-      
+
 			if moment("#{@state.logbookDate}").toDate().isToday()
-				if window.currentTime.utc().diff(window.lastTime.utc()) <=  60000
+				if window.currentTime.utc().local().diff(window.lastTime.utc().local()) <=  60000
 					console.log "the diff between current time and last seen time is below 1 minute."
 					@setState isLive: true
 					if @follow
