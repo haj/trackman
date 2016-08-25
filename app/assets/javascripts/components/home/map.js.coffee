@@ -128,9 +128,6 @@ module.exports = React.createClass
 					self.setState loading: false
 					locations = positions
 
-					console.log "all positions"
-					console.log positions
-
 					selectedCar = React.addons.update self.state.selectedCar,	 
 						routes:
 							$merge:
@@ -153,8 +150,6 @@ module.exports = React.createClass
 		PubSub.unsubscribe @pubsub_show_route
 
 	componentDidMount: ->
-		console.log "Did mouuuunt"
-
 		selectedCar = React.addons.update @state.selectedCar,	$merge:
 			routes: {}
 
@@ -171,7 +166,6 @@ module.exports = React.createClass
 	    scale: 2
 
 	calcRoutePolyline: (data) ->
-		console.log "calc route using polylines"
 		routeCoordinates = []
 		@boundsToRoute = new google.maps.LatLngBounds()
 		@clearRouteMarkers()
@@ -225,8 +219,6 @@ module.exports = React.createClass
 		).bind(@)
 
 		@fitBounds @boundsToRoute
-		console.log routeCoordinates.length
-		console.log routeCoordinates
 
 		# 3b7fb8 - blue
 		# 1da599 - green
@@ -243,13 +235,8 @@ module.exports = React.createClass
 		# @state.gmap.setCenter @routePath.getCenter()
 
 	clearRouteMarkers: ->
-		console.log "clearing markers"
-		console.log @stepMarkers.length
-		console.log @stepMarkers
 		for m in @stepMarkers
 			m.setMap null
-			console.log @stepMarkers.length
-			console.log @stepMarkers
 		for m in @oms.getMarkers()
 			@oms.removeMarker m
 			m.setMap null
@@ -295,12 +282,10 @@ module.exports = React.createClass
 	#   # !isNaN(nextState.selectedCar.lat)
 
 	componentWillUpdate: (nextProps, nextState) ->
-		console.log "WILL UPDATE"
 		# @createMarkers(nextState.cars)
 		# @state.gmap.setCenter(marker.getPosition())
 
 	componentDidUpdate: ->
-		console.log "DID UPDATE"
 		# console.log "DID UPDATE MOUNT"
 		# console.log @state.cars
 		# console.log @props.cars
@@ -347,6 +332,11 @@ module.exports = React.createClass
 			window.lastTime = moment("#{@state.selectedCar.last_seen}").utc()
 			window.selectedCar = @state.selectedCar
 
+			console.log("dsa")
+			console.log(moment("#{@state.selectedCar.last_seen}").utc())
+			console.log(moment().utc())
+      console.log(window.currentTime.utc().diff(window.lastTime.utc()))
+      
 			if moment("#{@state.logbookDate}").toDate().isToday()
 				if window.currentTime.utc().diff(window.lastTime.utc()) <=  60000
 					console.log "the diff between current time and last seen time is below 1 minute."
@@ -366,8 +356,6 @@ module.exports = React.createClass
 			map: @state.gmap
 			icon: @props.carIcon
 			title: car.name
-		console.log "Making a marker"
-		console.log marker
 		google.maps.event.addListener marker, "click", (() ->
 			if @infoWindow
 				@infoWindow.close()
@@ -462,7 +450,6 @@ module.exports = React.createClass
 		@fitBounds @boundsToRoute
 
 	resizeMap: ->
-		console.log "Resizing the map"
 		PubSub.publish "toggleWidthView", @state.gmap
 		# google.maps.event.trigger(@state.gmap, 'resize')
 		# @state.gmap.setCenter(@state.gmap.getCenter())
