@@ -8,7 +8,7 @@ module.exports = React.createClass
 
   render: ->
     speed = Math.floor(@props.car.speed)
-    date = moment(@props.car.last_seen).fromNow()
+    date = moment(@props.car.last_seen).utc().fromNow()
     className = if @props.active then "active_row" else ""
     R.tr {className: className, onClick: @handleClick, key: "#{@props.car.id}", style: {cursor: 'pointer'}},
       R.td className: 'col-md-2', @props.car.type

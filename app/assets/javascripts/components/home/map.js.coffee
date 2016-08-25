@@ -335,7 +335,6 @@ module.exports = React.createClass
 			console.log("dsa")
 			console.log(moment("#{@state.selectedCar.last_seen}").utc())
 			console.log(moment().utc())
-      console.log(window.currentTime.utc().diff(window.lastTime.utc()))
       
 			if moment("#{@state.logbookDate}").toDate().isToday()
 				if window.currentTime.utc().diff(window.lastTime.utc()) <=  60000
