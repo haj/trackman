@@ -334,17 +334,14 @@ module.exports = React.createClass
 ## Markers for showing the cars #########
 
 	createCarMarkers: (cars) ->
-		console.log "Here the markers"
-		console.log @state.active_cars
-		console.log @carMarkers.length
 		@clearCarMarkers()
 
 		for car in cars
 			@createCarMarker car
 
-		console.log "current bounds and selected Car"
-		console.log @boundsToAllCars
-		console.log @state.selectedCar
+		window.currentTime = moment().utc()
+		window.lastTime = moment("#{@state.selectedCar.last_seen}").utc()
+
 		if @state.selectedCar.hasOwnProperty('lon') and @state.selectedCar.hasOwnProperty('lat')
 			window.currentTime = moment().utc()
 			window.lastTime = moment("#{@state.selectedCar.last_seen}").utc()
