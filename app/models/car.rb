@@ -123,7 +123,7 @@ class Car < ActiveRecord::Base
   # Retrieve last active position
   #
   def last_active_position
-    self.device.locations.where(:state => ["start", "stop", "onroad", "idle"]).last if self.device
+    self.device.locations.where(:state => ["start", "stop", "onroad"]).last if self.device
   end
 
   #

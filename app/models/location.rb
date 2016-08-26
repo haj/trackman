@@ -141,7 +141,7 @@ class Location < ActiveRecord::Base
   # end
 
   def analyze_me
-    statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id, time: self.time.to_date)
+    statistics = CarStatistic.find_or_create_by(car_id: self.device.try(:car).try(:id), time: self.time.to_date)
 
     statistic_distance(statistics)
 
@@ -167,7 +167,8 @@ class Location < ActiveRecord::Base
     distance_from_last_start  = distance_from [statistics.last_start.latitude, statistics.last_start.longitude]
     duration_since_last_start = (time - statistics.last_start.time).to_i
 
-    if ignition_is_off? && (distance_from_last_start >= 0.01 or duration_since_last_start > 300)
+    if ignition_is_off? && (distance_from_
+      tart >= 0.01 or duration_since_last_start > 300)
       on_stop(statistics, duration_since_last_start)
     else
       on_road(statistics)
@@ -243,10 +244,10 @@ class Location < ActiveRecord::Base
   end
 
   def calculate_parking_time
-    statistics = CarStatistic.find_or_create_by(car_id: self.device.car.id, time: self.time.to_date)
+    statistics = CarStatistic.find_or_create_by(car_id: self.device.try(:car).try(:id), time: self.time.to_date)
 
     if statistics.last_is.trip_step == 1
-      time_log = self.device.car.driver.nil? ? '00:00:00' : self.device.car.driver
+      time_log = self.device.try(:car).try(:driver).nil? ? '00:00:00' : self.device.try(:car).try(:driver)
       (self.time - time_log.to_time).to_i
     else
       (self.time - self.previous_stop_point.time).to_i if self.previous_stop_point
