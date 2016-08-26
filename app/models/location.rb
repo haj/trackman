@@ -167,8 +167,7 @@ class Location < ActiveRecord::Base
     distance_from_last_start  = distance_from [statistics.last_start.latitude, statistics.last_start.longitude]
     duration_since_last_start = (time - statistics.last_start.time).to_i
 
-    if ignition_is_off? && (distance_from_
-      tart >= 0.01 or duration_since_last_start > 300)
+    if ignition_is_off? && (distance_from_start >= 0.01 or duration_since_last_start > 300)
       on_stop(statistics, duration_since_last_start)
     else
       on_road(statistics)
