@@ -1,4 +1,4 @@
-@media screen and (min-height: 769px) { 
+@media screen and (min-width: 769px) { 
   .GMap{
     height: 600px;
     width: 100%;
@@ -6,7 +6,7 @@
   }
 }
 
-@media screen and (max-height: 768px) { 
+@media screen and (max-width: 768px) { 
   .GMap{
     height: 350px;
     width: 100%;
