@@ -438,7 +438,7 @@ module.exports = React.createClass
 					# R.a className: 'config sizeMapFull-icon', style: {cursor: 'pointer'},
 					#   R.i className: 'fa fa-arrows-h fa-lg', onClick: @resizeMap
 			R.div className: 'grid-body no-border', style: {padding:'0px'},
-				R.div className: "GMap", style: {height: "600px", width: "100%", position: "relative"},
+				R.div className: "GMap",
 					R.div, null
 						# R.div className: "overlay standard #{if !@state.loading then "hidde" else ""}"
 						R.div className: "overlay-label standard loading-label #{if !@state.loading then "hidde" else ""}", "Loading ..."

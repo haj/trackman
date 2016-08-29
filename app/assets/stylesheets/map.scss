@@ -1,0 +1,16 @@
+@media screen and (min-height: 769px) { 
+  .GMap{
+    height: 600px;
+    width: 100%;
+    position: relative;
+  }
+}
+
+@media screen and (max-height: 768px) { 
+  .GMap{
+    height: 350px;
+    width: 100%;
+    position: relative;
+  }
+}
+
