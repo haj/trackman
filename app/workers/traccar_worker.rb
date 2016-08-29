@@ -19,19 +19,18 @@ class TraccarWorker
     unless ImportStatus.where(position_id: position.try(:id)).present?
       ImportStatus.create(position_id: position.try(:id))
 
-      lat = position.latitude
-      lon = position.longitude
-      device_id = position.deviceid
-      unique_id = position.device.uniqueid
+      lat         = position.latitude
+      lon         = position.longitude
+      device_id   = position.deviceid
+      unique_id   = position.device.uniqueid
       position_id = position.try(:id)
-      fix_time = position.fixtime
-      valid = position.valid
-      speed = position.speed # Speed in Knots
-      status = position.course
-      device = Device.find_by_emei(unique_id)
-      position   = Traccar::Position.find position_id
-      jsoned_xml = JSON.parse(position.attributes["attributes"])["power"] rescue true
-      ignite     = jsoned_xml.nil? ? true : jsoned_xml
+      fix_time    = position.fixtime
+      valid       = position.valid
+      speed       = position.speed # Speed in Knots
+      status      = position.course
+      device      = Device.find_by_emei(unique_id)
+      position    = Traccar::Position.find position_id
+      ignite      = JSON.parse(position.attributes["attributes"])["power"] rescue nil
 
       # Conversion of speed from knots to km/h
       speed = speed.to_f * 1.852

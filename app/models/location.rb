@@ -141,29 +141,31 @@ class Location < ActiveRecord::Base
   # end
 
   def analyze_me
-    statistics = CarStatistic.find_or_create_by(car_id: self.device.try(:car).try(:id), time: self.time.to_date)
+    if ignite
+      statistics = CarStatistic.find_or_create_by(car_id: self.device.try(:car).try(:id), time: self.time.to_date)
 
-    statistic_distance(statistics)
+      statistic_distance(statistics)
 
-    case statistics.aasm_state
-    when 'start'
-      puts 'start'
+      case statistics.aasm_state
+      when 'start'
+        puts 'start'
 
-      on_road(statistics)
-    when 'onroad'
-      puts 'on road'
-      
-      onroad_state(statistics)
-    else
-      puts 'stop'
+        on_road(statistics)
+      when 'onroad'
+        puts 'on road'
+        
+        onroad_state(statistics)
+      else
+        puts 'stop'
 
-      on_start(statistics)
+        on_start(statistics)
+      end
+
+      puts self.state
+
+      statistics.save!
+      self.save!    
     end
-
-    puts self.state
-
-    statistics.save!
-    self.save!    
   end
 
   #
