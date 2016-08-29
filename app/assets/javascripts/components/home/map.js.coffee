@@ -33,16 +33,6 @@ CustomMarker::draw = () ->
 		div.style.top = point.y + 'px'
 
 CustomMarker::remove = ->
-	# if @div
-	#   console.log "OKAY"
-	#   console.log @div
-	#   console.log @div.parentNode
-	#   @div.parentNode.removeChild @div
-	#   # @div.parentNode.innerHTML = ""
-	#   # @div.innerHTML = ""
-	#   console.log @div
-	#   @div = null
-	#   console.log @div
 
 CustomMarker::getPosition = ->
 	@latlng
@@ -67,11 +57,8 @@ module.exports = React.createClass
 	componentWillMount: ->
 		# event coming from CarsOverview
 		# @pubsub = PubSub.subscribe "show_last_route_on_map", ((topic, props) ->
-		#   console.log "Selected Car : "
-		#   console.log props
 		#   @createMap() if @state.gmap == null
 		#   if props.hasOwnProperty('lat') and props.hasOwnProperty('lon')
-		#     console.log "flag 1"
 		#     @setState selectedCar: props
 		#     @setState title: @setMapTitle props.name, props.last_seen
 		#     @state.gmap.panTo new google.maps.LatLng(props.lat, props.lon)
@@ -276,8 +263,6 @@ module.exports = React.createClass
 			activeCars: props.activeCars
 
 	# shouldComponentUpdate: (nextProps, nextState) ->
-	#   console.log "shouldComponentUpdate"
-	#   console.log nextState
 	#   # nextState.selectedCar != null and nextState.selectedCar.lat == null
 	#   # !isNaN(nextState.selectedCar.lat)
 
@@ -286,9 +271,6 @@ module.exports = React.createClass
 		# @state.gmap.setCenter(marker.getPosition())
 
 	componentDidUpdate: ->
-		# console.log "DID UPDATE MOUNT"
-		# console.log @state.cars
-		# console.log @props.cars
 
 	createMap: ->
 		self = @
@@ -332,13 +314,8 @@ module.exports = React.createClass
 			window.lastTime = moment("#{@state.selectedCar.last_seen}").utc()
 			window.selectedCar = @state.selectedCar
 
-			console.log("dsa")
-			console.log(moment("#{@state.selectedCar.last_seen}").utc())
-			console.log(moment().utc())
-
 			if moment("#{@state.logbookDate}").toDate().isToday()
 				if window.currentTime.utc().local().diff(window.lastTime.utc().local()) <=  60000
-					console.log "the diff between current time and last seen time is below 1 minute."
 					@setState isLive: true
 					if @follow
 						@state.gmap.panTo new google.maps.LatLng(@state.selectedCar.lat, @state.selectedCar.lon)

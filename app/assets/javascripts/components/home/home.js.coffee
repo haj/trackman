@@ -29,7 +29,6 @@ module.exports = React.createClass
 		@fetchData()
 
 	onCarsStoreChange: (event, cars) ->
-		console.log("new !! =====????")
 		@setState cars: cars
 		@setState active_cars: $.grep @state.cars, (e) ->
 			e.last_seen != "-"

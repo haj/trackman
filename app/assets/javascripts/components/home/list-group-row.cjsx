@@ -9,7 +9,6 @@ module.exports = React.createClass
     'list-group-item logbook '+( if @state.date == @props.selectedDate then 'active' else '')
 
   get_car_statistics: ->
-    console.log "getting cars statistics !!!"
     @setState {
       tdistance: "00.00"
       avg: "00.00"

@@ -10,7 +10,6 @@ module.exports = React.createClass
     {data: [], car_id: null, loading: "nope", selectedData: [], posForMap: [], car: null, selectedDate: null, listDates: [], dataMin: []}
 
   componentDidMount: ->
-    console.log "Logbook Did Mount"
     # app.on("mount_logbook", @testAlertFunction, @)
     # $('[data-toggle="tooltip"]').tooltip()
 
@@ -26,11 +25,8 @@ module.exports = React.createClass
       car_id: null
 
   componentWillMount: ->
-    console.log "Logbook Will Mount"
     # event coming from CarsOverview
     @pubsub = PubSub.subscribe 'show_logbook', ((topic, props) ->
-      # console.log props
-      # console.log @state
       if props.id != @state.car_id
         @setState car_id: props.id
         @setState car: props
@@ -132,11 +128,8 @@ module.exports = React.createClass
         selectedDate: date
         posForMap: item[1]
 
-    console.log "Pos for map"
-    console.log @state.posForMap
     PubSub.publish 'showRoute', {date: item[0], car: @state.car}
   render: ->
-    console.log "Logbook render"
     selectedData = @state.selectedData
     selectedDate = @state.selectedDate
     self = @

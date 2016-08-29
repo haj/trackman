@@ -26,8 +26,6 @@ module.exports = React.createClass
     )
 
   showLogbook: (props) ->
-    console.log "showLogbook clicked : "
-    console.log props
     if props.last_seen != "-"
       @toggleCarsOverview()
       if @state.selected != props.id

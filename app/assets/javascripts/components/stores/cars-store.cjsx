@@ -8,7 +8,6 @@ module.exports = Reflux.createStore
 	getCars:(url) ->
 		self = @
 		api.get(url).then (data) -> 
-			console.log(data)
 			self.cars = data
 			self.triggerChange()
 	

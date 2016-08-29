@@ -31,10 +31,8 @@ $ ->
         verticesArray[i] = {latitude: marker.position.lat(), longitude: marker.position.lng() }
         i++ 
 
-      console.log(verticesArray)
       request = $.ajax { url: '/regions', type: 'post', dataType: 'script', data: { "region[vertices][markers]": verticesArray, "region[name]": region_name  } }
       request.done (response, textStatus, jqXHR) ->
-          #console.log(response)
 
     addPoint = (event) ->
       path.insertAt(path.length, event.latLng)

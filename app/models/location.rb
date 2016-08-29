@@ -34,7 +34,7 @@ class Location < ActiveRecord::Base
   belongs_to :device
 
   # validation
-  validates :device_id, :position_id, presence: true
+  # validates :device_id, :position_id, presence: true
 
   # CALLBACKS
   after_commit :get_traccar_data, on: :create
@@ -147,10 +147,16 @@ class Location < ActiveRecord::Base
 
     case statistics.aasm_state
     when 'start'
+      puts 'start'
+
       on_road(statistics)
     when 'onroad'
+      puts 'on road'
+      
       onroad_state(statistics)
     else
+      puts 'stop'
+
       on_start(statistics)
     end
 
@@ -181,7 +187,7 @@ class Location < ActiveRecord::Base
     if (ignition_is_on? || is_first_position_of_day?) && !statistics.start?
       self.state = "start"
       self.parking_duration = (Time.now - Date.today.to_time).to_i if is_first_position_of_day?
-      statistics.new_start
+      statistics.aasm_state = 'start'
       statistics.steps_counter += 1
       statistics.last_start = self
       statistics.last_is = self
