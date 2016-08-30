@@ -11,12 +11,10 @@ class TraccarWorker
       if last_position_id
         Traccar::Position.where("id > ?", last_position_id.position_id).first
       else
-        Traccar::Position.last
+        nil
       end
 
-    position = position.present? ? position : Traccar::Position.last
-
-    unless ImportStatus.where(position_id: position.try(:id)).present?
+    if !ImportStatus.where(position_id: position.try(:id)).present? && position
       ImportStatus.create(position_id: position.try(:id))
 
       lat         = position.latitude
