@@ -283,7 +283,10 @@ module.exports = React.createClass
   fitBounds: (whatBounds) ->
     count = parseInt($("#count").attr("val"))
 
-    @state.gmap.fitBounds(whatBounds) if @state.gmap != null && count <= 2
+    if count
+      @state.gmap.fitBounds(whatBounds) if @state.gmap != null && count <= 3
+    else
+      @state.gmap.fitBounds(whatBounds) if @state.gmap != null
 
     $("#count").attr("val", count + 1)  
     
