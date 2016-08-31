@@ -283,17 +283,12 @@ module.exports = React.createClass
   fitBounds: (whatBounds) ->
     count = parseInt($("#count").attr("val"))
 
-    if count
-      @state.gmap.fitBounds(whatBounds) if @state.gmap != null && count <= 3
-    else
-      @state.gmap.fitBounds(whatBounds) if @state.gmap != null
+    @state.gmap.fitBounds(whatBounds) if @state.gmap != null
 
     $("#count").attr("val", count + 1)  
     
 
   createCarMarkers: (cars) ->
-    count = parseInt($("#count").attr("val"))
-
     @clearCarMarkers()
 
     for car in cars
