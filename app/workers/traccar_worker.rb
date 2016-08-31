@@ -14,7 +14,7 @@ class TraccarWorker
         nil
       end
 
-    if !ImportStatus.where(position_id: position.try(:id)).present? && position
+    if !ImportStatus.where(position_id: position.try(:id)).present? && position 
       ImportStatus.create(position_id: position.try(:id))
 
       lat         = position.latitude
