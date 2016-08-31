@@ -56,21 +56,6 @@ module.exports = React.createClass
 
   componentWillMount: ->
     # event coming from CarsOverview
-    # @pubsub = PubSub.subscribe "show_last_route_on_map", ((topic, props) ->
-    #   @createMap() if @state.gmap == null
-    #   if props.hasOwnProperty('lat') and props.hasOwnProperty('lon')
-    #     @setState selectedCar: props
-    #     @setState title: @setMapTitle props.name, props.last_seen
-    #     @state.gmap.panTo new google.maps.LatLng(props.lat, props.lon)
-    #     @state.gmap.setZoom 16
-    #     # @highlightMarker props.name
-    #   else
-    #     @setState selectedCar: null
-    #     @setState title: null
-    #     @fitBounds()
-    # ).bind(@)
-
-    # event coming from CarsOverview
     @pubsub_clear_selected_car = PubSub.subscribe 'clearSelectedCar', (() ->
       @setState
         title: null
@@ -84,7 +69,6 @@ module.exports = React.createClass
 
     # event coming from LogBook
     @pubsub_show_route = PubSub.subscribe 'showRoute', ((topic, data) ->
-
       locations = []
 
       @follow = true
@@ -93,10 +77,10 @@ module.exports = React.createClass
         $merge: data.car
 
       @setState
-          isLive: false
-          selectedCar: selectedCar
-          allCars: false
-          logbookDate: data.date
+        isLive: false
+        selectedCar: selectedCar
+        allCars: false
+        logbookDate: data.date
 
       @setState title: @setMapTitle @state.selectedCar.name, @state.selectedCar.last_seen
       @routePath.setMap null if @routePath
@@ -145,12 +129,12 @@ module.exports = React.createClass
     @setState gmap: @createMap()
 
   pinSymbol: (color) ->
-      path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z'
-      fillColor: color
-      fillOpacity: 1
-      strokeColor: '#000'
-      strokeWeight: 2
-      scale: 2
+    path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z'
+    fillColor: color
+    fillOpacity: 1
+    strokeColor: '#000'
+    strokeWeight: 2
+    scale: 2
 
   calcRoutePolyline: (data) ->
     routeCoordinates = []
@@ -277,6 +261,7 @@ module.exports = React.createClass
 
     copenhagen = new google.maps.LatLng(55.6759400, 12.5655300)
     casablanca = new google.maps.LatLng(33.5883100, -7.6113800)
+
     mapOptions =
       minZoom: 1
       scrollwheel: false
@@ -296,9 +281,16 @@ module.exports = React.createClass
     map
 
   fitBounds: (whatBounds) ->
-    @state.gmap.fitBounds(whatBounds) if @state.gmap != null
+    count = parseInt($("#count").attr("val"))
+
+    @state.gmap.fitBounds(whatBounds) if @state.gmap != null && count <= 3
+
+    $("#count").attr("val", count + 1)  
+    
 
   createCarMarkers: (cars) ->
+    count = parseInt($("#count").attr("val"))
+
     @clearCarMarkers()
 
     for car in cars
@@ -306,10 +298,6 @@ module.exports = React.createClass
 
     window.currentTime = moment().utc()
     window.lastTime = moment("#{@state.selectedCar.last_seen}").utc()
-    console.log("LB")
-    console.log moment().utc().diff(moment("#{@state.selectedCar.last_seen}").utc())
-    console.log moment().utc()
-    console.log moment("#{@state.selectedCar.last_seen}").utc()
 
     if @state.selectedCar.hasOwnProperty('lon') and @state.selectedCar.hasOwnProperty('lat')
       window.currentTime = moment().utc()
@@ -386,13 +374,13 @@ module.exports = React.createClass
   ## Create markers for routes
 
   showStepsOfRoute: (data) ->
-
     if @routeMarkers != []
       $.map @routeMarkers, (marker) ->
         marker.div.parentNode.removeChild marker.div
       @routeMarkers = []
 
     j = 0
+
     for pos in data
       status = pos.state
       if status == "start" || status == "stop"

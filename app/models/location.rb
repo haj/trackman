@@ -227,7 +227,8 @@ class Location < ActiveRecord::Base
 
     arr_speed = get_todays_locs.map{|l| l.speed}
 
-    statistics.avgspeed = arr_speed.inject{ |sum, el| sum+el }.to_f / arr_speed.size
+    avg                 = arr_speed.inject{ |sum, el| sum+el }.to_f / arr_speed.size
+    statistics.avgspeed = avg.to_f.nan? ? 0 : avg
     statistics.maxspeed = self.get_todays_locs.map{|l| l.speed}.max    
   end
 
