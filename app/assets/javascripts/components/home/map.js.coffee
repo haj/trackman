@@ -112,6 +112,7 @@ module.exports = React.createClass
         )
 
       @state.gmap.fitBounds
+      console.log("get car route")
 
     ).bind(@)
 
@@ -190,6 +191,7 @@ module.exports = React.createClass
     ).bind(@)
 
     @fitBounds @boundsToRoute
+    console.log("Car Route")
 
     # 3b7fb8 - blue
     # 1da599 - green
@@ -281,14 +283,15 @@ module.exports = React.createClass
     map
 
   fitBounds: (whatBounds) ->
+    @state.gmap.fitBounds(whatBounds) if @state.gmap != null
+    
+  fitBoundsSelected: (whatBounds) ->
     count = parseInt($("#count").attr("val"))
 
-    console.log(count)
-
-    @state.gmap.fitBounds(whatBounds) if @state.gmap != null
+    @state.gmap.fitBounds(whatBounds) if @state.gmap != null && count <= 3
 
     $("#count").attr("val", count + 1)  
-    
+
 
   createCarMarkers: (cars) ->
     @clearCarMarkers()
@@ -314,7 +317,7 @@ module.exports = React.createClass
       else
         @setState isLive: false
     else
-      @fitBounds @boundsToAllCars
+      @fitBoundsSelected @boundsToAllCars
 
   createCarMarker: (car) ->
     marker = new google.maps.Marker
@@ -414,6 +417,7 @@ module.exports = React.createClass
       @boundsToRoute.extend points[n]
       n++
     @fitBounds @boundsToRoute
+    console.log("zoom")
 
   resizeMap: ->
     PubSub.publish "toggleWidthView", @state.gmap
