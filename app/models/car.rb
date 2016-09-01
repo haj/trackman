@@ -265,13 +265,12 @@ class Car < ActiveRecord::Base
     end
 
     def locations_grouped_by_these_dates(dates, car_id)
-      # Location.find_by_sql(["SELECT * FROM locations INNER JOIN devices ON locations.device_id = devices.id INNER JOIN cars ON devices.car_id = cars.id WHERE (cars.id = ? AND locations.state in(?) AND DATE(locations.time) in (?)) GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates]).group_by{|l| l.time.to_date}
       Location.find_by_sql(["
         SELECT * FROM locations 
         INNER JOIN devices ON locations.device_id = devices.id 
         INNER JOIN cars ON devices.car_id = cars.id 
         WHERE (cars.id = ? AND locations.state in(?) AND DATE(locations.time) in (?)) 
-        GROUP BY locations.trip_step, locations.state", car_id, ["start", "stop"], dates])
+        GROUP BY locations.time, locations.trip_step, locations.state", car_id, ["start", "stop"], dates])
       .group_by{|l| l.time.to_date}
     end
   end
