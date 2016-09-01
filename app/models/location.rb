@@ -185,10 +185,11 @@ class Location < ActiveRecord::Base
   #
   def on_start(statistics)
     if (ignition_is_on? || is_first_position_of_day?) && !statistics.start?
+      step       = is_first_position_of_day? ? 1 : (statistics.steps_counter += 1)
       self.state = "start"
       self.parking_duration = (Time.now - Date.today.to_time).to_i if is_first_position_of_day?
       statistics.aasm_state = 'start'
-      statistics.steps_counter += 1
+      statistics.steps_counter = step
       statistics.last_start = self
       statistics.last_is = self
       self.trip_step = statistics.steps_counter
