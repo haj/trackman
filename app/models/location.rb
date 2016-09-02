@@ -143,27 +143,29 @@ class Location < ActiveRecord::Base
   def analyze_me
     statistics = CarStatistic.find_or_create_by(car_id: self.device.try(:car).try(:id), time: self.time.to_date)
 
-    statistic_distance(statistics)
+    unless Location.greater_than_last_time?(device_id, time)
+      statistic_distance(statistics)
 
-    case statistics.aasm_state
-    when 'start'
-      puts 'start'
+      case statistics.aasm_state
+      when 'start'
+        puts 'start'
 
-      on_road(statistics)
-    when 'onroad'
-      puts 'on road'
-      
-      onroad_state(statistics)
-    else
-      puts 'stop'
+        on_road(statistics)
+      when 'onroad'
+        puts 'on road'
+        
+        onroad_state(statistics)
+      else
+        puts 'stop'
 
-      on_start(statistics)
+        on_start(statistics)
+      end
+
+      puts self.state
+
+      statistics.save!
+      self.save!    
     end
-
-    puts self.state
-
-    statistics.save!
-    self.save!    
   end
 
   #
@@ -185,7 +187,6 @@ class Location < ActiveRecord::Base
   #
   def on_start(statistics)
     if (ignition_is_on? || is_first_position_of_day?) && !statistics.start?
-      puts is_first_position_of_day?
       step       = is_first_position_of_day? ? 1 : (statistics.steps_counter += 1)
       self.state = "start"
       self.parking_duration = (Time.now - Date.today.to_time).to_i if is_first_position_of_day?
@@ -343,6 +344,13 @@ class Location < ActiveRecord::Base
         FROM locations 
         WHERE DATE(time) = ? and device_id = ?", date, device_id
       ])      
+    end
+
+    def greater_than_last_time?(device_id, time)
+      Location.where("
+        state in (?) AND device_id = ? AND time > ?", 
+        ["start", "stop"], device_id, time
+      ).present?
     end
   end
 end
