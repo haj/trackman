@@ -148,16 +148,10 @@ class Location < ActiveRecord::Base
 
       case statistics.aasm_state
       when 'start'
-        puts 'start'
-
         on_road(statistics)
       when 'onroad'
-        puts 'on road'
-        
         onroad_state(statistics)
       else
-        puts 'stop'
-
         on_start(statistics)
       end
 
