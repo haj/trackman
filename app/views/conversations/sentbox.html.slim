@@ -1,7 +1,12 @@
-.row
-  .col-md-12.col-lg-12.col-sm-12.col-xs-12
-    .pull-right= link_to 'New message', new_conversation_path, class: "btn btn-primary"
-br/
+.row.page-heading
+  .pull-left
+    .col-md-12
+      h2 Sentbox
+    ol.breadcrumb
+      = render_breadcrumbs
+  .pull-right
+    = link_to 'New message', new_conversation_path, class: "btn btn-primary btn-right"
+  .clear-both
 
 .row
   .col-md-12
@@ -11,27 +16,26 @@ br/
           .grid-body.no-border.email-body
             br/
             .row-fluid
-              .row-fluid.dataTables_wrapper
-                h2.inline Sentbox
               #email-list
-                table#emails.table.table-striped.table-fixed-layout.table-hover
-                  thead
-                    tr
-                      th.small-cell
-                      th.medium-cell From
-                      th Subject
-                      th.big-cell Time
-                  tbody
-
-                    - @sentbox.each do |user_conversation|
+                .table-responsive
+                  table#emails.table.table-striped.table-fixed-layout.table-hover
+                    thead
                       tr
-                        td.small-cell.v-align-middle
-                          = check_box_tag "conversation_ids[]", user_conversation.id
-                        td.clickable.v-align-middle
-                          = user_conversation.originator.name.capitalize
-                        td.clickable.tablefull.v-align-middle
-                          span.muted
-                            = link_to user_conversation.subject, conversation_path(user_conversation.id)
-                        td
-                          span.muted
-                            = "#{time_ago_in_words(user_conversation.last_message.created_at)} ago"
+                        th.small-cell
+                        th From
+                        th Subject
+                        th Time
+                    tbody
+
+                      - @sentbox.each do |user_conversation|
+                        tr
+                          td.small-cell.v-align-middle
+                            = check_box_tag "conversation_ids[]", user_conversation.id
+                          td.clickable.v-align-middle
+                            = user_conversation.originator.name.capitalize
+                          td.clickable.tablefull.v-align-middle
+                            span.muted
+                              = link_to user_conversation.subject, conversation_path(user_conversation.id)
+                          td
+                            span.muted
+                              = "#{time_ago_in_words(user_conversation.last_message.created_at)} ago"

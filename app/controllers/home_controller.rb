@@ -6,6 +6,7 @@ class HomeController < ApplicationController
   # Callback controller
   before_filter :set_settings, only: :index
 
+  add_breadcrumb "Home", :root_url
 
   # GET /home || home_index_path
   # If haven't login; redirect to session path

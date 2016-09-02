@@ -69,6 +69,9 @@
 #= require bower_components/moment-duration-format/lib/moment-duration-format
 #= require private_pub
 #= require toastr_rails
+#= require sweetalert
+#= require sweet-alert
+#= require sweet-alert-confirm
 #
 # ########################### Views
 #= require_tree ./views

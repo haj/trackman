@@ -4,9 +4,13 @@ class ConversationsController < ApplicationController
   # Callback controller
   before_action :set_conversation, only: [:reply, :destroy]
 
+  add_breadcrumb "Conversations", :conversations_url
+
   # GET /conversations || conversations_path
   # Show all conversations
   def index
+    add_breadcrumb "Inbox"
+
     @conversations = 
       if params[:read].present? && params[:read] == "true"
         current_user.mailbox.inbox(:read => true)
@@ -14,7 +18,7 @@ class ConversationsController < ApplicationController
         current_user.mailbox.inbox(:unread => true)
       else 
         current_user.mailbox.inbox
-      end
+      end.page(params[:page])
   
     respond_with(@conversations)
   end
@@ -64,6 +68,8 @@ class ConversationsController < ApplicationController
   # GET /conversations/sent_box || sentbox_conversations_path
   # Show all sent box conversation
   def sentbox 
+    add_breadcrumb "Sentbox"
+
     @sentbox = current_user.mailbox.sentbox
 
     respond_with(@sentbox)

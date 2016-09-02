@@ -8,9 +8,13 @@ class AlarmNotificationsController < ApplicationController
   # Respond Request
   respond_to :html
 
+  add_breadcrumb "Alerts", :alarm_notifications_url
+
   # GET /alerts || alarm_notifications_path
   # List all alarm notifications
   def index
+    add_breadcrumb "Index"
+
     @alerts = AlarmNotification.not_archieved.order("created_at DESC").page(params[:page])
 
     respond_with(@alerts)

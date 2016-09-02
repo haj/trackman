@@ -97,7 +97,11 @@ gem 'faye'
 gem 'kaminari'
 gem "slim-rails"
 gem 'toastr_rails'
-
+# Sweet alert
+gem 'sweet-alert', github: "frank184/sweet-alert-rails"
+gem 'sweet-alert-confirm'
+gem 'sweetalert-rails'
+gem "breadcrumbs_on_rails"
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
