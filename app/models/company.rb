@@ -28,11 +28,16 @@ class Company < ActiveRecord::Base
 
   # CALLBACK
   before_save { |company| company.subdomain = company.subdomain.downcase }
+  before_create :set_plan
 
   def current_plan
     subscription = self.subscriptions.where(active: true).first
     
     subscription ? subscription.plan : Plan.first
+  end
+
+  def set_plan
+    self.plan_id = Plan.first.id
   end
 
   def cancel_active_subscriptions

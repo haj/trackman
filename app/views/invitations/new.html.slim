@@ -1,5 +1,9 @@
-.page-title
-  h3 = t "devise.invitations.new.header" 
+.row.page-heading
+  .col-md-12
+    h2 New Employee
+  ol.breadcrumb
+    = render_breadcrumbs
+
 .row
   .col-md-12
     .grid.simple
@@ -34,7 +38,6 @@
                 = radio_button_tag 'default_role', 'Driver', true
                 | Driver
                 = radio_button_tag 'default_role', 'Employee' 
-                | Employee
-                
+                | Employee                
               .form-group
-              = f.submit t("devise.invitations.new.submit_button"), class: "btn btn-primary"
+                = f.submit t("devise.invitations.new.submit_button"), class: "btn btn-primary"

@@ -1,6 +1,9 @@
 class SimcardsController < ApplicationController
   # Include module / class
+  add_breadcrumb "Sim Card", :simcards_url
+
   include Batchable
+  include Breadcrumbable
 
   load_and_authorize_resource
 

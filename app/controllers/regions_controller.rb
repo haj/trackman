@@ -1,6 +1,9 @@
 class RegionsController < ApplicationController
   # Include module / class
+  add_breadcrumb "Regions", :regions_url
+
   include Batchable
+  include Breadcrumbable
   load_and_authorize_resource
 
   # Callback controller

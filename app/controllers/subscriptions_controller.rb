@@ -1,6 +1,9 @@
 class SubscriptionsController < ApplicationController
   # Include module / class
+  add_breadcrumb "Subscriptions", :subscriptions_url
+
   load_and_authorize_resource
+  include Breadcrumbable
 
   # Callback controller
   before_action :set_subscription, only: [:show, :edit, :update, :destroy, :cancel]

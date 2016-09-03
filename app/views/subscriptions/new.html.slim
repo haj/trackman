@@ -1,3 +1,9 @@
+.row.page-heading
+  .col-md-12
+    h2 New Subscription
+  ol.breadcrumb
+    = render_breadcrumbs
+
 .row
   .col-md-12
     .grid.simple
@@ -34,7 +40,7 @@
                 .form-group
                   = label_tag :card_number, "Credit Card Number", class: "form-label"
                   br
-                  = text_field_tag :card_number, nil, name: "subscription[card_number]", class: "form-label"
+                  = text_field_tag :card_number, nil, name: "subscription[card_number]", class: "form-label", maxlength: 16
                 .form-group
                   = label_tag :card_code, "Security Code on Card (CVV)", class: "form-label"
                   br

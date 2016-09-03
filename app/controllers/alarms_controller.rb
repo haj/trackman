@@ -1,6 +1,9 @@
 class AlarmsController < ApplicationController
   # Include module / class
+  add_breadcrumb "Alarms", :alarms_url
+
   include Batchable
+  include Breadcrumbable
 
   # Initialize something from GEM
   load_and_authorize_resource :except => [:create]  

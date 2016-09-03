@@ -1,13 +1,15 @@
-.row
-  .col-md-8.col-lg-8.col-sm-8.col-xs-8
-    .page-title
+.row.page-heading
+  .pull-left
+    .col-md-12
       h3 Devices
-  .col-md-4.col-lg-4.col-sm-4.col-xs-4
-    .pull-right
-      = link_to 'Create', new_device_path, class: "btn btn-success"
+    ol.breadcrumb
+      = render_breadcrumbs
+  .pull-right
+    .btn-right
       = link_to 'Toggle Filters', "#", class: "btn btn-default toggle"
-
-
+      | &nbsp; &nbsp;
+      = link_to 'New Devices', new_device_path, class: "btn btn-primary"
+  .clear-both
 
 .row.to-be-toggled
   .col-md-12
@@ -74,35 +76,41 @@
         .col-md-12
           .grid.simple
             .grid-body
-              .pull-right
-                = search_form_for @q do |f|
-                  = f.search_field :name_cont, :placeholder => "Search with name"
-                  = f.submit "Search", :class => "btn btn-default"
-              table.table.no-more-tables
-                thead
-                  tr
-                    th
-                    = content_tag :th, sort_link(@q, :name)
-                    = content_tag :th, sort_link(@q, :emei)
-                    = content_tag :th, sort_link(@q, :cost_price)
-                    th
-                tbody
-                  - @devices.each do |device|
-                    tr
-                      td.small-cell.v-align-middle
-                        = check_box_tag "device_ids[]", device.id, nil , class: "device_checkbox"
-                      td
-                        = link_to device.name, device
-                      td
-                        = device.emei
-                      td
-                        = device.cost_price
-                      td
-                        = link_to 'Edit', edit_device_path(device)
-                        | &nbsp; | &nbsp;
-                        = link_to 'Delete', device, method: :delete, data: { confirm: 'Are you sure want to delete this device?' }
-            = paginate @devices
-
+              - if @devices.present?
+                .pull-right
+                  = search_form_for @q do |f|
+                    = f.search_field :name_cont, :placeholder => "Search with name"
+                    = f.submit "Search", :class => "btn btn-default"
+                .table-responsive
+                  table.table
+                    thead
+                      tr
+                        th
+                        = content_tag :th, sort_link(@q, :name)
+                        = content_tag :th, sort_link(@q, :emei)
+                        = content_tag :th, sort_link(@q, :cost_price)
+                        th
+                    tbody
+                      - @devices.each do |device|
+                        tr
+                          td.small-cell.v-align-middle
+                            = check_box_tag "device_ids[]", device.id, nil , class: "device_checkbox"
+                          td
+                            = link_to device.name, device
+                          td
+                            = device.emei
+                          td
+                            = device.cost_price
+                          td
+                            = link_to 'Edit', edit_device_path(device)
+                            | &nbsp; | &nbsp;
+                            = link_to 'Delete', device, method: :delete, data: { confirm: 'Are you sure want to delete this device?' }
+                = paginate @devices
+              - else
+                .text-center
+                  h2 No Devices at the moment
+                  i.fa.fa-ban.fa-4x              
+                  h3 Try to create a device. The button is on top right of this page.
 
 #quick-access.admin-bar style="bottom: -115px;"
   .admin-bar-inner

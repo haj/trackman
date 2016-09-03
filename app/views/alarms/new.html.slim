@@ -1,8 +1,8 @@
-.row
+.row.page-heading
   .col-md-12
-    .page-title
-      = link_to "<i class='icon-custom-left'></i>".html_safe, alarms_path
-      h3 New Alarm 
+    h2 New Alarm
+  ol.breadcrumb
+    = render_breadcrumbs
 .row
   .col-md-12
     = render 'form'

@@ -1,9 +1,13 @@
-.row
-  .col-md-8.col-lg-8.col-sm-8.col-xs-8
-    .page-title
+.row.page-heading
+  .pull-left
+    .col-md-12
       h3 Alarms
-  .col-md-4.col-lg-4.col-sm-4.col-xs-4
-    .pull-right = link_to 'Create', new_alarm_path, class: "btn btn-primary"
+    ol.breadcrumb
+      = render_breadcrumbs
+  .pull-right
+    .btn-right
+      = link_to 'New Alarm', new_alarm_path, class: "btn btn-primary"
+  .clear-both
 
 .row
   .col-md-12
@@ -12,27 +16,34 @@
         .col-md-12
           .grid.simple
             .grid-body
-              table.table.no-more-tables
-                thead
-                  tr
-                    th
-                    th Name
-                    th Number of Rules
-                    th Number of Cars
-                    th
-                tbody
-                  - @alarms.each do |alarm|
-                    tr
-                      td.small-cell.v-align-middle = check_box_tag "alarm_ids[]", alarm.id, nil , class: "alarm_checkbox"
-                      td = link_to alarm.name, alarm
-                      td = alarm.try(:rules).try(:count)
-                      td = alarm.try(:cars).try(:count)
-                      td
-                        = link_to 'Edit', edit_alarm_path(alarm)
-                        | &nbsp; | &nbsp; 
-                        = link_to 'Delete', alarm, method: :delete, data: { confirm: "Are you sure want to delete this alaram?" }
+              - if @alarms.present?
+                .table-responsive
+                  table.table
+                    thead
+                      tr
+                        th
+                        th Name
+                        th Number of Rules
+                        th Number of Cars
+                        th
+                    tbody
+                      - @alarms.each do |alarm|
+                        tr
+                          td.small-cell.v-align-middle = check_box_tag "alarm_ids[]", alarm.id, nil , class: "alarm_checkbox"
+                          td = link_to alarm.name, alarm
+                          td = alarm.try(:rules).try(:count)
+                          td = alarm.try(:cars).try(:count)
+                          td
+                            = link_to 'Edit', edit_alarm_path(alarm)
+                            | &nbsp; | &nbsp; 
+                            = link_to 'Delete', alarm, method: :delete, data: { confirm: "Are you sure want to delete this alaram?" }
 
-            = paginate @alarms
+                = paginate @alarms
+              - else
+                .text-center
+                  h2 No Alarms at the moment
+                  i.fa.fa-ban.fa-4x              
+                  h3 Try to create an alarm. The button is on top right of this page.
 
 #quick-access.admin-bar style='bottom: -115px;'
   .admin-bar-inner

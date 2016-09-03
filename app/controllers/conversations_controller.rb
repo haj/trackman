@@ -1,16 +1,14 @@
 class ConversationsController < ApplicationController
   #load_and_authorize_resource
+  add_breadcrumb "Conversations", :conversations_url
+  include Breadcrumbable
 
   # Callback controller
   before_action :set_conversation, only: [:reply, :destroy]
 
-  add_breadcrumb "Conversations", :conversations_url
-
   # GET /conversations || conversations_path
   # Show all conversations
   def index
-    add_breadcrumb "Inbox"
-
     @conversations = 
       if params[:read].present? && params[:read] == "true"
         current_user.mailbox.inbox(:read => true)
@@ -70,7 +68,7 @@ class ConversationsController < ApplicationController
   def sentbox 
     add_breadcrumb "Sentbox"
 
-    @sentbox = current_user.mailbox.sentbox
+    @sentbox = current_user.mailbox.sentbox.page(params[:page])
 
     respond_with(@sentbox)
   end

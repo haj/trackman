@@ -1,4 +1,8 @@
 class InvitationsController < DeviseController
+  # INIT GEM
+  add_breadcrumb "Employee", :users_url
+  include Breadcrumbable
+
   # Callback controller
   prepend_before_filter :authenticate_inviter!, :only => [:new, :create]
   prepend_before_filter :has_invitations_left?, :only => [:create]

@@ -1,8 +1,9 @@
-.row
+.row.page-heading
   .col-md-12
-    .page-title
-      = link_to raw("<i class='icon-custom-left'></i>"), simcards_path
-      h3 Create Simcard
+    h2 New Sim Card
+  ol.breadcrumb
+    = render_breadcrumbs
+
 .row
   .col-md-12
     .grid.simple

@@ -1,6 +1,9 @@
 class UsersController < ApplicationController
   # Include module / class
+  add_breadcrumb "Employee", :users_url
+
   include Batchable
+  include Breadcrumbable
 
   load_and_authorize_resource
 

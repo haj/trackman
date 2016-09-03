@@ -16,26 +16,31 @@
           .grid-body.no-border.email-body
             br/
             .row-fluid
-              #email-list
-                .table-responsive
-                  table#emails.table.table-striped.table-fixed-layout.table-hover
-                    thead
-                      tr
-                        th.small-cell
-                        th From
-                        th Subject
-                        th Time
-                    tbody
-
-                      - @sentbox.each do |user_conversation|
+              - if @sentbox.present?
+                #email-list
+                  .table-responsive
+                    table#emails.table.table-striped.table-fixed-layout.table-hover
+                      thead
                         tr
-                          td.small-cell.v-align-middle
-                            = check_box_tag "conversation_ids[]", user_conversation.id
-                          td.clickable.v-align-middle
-                            = user_conversation.originator.name.capitalize
-                          td.clickable.tablefull.v-align-middle
-                            span.muted
-                              = link_to user_conversation.subject, conversation_path(user_conversation.id)
-                          td
-                            span.muted
-                              = "#{time_ago_in_words(user_conversation.last_message.created_at)} ago"
+                          th.small-cell
+                          th From
+                          th Subject
+                          th Time
+                      tbody
+                        - @sentbox.each do |user_conversation|
+                          tr
+                            td.small-cell.v-align-middle
+                              = check_box_tag "conversation_ids[]", user_conversation.id
+                            td.clickable.v-align-middle
+                              = user_conversation.originator.name.capitalize
+                            td.clickable.tablefull.v-align-middle
+                              span.muted
+                                = link_to user_conversation.subject, conversation_path(user_conversation.id)
+                            td
+                              span.muted
+                                = "#{time_ago_in_words(user_conversation.last_message.created_at)} ago"
+                  = paginate @sentbox
+              - else
+                .text-center
+                  h2 No Sentbox at the moment
+                  i.fa.fa-ban.fa-4x

@@ -1,8 +1,9 @@
-.content
-  .row
-    .col-md-12
-      .page-title
-        = link_to raw("<i class='icon-custom-left'></i>"), regions_path
-        h3 Edit Region
+.row.page-heading
+  .col-md-12
+    h2 Edit Region
+  ol.breadcrumb
+    = render_breadcrumbs
 
-  = render 'form'
+.row
+  .col-md-12
+		= render 'form'

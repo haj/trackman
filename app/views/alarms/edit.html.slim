@@ -1,8 +1,8 @@
-.row
+.row.page-heading
   .col-md-12
-    .page-title
-      = link_to raw("<i class='icon-custom-left'></i>"), alarms_path
-      h3 Edit Alarm 
+    h2 Edit Alarm
+  ol.breadcrumb
+    = render_breadcrumbs
 .row
   .col-md-12
     = render 'form'

@@ -2,6 +2,9 @@ class DevicesController < ApplicationController
   # Include module / class
   load_and_authorize_resource
 
+  add_breadcrumb "Devices", :devices_url
+  include Breadcrumbable
+
   has_scope :by_device_model
   has_scope :by_device_type
   has_scope :has_simcard do |controller, scope, value|

@@ -1,6 +1,9 @@
 class WorkSchedulesController < ApplicationController
   # Include module / class
+  add_breadcrumb "Work Schedules", :work_schedules_url
+
   include Batchable
+  include Breadcrumbable
 
   # Callback controller
   before_action :set_work_schedule, only: [:show, :edit, :update, :destroy]
