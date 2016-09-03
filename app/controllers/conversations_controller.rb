@@ -1,9 +1,9 @@
 class ConversationsController < ApplicationController
-  #load_and_authorize_resource
   add_breadcrumb "Conversations", :conversations_url
   include Breadcrumbable
 
   # Callback controller
+  before_action :authenticate_user!
   before_action :set_conversation, only: [:reply, :destroy]
 
   # GET /conversations || conversations_path
