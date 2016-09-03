@@ -87,7 +87,7 @@ class ConversationsController < ApplicationController
 
   def trash
     @conversation.move_to_trash(current_user)
-    redirect_to :conversations
+    redirect_to :back
   end
 
   def untrash

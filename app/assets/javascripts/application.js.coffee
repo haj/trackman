@@ -72,6 +72,7 @@
 #= require sweetalert
 #= require sweet-alert
 #= require sweet-alert-confirm
+#= require ./libraries/waitMe.min
 #
 # ########################### Views
 #= require_tree ./views

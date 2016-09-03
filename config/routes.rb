@@ -96,6 +96,7 @@ Rails.application.routes.draw do
   resources :conversations do
     member do
       post 'reply'
+      delete 'trash'
     end
     collection do
       get 'sentbox'

@@ -49,12 +49,13 @@
                               th.small-cell
                               th From
                               th Subject
-                              th Time
+                              th Last Message
+                              th Action
                           tbody
                             - @conversations.each do |user_conversation|
                               tr
                                 td.small-cell.v-align-middle
-                                  = check_box_tag "conversation_ids[]", user_conversation.id
+                                  = check_box_tag "conversation_ids[]", user_conversation.id, false, class: 'js-conversation-inbox'
                                 td.clickable.v-align-middle
                                   = user_conversation.originator.name.capitalize
                                 td.clickable.tablefull.v-align-middle
@@ -63,7 +64,8 @@
                                 td
                                   span.muted
                                     = "#{time_ago_in_words(user_conversation.last_message.created_at)} ago"
-
+                                td
+                                  = link_to "<i class='fa fa-trash'></i> &nbsp; Delete".html_safe, trash_conversation_path(user_conversation), method: :delete, data: { confirm: 'Are you sure want to delete this message?', :'sweet-alert-type' => 'error' }, class: 'btn btn-mini btn-danger'
                       = paginate @conversations
                   - else
                     .text-center
