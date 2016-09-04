@@ -72,6 +72,9 @@
 #= require sweetalert
 #= require sweet-alert
 #= require sweet-alert-confirm
+#= require jquery-fileupload/basic
+#= require orders
+#= require ./libraries/waitMe.min
 #
 # ########################### Views
 #= require_tree ./views

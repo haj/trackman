@@ -11,7 +11,7 @@
 #  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
-#  sign_in_count          :integer          default(0), not null
+# x sign_in_count          :integer          default(0), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :string(255)
@@ -56,6 +56,9 @@ class User < ActiveRecord::Base
   # AssociationU
   belongs_to :company
   belongs_to :car
+  has_many :destinations_users
+  has_many :orders, through: :destinations_users
+
 
   class << self
     def available_drivers
@@ -67,6 +70,10 @@ class User < ActiveRecord::Base
     def recipients(user)
       User.where.not(:id => user.id)
     end
+  end
+
+  def full_name
+    first_name + " " + last_name
   end
 
   def name_with_email

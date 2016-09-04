@@ -1,0 +1,23 @@
+= simple_form_for(xml, url: destinations_drivers_path, method: :post) do |x|
+  = x.input :id, as: :hidden
+  = x.simple_fields_for :orders do |o|
+    .row
+      .col-md-12.text-center
+        .col-md-3
+          = label :order, "Customer Name"
+          strong = o.object.customer_name
+        .col-md-3
+          = label :order, "Destination"
+          strong = "#{o.object.latitude}, #{o.object.longitude}"
+        .col-md-3
+          = label :order, "Package"
+          strong = o.object.package
+        .col-md-3
+          strong = label :order, "Driver"
+          = select_tag "xml_destination[orders_attributes][#{o.index}][destinations_drivers_attributes][#{o.index}][user_id]", options_for_select(User.where(roles_mask: User.mask_for(:driver)).pluck(:first_name, :id)), prompt: 'Select Driver', required: true
+          / = o.simple_fields_for o.object.destinations_drivers.build do |f|
+          /   = f.input :user_id, as: :select, collection: User.where(roles_mask: User.mask_for(:driver)).pluck(:first_name, :id), label: false, prompt: 'Select Driver', required: true
+    br
+  .row
+    .col-md-12
+      = x.submit :save, class: 'btn btn-primary pull-right', style: "position: relative; right: 38px;"

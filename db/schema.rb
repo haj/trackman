@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160811130915) do
+ActiveRecord::Schema.define(version: 20160904123846) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -78,6 +78,17 @@ ActiveRecord::Schema.define(version: 20160811130915) do
 
   add_index "alarms_rules", ["alarm_id", "rule_id"], name: "index_alarms_rules_on_alarm_id_and_rule_id", unique: true, using: :btree
   add_index "alarms_rules", ["deleted_at"], name: "index_alarms_rules_on_deleted_at", using: :btree
+
+  create_table "attachments", force: true do |t|
+    t.integer  "attachable_id"
+    t.string   "attachable_type"
+    t.integer  "tmp_attachment_id"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "attachments", ["tmp_attachment_id"], name: "index_attachments_on_tmp_attachment_id", using: :btree
 
   create_table "car_manufacturers", force: true do |t|
     t.string   "name"
@@ -163,6 +174,17 @@ ActiveRecord::Schema.define(version: 20160811130915) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "destinations_drivers", force: true do |t|
+    t.string   "aasm_state"
+    t.integer  "user_id"
+    t.integer  "order_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "destinations_drivers", ["order_id"], name: "index_destinations_drivers_on_order_id", using: :btree
+  add_index "destinations_drivers", ["user_id"], name: "index_destinations_drivers_on_user_id", using: :btree
 
   create_table "device_manufacturers", force: true do |t|
     t.string   "name"
@@ -312,6 +334,18 @@ ActiveRecord::Schema.define(version: 20160811130915) do
 
   add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
 
+  create_table "orders", force: true do |t|
+    t.string   "customer_name"
+    t.float    "latitude",           limit: 24
+    t.float    "longitude",          limit: 24
+    t.string   "package"
+    t.integer  "xml_destination_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "orders", ["xml_destination_id"], name: "index_orders_on_xml_destination_id", using: :btree
+
   create_table "parameters", force: true do |t|
     t.string   "name"
     t.string   "data_type"
@@ -428,6 +462,12 @@ ActiveRecord::Schema.define(version: 20160811130915) do
     t.datetime "updated_at"
   end
 
+  create_table "tmp_attachments", force: true do |t|
+    t.string   "file"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "email"
     t.string   "password"
@@ -508,6 +548,14 @@ ActiveRecord::Schema.define(version: 20160811130915) do
   end
 
   add_index "work_schedules", ["deleted_at"], name: "index_work_schedules_on_deleted_at", using: :btree
+
+  create_table "xml_destinations", force: true do |t|
+    t.integer  "company_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "xml_destinations", ["company_id"], name: "index_xml_destinations_on_company_id", using: :btree
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
 

@@ -1,0 +1,19 @@
+.row.page-heading
+  .col-md-12
+    h2 New Order
+  ol.breadcrumb
+    = render_breadcrumbs
+
+.row
+  .col-md-12
+    .grid.simple
+      .grid-title 
+        = simple_form_for(@xml_destination, url: orders_path, method: :post, html: { id: 'new-order' }, remote: true) do |f|
+          .row
+            .col-md-2
+              label 
+                strong XML File
+            .col-md-10
+              input type='file' id='js-tmp-attachment-file' name="xml_destination[file]"
+              = f.input :tmp_attachment_id, as: :hidden, input_html: { id: "js-tmp-attachment-id" }, required: true, label: false
+        .row#js-orders

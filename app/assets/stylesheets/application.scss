@@ -49,6 +49,10 @@
  *= require sweet-alert
  *= require sweetalert
  *= require breadcrumb
+ *= require jquery.fileupload
+ *= require jquery.fileupload-ui
+ *= require orders
+ *= require ./framework/waitMe.min
  */
 
 .map-tooltip{

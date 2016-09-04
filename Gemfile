@@ -102,6 +102,12 @@ gem 'sweet-alert', github: "frank184/sweet-alert-rails"
 gem 'sweet-alert-confirm'
 gem 'sweetalert-rails'
 gem "breadcrumbs_on_rails"
+# Carrierwave upload data
+gem 'carrierwave'
+# Jquery file uplaod
+gem "jquery-fileupload-rails"
+# Simple form
+gem 'simple_form'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'

@@ -1,0 +1,5 @@
+<% if @status %>
+  $("#js-orders").html("<%= j(render partial: 'orders/partials/assign_user', locals: { xml: @xml_destination, orders: @xml_destination.orders }) %>")
+<% else %>
+  swal("Something went wrong. Please try again!", "error")
+<% end %>
