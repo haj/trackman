@@ -1,0 +1,18 @@
+<% if @data %>
+  $("#js-orders").html("<%= j(render partial: 'orders/partials/assign_user', locals: { data: @data, xml: @xml_destination, tmp_attachment_id: params[:xml_destination][:tmp_attachment_id] }) %>")
+
+  $("#new-assign-driver-form").validate({
+    submitHandler: function() {
+      $('body').waitMe({
+        effect: 'stretch',
+        text: "Loading",
+        color: '#000',
+        maxSize: '',
+        source: ''
+      });
+      return $('#new-assign-driver-form')[0].submit();
+    }
+  });
+<% else %>
+  swal("Something went wrong. Please try again!", "error")
+<% end %>

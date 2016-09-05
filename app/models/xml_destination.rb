@@ -16,30 +16,8 @@ class XmlDestination < ActiveRecord::Base
 
   # Callback
   before_create :assign_attachment
-  after_create :create_order
 
   def assign_attachment
     self.build_attachment(tmp_attachment_id: tmp_attachment_id, description: 'order')
-  end
-
-  def create_order
-    file = File.open("public/#{attachment.tmp_attachment.file_url}")
-    xml  = Nokogiri::XML(file)
-
-    xml.children.children.map do |c|
-      if c.class.to_s != "Nokogiri::XML::Text"
-        customer_name = c.children.children[0].text
-        latitude      = c.children.children[1].text
-        longitude     = c.children.children[2].text
-        package       = c.children.children[3].text
-
-        self.orders.create(
-          customer_name: customer_name,
-          latitude: latitude,
-          longitude: longitude,
-          package: package
-        )
-      end
-    end
   end
 end

@@ -18,4 +18,7 @@ class DestinationsDriver < ActiveRecord::Base
   # ASSOCIATION
   belongs_to :user
   belongs_to :order
+
+  # Validation
+  validates :user_id, presence: true
 end

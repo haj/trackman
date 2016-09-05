@@ -227,7 +227,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :orders
+  resources :orders do
+    collection do
+      post 'parse_xml'
+    end
+  end
 
   resources :tmp_attachments, only: :create
 

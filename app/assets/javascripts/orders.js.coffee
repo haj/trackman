@@ -1,5 +1,5 @@
 ready = ->
-	$("#js-tmp-attachment-file").fileupload
+  $("#js-tmp-attachment-file").fileupload
     dataType: 'json'
     url: '/tmp_attachments.json?from=xml_destination'
     sequentialUploads: true
@@ -21,7 +21,7 @@ ready = ->
     done: (e, data) ->
       $("body").waitMe("hide")      
     success: (e, data)->
-    	$("#js-tmp-attachment-id").val(e.object.id)
-    	$("#new-order").submit()
+      $("#js-tmp-attachment-id").val(e.object.id)
+      $("#new-order").submit()
 $(document).ready(ready)
 $(document).on('page:load', ready)

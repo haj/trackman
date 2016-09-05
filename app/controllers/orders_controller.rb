@@ -24,14 +24,11 @@ class OrdersController < ApplicationController
   def create
     @xml_destination = XmlDestination.new(xml_destination_param)
 
-    @status = 
-      if @xml_destination.save
-        true
-      else
-        false
-      end
-
-    respond_to :js
+    if @xml_destination.save
+      respond_with(@xml_destination, location: orders_url, notice: 'Orders successfully created.')
+    else
+      respond_with(@xml_destination, location: orders_url, error: 'Something went wrong. Please try again or contact developer.')
+    end
   end
 
   def update
@@ -42,6 +39,14 @@ class OrdersController < ApplicationController
     
   end
 
+  def parse_xml
+    @data            = TmpAttachment.find(xml_destination_param[:tmp_attachment_id]).retrieve_xml
+    @xml_destination = XmlDestination.new
+    @xml_destination.orders.build
+
+    respond_to :js
+  end
+
   private
 
   def set_order
@@ -49,6 +54,12 @@ class OrdersController < ApplicationController
   end
 
   def xml_destination_param
-    params.require(:xml_destination).permit(:tmp_attachment_id)
+    params.require(:xml_destination).permit(
+      :tmp_attachment_id,
+      orders_attributes: [
+        :customer_name, :latitude, :longitude, :package, 
+        destinations_drivers_attributes: [:user_id]
+      ]
+    )
   end
 end

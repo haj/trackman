@@ -8,7 +8,7 @@
   .col-md-12
     .grid.simple
       .grid-title 
-        = simple_form_for(@xml_destination, url: orders_path, method: :post, html: { id: 'new-order' }, remote: true) do |f|
+        = simple_form_for(@xml_destination, url: parse_xml_orders_path, method: :post, html: { id: 'new-order' }, remote: true) do |f|
           .row
             .col-md-2
               label 

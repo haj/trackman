@@ -1,23 +1,27 @@
-= simple_form_for(xml, url: destinations_drivers_path, method: :post) do |x|
-  = x.input :id, as: :hidden
-  = x.simple_fields_for :orders do |o|
-    .row
-      .col-md-12.text-center
-        .col-md-3
-          = label :order, "Customer Name"
-          strong = o.object.customer_name
-        .col-md-3
-          = label :order, "Destination"
-          strong = "#{o.object.latitude}, #{o.object.longitude}"
-        .col-md-3
-          = label :order, "Package"
-          strong = o.object.package
-        .col-md-3
-          strong = label :order, "Driver"
-          = select_tag "xml_destination[orders_attributes][#{o.index}][destinations_drivers_attributes][#{o.index}][user_id]", options_for_select(User.where(roles_mask: User.mask_for(:driver)).pluck(:first_name, :id)), prompt: 'Select Driver', required: true
-          / = o.simple_fields_for o.object.destinations_drivers.build do |f|
-          /   = f.input :user_id, as: :select, collection: User.where(roles_mask: User.mask_for(:driver)).pluck(:first_name, :id), label: false, prompt: 'Select Driver', required: true
-    br
+= simple_form_for(xml, url: orders_path, method: :post, html: { id: 'new-assign-driver-form', novalidate: false }) do |f|
+  = f.input :tmp_attachment_id, as: :hidden, input_html: { value: tmp_attachment_id }, required: true
+  - @data.each do |data|
+    - if data.class.to_s != "Nokogiri::XML::Text"
+      = f.simple_fields_for :orders do |o|
+        .row
+          .col-md-12.text-center
+            .col-md-3
+              = label :order, "Customer Name"
+              strong = data.children.children[0].text
+              = o.input :customer_name, as: :hidden, input_html: { value: data.children.children[0].text }
+            .col-md-3
+              = label :order, "Destination"
+              strong = "#{data.children.children[1].text}, #{data.children.children[2].text}"
+              = o.input :latitude, as: :hidden, input_html: { value: data.children.children[1].text }
+              = o.input :longitude, as: :hidden, input_html: { value: data.children.children[2].text }
+            .col-md-3
+              = label :order, "Package"
+              strong = data.children.children[3].text
+              = o.input :package, as: :hidden, input_html: { value: data.children.children[3].text }
+            .col-md-3
+              strong = label :order, "Driver"
+              = select_tag "xml_destination[orders_attributes][#{o.index}][destinations_drivers_attributes][#{o.index}][user_id]", options_for_select(driver_collection), prompt: 'Select Driver', required: true
+  br
   .row
     .col-md-12
-      = x.submit :save, class: 'btn btn-primary pull-right', style: "position: relative; right: 38px;"
+      = f.submit :save, class: 'btn btn-primary pull-right', style: "position: relative; right: 38px;"
