@@ -20,7 +20,7 @@
                           .pull-left  
                             strong = notif_helper(notif.action)
                           .pull-right
-                            = link_to 'Mark as Read', mark_as_read_notification_path(notif), remote: true, method: :put
+                            = link_to 'Mark as Read', mark_as_read_notification_path(notif), remote: true, method: :put, id: "js-mark-as-read-link-#{notif.id}" unless notif.is_read
                           .clear-both
                         .row
                           = "#{time_ago_in_words(notif.created_at)} ago."
