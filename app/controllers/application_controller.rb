@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
   before_action :bootstrap
   before_action :mailbox_count, if: :user_signed_in?
   before_action :alerts_count, if: :user_signed_in?
+  before_action :set_notif_count, if: :user_signed_in?
 
   # before_filter :configure_permitted_parameters, if: :devise_controller?
 
@@ -133,5 +134,9 @@ class ApplicationController < ActionController::Base
 
   def alerts_count
     @alerts_count = AlarmNotification.not_archieved.count
+  end
+
+  def set_notif_count
+    @notifications_count = current_user.notifications.unread.count
   end
 end

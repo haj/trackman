@@ -1,14 +1,17 @@
 class NotificationsController < ApplicationController
-  # Include module / class
-  load_and_authorize_resource
+  add_breadcrumb "Notifications", :notifications_url
 
   # Callback controller
-  before_action :set_notification, only: [:show, :destroy]
+  before_action :set_notification, only: [:show, :destroy, :mark_as_read]
 
-  # GET /notifications/:id || notification_path(:id)
-  # Show specific notification
-  def show 
-    respond_with(@notification)
+  # GET /notifications || notifications_path
+  # Show all notifications
+  def index
+    add_breadcrumb "Index"
+
+    @notifications = current_user.notifications.order(created_at: :desc).page(params[:page])
+
+    respond_with(@notifications)
   end
 
   # DELETE /notifications/:id || notification_path(:id)
@@ -19,25 +22,15 @@ class NotificationsController < ApplicationController
     respond_with(@notification, location: notifications_user_path(current_user))
   end
 
-  # UNUSED METHOD
-  def trash
-    notification.move_to_trash(current_user)
-    redirect_to :notifications
+  def mark_as_read
+    @notification.update(is_read: true)
+
+    respond_to :js
   end
 
-  def untrash
-    notification.untrash(current_user)
-    redirect_to :notifications
-  end
-  
   private
 
   def set_notification
-    @notification = current_user.mailbox.notifications.find(params[:id])    
+    @notification = current_user.notifications.find(params[:id])    
   end
-
-  def conversation_params
-    params.require(:conversation).permit(:body, :subject, :recipient_id)
-  end
-
 end

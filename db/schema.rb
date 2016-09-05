@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160904123846) do
+ActiveRecord::Schema.define(version: 20160905141326) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -334,6 +334,19 @@ ActiveRecord::Schema.define(version: 20160904123846) do
 
   add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
 
+  create_table "notifications", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "sender_id"
+    t.integer  "notificationable_id"
+    t.string   "notificationable_type"
+    t.string   "action"
+    t.boolean  "is_read",               default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
+
   create_table "orders", force: true do |t|
     t.string   "customer_name"
     t.float    "latitude",           limit: 24
@@ -551,11 +564,13 @@ ActiveRecord::Schema.define(version: 20160904123846) do
 
   create_table "xml_destinations", force: true do |t|
     t.integer  "company_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "xml_destinations", ["company_id"], name: "index_xml_destinations_on_company_id", using: :btree
+  add_index "xml_destinations", ["user_id"], name: "index_xml_destinations_on_user_id", using: :btree
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
 

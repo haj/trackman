@@ -22,7 +22,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @xml_destination = XmlDestination.new(xml_destination_param)
+    @xml_destination = current_user.xml_destinations.new(xml_destination_param)
 
     if @xml_destination.save
       respond_with(@xml_destination, location: orders_url, notice: 'Orders successfully created.')

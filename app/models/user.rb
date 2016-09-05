@@ -56,9 +56,11 @@ class User < ActiveRecord::Base
   # AssociationU
   belongs_to :company
   belongs_to :car
+  has_many :xml_destinations, dependent: :nullify
   has_many :destinations_users
   has_many :orders, through: :destinations_users
-
+  has_many :notifications, class_name: "Notification", foreign_key: "user_id", dependent: :destroy
+  has_many :sender_notif, class_name: "Notification", foreign_key: "sender_id", dependent: :nullify
 
   class << self
     def available_drivers

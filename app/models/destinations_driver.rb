@@ -18,7 +18,15 @@ class DestinationsDriver < ActiveRecord::Base
   # ASSOCIATION
   belongs_to :user
   belongs_to :order
+  has_many :notifications, as: :notificationable, dependent: :destroy
 
   # Validation
   validates :user_id, presence: true
+
+  # Callback
+  after_create :create_notification
+
+  def create_notification
+  	self.notifications.create(user_id: user_id, action: 'assigned', sender_id: order.xml_destination.user_id)
+  end
 end

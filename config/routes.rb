@@ -74,7 +74,12 @@ Rails.application.routes.draw do
 
   resources :plans
   resources :plan_types
-  resources :notifications
+  resources :notifications do
+    member do
+      put 'mark_as_read'
+    end
+  end
+
   resources :vertices
 
   resources :regions do
