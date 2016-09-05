@@ -24,7 +24,7 @@
                           .clear-both
                         .row
                           = "#{time_ago_in_words(notif.created_at)} ago."
-                          = accept_decine_helper(notif.action).html_safe
+                          = accept_decine_helper(notif.action, notif.notificationable_id).html_safe
                 - else
                   .text-center
                     h2 No Notification at the moment
