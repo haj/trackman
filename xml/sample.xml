@@ -5,4 +5,18 @@
 		<longitude>106.84513</longitude>
 		<package>Doughnut</package>
 	</list>
+
+	<list>
+		<customer>Anak</customer>
+		<latitude>-6.21462</latitude>
+		<longitude>106.84513</longitude>
+		<package>Kambing</package>
+	</list>
+
+	<list>
+		<customer>Ayah</customer>
+		<latitude>-6.21462</latitude>
+		<longitude>106.84513</longitude>
+		<package>Kucing</package>
+	</list>
 </lists>

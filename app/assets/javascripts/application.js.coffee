@@ -75,6 +75,8 @@
 #= require jquery-fileupload/basic
 #= require orders
 #= require ./libraries/waitMe.min
+#= require jquery-fileupload/jquery.fileupload-process
+#= require jquery-fileupload/jquery.fileupload-validate
 #
 # ########################### Views
 #= require_tree ./views
