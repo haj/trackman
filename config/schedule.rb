@@ -4,10 +4,12 @@ set :environment, "production"
 
 every 1.minute do 
   rake "alarms:check"
-  p "Check Alarms is has run!"
 end
 
 every 1.minute do
   rake "traccar_work"
 end
 
+every 1.day do
+  rake "delete_tmp_attachment"
+end
