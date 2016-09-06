@@ -8,39 +8,54 @@
     = link_to 'New message', new_conversation_path, class: "btn btn-primary btn-right"
   .clear-both
 
-.row
-  .col-md-12
-    .row
-      .col-md-12
-        .grid.simple
-          .grid-body.no-border.email-body
-            br/
-            .row-fluid
-              - if @sentbox.present?
-                #email-list
-                  .table-responsive
-                    table#emails.table.table-striped.table-fixed-layout.table-hover
-                      thead
-                        tr
-                          th.small-cell
-                          th From
-                          th Subject
-                          th Time
-                      tbody
-                        - @sentbox.each do |user_conversation|
+= form_tag mark_as_action_conversations_path, id: "mark_messages", method: :put do
+  .row
+    .col-md-12
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-body.no-border.email-body
+              br/
+              .row-fluid
+                - if @sentbox.present?
+                  #email-list
+                    .row
+                      .btn-group.m-l-10.m-b-10
+                        a.btn.btn-warning.btn-mini.dropdown-toggle data-toggle="dropdown" href="#"
+                          span.anim150 Actions
+                          span.caret.single
+                        ul.dropdown-menu
+                          li
+                            a#mark_as_deleted Mark as Deleted
+                          = hidden_field_tag :clicked_action
+
+                    .table-responsive
+                      table#emails.table.table-striped.table-fixed-layout.table-hover
+                        thead
                           tr
-                            td.small-cell.v-align-middle
-                              = check_box_tag "conversation_ids[]", user_conversation.id
-                            td.clickable.v-align-middle
-                              = user_conversation.originator.name.capitalize
-                            td.clickable.tablefull.v-align-middle
-                              span.muted
-                                = link_to user_conversation.subject, conversation_path(user_conversation.id)
-                            td
-                              span.muted
-                                = "#{time_ago_in_words(user_conversation.last_message.created_at)} ago"
-                  = paginate @sentbox
-              - else
-                .text-center
-                  h2 No Sentbox at the moment
-                  i.fa.fa-ban.fa-4x
+                            th.small-cell
+                            th From
+                            th Subject
+                            th Last Message
+                            th Action
+                        tbody
+                          - @sentbox.each do |user_conversation|
+                            tr
+                              td.small-cell.v-align-middle
+                                = check_box_tag "conversation_ids[]", user_conversation.id, false, class: 'js-conversation-inbox'
+                              td.clickable.v-align-middle
+                                = user_conversation.originator.name.capitalize
+                              td.clickable.tablefull.v-align-middle
+                                span.muted
+                                  = link_to user_conversation.subject, conversation_path(user_conversation.id)
+                              td
+                                span.muted
+                                  = "#{time_ago_in_words(user_conversation.last_message.created_at)} ago"
+                              td
+                                = link_to "<i class='fa fa-trash'></i> &nbsp; Delete".html_safe, trash_conversation_path(user_conversation), method: :delete, data: { confirm: 'Are you sure want to delete this message?', :'sweet-alert-type' => 'error' }, class: 'btn btn-mini btn-danger'
+
+                    = paginate @sentbox
+                - else
+                  .text-center
+                    h2 No Sentbox at the moment
+                    i.fa.fa-ban.fa-4x

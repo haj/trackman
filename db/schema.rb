@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160905141326) do
+ActiveRecord::Schema.define(version: 20160906133858) do
+
+  create_table "accepted_destinations", force: true do |t|
+    t.integer  "destinations_driver_id"
+    t.integer  "first_location_id"
+    t.integer  "last_location_id"
+    t.string   "aasm_state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "accepted_destinations", ["destinations_driver_id"], name: "index_accepted_destinations_on_destinations_driver_id", using: :btree
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"

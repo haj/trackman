@@ -714,6 +714,7 @@ DEPENDENCIES
   mailboxer
   mysql2
   nested_form
+  nokogiri
   order_query (~> 0.3.2)
   paranoia (~> 2.0)
   paymill

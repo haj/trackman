@@ -4,21 +4,23 @@ class DestinationsDriver < ActiveRecord::Base
 
   aasm do
     state :pending, :initial => true
-    state :accept, :decline
+    state :accepted, :declined
 
-    event :accepted do
-      transitions :from => :pending, :to => :accept
+    event :accept, after: :read_notification do
+      transitions :from => :pending, :to => :accepted
 		end    
 
-    event :declined do
-      transitions :from => :pending, :to => :decline
+    event :decline, after: :read_notification do
+      transitions :from => :pending, :to => :declined
 		end    
   end
 
   # ASSOCIATION
   belongs_to :user
   belongs_to :order
-  has_many :notifications, as: :notificationable, dependent: :destroy
+  has_one :notification, as: :notificationable, dependent: :destroy
+  has_one :declined_order, dependent: :nullify
+  has_many :accepted_destinations, dependent: :nullify
 
   # Validation
   validates :user_id, presence: true
@@ -27,6 +29,11 @@ class DestinationsDriver < ActiveRecord::Base
   after_create :create_notification
 
   def create_notification
-  	self.notifications.create(user_id: user_id, action: 'assigned', sender_id: order.xml_destination.user_id)
+  	self.build_notification(user_id: user_id, action: 'assigned', sender_id: order.xml_destination.user_id)
+  	self.save!
+  end
+
+  def read_notification
+  	self.notification.update(is_read: true) unless notification.is_read
   end
 end

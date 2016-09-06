@@ -326,6 +326,8 @@ module.exports = React.createClass
       icon: @props.carIcon
       title: car.name
     google.maps.event.addListener marker, "click", (() ->
+      PubSub.publish 'show_logbook', car
+      console.log("clicked")
       if @infoWindow
         @infoWindow.close()
       @createInfoWindow marker, car
@@ -417,7 +419,6 @@ module.exports = React.createClass
       @boundsToRoute.extend points[n]
       n++
     @fitBounds @boundsToRoute
-    console.log("zoom")
 
   resizeMap: ->
     PubSub.publish "toggleWidthView", @state.gmap

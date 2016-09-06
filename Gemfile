@@ -108,6 +108,9 @@ gem 'carrierwave'
 gem "jquery-fileupload-rails"
 # Simple form
 gem 'simple_form'
+# Nokogiri
+gem 'nokogiri'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'

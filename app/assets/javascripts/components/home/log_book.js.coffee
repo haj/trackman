@@ -183,7 +183,7 @@ module.exports = React.createClass
                       $.map @state.selectedData, (item, key) ->
                         R.tr {key: key, className: 'position_row', style: {verticalAlign: 'middle'}},
                           R.td className: 'col-md-1', step item.state, item.trip_step
-                          R.td className: 'col-md-1', "#{date item.time}"
+                          R.td className: 'col-md-2', "#{date item.time} GMT +0"
                           R.td className: 'col-md-2', duration item
                           R.td className: 'col-md-6', item.address
                           # R.td className: 'col-md-2', "#{Math.floor(item.speed)} km/h"
