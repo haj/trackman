@@ -236,6 +236,10 @@ Rails.application.routes.draw do
     collection do
       post 'parse_xml'
     end
+
+    member do
+      put 'decline'
+    end
   end
 
   resources :tmp_attachments, only: :create
