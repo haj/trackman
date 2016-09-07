@@ -6,6 +6,7 @@ class CreateOrders < ActiveRecord::Migration
       t.float :longitude
       t.string :package
       t.references :xml_destination, index: true
+      t.string :aasm_state
 
       t.timestamps
     end

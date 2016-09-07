@@ -1,4 +1,7 @@
 ready = ->
+  $("#js-assign-another-driver").on 'change', ->
+    $("#form-assign-another-driver").submit()
+
   $("#js-tmp-attachment-file").fileupload
     dataType: 'json'
     url: '/tmp_attachments.json?from=xml_destination'

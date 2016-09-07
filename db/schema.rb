@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160906133858) do
+ActiveRecord::Schema.define(version: 20160906142529) do
 
   create_table "accepted_destinations", force: true do |t|
     t.integer  "destinations_driver_id"
@@ -169,6 +169,15 @@ ActiveRecord::Schema.define(version: 20160906133858) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "declined_orders", force: true do |t|
+    t.integer  "destinations_driver_id"
+    t.text     "reason"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "declined_orders", ["destinations_driver_id"], name: "index_declined_orders_on_destinations_driver_id", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -364,6 +373,7 @@ ActiveRecord::Schema.define(version: 20160906133858) do
     t.float    "longitude",          limit: 24
     t.string   "package"
     t.integer  "xml_destination_id"
+    t.string   "aasm_state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

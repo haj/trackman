@@ -12,7 +12,8 @@ class OrdersController < ApplicationController
   end
 
   def show
-    
+    @drivers         = @order.destinations_drivers.includes(:user)    
+    @another_drivers = User.another_driver(@drivers) if @order.declined? || @order.pending?
   end
 
   def new

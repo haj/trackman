@@ -1,0 +1,43 @@
+.row.page-heading
+  .col-md-12
+    h2 Orders
+  ol.breadcrumb
+    = render_breadcrumbs
+
+.grid.simple
+  .grid-body
+    .row.m-b-10
+      .col-md-2
+        label Customer Name
+      .col-md-8
+        strong = @order.customer_name
+    .row.m-b-10
+      .col-md-2
+        label Destination
+      .col-md-8
+        strong = "#{@order.latitude}, #{@order.longitude}"
+    .row.m-b-10
+      .col-md-2
+        label Package
+      .col-md-8
+        strong = @order.package
+    .row.m-b-10
+      .col-md-2
+        label Driver
+      .col-md-8
+        - @drivers.each do |driver|
+          .row
+            .col-md-8 = "#{driver.user.full_name} - <strong>#{driver.aasm_state.titleize} #{decline_label_helper(driver)}</strong>".html_safe
+    - if @order.declined? || @order.pending?
+      .row.m-b-10
+        .col-md-2
+          label Assign Another Driver
+        .col-md-8
+          = simple_form_for(:destinations_driver, url: destinations_drivers_path, html: { id: 'form-assign-another-driver' }) do |f|
+            = f.input :order_id, as: :hidden, input_html: { value: @order.id }
+            = f.input :user_id, as: :select, collection: @another_drivers, prompt: 'Assign Another Driver', input_html: { id: 'js-assign-another-driver' }, label: false
+
+    .row
+      .col-md-12
+        #map
+          h2 Will Show a Real Time Map Here

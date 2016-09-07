@@ -241,7 +241,7 @@ Rails.application.routes.draw do
 
   resources :tmp_attachments, only: :create
 
-  resources :destinations_drivers, only: :show do
+  resources :destinations_drivers, only: [:show, :create] do
     member do
       put 'accept'
       put 'decline'

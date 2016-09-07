@@ -8,11 +8,11 @@ class DestinationsDriver < ActiveRecord::Base
 
     after_all_transitions [:read_notification, :notif_admin]
 
-    event :accept do
+    event :accept, after: :order_accept do
       transitions :from => :pending, :to => :accepted
     end    
 
-    event :decline do
+    event :decline, after: :order_decline do
       transitions :from => :pending, :to => :declined
     end    
   end
@@ -20,7 +20,7 @@ class DestinationsDriver < ActiveRecord::Base
   # ASSOCIATION
   belongs_to :user
   belongs_to :order
-  has_one :notification, as: :notificationable, dependent: :destroy
+  has_many :notifications, as: :notificationable, dependent: :destroy
   has_one :declined_order, dependent: :nullify
   has_many :accepted_destinations, dependent: :nullify
 
@@ -28,20 +28,45 @@ class DestinationsDriver < ActiveRecord::Base
   validates :user_id, presence: true
 
   # Callback
-  after_create :create_notification
+  before_create :delete_last_pending
+  after_create :create_notification, :set_order_state
+
+  def delete_last_pending
+    if order.pending?
+      last_destination = order.destinations_drivers.last
+
+      last_destination.destroy if last_destination && last_destination.pending?
+    end
+  end
+
+  def set_order_state
+    order.pend
+    order.save!
+  end
 
   def create_notification
-    self.build_notification(user_id: user_id, action: 'assigned', sender_id: order.xml_destination.user_id)
+    self.notifications.create(user_id: user_id, action: 'assigned', sender_id: order.xml_destination.user_id)
     self.save!
   end
 
   def notif_admin
     User.by_role(:manager).each do |u|
-      self.build_notification(user_id: u.id, sender_id: user_id, action: aasm.to_state)
+      self.notifications.create(user_id: u.id, sender_id: user_id, action: aasm.to_state)
     end
   end
 
   def read_notification
-    self.notification.update(is_read: true) unless notification.is_read
+    notif = notifications.find_by(user_id: user_id)
+    notif.update(is_read: true) unless notif.is_read
+  end
+
+  def order_accept
+    order.accept
+    order.save!
+  end
+
+  def order_decline
+    order.decline
+    order.save!
   end
 end

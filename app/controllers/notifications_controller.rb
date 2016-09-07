@@ -9,7 +9,7 @@ class NotificationsController < ApplicationController
   def index
     add_breadcrumb "Index"
 
-    @notifications = current_user.notifications.order(created_at: :desc).page(params[:page])
+    @notifications = current_user.notifications.includes(:notificationable).order(created_at: :desc).page(params[:page])
 
     respond_with(@notifications)
   end

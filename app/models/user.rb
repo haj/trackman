@@ -63,6 +63,10 @@ class User < ActiveRecord::Base
   has_many :sender_notif, class_name: "Notification", foreign_key: "sender_id", dependent: :nullify
 
   class << self
+    def another_driver(drivers)
+      self.by_role(:driver).where.not(id: drivers.map(&:user).flatten.map(&:id)).map { |e| [e.full_name, e.id] }      
+    end
+    
     def available_drivers
       users = User.where(car_id: nil)
       

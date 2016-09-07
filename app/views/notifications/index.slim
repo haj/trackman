@@ -24,8 +24,13 @@
                           .clear-both
                         .row
                           = "#{time_ago_in_words(notif.created_at)} ago."
-                          = accept_decine_helper(notif.action, notif.notificationable_id, notif.notificationable.aasm_state).html_safe if notif.action == 'assigned'
+                          = accept_decline_helper(notif.action, notif.notificationable_id, notif.notificationable.aasm_state, notif.id).html_safe if notif.action == 'assigned'
                 - else
                   .text-center
                     h2 No Notification at the moment
                     i.fa.fa-ban.fa-4x
+
+.none
+  = simple_form_for(:declined_order, url: root_path, html: { id: 'form-decline-order' }, method: :put) do |f|
+    = f.input :reason, input_html: { id: 'js-input-reason' }
+    = f.input :notif_id, input_html: { id: 'js-input-notif-id' }
