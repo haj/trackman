@@ -1,8 +1,15 @@
 module NotificationsHelper
-	def notif_helper(action)
-		if action == 'assigned'
-			"Central Office just assigned you on a new order package"
-		end		
+	def notif_helper(notif)
+		link_to order_path(notif.notificationable.order) do
+			case notif.action
+			when 'assigned'
+					"Central Office just assigned you on a new order package"
+		  when 'accepted'
+		  	"#{notif.sender.full_name} just accepted order #{notif.notificationable.order.package}"
+		  when 'declined'
+		  	"#{notif.sender.full_name} just declined order #{notif.notificationable.order.package}"
+			end		
+		end
 	end
 
 	def accept_decine_helper(action, id, state)

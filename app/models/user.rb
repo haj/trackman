@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
   roles(ROLES.map(&:to_sym))
 
   # Scope
-  scope :by_role, -> role_name { where(roles_mask: self.mask_values_for(role_name.to_sym)) }
+  scope :by_role, -> role_name { where(roles_mask: self.mask_for(role_name)) }
 
   # Validation  
   validates_uniqueness_to_tenant :email
