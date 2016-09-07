@@ -144,8 +144,6 @@ class Location < ActiveRecord::Base
     statistics = CarStatistic.find_or_create_by(car_id: self.device.try(:car).try(:id), time: self.time.to_date)
 
     unless Location.greater_than_last_time?(device_id, time)
-      statistic_distance(statistics)
-
       case statistics.aasm_state
       when 'start'
         on_road(statistics)
@@ -154,10 +152,6 @@ class Location < ActiveRecord::Base
       else
         on_start(statistics)
       end
-
-      puts statistics.aasm_state
-
-      puts self.state
 
       statistics.save!
       self.save!    
@@ -183,6 +177,8 @@ class Location < ActiveRecord::Base
   #
   def on_start(statistics)
     if ignition_is_on? && !statistics.start?
+      statistic_distance(statistics)
+
       step       = is_first_position_of_day? ? 1 : (statistics.steps_counter += 1)
       self.state = "start"
       self.parking_duration = (Time.now - Date.today.to_time).to_i if is_first_position_of_day?
@@ -199,6 +195,8 @@ class Location < ActiveRecord::Base
   # On road
   #
   def on_road(statistics)
+    statistic_distance(statistics)
+
     self.state = 'onroad'
     statistics.run    
   end
@@ -207,6 +205,8 @@ class Location < ActiveRecord::Base
   # on stop
   #
   def on_stop(statistics, duration_since_last_start)
+    statistic_distance(statistics)
+
     self.state = "stop"
     self.ignite_step = previous_start_point.try(:ignite_step)
     self.trip_step = statistics.steps_counter
