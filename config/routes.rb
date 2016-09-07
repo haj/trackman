@@ -237,15 +237,16 @@ Rails.application.routes.draw do
     collection do
       post 'parse_xml'
     end
-
-    member do
-      put 'decline'
-    end
   end
 
   resources :tmp_attachments, only: :create
 
-  resources :destinations_drivers
+  resources :destinations_drivers, only: :show do
+    member do
+      put 'accept'
+      put 'decline'
+    end
+  end
 
   namespace :api do
     resources :simcards
