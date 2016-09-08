@@ -13,6 +13,12 @@ ul
         span.title Alerts
         span.badge.badge-danger.pull-right = @alerts_count
 
+  li class="#{'active' if current_page?(notifications_path)}"
+    a href="#{notifications_path}"
+      = fa_icon "bell"
+      span.title Notifications
+      span.badge.badge-danger.pull-right = @notifications_count
+
   li
     a href="javascript:;"
       = fa_icon "envelope"
@@ -35,11 +41,6 @@ ul
       = fa_icon "file-text-o"
       span.title Reports
 
-  li class="#{'active' if current_page?(notifications_path)}"
-    a href="#{notifications_path}"
-      = fa_icon "bell"
-      span.title Notifications
-      span.badge.badge-danger.pull-right = @notifications_count
 
   - if is_manager?(current_user)
     li class="#{'active' if current_page?(orders_path)}"
