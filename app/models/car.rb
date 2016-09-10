@@ -265,6 +265,7 @@ class Car < ActiveRecord::Base
     end
 
     def locations_grouped_by_these_dates(dates, car_id)
+      dates = dates.present? ? dates : Date.today
       Location.find_by_sql(["
         SELECT * FROM locations 
         INNER JOIN devices ON locations.device_id = devices.id 

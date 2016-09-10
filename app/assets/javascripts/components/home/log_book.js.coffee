@@ -27,15 +27,15 @@ module.exports = React.createClass
   componentWillMount: ->
     # event coming from CarsOverview
     @pubsub = PubSub.subscribe 'show_logbook', ((topic, props) ->
-      if props.id != @state.car_id
-        @setState car_id: props.id
-        @setState car: props
+      if props.car.id != @state.car_id
+        @setState car_id: props.car.id
+        @setState car: props.car
         @setState loading: "loading"
         self = @
 
         $.ajax
           url: "/home/logbook_data"
-          data: car_id: props.id
+          data: car_id: props.car.id
           type: 'get'
           dataType: 'json'
           success: (data) ->
@@ -68,10 +68,48 @@ module.exports = React.createClass
               posForMap: []
               loading: "nothing"
       else
-        @setState selectedDate: @state.data[0][0]
-        @setState selectedData: @state.data[0][1], (pos) ->
-          pos.state == "start" or pos.state == "stop" or pos.state == "idle"
-        PubSub.publish "showRoute", {date: @state.data[0][0], car: @state.car}
+        @setState car_id: props.car.id
+        @setState car: props.car
+        @setState loading: "loading"
+        self = @
+
+        $.ajax
+          url: "/home/logbook_data"
+          data: 
+            a: 'test'
+            car_id: props.car.id
+            date: props.date
+          type: 'get'
+          dataType: 'json'
+          success: (data) ->
+            data.reverse()
+            if data.length == 0
+              # Nothing found for the current car => Showing intiial state of the map.
+              PubSub.publish "clearSelectedCar"
+              self.setState
+                selectedData: []
+                selectedDate: null
+                car: null
+                data: []
+                posForMap: []
+                car_id: null
+                loading: "nothing"
+            else
+              self.setState data: data
+              self.setState selectedDate: data[0][0]
+              self.setState selectedData: $.grep data[0][1], (pos) ->
+                pos.state == "start" or pos.state == "stop" or pos.state == "idle"
+              PubSub.publish "showRoute", {date: data[0][0], car: self.state.car}
+              self.setState loading: "done"
+          error: (data) ->
+            self.setState
+              selectedData: []
+              selectedDate: null
+              car: null
+              data: []
+              car_id: null
+              posForMap: []
+              loading: "nothing"
     ).bind(@)
 
     # event coming from CarsOverview
@@ -156,7 +194,7 @@ module.exports = React.createClass
     R.div null,
       R.div {className: 'logbook_section', ref: 'logbook'},
         R.div className: "col-md-2 no-padding",
-          React.createElement SimpleGrid, title: '...', style: {padding: '0px'},
+          React.createElement SimpleGrid, title: '...', style: {padding: '0px'}, car: @state.car,
             unless @state.loading == "done"
               @renderMessage @state.loading
             else
@@ -165,7 +203,7 @@ module.exports = React.createClass
                   React.createElement ListGroupRow, onClick: @show_data_for_date.bind(@, item), date: item[0], car: @state.car, selectedDate: @state.selectedDate
 
         R.div className: "col-md-10 no-padding",
-          React.createElement SimpleGrid, title: "Logbook" || "...", style: {padding: '0px'}, showGeneratePdf: @state.selectedDate != null, generatePdf: @generatePdf,
+          React.createElement SimpleGrid, title: "Logbook" || "...", style: {padding: '0px'}, showGeneratePdf: @state.selectedDate != null, generatePdf: @generatePdf, car: @state.car,
 
             unless @state.loading == "done"
               @renderMessage @state.loading

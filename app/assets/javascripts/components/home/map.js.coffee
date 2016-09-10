@@ -110,9 +110,8 @@ module.exports = React.createClass
           self.calcRoutePolyline locations
           # @showStepsOfRoute data.locations
         )
-
+      
       @state.gmap.fitBounds
-      console.log("get car route")
 
     ).bind(@)
 
@@ -326,8 +325,7 @@ module.exports = React.createClass
       icon: @props.carIcon
       title: car.name
     google.maps.event.addListener marker, "click", (() ->
-      PubSub.publish 'show_logbook', car
-      console.log("clicked")
+      PubSub.publish 'show_logbook', { car: car }
       if @infoWindow
         @infoWindow.close()
       @createInfoWindow marker, car

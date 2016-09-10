@@ -30,7 +30,7 @@ module.exports = React.createClass
       @toggleCarsOverview()
       if @state.selected != props.id
         @setState selected: props.id
-        PubSub.publish 'show_logbook', props
+        PubSub.publish 'show_logbook', { car: props }
 
   handleClearSelected: ->
     @setState selected: null

@@ -2,6 +2,21 @@ R = React.DOM
 
 module.exports = React.createClass
 
+  componentDidUpdate: ->
+    @initDatePicker(@props)
+
+  initDatePicker: (props)->
+    $(".datepicker").datepicker
+      endDate: 'today'
+      autoclose: true
+    .on "changeDate", (e)->
+      date = e.date
+      console.log(props.car)
+      car  = props.car
+
+      if car
+        PubSub.publish 'show_logbook', {car: car, date: date, id: car.id}
+
   handleClick: (e) ->
     e.preventDefault()
     @props.onSelect @props.car
