@@ -29,10 +29,12 @@ module.exports = React.createClass
     $(".datepicker").datepicker
       endDate: 'today'
       autoclose: true
+      format: 'yyyy/mm/dd'
     .on "changeDate", (e)->
+      e.preventDefault()
       date = e.date
       car  = props
-
+      
       PubSub.publish 'show_logbook', {car: car, date: date, id: car.id}
 
   showLogbook: (props) ->

@@ -33,9 +33,13 @@ module.exports = React.createClass
         @setState loading: "loading"
         self = @
 
+        date = $(".datepicker").val()
+
         $.ajax
           url: "/home/logbook_data"
-          data: car_id: props.car.id
+          data: 
+            car_id: props.car.id
+            date: date
           type: 'get'
           dataType: 'json'
           success: (data) ->
@@ -52,6 +56,8 @@ module.exports = React.createClass
                 car_id: null
                 loading: "nothing"
             else
+              d = data[0][0].split("-").join("/")
+              $('.datepicker').datepicker('update', d)
               self.setState data: data
               self.setState selectedDate: data[0][0]
               self.setState selectedData: $.grep data[0][1], (pos) ->

@@ -34,8 +34,8 @@ class HomeController < ApplicationController
     @car = Car.find(params[:car_id])
 
     if @car.last_position
-      @date          = params[:date].present? ? params[:date].to_time.to_date : @car.last_position.time.to_date
-      @data          = Car.locations_grouped_by_these_dates(@date, @car.id)
+      @date = params[:date].present? ? params[:date].to_time.to_date : @car.last_position.time.to_date
+      @data = Car.locations_grouped_by_these_dates(@date, @car.id)
     end
 
     respond_to :json

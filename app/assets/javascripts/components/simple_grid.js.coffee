@@ -8,6 +8,7 @@ module.exports = React.createClass
     $(".datepicker").datepicker
       endDate: 'today'
       autoclose: true
+      format: 'yyyy/mm/dd'
 
   datePicker: ->
     R.input { type: 'text', className: 'datepicker', placeholder: 'Click to Select Date For Car Logs' }
