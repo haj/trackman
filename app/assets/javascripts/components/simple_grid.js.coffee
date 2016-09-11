@@ -1,6 +1,14 @@
 R = React.DOM
 
 module.exports = React.createClass
+  componentDidMount: ->
+    @initDatePicker(@props)
+
+  initDatePicker: (props)->
+    $(".datepicker").datepicker
+      endDate: 'today'
+      autoclose: true
+
   datePicker: ->
     R.input { type: 'text', className: 'datepicker', placeholder: 'Click to Select Date For Car Logs' }
 

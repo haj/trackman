@@ -25,12 +25,23 @@ module.exports = React.createClass
       $(".cars_overview .grid-body").toggle()
     )
 
+  changeDateLog: (props) ->
+    $(".datepicker").datepicker
+      endDate: 'today'
+      autoclose: true
+    .on "changeDate", (e)->
+      date = e.date
+      car  = props
+
+      PubSub.publish 'show_logbook', {car: car, date: date, id: car.id}
+
   showLogbook: (props) ->
     if props.last_seen != "-"
       @toggleCarsOverview()
       if @state.selected != props.id
         @setState selected: props.id
         PubSub.publish 'show_logbook', { car: props }
+        @changeDateLog props
 
   handleClearSelected: ->
     @setState selected: null

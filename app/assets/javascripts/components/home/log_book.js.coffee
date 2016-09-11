@@ -76,7 +76,6 @@ module.exports = React.createClass
         $.ajax
           url: "/home/logbook_data"
           data: 
-            a: 'test'
             car_id: props.car.id
             date: props.date
           type: 'get'
@@ -194,7 +193,7 @@ module.exports = React.createClass
     R.div null,
       R.div {className: 'logbook_section', ref: 'logbook'},
         R.div className: "col-md-2 no-padding",
-          React.createElement SimpleGrid, title: '...', style: {padding: '0px'}, car: @state.car,
+          React.createElement SimpleGrid, title: '...', style: {padding: '0px'}, car: @state.data.car,
             unless @state.loading == "done"
               @renderMessage @state.loading
             else
@@ -203,7 +202,7 @@ module.exports = React.createClass
                   React.createElement ListGroupRow, onClick: @show_data_for_date.bind(@, item), date: item[0], car: @state.car, selectedDate: @state.selectedDate
 
         R.div className: "col-md-10 no-padding",
-          React.createElement SimpleGrid, title: "Logbook" || "...", style: {padding: '0px'}, showGeneratePdf: @state.selectedDate != null, generatePdf: @generatePdf, car: @state.car,
+          React.createElement SimpleGrid, title: "Logbook" || "...", style: {padding: '0px'}, showGeneratePdf: @state.selectedDate != null, generatePdf: @generatePdf, car: @state.data.car,
 
             unless @state.loading == "done"
               @renderMessage @state.loading

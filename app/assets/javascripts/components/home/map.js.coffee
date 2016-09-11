@@ -61,7 +61,7 @@ module.exports = React.createClass
         title: null
         allCars: true
         selectedCar: {routes:[]}
-      @routePath.setMap null
+      @routePath.setMap null if @routePath
       @routePath = null
       @clearRouteMarkers()
       @fitBounds(@boundsToAllCars)
