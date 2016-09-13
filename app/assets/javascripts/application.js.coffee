@@ -103,3 +103,10 @@ $(document).ready(ready)
 
 
 
+$(document).ajaxSend(() ->
+  return NProgress.start()
+)
+
+$(document).ajaxComplete(()->
+  NProgress.done()
+)

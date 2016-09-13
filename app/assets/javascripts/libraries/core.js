@@ -532,7 +532,7 @@ $(window).resize(function () {
 function calculateHeight() {
     var contentHeight = parseInt($('.page-content').height(), 10);
     if (911 > contentHeight) {
-        console.log("Small");
+        // console.log("Small");
     }
 }
 //******************************* Bind Functions Jquery- LAYOUT OPTIONS API ***************

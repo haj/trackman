@@ -39,5 +39,12 @@
 
     .row
       .col-md-12
-        #map
-          h2 Will Show a Real Time Map Here
+        -if @drivers.accepted.first
+          #map style="height: 500px;"
+            = react_component "Order",
+              order: @order,
+              selected_driver: @drivers.accepted.first.user,
+              car: @drivers.accepted.first.user.car
+        - else
+          .alert.alert-info
+            h3 Map will be shown after one of the drivers accepted the request.
