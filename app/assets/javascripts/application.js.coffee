@@ -102,11 +102,15 @@ ready = ->
 $(document).ready(ready)
 
 
-
-$(document).ajaxSend(() ->
-  return NProgress.start()
+$(document).ajaxSend(()->
+  $('body').waitMe
+    effect : 'stretch'
+    text : "Loading ....."
+    color : '#000'
+    maxSize : ''
+    source : ''  
 )
 
 $(document).ajaxComplete(()->
-  NProgress.done()
+  $("body").waitMe("hide")      
 )
