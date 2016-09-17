@@ -37,16 +37,21 @@
             = f.input :order_id, as: :hidden, input_html: { value: @order.id }
             = f.input :user_id, as: :select, collection: @another_drivers, prompt: 'Assign Another Driver', input_html: { id: 'js-assign-another-driver' }, label: false
 
+    br
     .row
       .col-md-12
         -if @drivers.accepted.first
-          #map style="height: 500px;"
-            = react_component "Order",
-              order: @order,
-              selected_driver: @drivers.accepted.first.user,
-              car: @drivers.accepted.first.user.car,
-              latitude_origin: request.location.latitude,
-              longitude_origin: request.location.longitude
+          #map
+            .col-md-3
+              #routeDescription
+            .col-md-9
+              #showMap style="height: 500px;"
+          = react_component "Order",
+            order: @order,
+            selected_driver: @drivers.accepted.first.user,
+            car: @drivers.accepted.first.user.car,
+            latitude_origin: request.location.latitude,
+            longitude_origin: request.location.longitude
         - else
           .alert.alert-info
             h3 Map will be shown after one of the drivers accepted the request.

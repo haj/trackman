@@ -61,4 +61,8 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  #IP Development
+  config.middleware.use('SpoofIp', '120.188.94.33')
 end
+

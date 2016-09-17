@@ -1,6 +1,8 @@
 directionsService = new google.maps.DirectionsService()
 directionsDisplay = new google.maps.DirectionsRenderer()
+trafficLayer      = new google.maps.TrafficLayer()
 geocoder          = new google.maps.Geocoder()
+RouteDescription  = require('./routes_description')
 
 module.exports = React.createClass
 
@@ -12,7 +14,6 @@ module.exports = React.createClass
 
   componentWillMount: ->
     @initMap()
-    @setCurrentState()
     @calcRoute()
 
   initMap: ->
@@ -21,36 +22,53 @@ module.exports = React.createClass
       zoom: 7,
       center: destination
     }
-    map = new google.maps.Map(document.getElementById('map'), mapOptions)
+    map = new google.maps.Map(document.getElementById('showMap'), mapOptions)
     directionsDisplay.setMap(map)
 
   destination: ->
     "#{@state.latitude_destination}, #{@state.longitude_destination}"
 
-  setCurrentState: ->
-    if navigator.geolocation
-      window.test = navigator
-      navigator.geolocation.getCurrentPosition((position)->
-        @setState
-          latitudde_origin: position.coords.latitude
-          longitude_origin: position.coords.longitude
-      )
-
   origin: ->
-    "#{@state.latitudde_origin}, #{@state.longitude_origin}"
+    "#{@state.latitude_origin}, #{@state.longitude_origin}"
 
   calcRoute: ->
     request = {
-      origin: @origin(),
-      destination: @destination(),
+      origin: @origin()
+      destination: @destination()
       travelMode: 'DRIVING'
     }
     directionsService.route(request, (result, status) ->
       if status == 'OK'
         directionsDisplay.setDirections(result)
+
+        point = result.routes[0].legs[0]
+
+        $("#routeDescription").html("
+          <h3>Route Description</h3>
+          <hr />
+          <div>
+            <label>Start Point</label>
+            <strong>#{point.start_address}</strong>
+          </div>
+          <br />
+          <div>
+            <label>Destination</label>
+            <strong>#{point.end_address}</strong>
+          </div>
+          <br />
+          <div>
+            <label>Distance</label>
+            <strong>#{point.distance.text}</strong>
+          </div>
+          <br />
+          <div>
+            <label>Estimate Duration</label>
+            <strong>#{point.duration.text}</strong>
+          </div>
+        ")
     )
 
   render: ->
     return (
-      <div className='GMap'></div>
+      <div></div>
     )
