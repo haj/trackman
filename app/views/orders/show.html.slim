@@ -44,7 +44,9 @@
             = react_component "Order",
               order: @order,
               selected_driver: @drivers.accepted.first.user,
-              car: @drivers.accepted.first.user.car
+              car: @drivers.accepted.first.user.car,
+              latitude_origin: request.location.latitude,
+              longitude_origin: request.location.longitude
         - else
           .alert.alert-info
             h3 Map will be shown after one of the drivers accepted the request.

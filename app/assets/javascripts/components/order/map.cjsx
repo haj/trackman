@@ -5,8 +5,8 @@ geocoder          = new google.maps.Geocoder()
 module.exports = React.createClass
 
   getInitialState: ->
-    { car: @props.car, order_id: @props.order.id, latitude_origin: null, 
-    longitude_origin: null, latitude_destination: @props.order.latitude, 
+    { car: @props.car, order_id: @props.order.id, latitude_origin: @props.latitude_origin, 
+    longitude_origin: @props.longitude_origin, latitude_destination: @props.order.latitude, 
     longitude_destination: @props.order.longitude, package: @props.order.package, 
     customer_name: @props.order.customer_name, selected_driver: @props.selected_driver }
 
