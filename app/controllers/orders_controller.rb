@@ -1,19 +1,30 @@
 class OrdersController < ApplicationController
   add_breadcrumb "Orders", :orders_url
+
   include Breadcrumbable
+  include UsersHelper
 
   #Callback
   before_action :set_order, only: [:show, :update, :destroy]
 
   def index
-    @orders = Order.joins(:xml_destination).page(params[:page]).per(30)
+    @orders = 
+      if current_user.has_any_role?(:driver)
+        Order.assigned_to(current_user.id, params[:filter]).page(params[:page]).per(30)
+      else
+        Order.all_available(params[:filter]).page(params[:page]).per(30)
+      end
 
-    respond_with(@orders)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def show
     @drivers         = @order.destinations_drivers.includes(:user)    
     @another_drivers = User.another_driver(@drivers) if @order.declined? || @order.pending?
+    @my_destination  = @order.my_destination(current_user.id)
   end
 
   def new

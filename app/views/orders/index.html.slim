@@ -4,36 +4,46 @@
       h2 Orders
     ol.breadcrumb
       = render_breadcrumbs
-  .pull-right
-    = link_to 'New Orders', new_order_path, class: "btn btn-primary btn-right"
+  - if is_manager?(current_user)
+    .pull-right
+      = link_to 'New Orders', new_order_path, class: "btn btn-primary btn-right"
   .clear-both
 
 .grid.simple
   .grid-body
     .row
       .col-md-12
-        - if @orders.present?
-          .table-responsive
-            table.table
-              thead
-                th Customer Name
-                th Address Package
-                th Package
-                th Status
-                th Action
-              tbody
-                - @orders.each do |order|
-                  tr
-                    td = order.customer_name
-                    td = "#{order.latitude} #{order.longitude}"
-                    td = order.package
-                    td = order.aasm_state.titleize
-                    td = link_to 'Show', order
+        .row
+          .pull-right
+            = select_tag 'filter', options_for_select(['Accepted', 'Declined', 'Pending', 'All'], 'All'), class: 'form-control', id: 'js-filter-oder'
+        .clear-both
+        #order-content
+          - if @orders.present?
+            .table-responsive
+              table.table
+                thead
+                  th Customer Name
+                  th Address Package
+                  th Package
+                  th Status
+                  th Action
+                tbody#order-body
+                  - @orders.each do |order|
+                    tr
+                      td = order.customer_name
+                      td = "#{order.latitude} #{order.longitude}"
+                      td = order.package
+                      td = state_helper(order)
+                      td = order_action(order)
 
-          = paginate @orders
 
-        - else
-          .text-center
-            h2 No Orders at the moment.
-            i.fa.fa-ban.fa-4x
-            h3 Try to create an order. The button is on top right of this page.
+            = paginate @orders
+
+          - else
+            .text-center
+              h2 No Orders at the moment.
+              i.fa.fa-ban.fa-4x
+              h3 Try to create an order. The button is on top right of this page.
+
+- if is_driver?(current_user)
+  = render 'destinations_drivers/partials/decline'

@@ -19,7 +19,7 @@ class DestinationsDriversController < ApplicationController
     @destination.accept
     @destination.save
 
-    respond_with(@destination, location: @destination, notice: 'Success accept order.')
+    respond_with(@destination, location: @destination.order, notice: 'Success accept order.')
   end
 
   def decline

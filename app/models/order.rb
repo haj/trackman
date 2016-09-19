@@ -32,6 +32,35 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :destinations_drivers, allow_destroy: true, reject_if: :all_blank  
 
   def accepted_user
-  	destinations_drivers.find_by(aasm_state: "accept")  	
+    destinations_drivers.find_by(aasm_state: "accept")    
+  end
+
+  def my_destination(current_user_id)
+    destinations_drivers.find_by(user_id: current_user_id)
+  end
+
+  def my_notif_id(current_user_id)
+    my_destination(current_user_id).notifications.find_by(user_id: current_user_id).try(:id)
+  end
+
+  class << self
+    def all_available(filter = '')
+      return joins(:xml_destination) if filter == 'All' || filter.blank?
+      
+      joins(:xml_destination).where(aasm_state: filter.downcase)      
+    end
+
+    def assigned_to(user_id, filter = '')
+      return assigned_to_query(user_id) if filter == 'All' || filter.blank?
+
+      assigned_to_query(user_id).where(aasm_state: filter.downcase)
+    end
+
+    def assigned_to_query(user_id)
+      joins(:destinations_drivers).joins(:destinations_drivers => :notifications).
+      where(destinations_drivers: { user_id: user_id }, notifications: { user_id: user_id }).
+      select("orders.*, destinations_drivers.id AS destination_id, destinations_drivers.aasm_state AS des_state,
+        notifications.id AS notif_id")      
+    end
   end
 end

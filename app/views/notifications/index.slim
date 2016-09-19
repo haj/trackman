@@ -30,7 +30,4 @@
                     h2 No Notification at the moment
                     i.fa.fa-ban.fa-4x
 
-.none
-  = simple_form_for(:declined_order, url: root_path, html: { id: 'form-decline-order' }, method: :put) do |f|
-    = f.input :reason, input_html: { id: 'js-input-reason' }
-    = f.input :notif_id, input_html: { id: 'js-input-notif-id' }
+= render 'destinations_drivers/partials/decline'

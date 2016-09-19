@@ -21,31 +21,32 @@
         label Package
       .col-md-8
         strong = @order.package
-    .row.m-b-10
-      .col-md-2
-        label Driver
-      .col-md-8
-        - @drivers.each do |driver|
-          .row
-            .col-md-8 = "#{driver.user.full_name} - <strong>#{driver.aasm_state.titleize} #{decline_label_helper(driver)}</strong>".html_safe
-    - if @order.declined? || @order.pending?
+    - if is_manager?(current_user)
       .row.m-b-10
         .col-md-2
-          label Assign Another Driver
+          label Driver
         .col-md-8
-          = simple_form_for(:destinations_driver, url: destinations_drivers_path, html: { id: 'form-assign-another-driver' }) do |f|
-            = f.input :order_id, as: :hidden, input_html: { value: @order.id }
-            = f.input :user_id, as: :select, collection: @another_drivers, prompt: 'Assign Another Driver', input_html: { id: 'js-assign-another-driver' }, label: false
+          - @drivers.each do |driver|
+            .row
+              .col-md-8 = "#{driver.user.full_name} - <strong>#{driver.aasm_state.titleize} #{decline_label_helper(driver)}</strong>".html_safe
+      - if @order.declined? || @order.pending?
+        .row.m-b-10
+          .col-md-2
+            label Assign Another Driver
+          .col-md-8
+            = simple_form_for(:destinations_driver, url: destinations_drivers_path, html: { id: 'form-assign-another-driver' }) do |f|
+              = f.input :order_id, as: :hidden, input_html: { value: @order.id }
+              = f.input :user_id, as: :select, collection: @another_drivers, prompt: 'Assign Another Driver', input_html: { id: 'js-assign-another-driver' }, label: false
 
     br
     .row
       .col-md-12
+        #map
+          .col-md-3
+            #routeDescription
+          .col-md-9
+            #showMap style="height: 500px;"
         -if @drivers.accepted.first
-          #map
-            .col-md-3
-              #routeDescription
-            .col-md-9
-              #showMap style="height: 500px;"
           = react_component "Order",
             order: @order,
             selected_driver: @drivers.accepted.first.user,
@@ -53,5 +54,19 @@
             latitude_origin: request.location.latitude,
             longitude_origin: request.location.longitude
         - else
-          .alert.alert-info
-            h3 Map will be shown after one of the drivers accepted the request.
+          = react_component "Order",
+            order: @order,
+            latitude_origin: request.location.latitude,
+            longitude_origin: request.location.longitude
+
+    - if is_driver?(current_user) && @order.pending? && @my_destination
+      hr
+      .row
+        .col-md-12.text-center
+          = link_to 'Accept', accept_destinations_driver_path(@my_destination), class: 'btn btn-primary', method: :put
+          | &nbsp; &nbsp; &nbsp;
+          = link_to 'Decline', "javascript:void(0);", class: 'btn btn-danger btn-decline', data: { id: @my_destination.id, notifid: @order.my_notif_id(current_user.id) }, id: "js-decline-#{@my_destination}"
+
+
+- if is_driver?(current_user)
+  = render 'destinations_drivers/partials/decline'

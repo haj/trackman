@@ -1,0 +1,5 @@
+<% if @orders.present? %>
+  $("#order-content").html("<%= j(render partial: 'orders/partials/orders', locals: { orders: @orders }) %>")
+<% else %>
+  $("#order-content").html("<h2 class='text-center'>No Order Found :(</h2>")
+<% end %>

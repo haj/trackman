@@ -35,5 +35,13 @@ ready = ->
     success: (e, data) ->
       $("#js-tmp-attachment-id").val(e.object.id)
       $("#new-order").submit()
+
+  $("#js-filter-oder").on 'change', ->
+    $.ajax
+      url: '/orders'
+      dataType: 'script'
+      data:
+        filter: $(@).val()
+        
 $(document).ready(ready)
 $(document).on('page:load', ready)
