@@ -1,6 +1,6 @@
 module NotificationsHelper
   def notif_helper(notif)
-    link_to order_path(notif.notificationable.order_id) do
+    link_to order_path(notif.notificationable.order_id, notif: notif.id) do
       case notif.action
       when 'assigned'
         "Central Office just assigned you on a new order package"
