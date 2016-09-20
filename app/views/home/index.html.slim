@@ -1,10 +1,17 @@
-#count val="1"
-div
-  = react_component "Home",
-    carsOverviewPath: cars_overview_home_index_path,
-    carsStatisticsPath: car_statistics_path,
-    carsIndexPath: home_index_path,
-    pinIcon: image_path('red_pin.png'),
-    parkingIcon: image_path('map-icons/parking_icon.png'),
-    carIcon: image_path('map-icons/car_icon.png'),
-    emptyIcon: image_path('map-icons/empty_icon.png')
+- if is_manager?(current_user)
+  #count val="1"
+  div
+    = react_component "Home",
+      carsOverviewPath: cars_overview_home_index_path,
+      carsStatisticsPath: car_statistics_path,
+      carsIndexPath: home_index_path,
+      pinIcon: image_path('red_pin.png'),
+      parkingIcon: image_path('map-icons/parking_icon.png'),
+      carIcon: image_path('map-icons/car_icon.png'),
+      emptyIcon: image_path('map-icons/empty_icon.png')
+- else
+  div
+    = react_component "Driver",
+      car: current_user.car,
+      device: current_user.car.device,
+      user: current_user

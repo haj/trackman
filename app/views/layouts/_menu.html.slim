@@ -36,17 +36,17 @@ ul
           span.title Sentbox
           span.badge.badge-disable.pull-right.m-r-30 = @outbox_count
 
-  li class="#{'active' if current_page?(reports_path)}"
-    a href="#{reports_vehicles_path}"
-      = fa_icon "file-text-o"
-      span.title Reports
+  li class="#{'active' if current_page?(orders_path)}"
+    a href="#{orders_path}"
+      = fa_icon "dashcube"
+      span.title Order Package
+      span.arrow
 
-
-    li class="#{'active' if current_page?(orders_path)}"
-      a href="#{orders_path}"
-        = fa_icon "dashcube"
-        span.title Order Package
-        span.arrow
+  - if is_employee?(current_user)
+    li class="#{'active' if current_page?(reports_path)}"
+      a href="#{reports_vehicles_path}"
+        = fa_icon "file-text-o"
+        span.title Reports
 
   - if is_manager?(current_user)
     li

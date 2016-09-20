@@ -6,3 +6,4 @@
 window.Home = require('./components/home/home')
 window.Order = require('./components/order/map')
 window.Api = require('./components/utils/api')
+window.Driver = require('./components/driver/home')

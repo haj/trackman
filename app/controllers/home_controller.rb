@@ -13,9 +13,9 @@ class HomeController < ApplicationController
   # If login as employee or driver; redirect to conversations path
   # If manager; Stays at page
   def index    
-    if is_manager?(current_user)
+    if is_manager?(current_user) || is_driver?(current_user)
       respond_with(current_user)
-    elsif is_employee?(current_user) || is_driver?(current_user)
+    elsif is_employee?(current_user)
       redirect_to conversations_path
     else
       redirect_to new_user_session_path
