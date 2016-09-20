@@ -7,7 +7,7 @@ class Order < ActiveRecord::Base
     state :accepted, :declined, :canceled, :finished
 
     event :pend do
-    	transitions :from => [:pending, :declined], to: :pending
+    	transitions :from => [:pending, :declined, :canceled], to: :pending
     end
 
     event :accept do

@@ -12,7 +12,7 @@ class DestinationsDriver < ActiveRecord::Base
       transitions :from => :pending, :to => :accepted
     end    
 
-    event :cancel do
+    event :cancel, after: :order_cancel  do
       transitions :from => :accepted, :to => :canceled
     end
 
@@ -81,5 +81,10 @@ class DestinationsDriver < ActiveRecord::Base
   def order_finish
     order.finish
     order.save!    
+  end
+
+  def order_cancel
+    order.cancel
+    order.save!        
   end
 end

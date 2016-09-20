@@ -4,7 +4,7 @@ module OrdersHelper
   end
 
   def decline_label_helper(driver)    
-    "; due to: #{driver.declined_order.reason}" if driver.aasm_state == 'declined'
+    "; due to: #{driver.declined_order.reason}" if ['declined', 'canceled'].include?(driver.aasm_state)  
   end
 
   def order_action(order)

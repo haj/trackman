@@ -29,7 +29,7 @@
           - @drivers.each do |driver|
             .row
               .col-md-8 = "#{driver.user.full_name} - <strong>#{driver.aasm_state.titleize} #{decline_label_helper(driver)}</strong>".html_safe
-      - if @order.declined? || @order.pending?
+      - if @order.declined? || @order.pending? || @order.canceled?
         .row.m-b-10
           .col-md-2
             label Assign Another Driver
@@ -72,6 +72,8 @@
       .row
         .col-md-12.text-center
           = link_to 'Finish', finish_destinations_driver_path(@my_destination), class: 'btn btn-primary', method: :put, remote: true
+          | &nbsp; &nbsp; &nbsp;
+          = link_to 'Cancel', "javascript:void(0);", class: 'btn btn-danger btn-cancel', data: { id: @my_destination.id, notifid: @order.my_notif_id(current_user.id) }, id: "js-cancel-#{@my_destination}"
 
 - if is_driver?(current_user)
   = render 'destinations_drivers/partials/decline'

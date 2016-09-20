@@ -1,7 +1,13 @@
 ready = ->
   $('.btn-decline').click ->
-    id      = $(@).data('id')
-    notifId = $(@).data('notifid')
+    cancel_decline($(@), 'decline')
+
+  $('.btn-cancel').click ->
+    cancel_decline($(@), 'cancel')
+
+  cancel_decline = (elm, status)->
+    id      = elm.data('id')
+    notifId = elm.data('notifid')
     swal {
       title: 'Are you sure?'
       text: 'Please provide a reason!'
@@ -20,7 +26,7 @@ ready = ->
 
       $('#js-input-reason').val(inputValue)
       $('#js-input-notif-id').val(notifId)
-      $('#form-decline-order').attr('action', "/destinations_drivers/#{id}/decline")
+      $('#form-decline-order').attr('action', "/destinations_drivers/#{id}/#{status}")
       $('#form-decline-order').submit()
 
 $(document).ready(ready)

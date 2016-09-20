@@ -8,6 +8,8 @@ module NotificationsHelper
         "#{notif.sender.full_name} just accepted order #{notif.notificationable.order.package}"
       when 'declined'
         "#{notif.sender.full_name} just declined order #{notif.notificationable.order.package} due to #{notif.notificationable.declined_order.reason}"
+      when 'canceled'
+        "#{notif.sender.full_name} just canceled order #{notif.notificationable.order.package} due to #{notif.notificationable.declined_order.reason}"
       when 'finished'
         "#{notif.sender.full_name} just finished order #{notif.notificationable.order.package}"
       end   

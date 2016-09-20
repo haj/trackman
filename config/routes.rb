@@ -245,6 +245,8 @@ Rails.application.routes.draw do
     member do
       put 'accept'
       put 'decline'
+      put 'finish'
+      put 'cancel'
     end
   end
 
