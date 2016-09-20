@@ -110,6 +110,8 @@ gem "jquery-fileupload-rails"
 gem 'simple_form'
 # Nokogiri
 gem 'nokogiri'
+# Infinite page
+gem 'jquery-infinite-pages'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,0 +1,11 @@
+- @notifications.each do |notif|
+  div id="notification-#{notif.id}" class="notification #{notif.is_read ? nil : 'active'}"
+    .row
+      .pull-left  
+        strong = notif_helper(notif)
+      .pull-right
+        = link_to 'Mark as Read', mark_as_read_notification_path(notif), remote: true, method: :put, id: "js-mark-as-read-link-#{notif.id}" unless notif.is_read
+      .clear-both
+    .row
+      = "#{time_ago_in_words(notif.created_at)} ago."
+      = accept_decline_helper(notif.action, notif.notificationable_id, notif.notificationable.aasm_state, notif.id).html_safe if notif.action == 'assigned'

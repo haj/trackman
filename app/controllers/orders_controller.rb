@@ -9,11 +9,11 @@ class OrdersController < ApplicationController
 
   def index
     @orders = 
-      if current_user.has_any_role?(:driver)
-        Order.assigned_to(current_user.id, params[:filter]).page(params[:page]).per(30)
+      if current_user.has_any_role?(:manager, :admin)
+        Order.all_available(params[:filter])
       else
-        Order.all_available(params[:filter]).page(params[:page]).per(30)
-      end
+        Order.assigned_to(current_user.id, params[:filter])
+      end.page(params[:page]).per(30)
 
     respond_to do |format|
       format.html

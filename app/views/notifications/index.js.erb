@@ -1,0 +1,11 @@
+// Append new data
+$("<%=j render(:partial => 'notifications', :object => @notifications) %>")
+  .appendTo($("#notifications"));
+
+// Update pagination link
+<% if @notifications.last_page? %>
+  $('.pagination').html("No More Data to Show!");
+<% else %>
+  $('.pagination')
+    .html("<%=j link_to_next_page(@notifications, 'Next Page', :remote => true) %>");
+<% end %>
