@@ -67,6 +67,11 @@
           | &nbsp; &nbsp; &nbsp;
           = link_to 'Decline', "javascript:void(0);", class: 'btn btn-danger btn-decline', data: { id: @my_destination.id, notifid: @order.my_notif_id(current_user.id) }, id: "js-decline-#{@my_destination}"
 
+    - elsif is_driver?(current_user) && @order.accepted? && @my_destination
+      hr
+      .row
+        .col-md-12.text-center
+          = link_to 'Finish', finish_destinations_driver_path(@my_destination), class: 'btn btn-primary', method: :put, remote: true
 
 - if is_driver?(current_user)
   = render 'destinations_drivers/partials/decline'

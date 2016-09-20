@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
 
   aasm do
     state :pending, :initial => true
-    state :accepted, :declined, :finished
+    state :accepted, :declined, :canceled, :finished
 
     event :pend do
     	transitions :from => [:pending, :declined], to: :pending
@@ -17,6 +17,10 @@ class Order < ActiveRecord::Base
     event :decline do
       transitions :from => :pending, :to => :declined
     end    
+
+    event :cancel do
+      transitions :from => :accepted, :to => :canceled
+    end
 
     event :finish do
       transitions :from => :accepted, :to => :finished

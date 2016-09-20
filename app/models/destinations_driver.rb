@@ -4,7 +4,7 @@ class DestinationsDriver < ActiveRecord::Base
 
   aasm do
     state :pending, :initial => true
-    state :accepted, :declined
+    state :accepted, :canceled, :declined, :finished
 
     after_all_transitions [:read_notification, :notif_admin]
 
@@ -12,9 +12,17 @@ class DestinationsDriver < ActiveRecord::Base
       transitions :from => :pending, :to => :accepted
     end    
 
+    event :cancel do
+      transitions :from => :accepted, :to => :canceled
+    end
+
     event :decline, after: :order_decline do
       transitions :from => :pending, :to => :declined
     end    
+
+    event :finish, after: :order_finish do
+      transitions :from => :accepted, :to => :finished
+    end
   end
 
   # ASSOCIATION
@@ -68,5 +76,10 @@ class DestinationsDriver < ActiveRecord::Base
   def order_decline
     order.decline
     order.save!
+  end
+
+  def order_finish
+    order.finish
+    order.save!    
   end
 end

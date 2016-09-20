@@ -1,0 +1,21 @@
+<% if current_user.destinations_drivers.where(aasm_state: 'pending').present? %>
+  swal({   
+    title: "Package Delivered!",   
+    text: "Congrats your package has been delivered successfully! Going to next destination?",   
+    showCancelButton: true,   
+    confirmButtonColor: "#DD6B55",   
+    confirmButtonText: "Yes",   
+    cancelButtonText: "No",  
+    closeOnConfirm: false,   
+    closeOnCancel: false 
+  }, function(isConfirm){   
+    if (isConfirm) {     
+      window.location.href="<%= order_path(current_user.destinations_drivers.where(aasm_state: 'pending').first.order) %>"
+    } else {     
+      window.location.href='/orders'
+    } 
+  });
+<% else %>
+  swal('Package Delivered!', 'Congrats your package has been delivered successfully!')
+  window.location.href='/orders'
+<% end %>

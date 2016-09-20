@@ -30,6 +30,13 @@ class DestinationsDriversController < ApplicationController
     respond_with(declined_order, location: request.referer, notice: 'Success decline order.')
   end
 
+  def finish
+    @destination.finish
+    @destination.save
+
+    respond_to :js
+  end
+
   private
 
   def set_destination
