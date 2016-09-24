@@ -32,9 +32,9 @@ module.exports = React.createClass
               user: @state.user,
               orders: @state.orders
 
-      # R.div className: "row",
-      #   # Logbook
-      #   R.div className: "col-md-12",
-      #   React.createElement LogBook,
-      #     car: @state.car,
-      #     user: @state.user
+      R.div className: "row",
+        # Logbook
+        R.div className: "col-md-12",
+        React.createElement LogBook,
+          car: @state.car,
+          user: @state.user

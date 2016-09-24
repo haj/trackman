@@ -25,6 +25,11 @@ class OrdersController < ApplicationController
     @drivers         = @order.destinations_drivers.includes(:user)    
     @another_drivers = User.another_driver(@drivers) if @order.declined? || @order.pending? || @order.canceled?
     @my_destination  = @order.my_destination(current_user.id)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: { order: @order, latitude_origin: request.location.latitude, longitude_origin: request.location.longitude } }
+    end
   end
 
   def new

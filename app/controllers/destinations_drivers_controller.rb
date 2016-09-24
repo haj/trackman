@@ -20,7 +20,13 @@ class DestinationsDriversController < ApplicationController
     @destination.accept
     @destination.save
 
-    respond_with(@destination, location: @destination.order, notice: 'Success accept order.')
+    respond_to do |format|
+      format.html { redirect_to @destination.order, notice: 'Success accept order' }
+      format.json { render json: { 
+        destionation: @destination, order: @destination.order, 
+        latitude_origin: request.location.latitude, longitude_origin: request.location.longitude } 
+      }
+    end
   end
 
   def decline
@@ -31,7 +37,13 @@ class DestinationsDriversController < ApplicationController
     @destination.finish
     @destination.save
 
-    respond_to :js
+    respond_to do |format|
+      format.js
+      format.json { render json: { 
+        destionation: @destination, order: @destination.order, 
+        latitude_origin: request.location.latitude, longitude_origin: request.location.longitude } 
+      }
+    end
   end
 
   def cancel

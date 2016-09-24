@@ -16,4 +16,7 @@
     device: current_user.car.try(:device),
     user: current_user,
     last_location: current_user.car.locations.last,
-    orders: Order.assigned_to(current_user.id, params[:filter])
+    orders: Order.assigned_home(current_user.id, params[:filter])
+
+  = render 'destinations_drivers/partials/decline'
+   

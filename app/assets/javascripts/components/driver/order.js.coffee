@@ -11,8 +11,6 @@ module.exports = React.createClass
       $(".cars_overview .grid-body").toggle()
     )
 
-  handleClearSelected: ->
-
   render: ->
     R.div { className: 'grid simple cars_overview overview'},
       R.div className: 'grid-title border-only-bo no-border toggle', style: {cursor: "pointer"},
@@ -39,11 +37,5 @@ module.exports = React.createClass
                   for key of @state.orders
                     order = @state.orders[key]
                     React.createElement OrderRow, key: order.id, order: order
-
-          R.div {className: ""},
-            R.div className: "row",
-              R.div className: "col-md-12",
-                R.div className: "pull-right",
-                  R.button {className: "btn btn-white btn-small btn-sm btn-cons", disabled: "#{if @state.selected then '' else 'disabled'}", onClick: @handleClearSelected}, "Clear selected"
 
 

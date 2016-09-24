@@ -66,5 +66,9 @@ class Order < ActiveRecord::Base
       select("orders.*, destinations_drivers.id AS destination_id, destinations_drivers.aasm_state AS des_state,
         notifications.id AS notif_id")      
     end
+
+    def assigned_home(user_id, filter = '')
+      self.assigned_to_query(user_id).where('destinations_drivers.aasm_state in(?)', ['pending'])
+    end
   end
 end
