@@ -11,7 +11,7 @@ ReactInterval = require('react-interval')
 module.exports = React.createClass
 
   getInitialState: ->
-    {car: @props.car, device: @props.device, user: @props.user, last_location: @props.last_location, orders: @props.orders}
+    {car: @props.car, device: @props.device, user: @props.user, last_location: @props.last_location, orders: @props.orders, all_orders: @props.all_orders}
 
   render: ->
     R.div null,
@@ -37,4 +37,5 @@ module.exports = React.createClass
         R.div className: "col-md-12",
         React.createElement LogBook,
           car: @state.car,
-          user: @state.user
+          user: @state.user,
+          all_orders: @state.all_orders
