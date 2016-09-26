@@ -17,5 +17,5 @@ class AlarmCar < ActiveRecord::Base
   belongs_to :alarm
 
   # VALIDATION GOES HERE
-  validates :car_id, :alarm_id, presence: true
+  # validates :car_id, :alarm_id, presence: true
 end
