@@ -19,7 +19,17 @@ html
 
     = include_gon(watch: true, init: true)
 
-    = render 'toastr_rails/flash'
+    - if flash.present?
+      - flash.each do |toast|
+        - if toast.first == 'notice' || toast.first == 'success'
+          javascript:
+            toastr.success("#{toast.last}")
+        - elsif toast.first == 'warning'
+          javascript:
+            toastr.warning("#{toast.last}")
+        - else
+          javascript:
+            toastr.info("#{toast.last}")
 
     / BEGIN HEADER
     .header.navbar.navbar-inverse
