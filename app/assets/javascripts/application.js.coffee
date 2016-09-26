@@ -2,7 +2,6 @@
 #
 #= require modularize
 #= require ./libraries/jquery-1.8.3.min
-#= require jquery.turbolinks
 #= require ./libraries/jquery-ui-1.10.1.custom.min
 #= require ./libraries/bootstrap.min
 #= require ./libraries/breakpoints
@@ -79,13 +78,12 @@
 #= require jquery-fileupload/jquery.fileupload-validate
 #= require notifications
 #= require jquery.infinite-pages
+#= require validation
 #
 # ########################### Views
 #= require_tree ./views
 
-#= require validation
 #= require turbolinks
-
 # React
 #= require components
 

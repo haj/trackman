@@ -12,7 +12,7 @@ module.exports = React.createClass
     )
 
   render: ->
-    R.div { className: 'grid simple cars_overview overview'},
+    R.div { className: 'grid simple cars_overview overview' },
       R.div className: 'grid-title border-only-bo no-border toggle', style: {cursor: "pointer"},
         R.h4 className: "title-inline noselect", "Orders Overview"
         R.div className: "tools",

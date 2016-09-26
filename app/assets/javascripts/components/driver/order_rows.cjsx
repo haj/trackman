@@ -25,6 +25,9 @@ module.exports = React.createClass
         directionsDisplay.setDirections(result)
     )
 
+  carOverviewToggle: ->
+    $(".cars_overview .grid-body").toggle()
+
   renderMap: ->
     $.ajax
       dataType: 'json'
@@ -33,6 +36,7 @@ module.exports = React.createClass
       success: ((data)->
         @setMapDestination(data)
       ).bind(@)
+    @carOverviewToggle()
     
   acceptDestination: ->
     $.ajax
@@ -42,6 +46,7 @@ module.exports = React.createClass
       success: ((data)->
         @setMapDestination(data)
       ).bind(@)
+    @carOverviewToggle()
 
   doneDestination: ->
     $.ajax
@@ -51,6 +56,7 @@ module.exports = React.createClass
       success: ((data)->
         console.log data
       ).bind(@)
+    @carOverviewToggle()
 
   declineDestination: ->
     id      = @state.order.destination_id
