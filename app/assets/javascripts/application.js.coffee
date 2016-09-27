@@ -2,6 +2,7 @@
 #
 #= require modularize
 #= require ./libraries/jquery-1.8.3.min
+#= require jquery.turbolinks
 #= require ./libraries/jquery-ui-1.10.1.custom.min
 #= require ./libraries/bootstrap.min
 #= require ./libraries/breakpoints
@@ -71,19 +72,14 @@
 #= require sweetalert
 #= require sweet-alert
 #= require sweet-alert-confirm
-#= require jquery-fileupload/basic
-#= require orders
 #= require ./libraries/waitMe.min
-#= require jquery-fileupload/jquery.fileupload-process
-#= require jquery-fileupload/jquery.fileupload-validate
-#= require notifications
-#= require jquery.infinite-pages
-#= require validation
 #
 # ########################### Views
 #= require_tree ./views
 
+#= require validation
 #= require turbolinks
+
 # React
 #= require components
 
@@ -95,19 +91,10 @@ ready = ->
     new Views.ApplicationView()
   window.currentView.render()
   
+
   $('.timepicker').timepicker
     'timeFormat': 'H:i:s'
 $(document).ready(ready)
 
-$(document).ajaxSend(()->
-  $('body').waitMe
-    effect : 'stretch'
-    text : 'Loading ...'
-    color : '#000'
-    maxSize : ''
-    source : ''    
-)
 
-$(document).ajaxComplete(()->
-  $("body").waitMe('hide')
-)
+

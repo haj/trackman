@@ -28,6 +28,9 @@ module.exports = React.createClass
   carOverviewToggle: ->
     $(".cars_overview .grid-body").toggle()
 
+  changeOverviewDetail: (data) ->
+    $(".title-inline.noselect").html("#{data.order.customer_name} - #{data.order.package}")    
+
   renderMap: ->
     $.ajax
       dataType: 'json'
@@ -35,9 +38,10 @@ module.exports = React.createClass
       url: "/orders/#{@state.order.id}"
       success: ((data)->
         @setMapDestination(data)
+        @changeOverviewDetail(data)
       ).bind(@)
     @carOverviewToggle()
-    
+
   acceptDestination: ->
     $.ajax
       dataType: 'json'
@@ -45,6 +49,7 @@ module.exports = React.createClass
       url: "/destinations_drivers/#{@state.order.destination_id}/accept"
       success: ((data)->
         @setMapDestination(data)
+        @changeOverviewDetail(data)
       ).bind(@)
     @carOverviewToggle()
 
