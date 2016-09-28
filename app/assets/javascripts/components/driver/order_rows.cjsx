@@ -50,6 +50,15 @@ module.exports = React.createClass
   changeOverviewDetail: (data) ->
     $(".title-inline.noselect").html("#{data.order.customer_name} - #{data.order.package}")    
 
+  changeOverviewDetailAccepted: (data) ->
+    $(".title-inline.noselect").html("
+      #{data.order.customer_name} - #{data.order.package}
+      &nbsp;&nbsp;
+      <a href='' class='btn btn-mini btn-primary'>Done</a>
+      &nbsp;
+      <a href='' class='btn btn-mini btn-danger'>Cancel</a>
+    ")    
+
   latLong: (data)->
     new gm.LatLng(data.latitude, data.longitude)
 
@@ -86,8 +95,10 @@ module.exports = React.createClass
       url: "/destinations_drivers/#{@state.order.destination_id}/accept"
       success: ((data)->
         @setMapDestination(data)
-        @changeOverviewDetail(data)
+        @changeOverviewDetailAccepted(data)
         @setInterval()
+
+        toastr.success('Success accepting an order! Have a good ride! ;)')
       ).bind(@)
     @carOverviewToggle()
 

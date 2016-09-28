@@ -100,17 +100,17 @@ ready = ->
     'timeFormat': 'H:i:s'
 $(document).ready(ready)
 
-$(document).ajaxSend(()->
-  $('body').waitMe
-    effect : 'stretch'
-    text : 'Loading ...'
-    color : '#000'
-    maxSize : ''
-    source : ''    
-)
+# $(document).ajaxSend(()->
+#   $('body').waitMe
+#     effect : 'stretch'
+#     text : 'Loading ...'
+#     color : '#000'
+#     maxSize : ''
+#     source : ''    
+# )
 
-$(document).ajaxComplete(()->
-  $("body").waitMe('hide')
-)
+# $(document).ajaxComplete(()->
+#   $("body").waitMe('hide')
+# )
 
 
