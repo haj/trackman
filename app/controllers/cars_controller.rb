@@ -121,7 +121,17 @@ class CarsController < ApplicationController
   end
 
   def last_position
-    render json: @car.locations.last
+    accepted_user = Order.find(params[:order_id]).accepted_user
+    location      = @car.locations.last
+
+    if accepted_user.accepted_destination
+      accepted_user.accepted_destination.update(last_location_id: location.id)
+    else
+      accepted_user.build_accepted_destination(first_location_id: location.id, last_location_id: location.id)
+      accepted_user.save!
+    end
+
+    render json: location
   end
 
   ##########

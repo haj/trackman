@@ -15,8 +15,9 @@ module.exports = React.createClass
       method: "GET"
       dataType: "json"
       url: "/cars/#{@state.car.id}/last_position"
+      data:
+        order_id: @state.order.id
       success: ((data) ->
-        console.log(@state)
         @removeMarker()
         @setMarker(data)
       ).bind(@)

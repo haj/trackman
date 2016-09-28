@@ -30,7 +30,7 @@ class DestinationsDriver < ActiveRecord::Base
   belongs_to :order
   has_many :notifications, as: :notificationable, dependent: :destroy
   has_one :declined_order, dependent: :nullify
-  has_many :accepted_destinations, dependent: :nullify
+  has_one :accepted_destination, dependent: :nullify
 
   # Validation
   validates :user_id, presence: true

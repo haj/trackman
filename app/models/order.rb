@@ -36,7 +36,7 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :destinations_drivers, allow_destroy: true, reject_if: :all_blank  
 
   def accepted_user
-    destinations_drivers.find_by(aasm_state: "accept")    
+    destinations_drivers.find_by(aasm_state: "accepted")    
   end
 
   def my_destination(current_user_id)
