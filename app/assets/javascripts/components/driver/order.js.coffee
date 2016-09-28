@@ -36,6 +36,6 @@ module.exports = React.createClass
                 R.tbody null,
                   for key of @state.orders
                     order = @state.orders[key]
-                    React.createElement OrderRow, key: order.id, order: order
+                    React.createElement OrderRow, key: order.id, order: order, car: @state.car
 
 

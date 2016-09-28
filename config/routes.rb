@@ -171,6 +171,7 @@ Rails.application.routes.draw do
     end
 
     member do
+      get 'last_position'
       get 'map'
       get 'positions'
       # get 'reports'

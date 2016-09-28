@@ -1,10 +1,25 @@
 directionsService = new google.maps.DirectionsService()
 directionsDisplay = new google.maps.DirectionsRenderer()
+gm = google.maps
 
 module.exports = React.createClass
 
   getInitialState: ->
-    { order: @props.order }
+    { order: @props.order, gmap: null, marker: null, car: @props.car }
+
+  setInterval: ->
+    setInterval(@makeRequest, (10 * 1000))    
+
+  makeRequest: ->
+    $.ajax
+      method: "GET"
+      dataType: "json"
+      url: "/cars/#{@state.car.id}/last_position"
+      success: ((data) ->
+        console.log(@state)
+        @removeMarker()
+        @setMarker(data)
+      ).bind(@)
 
   setMapDestination: (data)->
     destination = new google.maps.LatLng(data.latitude_origin, data.longitude_origin)
@@ -13,6 +28,9 @@ module.exports = React.createClass
       center: destination
     }
     map = new google.maps.Map(document.getElementById('map'), mapOptions)
+
+    @setState gmap: map
+ 
     directionsDisplay.setMap(map)
 
     request = {
@@ -31,6 +49,23 @@ module.exports = React.createClass
   changeOverviewDetail: (data) ->
     $(".title-inline.noselect").html("#{data.order.customer_name} - #{data.order.package}")    
 
+  latLong: (data)->
+    new gm.LatLng(data.latitude, data.longitude)
+
+  removeMarker: ->
+    if @state.marker
+      @state.marker.setMap(null)
+
+  setMarker: (data) ->
+    marker  = new gm.Marker({
+      position: @latLong(data),
+      map: @state.gmap
+    })
+
+    @setState marker: marker
+
+    marker.setMap(@state.gmap)
+
   renderMap: ->
     $.ajax
       dataType: 'json'
@@ -39,6 +74,7 @@ module.exports = React.createClass
       success: ((data)->
         @setMapDestination(data)
         @changeOverviewDetail(data)
+        @setInterval()
       ).bind(@)
     @carOverviewToggle()
 
@@ -50,6 +86,7 @@ module.exports = React.createClass
       success: ((data)->
         @setMapDestination(data)
         @changeOverviewDetail(data)
+        @setInterval()
       ).bind(@)
     @carOverviewToggle()
 

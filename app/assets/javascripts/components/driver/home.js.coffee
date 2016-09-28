@@ -4,9 +4,6 @@ IntervalMixin = require('../utils/interval_mixin')
 LogBook       = require('./log_book')
 Order         = require('./order')
 Map           = require('./map')
-Reflux        = require('reflux')
-Actions       = require('../utils/actions')
-ReactInterval = require('react-interval')
 
 module.exports = React.createClass
 

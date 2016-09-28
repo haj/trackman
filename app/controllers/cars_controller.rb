@@ -6,10 +6,10 @@ class CarsController < ApplicationController
   include Breadcrumbable
 
   # Initialize something from GEM
-  load_and_authorize_resource
+  load_and_authorize_resource except: :last_position
 
   # Callback controller
-  before_action :set_car, only: [:edit, :update, :destroy, :show, :reports, :positions]
+  before_action :set_car, only: [:edit, :update, :destroy, :show, :reports, :positions, :last_position]
 
   # GET /cars || cars_path
   # This list vehicles and enable the user to manage vehicles
@@ -118,6 +118,10 @@ class CarsController < ApplicationController
 
   def pdf
     @position = Traccar::Position.last
+  end
+
+  def last_position
+    render json: @car.locations.last
   end
 
   ##########
