@@ -54,9 +54,9 @@ module.exports = React.createClass
     $(".title-inline.noselect").html("
       #{data.order.customer_name} - #{data.order.package}
       &nbsp;&nbsp;
-      <a href='' class='btn btn-mini btn-primary'>Done</a>
+      <a href='/destinations_drivers/#{@state.order.destination_id}/finish' class='btn btn-mini btn-primary' data-method='put'>Done</a>
       &nbsp;
-      <a href='' class='btn btn-mini btn-danger'>Cancel</a>
+      <a href='javascript:;' class='btn btn-mini btn-danger'>Cancel</a>
     ")    
 
   latLong: (data)->
