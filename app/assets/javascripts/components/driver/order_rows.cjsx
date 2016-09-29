@@ -5,7 +5,7 @@ gm = google.maps
 module.exports = React.createClass
 
   getInitialState: ->
-    { order: @props.order, gmap: null, marker: null, car: @props.car }
+    { order: @props.order, gmap: null, marker: null, car: @props.car, isShow: true }
 
   setInterval: ->
     setInterval(@makeRequest, (10 * 1000))    
@@ -14,9 +14,9 @@ module.exports = React.createClass
     $.ajax
       method: "GET"
       dataType: "json"
-      url: "/cars/#{@state.car.id}/last_position"
+      url: "/cars/#{@props.car.id}/last_position"
       data:
-        order_id: @state.order.id
+        order_id: @props.order.id
       success: ((data) ->
         @removeMarker()
         @setMarker(data)
@@ -50,15 +50,6 @@ module.exports = React.createClass
   changeOverviewDetail: (data) ->
     $(".title-inline.noselect").html("#{data.order.customer_name} - #{data.order.package}")    
 
-  changeOverviewDetailAccepted: (data) ->
-    $(".title-inline.noselect").html("
-      #{data.order.customer_name} - #{data.order.package}
-      &nbsp;&nbsp;
-      <a href='/destinations_drivers/#{@state.order.destination_id}/finish' class='btn btn-mini btn-primary' data-method='put'>Done</a>
-      &nbsp;
-      <a href='javascript:;' class='btn btn-mini btn-danger'>Cancel</a>
-    ")    
-
   latLong: (data)->
     new gm.LatLng(data.latitude, data.longitude)
 
@@ -80,7 +71,7 @@ module.exports = React.createClass
     $.ajax
       dataType: 'json'
       type: 'GET'
-      url: "/orders/#{@state.order.id}"
+      url: "/orders/#{@props.order.id}"
       success: ((data)->
         @setMapDestination(data)
         @changeOverviewDetail(data)
@@ -92,13 +83,18 @@ module.exports = React.createClass
     $.ajax
       dataType: 'json'
       type: 'PUT'
-      url: "/destinations_drivers/#{@state.order.destination_id}/accept"
+      url: "/destinations_drivers/#{@props.order.destination_id}/accept"
       success: ((data)->
         @setMapDestination(data)
-        @changeOverviewDetailAccepted(data)
+        @changeOverviewDetail(data)
         @setInterval()
 
         toastr.success('Success accepting an order! Have a good ride! ;)')
+
+        @setState
+          order:
+            aasm_state: 'accepted'
+
       ).bind(@)
     @carOverviewToggle()
 
@@ -106,15 +102,15 @@ module.exports = React.createClass
     $.ajax
       dataType: 'json'
       type: 'PUT'
-      url: "/destinations_drivers/#{@state.order.destination_id}/finish"
+      url: "/destinations_drivers/#{@props.order.destination_id}/finish"
       success: ((data)->
-        console.log data
+        @setState isShow: false
       ).bind(@)
     @carOverviewToggle()
 
   declineDestination: ->
-    id      = @state.order.destination_id
-    notifId = @state.order.notif_id
+    id      = @props.order.destination_id
+    notifId = @props.order.notif_id
     swal {
       title: 'Are you sure?'
       text: 'Please provide a reason!'
@@ -141,9 +137,9 @@ module.exports = React.createClass
   render: ->
     return (
       <tr>
-        <td>{@state.order.customer_name}</td>
-        <td>{@state.order.package}</td>
-        <td>{@state.order.aasm_state}</td>
+        <td>{@props.order.customer_name}</td>
+        <td>{@props.order.package}</td>
+        <td>{@props.order.aasm_state}</td>
         <td>
           <a className='btn btn-mini btn-info' onClick={@renderMap} href='javascript::void(0);'>Detail</a>
           &nbsp; &nbsp; 
@@ -161,5 +157,5 @@ module.exports = React.createClass
               <a className='btn btn-mini btn-danger' onClick={@cancelDestination} href='javascript::void(0);'>Cancel</a>
           }
         </td>
-      </tr>
+      </tr>        
     )
