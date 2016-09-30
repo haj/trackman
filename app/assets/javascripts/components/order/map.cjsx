@@ -3,6 +3,7 @@ directionsDisplay = new google.maps.DirectionsRenderer()
 trafficLayer      = new google.maps.TrafficLayer()
 geocoder          = new google.maps.Geocoder()
 RouteDescription  = require('./routes_description')
+gm = google.maps
 
 module.exports = React.createClass
 
@@ -10,11 +11,14 @@ module.exports = React.createClass
     { car: @props.car, order_id: @props.order.id, latitude_origin: @props.latitude_origin, 
     longitude_origin: @props.longitude_origin, latitude_destination: @props.order.latitude, 
     longitude_destination: @props.order.longitude, package: @props.order.package, 
-    customer_name: @props.order.customer_name, selected_driver: @props.selected_driver }
+    customer_name: @props.order.customer_name, selected_driver: @props.selected_driver, 
+    interval: null, gmap: null, marker: null }
 
   componentWillMount: ->
-    @initMap()
-    @calcRoute()
+    if $('#showMap').length > 0
+      @initMap()
+      @calcRoute()
+      @setInterval()
 
   initMap: ->
     destination = new google.maps.LatLng(@state.latitude_destination, @state.longitude_destination)
@@ -22,8 +26,42 @@ module.exports = React.createClass
       zoom: 7,
       center: destination
     }
-    map = new google.maps.Map(document.getElementById('showMap'), mapOptions)
-    directionsDisplay.setMap(map)
+    gmap = new google.maps.Map(document.getElementById('showMap'), mapOptions)
+    @setState gmap: gmap
+    directionsDisplay.setMap(gmap)
+
+  setInterval: ->
+    interval = setInterval(@makeRequest, (10 * 1000))    
+    @setState interval: interval
+
+  makeRequest: ->
+    $.ajax
+      method: "GET"
+      dataType: "json"
+      url: "/cars/#{@props.car.id}/last_position"
+      data:
+        order_id: @props.order.id
+      success: ((data) ->
+        @removeMarker()
+        @setMarker(data)
+      ).bind(@)
+
+  removeMarker: ->
+    if @state.marker
+      @state.marker.setMap(null)
+
+  latLong: (data)->
+    new gm.LatLng(data.latitude, data.longitude)
+
+  setMarker: (data) ->
+    marker  = new gm.Marker({
+      position: @latLong(data),
+      map: @state.gmap
+    })
+
+    @setState marker: marker
+
+    marker.setMap(@state.gmap)
 
   destination: ->
     "#{@state.latitude_destination}, #{@state.longitude_destination}"
