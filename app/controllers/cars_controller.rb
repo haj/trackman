@@ -124,7 +124,7 @@ class CarsController < ApplicationController
     accepted_user = Order.find(params[:order_id]).accepted_user
     location      = @car.locations.last
 
-    if accepted_user.accepted_destination
+    if accepted_user.try(:accepted_destination)
       accepted_user.accepted_destination.update(last_location_id: location.id)
     else
       accepted_user.build_accepted_destination(first_location_id: location.id, last_location_id: location.id)

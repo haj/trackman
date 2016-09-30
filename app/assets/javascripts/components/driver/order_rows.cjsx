@@ -5,10 +5,11 @@ gm = google.maps
 module.exports = React.createClass
 
   getInitialState: ->
-    { order: @props.order, gmap: null, marker: null, car: @props.car, isShow: true }
+    { order: @props.order, gmap: null, marker: null, car: @props.car, isShow: true, interval: null }
 
   setInterval: ->
-    setInterval(@makeRequest, (10 * 1000))    
+    interval = setInterval(@makeRequest, (10 * 1000))    
+    @setState interval: interval
 
   makeRequest: ->
     $.ajax
@@ -105,10 +106,18 @@ module.exports = React.createClass
       url: "/destinations_drivers/#{@props.order.destination_id}/finish"
       success: ((data)->
         @setState isShow: false
+        window.clearInterval(@state.interval)
+
+        toastr.success('Awesome! You have successfully delivered a package!')
       ).bind(@)
-    @carOverviewToggle()
 
   declineDestination: ->
+    @cancelDecline('decline')
+
+  cancelDestination: ->
+    @cancelDecline('cancel')
+
+  cancelDecline: (status)->
     id      = @props.order.destination_id
     notifId = @props.order.notif_id
     swal {
@@ -129,33 +138,36 @@ module.exports = React.createClass
 
       $('#js-input-reason').val(inputValue)
       $('#js-input-notif-id').val(notifId)
-      $('#form-decline-order').attr('action', "/destinations_drivers/#{id}/decline")
+      $('#form-decline-order').attr('action', "/destinations_drivers/#{id}/#{status}")
       $('#form-decline-order').submit()
-
-  cancelDestination: ->
 
   render: ->
     return (
-      <tr>
-        <td>{@props.order.customer_name}</td>
-        <td>{@props.order.package}</td>
-        <td>{@props.order.aasm_state}</td>
-        <td>
-          <a className='btn btn-mini btn-info' onClick={@renderMap} href='javascript::void(0);'>Detail</a>
-          &nbsp; &nbsp; 
-          {
-            if @state.order.aasm_state == 'pending'
-              <a className='btn btn-mini btn-primary' onClick={@acceptDestination} href='javascript::void(0);'>Accept</a>
-            else
-              <a className='btn btn-mini btn-primary' onClick={@doneDestination} href='javascript::void(0);'>Done</a>
-          }
-          &nbsp; &nbsp; 
-          {
-            if @state.order.aasm_state == 'pending'
-              <a className='btn btn-mini btn-danger' onClick={@declineDestination} href='javascript::void(0);'>Decline</a>
-            else
-              <a className='btn btn-mini btn-danger' onClick={@cancelDestination} href='javascript::void(0);'>Cancel</a>
-          }
-        </td>
-      </tr>        
+      <tbody>
+        {
+          if @state.isShow
+            <tr>
+              <td>{@props.order.customer_name}</td>
+              <td>{@props.order.package}</td>
+              <td>{@props.order.aasm_state}</td>
+              <td>
+                <a className='btn btn-mini btn-info' onClick={@renderMap} href='javascript::void(0);'>Detail</a>
+                &nbsp; &nbsp; 
+                {
+                  if @state.order.aasm_state == 'pending'
+                    <a className='btn btn-mini btn-primary' onClick={@acceptDestination} href='javascript::void(0);'>Accept</a>
+                  else
+                    <a className='btn btn-mini btn-primary' onClick={@doneDestination} href='javascript::void(0);'>Done</a>
+                }
+                &nbsp; &nbsp; 
+                {
+                  if @state.order.aasm_state == 'pending'
+                    <a className='btn btn-mini btn-danger' onClick={@declineDestination} href='javascript::void(0);'>Decline</a>
+                  else
+                    <a className='btn btn-mini btn-danger' onClick={@cancelDestination} href='javascript::void(0);'>Cancel</a>
+                }
+              </td>
+            </tr>        
+        }
+      </tbody>
     )

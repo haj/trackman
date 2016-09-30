@@ -64,7 +64,8 @@ class Order < ActiveRecord::Base
       joins(:destinations_drivers).joins(:destinations_drivers => :notifications).
       where(destinations_drivers: { user_id: user_id }, notifications: { user_id: user_id }).
       select("orders.*, destinations_drivers.id AS destination_id, destinations_drivers.aasm_state AS des_state,
-        notifications.id AS notif_id")      
+        notifications.id AS notif_id").
+      order(id: :desc)
     end
 
     def assigned_home(user_id, filter = '')

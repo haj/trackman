@@ -33,9 +33,8 @@ module.exports = React.createClass
                     R.th null, "Package"
                     R.th null, "Status"
                     R.th null, "Quick Action"
-                R.tbody null,
-                  for key of @state.orders
-                    order = @state.orders[key]
-                    React.createElement OrderRow, key: order.id, order: order, car: @state.car
+                for key of @state.orders
+                  order = @state.orders[key]
+                  React.createElement OrderRow, key: order.id, order: order, car: @state.car
 
 
