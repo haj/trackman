@@ -90,22 +90,10 @@
                         = content_tag :th, sort_link(@q, :emei)
                         = content_tag :th, sort_link(@q, :cost_price)
                         th
-                    tbody
-                      - @devices.each do |device|
-                        tr
-                          td.small-cell.v-align-middle
-                            = check_box_tag "device_ids[]", device.id, nil , class: "device_checkbox"
-                          td
-                            = link_to device.name, device
-                          td
-                            = device.emei
-                          td
-                            = device.cost_price
-                          td
-                            = link_to 'Edit', edit_device_path(device)
-                            | &nbsp; | &nbsp;
-                            = link_to 'Delete', device, method: :delete, data: { confirm: 'Are you sure want to delete this device?' }
-                = paginate @devices
+                    tbody#devices-tbody
+                      = render partial: '/devices/partials/devices_rows', locals: { devices: @devices }
+
+                p.pagination = link_to_next_page(@devices, 'Load more data', :remote => true)
               - else
                 .text-center
                   h2 No Devices at the moment

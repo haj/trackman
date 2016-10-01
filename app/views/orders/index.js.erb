@@ -1,5 +1,18 @@
-<% if @orders.present? %>
-  $("#order-content").html("<%= j(render partial: 'orders/partials/orders', locals: { orders: @orders }) %>")
+<% if params[:page].present? %>
+  // Append new data
+  $("#order-body").append("<%= j render(:partial => '/orders/partials/orders_row', locals: { orders: @orders }) %>")
+
+  // Update pagination link
+  <% if @orders.last_page? %>
+    $('.pagination').html("No More Data to Show!");
+  <% else %>
+    $('.pagination')
+      .html("<%=j link_to_next_page(@orders, 'Load more data', :remote => true) %>");
+  <% end %>
 <% else %>
-  $("#order-content").html("<h2 class='text-center'>No Order Found :(</h2>")
+  <% if @orders.present? %>
+    $("#order-content").html("<%= j(render partial: 'orders/partials/orders', locals: { orders: @orders }) %>")
+  <% else %>
+    $("#order-content").html("<h2 class='text-center'>No Order Found :(</h2>")
+  <% end %>
 <% end %>

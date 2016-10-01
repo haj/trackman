@@ -1,0 +1,10 @@
+// Append new data
+$("#regions-tbody").append("<%= j render(:partial => '/regions/partials/regions_rows', locals: { regions: @regions }) %>")
+
+// Update pagination link
+<% if @regions.last_page? %>
+  $('.pagination').html("No More Data to Show!");
+<% else %>
+  $('.pagination')
+    .html("<%=j link_to_next_page(@regions, 'Load more data', :remote => true) %>");
+<% end %>

@@ -13,7 +13,10 @@ class RegionsController < ApplicationController
   def index
     @regions = Region.page(params[:page])
 
-    respond_with(@regions)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   # GET /regions/1

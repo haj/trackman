@@ -37,7 +37,10 @@ class DevicesController < ApplicationController
     @q       = apply_scopes(Device).all.search(params[:q])
     @devices = @q.result(distinct: true).page(params[:page])
 
-    respond_with(@devices)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
 

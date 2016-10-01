@@ -16,7 +16,10 @@ class AlarmsController < ApplicationController
   def index
     @alarms = Alarm.page(params[:page])
 
-    respond_with(@alarms)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /alarms/1

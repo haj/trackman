@@ -22,19 +22,10 @@
                     th
                     th Name
                     th
-                tbody           
-                  - @work_schedules.each do |work_schedule|
-                    tr
-                      td.small-cell.v-align-middle
-                        = check_box_tag "work_schedule_ids[]", work_schedule.id, nil , class: "work_schedule_checkbox"
-                      td
-                        = link_to work_schedule.name.capitalize, work_schedule
-                      td
-                        = link_to 'Edit', edit_work_schedule_path(work_schedule)
-                        | &nbsp; | &nbsp; 
-                        = link_to 'Delete', work_schedule, method: :delete, data: { confirm: "Are you sure want to delete this work schedule?" }
-            = paginate @work_schedules
+                tbody#workschedules-tbody
+                  = render partial: 'work_schedules/partials/work_schedules_rows', locals: { work_schedules: @work_schedules }
 
+            p.pagination = link_to_next_page(@work_schedules, 'Load more data', :remote => true)
           - else
             .text-center
               h2 No Work Schedule at the moment

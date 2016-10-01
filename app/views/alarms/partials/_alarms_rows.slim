@@ -1,0 +1,10 @@
+- alarms.each do |alarm|
+  tr
+    td.small-cell.v-align-middle = check_box_tag "alarm_ids[]", alarm.id, nil , class: "alarm_checkbox"
+    td = link_to alarm.name, alarm
+    td = alarm.try(:rules).try(:count)
+    td = alarm.try(:cars).try(:count)
+    td
+      = link_to 'Edit', edit_alarm_path(alarm)
+      | &nbsp; | &nbsp; 
+      = link_to 'Delete', alarm, method: :delete, data: { confirm: "Are you sure want to delete this alaram?" }

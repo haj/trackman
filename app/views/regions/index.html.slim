@@ -22,19 +22,10 @@
                   th Name
                   th
 
-              tbody           
-                - @regions.each do |region|
-                  tr
-                    td.small-cell.v-align-middle 
-                      = check_box_tag "region_ids[]", region.id, nil , class: "region_checkbox"
-                    td
-                      = link_to region.name, region
-                    td
-                      = link_to 'Edit', edit_region_path(region)
-                      | &nbsp; | &nbsp; 
-                      = link_to 'Delete', region, method: :delete, data: { confirm: "Are you sure want to delete this region?" }
+              tbody#regions-tbody
+                = render partial: '/regions/partials/regions_rows', locals: { regions: @regions }
 
-            = paginate @regions
+            p.pagination = link_to_next_page(@regions, 'Load more data', :remote => true)
           - else
             .text-center
               h2 No Regions at the moment

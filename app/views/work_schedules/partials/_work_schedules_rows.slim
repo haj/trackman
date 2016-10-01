@@ -1,0 +1,10 @@
+- work_schedules.each do |work_schedule|
+  tr
+    td.small-cell.v-align-middle
+      = check_box_tag "work_schedule_ids[]", work_schedule.id, nil , class: "work_schedule_checkbox"
+    td
+      = link_to work_schedule.name.capitalize, work_schedule
+    td
+      = link_to 'Edit', edit_work_schedule_path(work_schedule)
+      | &nbsp; | &nbsp; 
+      = link_to 'Delete', work_schedule, method: :delete, data: { confirm: "Are you sure want to delete this work schedule?" }

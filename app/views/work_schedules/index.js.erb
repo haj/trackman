@@ -1,0 +1,10 @@
+// Append new data
+$("#workschedules-tbody").append("<%= j render(:partial => '/work_schedules/partials/work_schedules_rows', locals: { work_schedules: @work_schedules }) %>")
+
+// Update pagination link
+<% if @work_schedules.last_page? %>
+  $('.pagination').html("No More Data to Show!");
+<% else %>
+  $('.pagination')
+    .html("<%=j link_to_next_page(@work_schedules, 'Load more data', :remote => true) %>");
+<% end %>

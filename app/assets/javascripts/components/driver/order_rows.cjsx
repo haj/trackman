@@ -5,7 +5,7 @@ gm = google.maps
 module.exports = React.createClass
 
   getInitialState: ->
-    { order: @props.order, gmap: null, marker: null, car: @props.car, isShow: true, interval: null }
+    { order: @props.order, gmap: null, marker: null, car: @props.car, isShow: true, interval: null, selectedOrder: null }
 
   setInterval: ->
     interval = setInterval(@makeRequest, (10 * 1000))    
@@ -95,6 +95,7 @@ module.exports = React.createClass
         @setState
           order:
             aasm_state: 'accepted'
+          selectedOrder: order.id
 
       ).bind(@)
     @carOverviewToggle()

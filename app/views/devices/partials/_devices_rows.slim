@@ -1,0 +1,14 @@
+- devices.each do |device|
+  tr
+    td.small-cell.v-align-middle
+      = check_box_tag "device_ids[]", device.id, nil , class: "device_checkbox"
+    td
+      = link_to device.name, device
+    td
+      = device.emei
+    td
+      = device.cost_price
+    td
+      = link_to 'Edit', edit_device_path(device)
+      | &nbsp; | &nbsp;
+      = link_to 'Delete', device, method: :delete, data: { confirm: 'Are you sure want to delete this device?' }

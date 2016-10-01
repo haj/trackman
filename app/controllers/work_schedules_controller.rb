@@ -13,7 +13,10 @@ class WorkSchedulesController < ApplicationController
   def index
     @work_schedules = WorkSchedule.page(params[:page])
 
-    respond_with(@work_schedules)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /work_schedules/1

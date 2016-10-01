@@ -1,0 +1,10 @@
+- regions.each do |region|
+  tr
+    td.small-cell.v-align-middle 
+      = check_box_tag "region_ids[]", region.id, nil , class: "region_checkbox"
+    td
+      = link_to region.name, region
+    td
+      = link_to 'Edit', edit_region_path(region)
+      | &nbsp; | &nbsp; 
+      = link_to 'Delete', region, method: :delete, data: { confirm: "Are you sure want to delete this region?" }
