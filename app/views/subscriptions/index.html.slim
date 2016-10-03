@@ -27,15 +27,10 @@
                       th Price
                       th Subscribe At
                       th Status
-                  tbody
-                    - @subscriptions.each do |sub|
-                      tr
-                        td = sub.plan.plan_type.name
-                        td = "#{sub.plan.currency} #{sub.plan.price}"
-                        td = sub.created_at
-                        td = sub.active ? "Active" : "Expired"
-
-              p = paginate @subscriptions
+                  tbody#subscriptions-rows
+                    = render partial: '/subscriptions/partials/subscriptions_rows', locals: { subscriptions: @subscriptions }
+  
+              p.pagination = link_to_next_page(@subscriptions, 'Load more data', :remote => true)
             - else
               .text-center
                 h2 No History Subscription at the moment

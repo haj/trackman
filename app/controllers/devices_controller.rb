@@ -122,7 +122,10 @@ class DevicesController < ApplicationController
   def manage
     @devices = Device.page(params[:page])
 
-    respond_with(@devices)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   private

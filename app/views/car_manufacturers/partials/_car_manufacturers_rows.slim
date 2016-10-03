@@ -1,0 +1,6 @@
+- car_manufacturers.each do |car_manufacturer|
+  tr
+    td.small-cell.v-align-middle
+      = check_box_tag "car_manufacturer_ids[]", car_manufacturer.id, nil , class: "car_manufacturer_checkbox"
+    td = link_to car_manufacturer.name, car_manufacturer
+    td = link_to 'Edit', edit_car_manufacturer_path(car_manufacturer)

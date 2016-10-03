@@ -36,24 +36,10 @@
                     th Roles
                     th
 
-                tbody
-                  - @users.each do |user|
-                    tr
-                      td.small-cell.v-align-middle
-                        = check_box_tag "user_ids[]", user.id, nil , class: "user_checkbox"
-                      td
-                        = link_to user.name.titleize, user
-                      td
-                        = user.email
-                      td
-                        = user.roles.to_a.map(&:capitalize).join(', ')
-                      td
-                        = link_to 'Edit', edit_user_path(user)
-                        - if user.roles.first != :manager
-                          | &nbsp; | 
-                          = link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
+                tbody#users-tbody
+                  = render partial: '/users/partials/users_rows', locals: { users: @users }
                 
-            = paginate @users
+            p.pagination = link_to_next_page(@users, 'Load more data', :remote => true)
           - else
             .text-center
               h2 No Employee at the moment

@@ -9,8 +9,13 @@ class SubscriptionsController < ApplicationController
   before_action :set_subscription, only: [:show, :edit, :update, :destroy, :cancel]
 
   def index
-    @subscriptions = Subscription.includes(:plan).order(created_at: :desc).page(params[:page])    
+    @subscriptions = Subscription.includes(:plan).order(created_at: :desc).page(params[:page]).per(1)
     @subscription  = current_user.company.subscriptions.active
+
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
   
   # GET /subscriptions/1

@@ -1,0 +1,10 @@
+// Append new data
+$("#simcards-tbody").append("<%= j render(:partial => '/simcards/partials/simcards_rows', locals: { simcards: @simcards }) %>")
+
+// Update pagination link
+<% if @simcards.last_page? %>
+  $('.pagination').html("No More Data to Show!");
+<% else %>
+  $('.pagination')
+    .html("<%=j link_to_next_page(@simcards, 'Load more data', :remote => true) %>");
+<% end %>

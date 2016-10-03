@@ -9,9 +9,12 @@ class CompaniesController < ApplicationController
   # GET /companies || companies_path
   # Show all companies
   def index
-    @companies = Company.page(params[:page])
+    @companies = Company.page(params[:page]).per(20)
 
-    respond_with(@companies)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def show

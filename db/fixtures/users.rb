@@ -28,6 +28,17 @@ User.seed(:id,
   }
 )
 
+User.seed(:id,
+  {
+    first_name: "admin", 
+    last_name: "admin",
+    email: "admin2@trackman.com", 
+    password: "admin", 
+    password_confirmation: "admin",  
+    roles_mask: 1,
+    confirmed_at: Time.now
+  }
+)
 
 User.seed(:id,
   {

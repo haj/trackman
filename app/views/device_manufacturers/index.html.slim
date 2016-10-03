@@ -31,17 +31,10 @@
                       th
                       = content_tag :th, sort_link(@q, :name)
                       th
-                  tbody                   
-                    - @device_manufacturers.each do |device_manufacturer|
-                      tr
-                        td.small-cell.v-align-middle
-                          = check_box_tag "device_manufacturer_ids[]", device_manufacturer.id, nil , class: "device_manufacturer_checkbox"
-                        td
-                          = link_to device_manufacturer.name, device_manufacturer
-                        td
-                          = link_to 'Edit', edit_device_manufacturer_path(device_manufacturer)
+                  tbody#device-manufacturers-tbody
+                    = render partial: '/device_manufacturers/partials/device_manufacturers_rows', locals: { device_manufacturers: @device_manufacturers }
 
-              p = paginate @device_manufacturers
+              p.pagination = link_to_next_page(@device_manufacturers, 'Load more data', :remote => true)
 
 #quick-access.admin-bar style="bottom: -115px;"
   .admin-bar-inner

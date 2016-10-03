@@ -1,0 +1,6 @@
+- subscriptions.each do |sub|
+  tr
+    td = sub.plan.plan_type.name
+    td = "#{sub.plan.currency} #{sub.plan.price}"
+    td = sub.created_at
+    td = sub.active ? "Active" : "Expired"

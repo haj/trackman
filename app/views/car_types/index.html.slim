@@ -35,17 +35,10 @@
                       th
                       = content_tag :th, sort_link(@q, :name)
                       th
-                  tbody      
-                    - @car_types.each do |car_type|
-                      tr
-                        td.small-cell.v-align-middle
-                          = check_box_tag "car_type_ids[]", car_type.id, nil , class: "car_type_checkbox"
-                        td
-                          = link_to car_type.name, car_type
-                        td
-                          = link_to 'Edit', edit_car_type_path(car_type)
+                  tbody#car-types-tbody
+                    = render partial: '/car_types/partials/car_types_rows', locals: { car_types: @car_types }
 
-              p = paginate @car_types  
+              p.pagination = link_to_next_page(@car_types, 'Load more data', :remote => true)
 
 #quick-access.admin-bar style="bottom: -115px;"
   .admin-bar-inner

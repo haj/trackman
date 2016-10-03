@@ -31,17 +31,12 @@
                   thead
                     tr
                       th
-                      = content_tag :th, sort_link(@q, :name)
-                      th 
-                  tbody                    
-                    - @car_manufacturers.each do |car_manufacturer|
-                      tr
-                        td.small-cell.v-align-middle
-                          = check_box_tag "car_manufacturer_ids[]", car_manufacturer.id, nil , class: "car_manufacturer_checkbox"
-                        td = link_to car_manufacturer.name, car_manufacturer
-                        td = link_to 'Edit', edit_car_manufacturer_path(car_manufacturer)
+                      th Name
+                      th Action
+                  tbody#car-manufacturers-tbody
+                    = render partial: '/car_manufacturers/partials/car_manufacturers_rows', locals: { car_manufacturers: @car_manufacturers }
 
-              p = paginate @car_manufacturers
+              p.pagination = link_to_next_page(@car_manufacturers, 'Load more data', :remote => true)
 
 #quick-access.admin-bar style='bottom: -115px;'
   .admin-bar-inner

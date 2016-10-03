@@ -11,7 +11,10 @@ class TeleprovidersController < ApplicationController
     @q = Teleprovider.search(params[:q])
     @teleproviders = @q.result(distinct: true).page(params[:page])
 
-    respond_with(@teleproviders)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /teleproviders/1

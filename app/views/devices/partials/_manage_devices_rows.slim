@@ -1,0 +1,10 @@
+- @devices.each do |d|
+  tr
+    td.rest-in-place id="#{dom_id d}" data-url="/devices/#{d.id}" data-object='device' data-attribute='name' data-placeholder='Enter a name' = d.name
+    td
+    td = d.emei
+    td
+    td
+    td
+      .label.label-success= "Active"
+    td

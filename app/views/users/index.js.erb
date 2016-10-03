@@ -1,0 +1,10 @@
+// Append new data
+$("#users-tbody").append("<%= j render(:partial => '/users/partials/users_rows', locals: { users: @users }) %>")
+
+// Update pagination link
+<% if @users.last_page? %>
+  $('.pagination').html("No More Data to Show!");
+<% else %>
+  $('.pagination')
+    .html("<%=j link_to_next_page(@users, 'Load more data', :remote => true) %>");
+<% end %>

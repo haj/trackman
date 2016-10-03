@@ -1,0 +1,10 @@
+// Append new data
+$("#device-manufacturers-tbody").append("<%= j render(:partial => '/device_manufacturers/partials/device_manufacturers_rows', locals: { device_manufacturers: @device_manufacturers }) %>")
+
+// Update pagination link
+<% if @device_manufacturers.last_page? %>
+  $('.pagination').html("No More Data to Show!");
+<% else %>
+  $('.pagination')
+    .html("<%=j link_to_next_page(@device_manufacturers, 'Load more data', :remote => true) %>");
+<% end %>

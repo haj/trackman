@@ -1,0 +1,8 @@
+- car_types.each do |car_type|
+  tr
+    td.small-cell.v-align-middle
+      = check_box_tag "car_type_ids[]", car_type.id, nil , class: "car_type_checkbox"
+    td
+      = link_to car_type.name, car_type
+    td
+      = link_to 'Edit', edit_car_type_path(car_type)

@@ -15,7 +15,10 @@ class DeviceModelsController < ApplicationController
     @q = apply_scopes(DeviceModel).includes(:device_manufacturer).search(params[:q])
     @device_models = @q.result(distinct: true).page(params[:page])
 
-    respond_with(@device_models)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /device_models/1

@@ -48,21 +48,10 @@
                       th Name
                       th Vehicle Manufacturer
                       th
-                  tbody  
-                    - @car_models.each do |car_model|
-                      tr
-                        td.small-cell.v-align-middle
-                          = check_box_tag "car_model_ids[]", car_model.id, nil , class: "car_model_checkbox"
-                        td
-                          = link_to car_model.name, car_model
-                        td
-                          = car_model.try(:car_manufacturer).try(:name)
-                        td
-                          = link_to 'Edit', edit_car_model_path(car_model)
-                          | &nbsp; | &nbsp;
-                          = link_to 'Delete', car_model_path(car_model), method: :delete, data: { confirm: 'Are you sure want to delete this car model?' }
+                  tbody#car-models-tbody
+                    = render partial: '/car_models/partials/car_models_rows', locals: { car_models: @car_models }
 
-              p = paginate @car_models
+              p.pagination = link_to_next_page(@car_models, 'Load more data', :remote => true)
               
 #quick-access.admin-bar style="bottom: -115px;"
   .admin-bar-inner

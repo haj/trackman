@@ -14,7 +14,10 @@ class CarTypesController < ApplicationController
     @q = CarType.search(params[:q])
     @car_types = @q.result(distinct: true).page(params[:page])
 
-    respond_with(@car_types)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   # GET /car_types/1

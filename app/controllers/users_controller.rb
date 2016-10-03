@@ -17,7 +17,10 @@ class UsersController < ApplicationController
     @q     = apply_scopes(User).all.search(params[:q])
     @users = @q.result(distinct: true).page(params[:page])
 
-    respond_with(@users)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   # GET /users/1

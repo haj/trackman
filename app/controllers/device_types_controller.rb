@@ -15,7 +15,10 @@ class DeviceTypesController < ApplicationController
     @q = DeviceType.search(params[:q])
     @device_types = @q.result(distinct: true).page(params[:page])
 
-    respond_with(@device_types)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   # GET /device_types/1

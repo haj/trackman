@@ -1,0 +1,15 @@
+- users.each do |user|
+  tr
+    td.small-cell.v-align-middle
+      = check_box_tag "user_ids[]", user.id, nil , class: "user_checkbox"
+    td
+      = link_to user.name.titleize, user
+    td
+      = user.email
+    td
+      = user.roles.to_a.map(&:capitalize).join(', ')
+    td
+      = link_to 'Edit', edit_user_path(user)
+      - if user.roles.first != :manager
+        | &nbsp; | 
+        = link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }

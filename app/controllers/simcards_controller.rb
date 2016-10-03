@@ -26,7 +26,10 @@ class SimcardsController < ApplicationController
     @q        = apply_scopes(Simcard).all.search(params[:q])
     @simcards = @q.result(distinct: true).page(params[:page])
 
-    respond_with(@simcards)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   # GET /simcards/1

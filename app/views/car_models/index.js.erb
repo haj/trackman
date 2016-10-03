@@ -1,0 +1,10 @@
+// Append new data
+$("#car-models-tbody").append("<%= j render(:partial => '/car_models/partials/car_models_rows', locals: { car_models: @car_models }) %>")
+
+// Update pagination link
+<% if @car_models.last_page? %>
+  $('.pagination').html("No More Data to Show!");
+<% else %>
+  $('.pagination')
+    .html("<%=j link_to_next_page(@car_models, 'Load more data', :remote => true) %>");
+<% end %>

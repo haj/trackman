@@ -14,11 +14,7 @@
               th Name
               th
               th
-          tbody
-            - @companies.each do |company|
-              tr
-                td = link_to company.name.capitalize, company
-                td = link_to 'Edit', edit_company_path(company)
-                td = link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' }
+          tbody#companies-tbody
+            = render partial: '/companies/partials/companies_rows', locals: { companies: @companies }
       
-      p = paginate @companies
+      p.pagination = link_to_next_page(@companies, 'Load more data', :remote => true)

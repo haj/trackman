@@ -14,7 +14,10 @@ class CarManufacturersController < ApplicationController
     @q = CarManufacturer.search(params[:q])
     @car_manufacturers = @q.result(distinct: true).page(params[:page])
 
-    respond_with(@car_manufacturers)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   # GET /car_manufacturers/1

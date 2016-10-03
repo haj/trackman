@@ -50,19 +50,10 @@
                       = content_tag :th, sort_link(@q, :name)
                       = content_tag :th, sort_link(@q, 'Device Manufacturer')
                       th
-                  tbody                    
-                    - @device_models.each do |device_model|
-                      tr
-                        td.small-cell.v-align-middle
-                          = check_box_tag "device_model_ids[]", device_model.id, nil , class: "device_model_checkbox"
-                        td
-                          = link_to device_model.name, device_model
-                        td
-                          = device_model.try(:device_manufacturer).try(:name)
-                        td
-                          = link_to 'Edit', edit_device_model_path(device_model)
+                  tbody#device-models-tbody
+                    = render partial: '/device_models/partials/device_models_rows', locals: { device_models: @device_models }
 
-              p = paginate @device_models
+              p.pagination = link_to_next_page(@device_models, 'Load more data', :remote => true)
 
 #quick-access.admin-bar style="bottom: -115px;"
   .admin-bar-inner

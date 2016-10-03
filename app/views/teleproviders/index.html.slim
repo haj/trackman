@@ -36,13 +36,8 @@
                     th
                     th
 
-                tbody           
-                  - @teleproviders.each do |teleprovider|
-                    tr
-                      td= link_to teleprovider.name, teleprovider
-                      td= teleprovider.apn
-                      td= link_to 'Edit', edit_teleprovider_path(teleprovider)
-                      td= link_to 'Destroy', teleprovider, :method => :delete, :data => { :confirm => 'Are you sure?' }
+                tbody#teleproviders-tbody
+                  = render partial: '/teleproviders/partials/teleproviders_rows', locals: { teleproviders: @teleproviders }
 
-            = paginate @teleproviders
+            p.pagination = link_to_next_page(@teleproviders, 'Load more data', :remote => true)
 

@@ -1,0 +1,8 @@
+- device_manufacturers.each do |device_manufacturer|
+  tr
+    td.small-cell.v-align-middle
+      = check_box_tag "device_manufacturer_ids[]", device_manufacturer.id, nil , class: "device_manufacturer_checkbox"
+    td
+      = link_to device_manufacturer.name, device_manufacturer
+    td
+      = link_to 'Edit', edit_device_manufacturer_path(device_manufacturer)

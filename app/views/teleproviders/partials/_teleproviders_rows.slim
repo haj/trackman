@@ -1,0 +1,6 @@
+- teleproviders.each do |teleprovider|
+  tr
+    td= link_to teleprovider.name, teleprovider
+    td= teleprovider.apn
+    td= link_to 'Edit', edit_teleprovider_path(teleprovider)
+    td= link_to 'Destroy', teleprovider, :method => :delete, :data => { :confirm => 'Are you sure?' }

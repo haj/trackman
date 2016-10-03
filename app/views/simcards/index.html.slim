@@ -75,21 +75,10 @@
                       = content_tag :th, sort_link(@q, 'Teleprovider name')
                       th
 
-                  tbody           
-                    - @simcards.each do |simcard|
-                      tr
-                        td.small-cell.v-align-middle
-                          = check_box_tag "simcard_ids[]", simcard.id, nil , class: "simcard_checkbox"
-                        td
-                          = link_to simcard.telephone_number, simcard
-                        td
-                          = simcard.try(:teleprovider).try(:name)
-                        td
-                          = link_to 'Edit', edit_simcard_path(simcard)
-                          | &nbsp; | &nbsp;
-                          = link_to 'Destroy', simcard, method: :delete, data: { confirm: 'Are you sure want to delete this simcard?' }
+                  tbody#simcards-tbody
+                    = render partial: '/simcards/partials/simcards_rows', locals: { simcards: @simcards }          
 
-                = paginate @simcards
+                p.pagination = link_to_next_page(@simcards, 'Load more data', :remote => true)
               - else
                 .text-center
                   h2 No Sim Card at the moment

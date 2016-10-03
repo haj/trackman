@@ -16,7 +16,10 @@ class CarModelsController < ApplicationController
     @q = apply_scopes(CarModel).search(params[:q])
     @car_models = @q.result(distinct: true).includes(:car_manufacturer).page(params[:page])
 
-    respond_with(@car_models)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   # GET /car_models/1
