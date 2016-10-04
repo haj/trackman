@@ -23,7 +23,7 @@ module.exports = React.createClass
               last_location: @state.last_location
 
           # Cars Overview
-          R.div {className: "col-md- home-cars-overview", style: {position: "absolute", right: "0px", top: "-600px", zIndex: "2"}},
+          R.div {className: "col-md- home-cars-overview", style: {position: "absolute", right: "0px", top: "0px", zIndex: "2"}},
             React.createElement Order,
               car: @state.car,
               user: @state.user,

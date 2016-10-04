@@ -69,16 +69,7 @@ module.exports = React.createClass
     marker.setMap(@state.gmap)
 
   renderMap: ->
-    $.ajax
-      dataType: 'json'
-      type: 'GET'
-      url: "/orders/#{@props.order.id}"
-      success: ((data)->
-        @setMapDestination(data)
-        @changeOverviewDetail(data)
-        @setInterval()
-      ).bind(@)
-    @carOverviewToggle()
+    PubSub.publish 'render_map', {order: @props.order}
 
   acceptDestination: ->
     $.ajax

@@ -10,7 +10,6 @@
       carIcon: image_path('map-icons/car_icon.png'),
       emptyIcon: image_path('map-icons/empty_icon.png')
 - else
-  #map style="height: 600px;"
   = react_component "Driver",
     car: current_user.car,
     device: current_user.car.try(:device),
