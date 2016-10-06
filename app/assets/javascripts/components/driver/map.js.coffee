@@ -11,7 +11,10 @@ module.exports = React.createClass
     @initMap()
 
   latLong: ->
-    new gm.LatLng(@state.last_location.latitude, @state.last_location.longitude)
+    if !@state.active_order
+      new gm.LatLng(@state.last_location.latitude, @state.last_location.longitude)
+    else
+      new gm.LatLng(@state.active_order.latitude, @state.active_order.longitude)
 
   initMap: ->
     mapOptions  = {
