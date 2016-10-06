@@ -4,7 +4,8 @@ class HomeController < ApplicationController
   include ApplicationHelper
 
   # Callback controller
-  before_filter :set_settings, only: :index
+  before_action :set_settings, only: :index
+  before_action :set_active_order, only: :index
 
   add_breadcrumb "Home", :root_url
 
@@ -70,6 +71,12 @@ class HomeController < ApplicationController
     Settings.end_time = params[:end_time]
 
     render :text => 'OK'
+  end
+
+  def set_active_order
+    if is_driver?(current_user)
+      @active_order = current_user.orders.accepted.first rescue nil
+    end
   end
 
   # UNUSED METHOD

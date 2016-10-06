@@ -72,36 +72,16 @@ module.exports = React.createClass
     PubSub.publish 'render_map', {order: @props.order}
 
   acceptDestination: ->
-    $.ajax
-      dataType: 'json'
-      type: 'PUT'
-      url: "/destinations_drivers/#{@props.order.destination_id}/accept"
-      success: ((data)->
-        @setMapDestination(data)
-        @changeOverviewDetail(data)
-        @setInterval()
+    PubSub.publish 'accept_destination', {order: @props.order}
+    PubSub.publish 'select_order', {order: @props.order}
+    @setState
+      order:
+        aasm_state: 'accepted'
+      selectedOrder: @props.order.id
 
-        toastr.success('Success accepting an order! Have a good ride! ;)')
-
-        @setState
-          order:
-            aasm_state: 'accepted'
-          selectedOrder: order.id
-
-      ).bind(@)
-    @carOverviewToggle()
 
   doneDestination: ->
-    $.ajax
-      dataType: 'json'
-      type: 'PUT'
-      url: "/destinations_drivers/#{@props.order.destination_id}/finish"
-      success: ((data)->
-        @setState isShow: false
-        window.clearInterval(@state.interval)
-
-        toastr.success('Awesome! You have successfully delivered a package!')
-      ).bind(@)
+    PubSub.publish 'done_destination', {order: @props.order}
 
   declineDestination: ->
     @cancelDecline('decline')

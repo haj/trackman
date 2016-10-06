@@ -5,7 +5,7 @@ directionsDisplay = new google.maps.DirectionsRenderer()
 
 module.exports = React.createClass
   getInitialState: ->
-    {car: @props.car, device: @props.device, user: @props.user, last_location: @props.last_location, map: null, marker: null, loading: null, isLive: null}
+    {car: @props.car, device: @props.device, user: @props.user, last_location: @props.last_location, map: null, marker: null, loading: null, isLive: null, interval: null, car_id: null, order_id: null, active_order: @props.active_order}
 
   componentDidMount: ->
     @initMap()
@@ -14,17 +14,11 @@ module.exports = React.createClass
     new gm.LatLng(@state.last_location.latitude, @state.last_location.longitude)
 
   initMap: ->
-    console.log @refs.map_canvas
-    console.log @refs
-
     mapOptions  = {
       zoom: 7,
       center: @latLong()
     }
     map = new gm.Map(ReactDOM.findDOMNode(@refs.map_canvas), mapOptions)
-
-    console.log @refs.map_canvas
-    console.log map
 
     @setState map: map
 
@@ -39,17 +33,21 @@ module.exports = React.createClass
 
     @setMarker marker: marker
 
-  setInterval: ->
+  setInterval: (props) ->
+    @setState
+      car_id: @props.car.id
+      order_id: props.order.id
     interval = setInterval(@makeRequest, (10 * 1000))    
     @setState interval: interval
 
   makeRequest: ->
+    console.log 'asd'
     $.ajax
       method: "GET"
       dataType: "json"
-      url: "/cars/#{@props.car.id}/last_position"
+      url: "/cars/#{@state.car_id}/last_position"
       data:
-        order_id: @props.order.id
+        order_id: @state.order_id
       success: ((data) ->
         @removeMarker()
         @setMarker(data)
@@ -101,7 +99,6 @@ module.exports = React.createClass
     marker.setMap(@state.gmap)
 
   componentWillMount: ->
-    console.log 'click'
     @pubsub = PubSub.subscribe 'render_map', ((topic, props) ->
       $.ajax
         dataType: 'json'
@@ -110,57 +107,40 @@ module.exports = React.createClass
         success: ((data)->
           @setMapDestination(data)
           @changeOverviewDetail(data)
-          @setInterval()
+          @setInterval(props)
         ).bind(@)
       @carOverviewToggle()
     ).bind(@)
 
-  renderMap: ->
-    console.log 'click'
-    @pubsub = PubSub.subscribe 'render_map', ((topic, props) ->
+    @pubsubacceptdestination = PubSub.subscribe 'accept_destination', ((topic, props) ->
       $.ajax
         dataType: 'json'
-        type: 'GET'
-        url: "/orders/#{props.order.id}"
+        type: 'PUT'
+        url: "/destinations_drivers/#{props.order.destination_id}/accept"
         success: ((data)->
           @setMapDestination(data)
           @changeOverviewDetail(data)
-          @setInterval()
+          @setInterval(props)
+
+          toastr.success('Success accepting an order! Have a good ride! ;)')
+
         ).bind(@)
       @carOverviewToggle()
     ).bind(@)
 
-  acceptDestination: ->
-    $.ajax
-      dataType: 'json'
-      type: 'PUT'
-      url: "/destinations_drivers/#{@props.order.destination_id}/accept"
-      success: ((data)->
-        @setMapDestination(data)
-        @changeOverviewDetail(data)
-        @setInterval()
+    @pubsubdonedestination = PubSub.subscribe 'done_destination', ((topic, props) ->
+      $.ajax
+        dataType: 'json'
+        type: 'PUT'
+        url: "/destinations_drivers/#{props.order.destination_id}/finish"
+        success: ((data)->
+          @setState isShow: false
+          window.clearInterval(@state.interval)
 
-        toastr.success('Success accepting an order! Have a good ride! ;)')
+          toastr.success('Awesome! You have successfully delivered a package!')
+        ).bind(@)
 
-        @setState
-          order:
-            aasm_state: 'accepted'
-          selectedOrder: order.id
-
-      ).bind(@)
-    @carOverviewToggle()
-
-  doneDestination: ->
-    $.ajax
-      dataType: 'json'
-      type: 'PUT'
-      url: "/destinations_drivers/#{@props.order.destination_id}/finish"
-      success: ((data)->
-        @setState isShow: false
-        window.clearInterval(@state.interval)
-
-        toastr.success('Awesome! You have successfully delivered a package!')
-      ).bind(@)
+    ).bind(@)
 
   render: ->
     R.div className: 'grid simple dragme', style: {marginBottom: "0px"},
@@ -174,6 +154,6 @@ module.exports = React.createClass
           R.div, null
             # R.div className: "overlay standard #{if !@state.loading then "hidde" else ""}"
             R.div className: "overlay-label standard loading-label #{if !@state.loading then "hidde" else ""}", "Loading ..."
-            R.div className: "overlay-label standard live-label #{if !@state.isLive then "hidde" else ""}", "Live"
+            R.div className: "overlay-label standard live-label #{if !@state.active_order then "hidde" else ""}", "Live"
             R.div className: "overlay-label standard live-stats #{if !@state.isLive then "hidde" else ""}", "Km/h"
             R.div ref: "map_canvas", key: "map_canvas", style: {height: '100%', width: '100%'}

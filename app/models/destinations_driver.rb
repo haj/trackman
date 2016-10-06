@@ -34,10 +34,17 @@ class DestinationsDriver < ActiveRecord::Base
 
   # Validation
   validates :user_id, presence: true
+  validate :cek_destination
 
   # Callback
   before_create :delete_last_pending
   after_create :create_notification, :set_order_state
+
+  def cek_destination
+    if user.orders.accepted.present?
+      errors.add(:user_id, "Can only accept 1 order at the same time")
+    end
+  end
 
   def delete_last_pending
     if order.pending?
