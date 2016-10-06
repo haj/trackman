@@ -4,7 +4,7 @@ OrderRow = require('./order_rows')
 module.exports = React.createClass
 
   getInitialState: ->
-    {car: @props.car, device: @props.device, user: @props.user, selected: null, loaded: false, orders: @props.orders, selectedOrder: null}
+    {car: @props.car, device: @props.device, user: @props.user, selected: null, loaded: false, orders: @props.orders, selectedOrder: null, active_order: @props.active_order}
 
   componentWillMount: ->
     @pubsub = PubSub.subscribe 'select_order', ((topic, props) ->
@@ -40,7 +40,7 @@ module.exports = React.createClass
                     R.th null, "Quick Action"
                 for key of @state.orders
                   order = @state.orders[key]
-                  if !@state.selectOrder || (order && @state.selectedOrder)
-                    React.createElement OrderRow, key: order.id, order: order, car: @state.car
+                  if !@state.active_order || order.id == @state.active_order.id
+                    React.createElement OrderRow, key: order.id, order: order, car: @state.car, active_order: @state.active_order
 
 

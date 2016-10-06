@@ -5,7 +5,7 @@ directionsDisplay = new google.maps.DirectionsRenderer()
 
 module.exports = React.createClass
   getInitialState: ->
-    {car: @props.car, device: @props.device, user: @props.user, last_location: @props.last_location, map: null, marker: null, loading: null, isLive: null, interval: null, car_id: null, order_id: null, active_order: @props.active_order}
+    {car: @props.car, device: @props.device, user: @props.user, last_location: @props.last_location, gmap: null, marker: null, loading: null, isLive: null, interval: null, car_id: null, order_id: null, active_order: @props.active_order, first_position_active: @props.first_position_active}
 
   componentDidMount: ->
     @initMap()
@@ -23,9 +23,26 @@ module.exports = React.createClass
     }
     map = new gm.Map(ReactDOM.findDOMNode(@refs.map_canvas), mapOptions)
 
-    @setState map: map
+    @setState gmap: map
 
-    @initMarker(map)
+    if !@state.active_order
+      @initMarker(map)
+    else   
+      @initMarkerActive(map)
+      @setInterval(@state.active_order)
+
+  initMarkerActive: (map) ->
+    directionsDisplay.setMap(map)
+
+    request = {
+      origin: "#{@props.first_position_active.latitude}, #{@props.first_position_active.longitude}"
+      destination: "#{@state.active_order.latitude}, #{@state.active_order.longitude}"
+      travelMode: 'DRIVING'
+    }
+    directionsService.route(request, (result, status) ->
+      if status == 'OK'
+        directionsDisplay.setDirections(result)
+    )
 
   initMarker: (map)->
     marker  = new gm.Marker({
@@ -36,15 +53,14 @@ module.exports = React.createClass
 
     @setMarker marker: marker
 
-  setInterval: (props) ->
+  setInterval: (order) ->
     @setState
       car_id: @props.car.id
-      order_id: props.order.id
+      order_id: order.id
     interval = setInterval(@makeRequest, (10 * 1000))    
     @setState interval: interval
 
   makeRequest: ->
-    console.log 'asd'
     $.ajax
       method: "GET"
       dataType: "json"
@@ -110,7 +126,7 @@ module.exports = React.createClass
         success: ((data)->
           @setMapDestination(data)
           @changeOverviewDetail(data)
-          @setInterval(props)
+          @setInterval(props.order)
         ).bind(@)
       @carOverviewToggle()
     ).bind(@)
@@ -123,7 +139,7 @@ module.exports = React.createClass
         success: ((data)->
           @setMapDestination(data)
           @changeOverviewDetail(data)
-          @setInterval(props)
+          @setInterval(props.order)
 
           toastr.success('Success accepting an order! Have a good ride! ;)')
 
@@ -157,6 +173,5 @@ module.exports = React.createClass
           R.div, null
             # R.div className: "overlay standard #{if !@state.loading then "hidde" else ""}"
             R.div className: "overlay-label standard loading-label #{if !@state.loading then "hidde" else ""}", "Loading ..."
-            R.div className: "overlay-label standard live-label #{if !@state.active_order then "hidde" else ""}", "Live"
-            R.div className: "overlay-label standard live-stats #{if !@state.isLive then "hidde" else ""}", "Km/h"
+            R.div className: "overlay-label standard live-label #{if !@state.active_order then "hidde" else ""}", "Live : #{if !@state.active_order then "hidde" else @state.active_order.customer_name} - #{if !@state.active_order then "hidde" else @state.active_order.package}"
             R.div ref: "map_canvas", key: "map_canvas", style: {height: '100%', width: '100%'}

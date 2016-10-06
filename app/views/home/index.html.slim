@@ -17,7 +17,8 @@
     last_location: current_user.car.try(:locations).try(:last),
     orders: Order.assigned_home(current_user.id, params[:filter]),
     all_orders: Order.assigned_to(current_user.id, params[:filter]),
-    active_order: @active_order
+    active_order: @active_order,
+    first_active_order: @first_position
 
   = render 'destinations_drivers/partials/decline'
 

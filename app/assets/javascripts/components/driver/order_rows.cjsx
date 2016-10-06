@@ -5,7 +5,7 @@ gm = google.maps
 module.exports = React.createClass
 
   getInitialState: ->
-    { order: @props.order, gmap: null, marker: null, car: @props.car, isShow: true, interval: null, selectedOrder: null }
+    { order: @props.order, gmap: null, marker: null, car: @props.car, isShow: true, interval: null, selectedOrder: null, active_order: @props.active_order }
 
   setInterval: ->
     interval = setInterval(@makeRequest, (10 * 1000))    

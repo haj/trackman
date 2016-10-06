@@ -34,7 +34,7 @@ class DestinationsDriver < ActiveRecord::Base
 
   # Validation
   validates :user_id, presence: true
-  validate :cek_destination
+  # validate :cek_destination
 
   # Callback
   before_create :delete_last_pending

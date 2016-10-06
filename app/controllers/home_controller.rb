@@ -75,7 +75,8 @@ class HomeController < ApplicationController
 
   def set_active_order
     if is_driver?(current_user)
-      @active_order = current_user.orders.accepted.first rescue nil
+      @active_order   = current_user.orders.accepted.first rescue nil
+      @first_position = @active_order.destinations_drivers.accepted.first.accepted_destination.first_location rescue nil
     end
   end
 

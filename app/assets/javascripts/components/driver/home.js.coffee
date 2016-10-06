@@ -8,7 +8,7 @@ Map           = require('./map')
 module.exports = React.createClass
 
   getInitialState: ->
-    {car: @props.car, device: @props.device, user: @props.user, last_location: @props.last_location, orders: @props.orders, all_orders: @props.all_orders, active_order: @props.active_order}
+    {car: @props.car, device: @props.device, user: @props.user, last_location: @props.last_location, orders: @props.orders, all_orders: @props.all_orders, active_order: @props.active_order, first_position_active: @props.first_active_order}
 
   render: ->
     R.div null,
@@ -21,14 +21,16 @@ module.exports = React.createClass
               user: @state.user,
               device: @state.device,
               last_location: @state.last_location,
-              active_order: @state.active_order
+              active_order: @state.active_order,
+              first_position_active: @state.first_position_active
 
           # Cars Overview
           R.div {className: "col-md- home-cars-overview", style: {position: "absolute", right: "0px", top: "0px", zIndex: "2"}},
             React.createElement Order,
               car: @state.car,
               user: @state.user,
-              orders: @state.orders
+              orders: @state.orders,
+              active_order: @state.active_order
 
       R.div className: "row",
         # Logbook

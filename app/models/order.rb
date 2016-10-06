@@ -69,7 +69,7 @@ class Order < ActiveRecord::Base
     end
 
     def assigned_home(user_id, filter = '')
-      self.assigned_to_query(user_id).where('destinations_drivers.aasm_state in(?)', ['pending'])
+      self.assigned_to_query(user_id).where('destinations_drivers.aasm_state in(?)', ['pending', 'accepted'])
     end
   end
 end
