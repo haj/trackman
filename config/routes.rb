@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   # Work Schedule Groups
   #######################
 
+  resources :customers, only: :index
+
   resources :work_schedule_groups do
     collection do
       put 'batch_destroy'
