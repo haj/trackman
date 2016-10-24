@@ -19,7 +19,7 @@ class HomeController < ApplicationController
     elsif is_employee?(current_user)
       redirect_to conversations_path
     else
-      redirect_to customers_path
+      redirect_to new_user_session_path
     end
   end
 
