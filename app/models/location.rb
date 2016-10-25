@@ -37,7 +37,7 @@ class Location < ActiveRecord::Base
   # validates :device_id, :position_id, presence: true
 
   # CALLBACKS
-  after_commit :get_traccar_data, on: :create
+  # after_commit :get_traccar_data, on: :create
 
   reverse_geocoded_by :latitude, :longitude do |location,results|
     if geo = results.first

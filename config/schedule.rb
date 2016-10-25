@@ -8,6 +8,7 @@ end
 
 every 1.minute do
   rake "traccar_work"
+  rake "traccar_location_work"
 end
 
 every 1.day do
