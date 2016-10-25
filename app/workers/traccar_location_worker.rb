@@ -8,7 +8,7 @@ class TraccarLocationWorker
     diff = Traccar::Position.last.id - Location.last.position_id
 
     diff.times do |i|
-      last_position_id = ImportStatus.where.not(position_id: nil).last
+      last_position_id = ImportStatus.where.not(position_id: nil).order(position_id: :asc).last
 
       position = 
         if last_position_id
@@ -18,7 +18,7 @@ class TraccarLocationWorker
         end
 
       if !ImportStatus.where(position_id: position.try(:id)).present? && position 
-        ImportStatus.create(position_id: position.try(:id))
+        ImportStatus.where(position_id: position.try(:id)).first_or_create!
 
         lat         = position.latitude
         lon         = position.longitude
