@@ -36,7 +36,7 @@ class HomeController < ApplicationController
     if @car.last_position
       last_day     = @car.last_position.time.to_date
       and_before   = last_day.yesterday
-      seven_days   = last_day - 7.days
+      seven_days   = last_day - 2.days
       @array_dates = dates_in_range seven_days, last_day
       @data        = Car.locations_grouped_by_these_dates(@array_dates, @car.id)
     end
