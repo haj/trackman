@@ -317,7 +317,7 @@ module.exports = React.createClass
       else
         @setState isLive: false
     else
-      @fitBoundsSelected @boundsToAllCars
+      @fitBounds @boundsToAllCars
 
   createCarMarker: (car) ->
     marker = new google.maps.Marker
