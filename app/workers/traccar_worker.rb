@@ -5,7 +5,7 @@ class TraccarWorker
   sidekiq_options unique: :while_executing
   
   def perform
-    last_position_id = ImportStatus.where.not(position_id: nil).last
+    last_position_id = ImportStatus.where.not(position_id: nil).order(position_id: :desc).first
 
     position = 
       if last_position_id
