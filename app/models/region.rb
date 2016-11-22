@@ -11,21 +11,39 @@
 #
 
 class Region < ActiveRecord::Base
-	has_many :vertices, dependent: :destroy
-	acts_as_paranoid
-	acts_as_tenant(:company)
+  # INIT FROM GEM
+  acts_as_paranoid
+  acts_as_tenant(:company)
 
-	validates :name, presence: true
+  # ASSOCIATION
+  has_many :vertices, dependent: :destroy
 
-	# returns if point is inside a polygon
-	def contains_point(latitude, longitude)
-		points = []
-		self.vertices.each do |vertex|
-			points << Pinp::Point.new(vertex.latitude, vertex.longitude)
-		end
+  # VALIDATION
+  validates :name, presence: true
 
-		pgon = Pinp::Polygon.new(points)
-		return pgon.contains_point? Pinp::Point.new(latitude, longitude)
-	end
+  # Attr Accessor
+  attr_accessor :vertices
 
+  # Callback
+  after_save :save_vertices
+
+  # Save vertices after save a region
+  def save_vertices
+    if self.vertices.present?
+      self.vertices['markers'].values.each do |vertex|
+        Vertex.create(latitude: vertex['latitude'], longitude: vertex['longitude'], region_id: id)
+      end
+    end
+  end
+
+  # returns if point is inside a polygon
+  def contains_point(latitude, longitude)
+    points = []
+    self.vertices.each do |vertex|
+      points << Pinp::Point.new(vertex.latitude, vertex.longitude)
+    end
+
+    pgon = Pinp::Polygon.new(points)
+    return pgon.contains_point? Pinp::Point.new(latitude, longitude)
+  end
 end

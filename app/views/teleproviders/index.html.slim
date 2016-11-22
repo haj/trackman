@@ -1,0 +1,48 @@
+.content
+  .row
+    .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+      .page-title
+        h3 Teleproviders 
+    .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+      .pull-right = link_to 'Create', new_teleprovider_path, class: "btn btn-success"
+
+
+  .row
+    .col-md-4
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-title 
+              h4 Search
+              .tools
+                a.collapse href="javascript:;"
+            .grid-body
+              = search_form_for @q do |f| 
+                .form-group
+                  = f.search_field :name_cont, :placeholder => "Type name here" 
+                .form-group
+                  = f.submit "Search" ,:class => "btn btn-default"
+
+    .col-md-8
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-body 
+              table.table.no-more-tables
+                thead
+                  tr
+                    = content_tag :th, sort_link(@q, :name)
+                    = content_tag :th, sort_link(@q, :apn)
+                    th
+                    th
+
+                tbody           
+                  - @teleproviders.each do |teleprovider|
+                    tr
+                      td= link_to teleprovider.name, teleprovider
+                      td= teleprovider.apn
+                      td= link_to 'Edit', edit_teleprovider_path(teleprovider)
+                      td= link_to 'Destroy', teleprovider, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+            = paginate @teleproviders
+

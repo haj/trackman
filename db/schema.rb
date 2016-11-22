@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503214712) do
+ActiveRecord::Schema.define(version: 20160811130915) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20160503214712) do
     t.integer  "last_start_id"
     t.integer  "last_stop_id"
     t.integer  "last_is_id"
+    t.string   "aasm_state",               default: "stop"
   end
 
   create_table "car_types", force: true do |t|
@@ -229,6 +230,12 @@ ActiveRecord::Schema.define(version: 20160503214712) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "company_id"
+  end
+
+  create_table "import_statuses", force: true do |t|
+    t.integer  "position_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "locations", force: true do |t|
@@ -430,7 +437,7 @@ ActiveRecord::Schema.define(version: 20160503214712) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,          null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -448,6 +455,11 @@ ActiveRecord::Schema.define(version: 20160503214712) do
     t.integer  "car_id"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "time_log",               default: "00:00:00"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

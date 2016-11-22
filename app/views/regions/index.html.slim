@@ -1,0 +1,50 @@
+.row.page-heading
+  .pull-left
+    .col-md-12
+      h3 Regions
+    ol.breadcrumb
+      = render_breadcrumbs
+  .pull-right
+    .btn-right
+      = link_to 'New Region', new_region_path, class: "btn btn-primary"
+  .clear-both
+
+.row
+  .col-md-12
+    = form_tag batch_destroy_regions_path, id: "destroy_regions", :method => :put do
+      .grid.simple
+        .grid-body
+          - if @regions.present?
+            table.table.no-more-tables
+              thead
+                tr
+                  th
+                  th Name
+                  th
+
+              tbody           
+                - @regions.each do |region|
+                  tr
+                    td.small-cell.v-align-middle 
+                      = check_box_tag "region_ids[]", region.id, nil , class: "region_checkbox"
+                    td
+                      = link_to region.name, region
+                    td
+                      = link_to 'Edit', edit_region_path(region)
+                      | &nbsp; | &nbsp; 
+                      = link_to 'Delete', region, method: :delete, data: { confirm: "Are you sure want to delete this region?" }
+
+            = paginate @regions
+          - else
+            .text-center
+              h2 No Regions at the moment
+              i.fa.fa-ban.fa-4x              
+              h3 Try to create a region. The button is on top right of this page.
+
+#quick-access.admin-bar style="bottom: -115px;"
+  .admin-bar-inner
+    button.btn.btn-danger.btn-add#batch_destroy type="button"
+      i.icon-trash
+      Move to trash
+    button.btn.btn-white.btn-cancel type="button" Cancel
+/ = render 'modal'

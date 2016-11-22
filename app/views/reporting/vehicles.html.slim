@@ -1,0 +1,24 @@
+.row.page-heading
+  .col-md-12
+    h2 Reports
+  ol.breadcrumb
+    = render_breadcrumbs
+.row
+  .col-md-12
+
+    ul.nav.nav-tabs#reporting_tab
+      = render "tab_header"
+
+    div.tab-content
+      div.tab-pane.active#pane
+        - if Car.all.count == 0
+          h5 No data found
+        - else
+          = render_query_report
+          div#cool
+          - @cars = Car.all
+          = react_component 'Cars', { data: @cars }
+          / = react_component 'HelloMessage', name: 'John', prerender: true
+      div.tab-pane#vehicles
+      div.tab-pane#simcards
+

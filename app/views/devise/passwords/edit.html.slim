@@ -1,0 +1,23 @@
+.row.login-container.animated.fadeInUp
+  .col-md-8.col-md-offset-2.tiles.white.no-padding
+    .p-t-30.p-l-40.p-b-20.xs-p-t-10.xs-p-l-10.xs-p-b-10
+      h2.normal Change Your Password
+      p.p-b-20 Enter Your New Password Here
+    .tiles.grey.p-t-20.p-b-20.text-black
+      div#frm_login.animated.fadeIn
+        = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+          = devise_error_messages!
+          = f.hidden_field :reset_password_token
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+            .col-md-6.col-sm-6
+              = f.password_field :password, :class => "form-control email", :placeholder => "Password"
+            .col-md-6.col-sm-6
+              = f.password_field :password_confirmation, autocomplete: "off" , :class => "form-control password", :placeholder => "Confirmation Password"
+          br
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+            .col-md-12
+              .pull-left
+                = f.submit t("devise.invitations.edit.submit_button"), class: "btn btn-primary btn-cons", id: "sign-in"
+              .pull-right
+                = render "devise/shared/links"
+              .clear-both

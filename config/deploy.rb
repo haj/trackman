@@ -1,17 +1,23 @@
 # Change these
 server '82.196.1.211', port: 22, roles: [:web, :app, :db], primary: true
+# server '185.14.187.130', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:haj/trackman.git'
 set :application,     'trackman'
 set :user,            'deploy'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
+set :branch,          :master
 
 # Don't change these unless you know what you're doing
+set :rvm_type, :system
+set :rvm_ruby_version, '2.2.1'
+set :rvm_custom_path, '/usr/local/rvm/'
 set :pty,             true
 set :use_sudo,        false
 set :stage,           :production
 set :deploy_via,      :remote_cache
+# set :puma_conf, "#{shared_path}/puma.rb"
 set :deploy_to,       "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
@@ -23,6 +29,7 @@ set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord
 
+set :linked_dirs, %w(log tmp/pids)
 ## Defaults:
 # set :scm,           :git
 # set :branch,        :master

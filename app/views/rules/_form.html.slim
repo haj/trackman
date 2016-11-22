@@ -1,0 +1,26 @@
+= form_for(@rule, html: { id: 'form-rule' }) do |f|
+  - if @rule.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@rule.errors.count, "error")} prohibited this rule from being saved:"
+      ul
+        - @rule.errors.full_messages.each do |msg|
+          li = msg
+
+  .form-group
+    = f.label :name, :class => "form-label"
+    = f.text_field :name, :class => "form-control"
+  .form-group
+    = f.label :method_name, :class => "form-label"
+    = f.text_field :method_name, :class => "form-control"
+
+  h3 Parameters
+
+  .form-group
+    #parameters
+    = f.fields_for :parameters do |parameter|
+      = render 'parameter_fields', :f => parameter
+    .links
+      = link_to_add_association 'add parameter', f, :parameters
+
+  .form-group
+    = f.submit 'Save', class: "btn btn-primary"

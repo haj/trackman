@@ -11,11 +11,13 @@
 #
 
 class DeviceModel < ActiveRecord::Base
-	has_many :devices
-	belongs_to :device_manufacturer
+  # ASSOCIATION
+  has_many :devices
+  belongs_to :device_manufacturer
 
-	scope :by_device_manufacturer, -> device_manufacturer_id { where(:device_manufacturer_id => device_manufacturer_id) }
+  # VALIDATION
+  validates :name, :device_manufacturer_id, :protocol, presence: true
 
-	validates :name, :device_manufacturer_id, :protocol, presence: true
-
+  # SCOPE
+  scope :by_device_manufacturer, -> device_manufacturer_id { where(:device_manufacturer_id => device_manufacturer_id) }
 end

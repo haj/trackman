@@ -1,0 +1,54 @@
+.row.page-heading
+  .pull-left
+    .col-md-12
+      h3 Alarms
+    ol.breadcrumb
+      = render_breadcrumbs
+  .pull-right
+    .btn-right
+      = link_to 'New Alarm', new_alarm_path, class: "btn btn-primary"
+  .clear-both
+
+.row
+  .col-md-12
+    = form_tag batch_destroy_alarms_path, id: "destroy_alarms", :method => :put do
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-body
+              - if @alarms.present?
+                .table-responsive
+                  table.table
+                    thead
+                      tr
+                        th
+                        th Name
+                        th Number of Rules
+                        th Number of Cars
+                        th
+                    tbody
+                      - @alarms.each do |alarm|
+                        tr
+                          td.small-cell.v-align-middle = check_box_tag "alarm_ids[]", alarm.id, nil , class: "alarm_checkbox"
+                          td = link_to alarm.name, alarm
+                          td = alarm.try(:rules).try(:count)
+                          td = alarm.try(:cars).try(:count)
+                          td
+                            = link_to 'Edit', edit_alarm_path(alarm)
+                            | &nbsp; | &nbsp; 
+                            = link_to 'Delete', alarm, method: :delete, data: { confirm: "Are you sure want to delete this alaram?" }
+
+                = paginate @alarms
+              - else
+                .text-center
+                  h2 No Alarms at the moment
+                  i.fa.fa-ban.fa-4x              
+                  h3 Try to create an alarm. The button is on top right of this page.
+
+#quick-access.admin-bar style='bottom: -115px;'
+  .admin-bar-inner
+    button.btn.btn-danger.btn-add#batch_destroy type='button'
+      i.icon-trash
+      Move to trash
+    button.btn.btn-white.btn-cancel type='button' Cancel
+/ = render 'modal'

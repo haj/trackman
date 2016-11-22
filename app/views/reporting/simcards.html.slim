@@ -1,0 +1,19 @@
+.row.page-heading
+  .col-md-12
+    h2 Reports
+  ol.breadcrumb
+    = render_breadcrumbs
+.row
+  .col-md-12
+
+    ul.nav.nav-tabs#reporting_tab
+      = render "tab_header"
+
+    div.tab-content
+      div.tab-pane.active#devices
+        - if Simcard.all.count == 0
+          h5 No data found
+        - else
+          = render_query_report
+      div.tab-pane#vehicles
+      div.tab-pane#simcards

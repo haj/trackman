@@ -3,8 +3,8 @@
 # Table name: vertices
 #
 #  id         :integer          not null, primary key
-#  latitude   :float
-#  longitude  :float
+#  latitude   :float(24)
+#  longitude  :float(24)
 #  region_id  :integer
 #  created_at :datetime
 #  updated_at :datetime
@@ -12,7 +12,13 @@
 #
 
 class Vertex < ActiveRecord::Base
-	belongs_to :region
+  # Association
+  belongs_to :region
 
-	acts_as_tenant(:company)
+  # INIT BY GEM
+  acts_as_tenant(:company)
+
+  # Validation
+  validates :latitude, :longitude, :region_id, presence: true
+
 end

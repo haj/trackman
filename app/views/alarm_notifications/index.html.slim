@@ -1,0 +1,49 @@
+.row.page-heading
+  .col-md-12
+    h2 Alerts
+  ol.breadcrumb
+    = render_breadcrumbs
+.row
+  .col-md-12
+    = form_tag batch_archive_alarm_notifications_path, id: "archive_alarm_notifiations", :method => :put do
+      .grid.simple
+        .grid-body
+          - if @alerts.present?
+            .table-responsive
+              table.table
+                thead
+                  tr
+                    th
+                    th Vehicle
+                    th Alarm triggered
+                    th Triggered at
+                    th Action
+                tbody
+                  - @alerts.each do |alert|
+                    tr
+                      td.small-cell.v-align-middle 
+                        = check_box_tag "alarm_notification_ids[]", alert.id, nil , class: "alarm_notification_checkbox"
+                      td
+                        = link_to alert.try(:car).try(:name), alert.car
+                      td
+                        = link_to alert.try(:alarm).try(:name), alert.alarm
+                      td
+                        = "#{pretty_date(alert.created_at)} at #{pretty_time(alert.created_at)}"
+                      td
+                        = link_to 'Archive', archive_alarm_notification_path(alert), data: { confirm: 'Are you sure want to archieve this alert?' }, method: :put
+
+            p = paginate @alerts
+          - else
+            .text-center
+              h2 No Alerts at the moment
+              i.fa.fa-ban.fa-4x
+
+
+#quick-access.admin-bar style='bottom: -115px;'
+  .admin-bar-inner
+    button.btn.btn-danger.btn-add#batch_archive type='button'
+      i.icon-trash
+      | Move to archive
+    button.btn.btn-white.btn-cancel type='button' Cancel
+
+                                                                                                                                                                                           

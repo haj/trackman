@@ -1,0 +1,107 @@
+.row.page-heading
+  .pull-left
+    .col-md-12
+      h3 Sim Cards
+    ol.breadcrumb
+      = render_breadcrumbs
+  .pull-right
+    .btn-right
+      = link_to 'New Sim Card', new_simcard_path, class: "btn btn-primary"
+  .clear-both
+
+.row
+  .col-md-4
+    .row
+      .col-md-12
+        .grid.simple
+          .grid-title
+            h4
+              Search
+            .tools
+              a.collapse href="javascript:;"
+          .grid-body 
+            = search_form_for @q  do |f| 
+              .form-group
+                = f.search_field :telephone_number_cont, :placeholder => " Type telephone number", class: "form-control"
+              .form-group
+                = f.submit "Search" ,:class => "btn btn-default"
+    .row
+      .col-md-12
+        = form_tag '', :method => :get do
+          .row
+            .col-md-12
+              .grid.simple
+                .grid-title 
+                  h4 Teleproviders
+                  .tools
+                    a.collapse href="javascript:;"
+                .grid-body 
+                  = select_tag( :by_teleprovider, options_for_select(all_teleproviders, params[:by_teleprovider]), :include_blank => true, class: "form-control")     
+          .row
+            .col-md-12
+              .grid.simple
+                .grid-title 
+                  h4 Availablity
+                  .tools
+                    a.collapse href="javascript:;"
+                .grid-body
+                  label
+                    = radio_button_tag 'available', 'all' , checked_radio_button(params["available"], 'all')
+                    = "All"
+                  label
+                    = radio_button_tag 'available', 'true' , checked_radio_button(params["available"], 'true')
+                    = "Available" 
+                  label
+                    = radio_button_tag 'available', 'false' , checked_radio_button(params["available"], 'false')
+                    = "Used"
+          
+          .form-group
+            = submit_tag 'Apply Filters', :class => "btn btn-default"
+        
+        .col-md-9
+          
+  .col-md-8
+    = form_tag batch_destroy_simcards_path, id: "destroy_simcards", :method => :put do
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-body 
+              - if @simcards.present?
+                table.table.no-more-tables
+                  thead
+                    tr
+                      th
+                      = content_tag :th, sort_link(@q, :telephone_number)
+                      = content_tag :th, sort_link(@q, 'Teleprovider name')
+                      th
+
+                  tbody           
+                    - @simcards.each do |simcard|
+                      tr
+                        td.small-cell.v-align-middle
+                          = check_box_tag "simcard_ids[]", simcard.id, nil , class: "simcard_checkbox"
+                        td
+                          = link_to simcard.telephone_number, simcard
+                        td
+                          = simcard.try(:teleprovider).try(:name)
+                        td
+                          = link_to 'Edit', edit_simcard_path(simcard)
+                          | &nbsp; | &nbsp;
+                          = link_to 'Destroy', simcard, method: :delete, data: { confirm: 'Are you sure want to delete this simcard?' }
+
+                = paginate @simcards
+              - else
+                .text-center
+                  h2 No Sim Card at the moment
+                  i.fa.fa-ban.fa-4x              
+                  h3 Try to create a simcard. The button is on top right of this page.
+
+
+#quick-access.admin-bar style="bottom: -115px;"
+  .admin-bar-inner
+    button.btn.btn-danger.btn-add#batch_destroy type="button"
+      i.icon-trash
+      Move to trash
+    button.btn.btn-white.btn-cancel type="button" Cancel
+/ = render 'modal'
+

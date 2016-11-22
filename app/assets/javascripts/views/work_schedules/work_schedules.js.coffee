@@ -97,7 +97,7 @@ $ ->
 
     work_schedule_name = $('#name').val()
     work_schedule_params = { name: work_schedule_name } 
-    request = $.ajax { url: '/work_schedules', type: 'post', data: { shifts: super_awesome_array,  work_schedule:  work_schedule_params } }
+    request = $.ajax { url: '/work_schedules', type: 'post', data: { work_schedule: { shifts: super_awesome_array,  name:  work_schedule_name }  } }
     request.done (response, textStatus, jqXHR) ->
         console.log("response" + response)
      

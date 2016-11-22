@@ -48,6 +48,7 @@ production:
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   pool: 25
+  reconnect: true
 
 secondary_production:
   adapter: mysql2
@@ -56,3 +57,4 @@ secondary_production:
   database: <%= ENV['DB_TRACCAR_NAME'] %>
   username: <%= ENV['DB_USER'] %>
   password: <%= ENV['DB_PASSWORD'] %> 
+  reconnect: true

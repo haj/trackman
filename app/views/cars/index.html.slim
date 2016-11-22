@@ -1,0 +1,64 @@
+.row.page-heading
+  .pull-left
+    .col-md-12
+      h2 Vehicles
+    ol.breadcrumb
+      = render_breadcrumbs
+  .pull-right
+    = link_to 'New Vehicles', new_car_path, class: "btn btn-primary btn-right"
+  .clear-both
+
+.row
+  .col-md-12
+    = form_tag batch_destroy_cars_path, id: "destroy_cars", :method => :put do
+      .row
+        .col-md-12
+          .grid.simple
+            .grid-body
+              - if @cars.present?
+                .row
+                  .pull-right
+                    = form_tag '', :method => :get do
+                      = select_tag('by_car_model', content_tag(:option, 'Vehicle Models ...', value: "")+options_from_collection_for_select(CarModel.all, 'id', 'name', params[:by_car_model] ))
+                      = select_tag('by_car_type', content_tag(:option, 'Vehicle Types ...', value: "")+options_from_collection_for_select(CarType.all, 'id', 'name', params[:by_car_type]))
+                      = submit_tag 'Apply Filters', class: "btn btn-primary"
+                .table-responsive
+                  table.table
+                    thead
+                      tr
+                        th
+                        = content_tag :th, sort_link(@q, :name)
+                        = content_tag :th, sort_link(@q, :numberplate)
+                        = content_tag :th, sort_link(@q, :car_model)
+                        = content_tag :th, sort_link(@q, :car_type)
+                        th
+                    tbody
+                      - @cars.each do |car|
+                        tr
+                          td.small-cell.v-align-middle
+                            = check_box_tag "car_ids[]", car.id, nil , class: "car_checkbox"
+                          td
+                            = link_to car.name, car
+                          td
+                            = car.numberplate
+                          td
+                            = car.try(:car_model).try(:name)
+                          td
+                            = car.try(:car_type).try(:name)
+                          td
+                            = link_to 'Edit', edit_car_path(car)
+                            | &nbsp; | &nbsp; 
+                            = link_to 'Delete', car, method: :delete, data: { confirm: "Are you sure want to delete this car?" }
+
+                p = paginate @cars
+              - else
+                .text-center
+                  h2 No Cars at the moment.
+                  i.fa.fa-ban.fa-4x
+                  h3 Try to create a car. The button is on top right of this page.
+#quick-access.admin-bar style="bottom: -115px;"
+  .admin-bar-inner
+    button.btn.btn-danger.btn-add#batch_destroy type="button"
+      i.icon-trash Move to trash
+    button.btn.btn-white.btn-cancel type="button" Cancel
+

@@ -17,7 +17,7 @@ class Views.Home.IndexView extends Views.ApplicationView
 
 		$(".page-content").css("overflow", "hidden")
 
-		$(".page-content .content").css("padding-top", "61px")
+		$(".page-content .content").css("padding-top", "0px")
 		.css("padding-left", "0px")
 		.css("padding-right", "0px")
 

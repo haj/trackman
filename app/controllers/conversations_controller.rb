@@ -1,61 +1,93 @@
 class ConversationsController < ApplicationController
+  add_breadcrumb "Conversations", :conversations_url
+  include Breadcrumbable
+
+  # Callback controller
+  before_action :authenticate_user!
+  before_action :set_conversation, only: [:reply, :destroy]
+
+  # GET /conversations || conversations_path
+  # Show all conversations
+  def index
+    @conversations = 
+      if params[:read].present? && params[:read] == "true"
+        current_user.mailbox.inbox(:read => true)
+      elsif params[:read].present? && params[:read] == "false"
+        current_user.mailbox.inbox(:unread => true)
+      else 
+        current_user.mailbox.inbox
+      end.page(params[:page])
   
-  #load_and_authorize_resource
+    respond_with(@conversations)
+  end
 
-
+  # GET /conversations/:id || conversation_path(:id)
+  # Show specific conversation
   def show
     @conversation = current_user.mailbox.conversations.find(params[:id])
     @conversation.mark_as_read(current_user)
+
+    respond_with(@conversation)
   end
 
+  # GET /conversations/new || new_conversation_path
+  # New Conversation Form
   def new
     @conversation = Mailboxer::Conversation.new
+
+    respond_with(@conversation)
   end
 
-  def index
-    if params[:read].present? && params[:read] == "true"
-      @conversations = current_user.mailbox.inbox(:read => true)
-      @inbox_title = "Inbox (Read)"
-    elsif params[:read].present? && params[:read] == "false"
-      @conversations = current_user.mailbox.inbox(:unread => true)
-      @inbox_title = "Inbox (Unread)"
-    else 
-      @conversations = current_user.mailbox.inbox
-      @inbox_title = "Inbox (All)"
-    end
-  end
-
-  def sentbox 
-    @sentbox = current_user.mailbox.sentbox
-  end
-
-  
-
+  # POST /conversations || conversations_path
   # Create a brand new conversation
   def create
-    recipient = User.find(conversation_params['recipient_id'])
-    @conversation = current_user.send_message(recipient, conversation_params["body"], conversation_params["subject"]).conversation
-    redirect_to conversation_path(@conversation)
+    recipient     = User.find(conversation_params['recipient_id'])
+    @conversation = current_user.send_message(recipient, conversation_params['body'], conversation_params['subject']).conversation
+
+    respond_with(@conversation, location: conversation_path(@conversation))
   end
 
+  # DELETE /conversations/:id || conversation_path(:id)
+  # Delete specific conversation
+  def destroy
+    @conversation.destroy
+
+    respond_with(@conversation, location: conversations_user_path(current_user))
+  end
+
+  # GET /conversations/mark_as_action || mark_as_action_conversations_path
+  # Mark as action 
   def mark_as_action
-    conversation_ids = params[:conversation_ids]
-    clicked_action = params[:clicked_action]
-    UserConversation.mark_as_action(clicked_action, conversation_ids, current_user.id)
-    redirect_to conversations_path
+    @conversation = UserConversation.mark_as_action(params[:clicked_action], params[:conversation_ids], current_user.try(:id))
+
+    respond_with(@conversation, location: conversations_path)
   end
 
+  # GET /conversations/sent_box || sentbox_conversations_path
+  # Show all sent box conversation
+  def sentbox 
+    add_breadcrumb "Sentbox"
 
+    @sentbox = current_user.mailbox.sentbox.page(params[:page])
+
+    respond_with(@sentbox)
+  end
+
+  # POST /conversations/:id/reply || reply_conversation(:id)
   # Reply to an existing conversation
   def reply
-    @conversation = current_user.mailbox.conversations.find(params[:id])
     current_user.reply_to_conversation(@conversation, conversation_params['body'])
-    redirect_to conversation_path(@conversation)
+
+    @message = @conversation.messages.last
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def trash
     @conversation.move_to_trash(current_user)
-    redirect_to :conversations
+    redirect_to :back
   end
 
   def untrash
@@ -63,18 +95,14 @@ class ConversationsController < ApplicationController
     redirect_to :conversations
   end
 
-  
-
-  def destroy
-    @conversation = current_user.mailbox.conversations.find(params[:id])
-    @conversation.destroy
-    redirect_to conversations_user_path(current_user)
-  end
-
   private
 
   def conversation_params
     params.require(:conversation).permit(:body, :subject, :recipient_id)
+  end
+
+  def set_conversation
+    @conversation = current_user.mailbox.conversations.find(params[:id])    
   end
 
 end

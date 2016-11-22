@@ -29,13 +29,11 @@ $(document).ready(function() {
 			$('#email-list .checkbox input').click( function() {			
 				if($(this).is(':checked')){
 					selectedItems++;
-					console.log(selectedItems);
 					$("#quick-access").css("bottom","0px");	
 					$(this).parent().parent().parent().toggleClass('row_selected');					
 				}
 				else{					
 						selectedItems--;
-						console.log(selectedItems);
 						$("#quick-access").css("bottom","0px");	
 						$(this).parent().parent().parent().toggleClass('row_selected');		
 				}

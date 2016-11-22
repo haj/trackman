@@ -1,58 +1,66 @@
 class SubscriptionsController < ApplicationController
-  before_action :set_subscription, only: [:show, :edit, :update, :destroy]
+  # Include module / class
+  add_breadcrumb "Subscriptions", :subscriptions_url
+
   load_and_authorize_resource
+  include Breadcrumbable
+
+  # Callback controller
+  before_action :set_subscription, only: [:show, :edit, :update, :destroy, :cancel]
+
+  def index
+    @subscriptions = Subscription.includes(:plan).order(created_at: :desc).page(params[:page])    
+    @subscription  = current_user.company.subscriptions.active
+  end
   
   # GET /subscriptions/1
   # GET /subscriptions/1.json
   def show
+    respond_with(@subscription)
   end
 
   # GET /subscriptions/new
   def new
     plan = Plan.find(params[:plan_id])
+
+    # if it's the free plan, cancel previous active subscriptions 
     if plan.plan_type.id == PlanType.first.id
-      # if it's the free plan, cancel previous active subscriptions 
       company = current_user.company
       company.cancel_active_subscriptions
 
       # and switch to new free plan
       plan.companies << company
 
-      logger.warn "Switching to free plan"
-
       redirect_to company
     else
       @subscription = plan.subscriptions.build
-    end
-    
+    end    
   end
 
   # GET /subscriptions/1/edit
   def edit
+    respond_with(@subscription)
   end
 
   # POST /subscriptions
   # POST /subscriptions.json
   def create
-    @subscription = Subscription.new(params[:subscription]) 
-    company = current_user.company
-
-    Rails.logger.warn "Params #{params}"
-    Rails.logger.warn "Subscription #{@subscription.to_json}"
-    
-    if @subscription.save_with_payment
-      # switch the current company plan
-      @subscription.plan.companies << company
-
-      # schedule to cancel all active subscriptions
-      company.cancel_active_subscriptions
-
-      # Add this subscription to the company list of subscriptions
-      company.subscriptions << @subscription
-
-      redirect_to @subscription, :notice => "Thank you for subscribing!"
-    else
-      render :new
+    ActiveRecord::Base.transaction do
+      begin
+        @subscription = Subscription.new(subscription_params) 
+        
+        if @subscription.save
+          respond_with(@subscription, location: subscriptions_path, notice: 'Thank you for subscribing!')
+        else
+          respond_with(@subscription)
+        end
+      rescue Paymill::PaymillError => e
+        respond_with(e, location: :back, notice: e.message)
+      rescue Paymill::APIError => e
+        respond_with(e, location: :back, notice: e.message)
+      rescue Paymill::AuthenticationError 
+        respond_with(e, location: :back, notice: e.message)
+      end
     end
   end
 
@@ -80,14 +88,22 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_subscription
-      @subscription = Subscription.find(params[:id])
-    end
+  # Cancel a runningsubscription
+  def cancel
+    @subscription.cancel
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def subscription_params
-      params.require(:subscription).permit(:email, :name, :paymill_id, :paymill_card_token, :plan_id)
-    end
+    respond_with(@subscription, location: subscriptions_url, notice: 'Subscription successfully cancel.')    
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_subscription
+    @subscription = Subscription.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def subscription_params
+    params.require(:subscription).permit(:email, :name, :paymill_id, :paymill_card_token, :plan_id)
+  end
 end

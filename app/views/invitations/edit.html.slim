@@ -1,0 +1,20 @@
+.row.login-container.animated.fadeInUp
+  .col-md-8.col-md-offset-2.tiles.white.no-padding
+    .p-t-30.p-l-40.p-b-20.xs-p-t-10.xs-p-l-10.xs-p-b-10
+      h2.normal Set Your Password
+
+    .tiles.grey.p-t-20.p-b-20.text-black
+      div#frm_login.animated.fadeIn
+        = form_for(resource, as: resource_name, url: invitation_path(resource_name)) do |f|
+          .row
+            = devise_error_messages!
+            = f.hidden_field :invitation_token, value: params[:invitation_token]
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+            .col-md-6.col-sm-6
+              = f.password_field :password, :class => "form-control email", :placeholder => "Password"
+            .col-md-6.col-sm-6
+              = f.password_field :password_confirmation, autocomplete: "off" , :class => "form-control password", :placeholder => "Confirmation Password"
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+            .col-md-12
+              = f.submit t("devise.invitations.edit.submit_button"), class: "btn btn-primary btn-cons pull-right", id: "sign-in"
+          

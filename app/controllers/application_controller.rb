@@ -1,34 +1,49 @@
+require "application_responder"
+
 class ApplicationController < ActionController::Base
+  self.responder = ApplicationResponder
+  respond_to :html
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   include PublicActivity::StoreController
+
+  # Rescue cancancan
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to main_app.root_path, :alert => exception.message
+  end
   
   helper_method :current_tenant
   helper_method :js_class_name
   helper_method :css_class_name
 
-  before_filter :set_current_tenant
-  before_filter :bootstrap
+  before_action :set_current_tenant
+  before_action :bootstrap
+  before_action :mailbox_count, if: :user_signed_in?
+  before_action :alerts_count, if: :user_signed_in?
+
   # before_filter :configure_permitted_parameters, if: :devise_controller?
 
   #around_filter :user_time_zone
 
   def js_class_name
-    action = case action_name
+    action = 
+      case action_name
       when 'create' then 'New'
       when 'update' then 'Edit'
-    else action_name
-    end.camelize
+      else action_name
+      end.camelize
     "Views.#{self.class.name.gsub('::', '.').gsub(/Controller$/, '')}.#{action}View"
   end
 
     def css_class_name
-    action = case action_name
+    action = 
+      case action_name
       when 'create' then 'New'
       when 'update' then 'Edit'
-    else action_name
-    end
+      else action_name
+      end
     "#{self.class.name.gsub('::', '.').gsub(/Controller$/, '')}#{action}"
   end
 
@@ -61,17 +76,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # cancan
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => exception.message
-  end
-
   # devise
   before_filter do
-		resource = controller_name.singularize.to_sym
-		method = "#{resource}_params"
-		params[resource] &&= send(method) if respond_to?(method, true)
-	end
+    resource = controller_name.singularize.to_sym
+    method = "#{resource}_params"
+    params[resource] &&= send(method) if respond_to?(method, true)
+  end
 
   def not_found
     raise ActionController::RoutingError.new('Not Found')
@@ -108,14 +118,20 @@ class ApplicationController < ActionController::Base
 
   private
 
-
-
-    def guest_user_layout
-      if current_user.nil?
-        "guest"
-      else
-        "application"
-      end
+  def guest_user_layout
+    if current_user.nil?
+      "guest"
+    else
+      "application"
     end
+  end
 
+  def mailbox_count
+    @inbox_count  = current_user.mailbox.inbox.count
+    @outbox_count = current_user.mailbox.sentbox.count
+  end
+
+  def alerts_count
+    @alerts_count = AlarmNotification.not_archieved.count
+  end
 end

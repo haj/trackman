@@ -22,7 +22,7 @@ $ ->
 						$.ajax "/rules/regions",
 							success: (response) ->
 								list_id = "alarm_rules_attributes_" + rule_id + "_params_" + name
-								list_name = "alarm[rules_attributes][" + rule_id + "][params][" + name + "]"
+								list_name = "alarm[alarm_rules_attributes][" + rule_id + "][params][" + name + "]"
 								regionsList = $("<select></select>").attr("id", list_id).attr("name", list_name)
 
 								#console.log(regionsList)
@@ -43,7 +43,7 @@ $ ->
 								alert("Error")
 					
 					else 
-						input_element = "<div class='form-group'><input id='alarm_rules_attributes_" + rule_id + "_params_" + name + "' name='alarm[rules_attributes][" + rule_id + "][params][" + name + "]' type='text'></div>"	  	
+						input_element = "<div class='form-group'><input id='alarm_rules_attributes_" + rule_id + "_params_" + name + "' name='alarm[alarm_rules_attributes][" + rule_id + "][params][" + name + "]' type='text'></div>"	  	
 						label_element = "<div class='form-group'>"+ String(param.description) + "</div>"
 						field_element = $("<div class='field'>" + label_element + input_element + "</div>")
 						params_block.append(field_element)

@@ -1,21 +1,21 @@
 $ ->
+  $(".toggle").click ->
+    $(".to-be-toggled").fadeToggle( "fast", "linear" )
 
-    $(".toggle").click ->
-        $(".to-be-toggled").fadeToggle( "fast", "linear" )
+  if (typeof gon != "undefined") && gon.resource == "cars" && gon.map_id == "cars_show"
+    console.log "asd"
+    Cars.Dates.initialize_filters()   
+    Cars.Maps.switch_to_pins()
 
-    if (typeof gon != "undefined") && gon.resource == "cars" && gon.map_id == "cars_show"
-        Cars.Dates.initialize_filters()   
+    $(".switch_map_mode").click ->
+      if window.current_mode == "pins"
+        Cars.Maps.switch_to_directions()
+      else
         Cars.Maps.switch_to_pins()
-
-        $(".switch_map_mode").click ->
-            if window.current_mode == "pins"
-                Cars.Maps.switch_to_directions()
-            else
-                Cars.Maps.switch_to_pins()
+  
         
-            
 
-				
+		
 
 
 

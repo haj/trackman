@@ -37,8 +37,6 @@ $(document).ready(function() {
           title: 'Add marker',
           name: 'add_marker',
           action: function(e){
-            console.log(e.latLng.lat());
-            console.log(e.latLng.lng());
             this.addMarker({
               lat: e.latLng.lat(),
               lng: e.latLng.lng(),

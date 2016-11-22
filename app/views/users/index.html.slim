@@ -1,0 +1,70 @@
+.row.page-heading
+  .pull-left
+    .col-md-12
+      h3 Employees
+    ol.breadcrumb
+      = render_breadcrumbs
+  .pull-right
+    .btn-right
+      = link_to 'New Employee', new_user_invitation_path, class: "btn btn-primary"
+  .clear-both
+.row
+  .col-md-12
+    = form_tag batch_destroy_users_path, id: "destroy_users", :method => :put do
+      .grid.simple
+        .grid-body
+          - if @users.present?
+            .row
+              .pull-left
+                = form_tag '', :method => :get do
+                  .form-group
+                    = select_tag(:by_role, options_for_select(all_roles, params[:by_role]), :include_blank => "Roles")
+                    = submit_tag 'Filter by Role', :class => "btn btn-default"
+              .pull-right
+                = search_form_for @q do |f|
+                  .form-group
+                    = f.search_field :email_cont, :placeholder => "Search by email"
+                    = f.submit "Search", :class => "btn btn-default"
+              .clear-both
+            .table-responsive
+              table.table
+                thead
+                  tr
+                    th
+                    = content_tag :th, sort_link(@q, :name)
+                    = content_tag :th, sort_link(@q, :email)
+                    th Roles
+                    th
+
+                tbody
+                  - @users.each do |user|
+                    tr
+                      td.small-cell.v-align-middle
+                        = check_box_tag "user_ids[]", user.id, nil , class: "user_checkbox"
+                      td
+                        = link_to user.name.titleize, user
+                      td
+                        = user.email
+                      td
+                        = user.roles.to_a.map(&:capitalize).join(', ')
+                      td
+                        = link_to 'Edit', edit_user_path(user)
+                        - if user.roles.first != :manager
+                          | &nbsp; | 
+                          = link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
+                
+            = paginate @users
+          - else
+            .text-center
+              h2 No Employee at the moment
+              i.fa.fa-ban.fa-4x              
+              h3 Try to create an employee. The button is on top right of this page.
+
+#quick-access.admin-bar style="bottom: -115px;"
+  .admin-bar-inner
+    button.btn.btn-danger.btn-add#batch_destroy type="button"
+      i.icon-trash
+      | Move to trash
+    button.btn.btn-white.btn-cancel type="button" Cancel
+/ = render 'modal'
+

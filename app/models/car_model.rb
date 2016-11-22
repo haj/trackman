@@ -10,11 +10,13 @@
 #
 
 class CarModel < ActiveRecord::Base
-	belongs_to :car_manufacturer
-	has_many :cars
+  # ASSOCIATION
+  belongs_to :car_manufacturer
+  has_many :cars
 
-	validates :name, :car_manufacturer_id, presence: true
+  # VALIDATION
+  validates :name, :car_manufacturer_id, presence: true
 
-	scope :by_car_manufacturer, -> car_manufacturer_id { where(:car_manufacturer_id => car_manufacturer_id) }
-
+  # SCOPE
+  scope :by_car_manufacturer, -> car_manufacturer_id { where(car_manufacturer_id: car_manufacturer_id) }
 end

@@ -1,0 +1,19 @@
+.content
+  .row
+    .col-md-8.col-lg-8.col-sm-8.col-xs-8 
+      .page-title
+        = link_to raw("<i class='icon-custom-left'></i>"), features_path
+        h3 Feature  
+    .col-md-4.col-lg-4.col-sm-4.col-xs-4 
+      .pull-right= link_to 'Edit', edit_feature_path(@feature), class: "btn btn-success"
+
+  .row
+    .col-md-12
+      .grid.simple
+        .grid-body 
+          p
+            b Name:
+            = @feature.name
+          p
+            b Role:
+            = @feature.role

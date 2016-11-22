@@ -5,6 +5,9 @@ RailsAdmin.config do |config|
   ## == Devise ==
   config.authenticate_with do
     warden.authenticate! scope: :user
+    # authenticate_or_request_with_http_basic('Site Message') do |username, password|
+    #   username == 'admin' && password == 'admin'
+    # end
   end
   config.current_user_method(&:current_user)
 

@@ -1,0 +1,21 @@
+.row.login-container.animated.fadeInUp
+  .col-md-8.col-md-offset-2.tiles.white.no-padding
+    .p-t-30.p-l-40.p-b-20.xs-p-t-10.xs-p-l-10.xs-p-b-10
+      h2.normal Resend Confirmation
+      p.p-b-20 Enter Your Email Here. We will send you email for new confirmation link.
+    .tiles.grey.p-t-20.p-b-20.text-black
+      div#frm_login.animated.fadeIn
+        = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+          = devise_error_messages!
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+            .col-md-6.col-sm-6
+              = f.email_field :email, :class => "form-control email", :placeholder => "Email"
+            .col-md-6.col-sm-6
+              = f.submit "Send me Confirmation Email", class: "btn btn-primary btn-cons", id: "sign-in"
+          br
+          .row.form-row.m-l-20.m-r-20.xs-m-l-10.xs-m-r-10
+            .col-md-12
+              = render "devise/shared/links"
+
+
+

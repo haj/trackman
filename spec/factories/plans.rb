@@ -6,7 +6,7 @@
 #  plan_type_id :integer
 #  interval     :string(255)
 #  currency     :string(255)
-#  price        :float
+#  price        :float(24)
 #  paymill_id   :string(255)
 #  created_at   :datetime
 #  updated_at   :datetime

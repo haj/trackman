@@ -3,7 +3,7 @@
 # Table name: cars
 #
 #  id               :integer          not null, primary key
-#  mileage          :float
+#  mileage          :float(24)
 #  numberplate      :string(255)
 #  car_model_id     :integer
 #  car_type_id      :integer

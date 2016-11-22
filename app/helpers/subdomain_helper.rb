@@ -10,6 +10,7 @@ module SubdomainHelper
     if options.kind_of?(Hash) && options.has_key?(:subdomain)
       options[:host] = with_subdomain(options.delete(:subdomain))
     end
+    
     super
   end
 end

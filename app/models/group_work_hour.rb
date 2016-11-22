@@ -12,8 +12,13 @@
 #
 
 class GroupWorkHour < ActiveRecord::Base
-	belongs_to :group
+  # ASSOCIATION
+  belongs_to :group
 
-	serialize :starts_at, Tod::TimeOfDay
-	serialize :ends_at, Tod::TimeOfDay
+  # SERIALIZE
+  serialize :starts_at, Tod::TimeOfDay
+  serialize :ends_at, Tod::TimeOfDay
+
+  # validation
+  validates :group_id, presence: true
 end

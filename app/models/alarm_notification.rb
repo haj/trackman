@@ -13,9 +13,17 @@
 #
 
 class AlarmNotification < ActiveRecord::Base
-	belongs_to :alarm
-	belongs_to :car 
-        include PublicActivity::Common
+  # INIT GEM GOES HERE
+  include PublicActivity::Common
+  acts_as_tenant(:company)
 
-	acts_as_tenant(:company)
+  # ASSOCIATION GOES HERE
+  belongs_to :alarm
+  belongs_to :car 
+
+  # VALIDATION GOES HERE
+  validates :car_id, :driver_id, presence: true
+
+  # SCOPE
+  scope :not_archieved, -> { where(archived: false) }
 end

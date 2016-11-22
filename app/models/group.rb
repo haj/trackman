@@ -10,23 +10,26 @@
 #
 
 class Group < ActiveRecord::Base
-	acts_as_tenant(:company)
+  # init gem
+  acts_as_tenant(:company)
 
-	has_and_belongs_to_many :alarms
-	has_many :alarm_groups
-	
-	has_many :cars
+  # association
+  has_and_belongs_to_many :alarms
+  has_many :alarm_groups
+  has_many :cars
 
-	validates :name, presence: true
+  # VALIDATION
+  validates :name, presence: true
 
-	accepts_nested_attributes_for :alarms
+  # NESTED ATTR
+  accepts_nested_attributes_for :alarms
 
-	def alarm_status(alarm)
-		self.alarm_groups.where(alarm_id: alarm.id, group_id: self.id).first.status
-	end
+  # INSTANCE METHOD
+  def alarm_status(alarm)
+    self.alarm_groups.where(alarm_id: alarm.id, group_id: self.id).first.status
+  end
 
-	def alarm_last_alert(alarm)
-		self.alarm_groups.where(alarm_id: alarm.id, group_id: self.id).first.last_alert
-	end
-	
+  def alarm_last_alert(alarm)
+    self.alarm_groups.where(alarm_id: alarm.id, group_id: self.id).first.last_alert
+  end 
 end
