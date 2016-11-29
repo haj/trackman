@@ -20,10 +20,10 @@ module.exports = React.createClass
 
   fetchData: ->
     Actions.getCars(@props.carsOverviewPath)
-    self = @
-    window.setTimeout ->
-      self.fetchData()
-    , 5000
+    # self = @
+    # window.setTimeout ->
+    #   self.fetchData()
+    # , 5000
 
   componentWillMount: ->
     @fetchData()
