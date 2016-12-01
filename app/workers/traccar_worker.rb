@@ -36,6 +36,9 @@ class TraccarWorker
       l = Location.create(device_id: device.try(:id), latitude: lat, longitude: lon, time: fix_time, speed: speed, valid_position: valid,
           position_id: position_id, status: status, ignite: ignite)
 
+      logger.info "DEBUG : Location >"
+      logger.debug l.inspect
+
       Location.where("device_id = ? and DATE(time) = ? and id != ?", l.device_id, l.time.to_date, l.id) do |loc|
         if loc.time > l.time
           loc.analyze_me
