@@ -113,5 +113,5 @@ Rails.application.configure do
 
   config.lograge.enabled = true
   config.lograge.log_format = :graylog2
-  config.logger = GELF::Logger.new("5.9.52.200", 12201, "WAN", { :host => "7city.dk", :facility => "Trackman" })
+  config.logger = GELF::Logger.new("5.9.52.200", 12201, "WAN", { :host => "mydrivr.com", :facility => "Trackman" })
 end

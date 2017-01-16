@@ -21,7 +21,7 @@ production:
   DB_TRACCAR_NAME: traccar
   DB_USER: root
   DB_PASSWORD: "153624"
-  default_url: '7city.dk'
+  default_url: 'mydrivr.com'
 
 #others
 SECRET_TOKEN: "8691c8076ab804f97783d8e4e57bb577522268be13e11b598c44d55cc47a37744c200af195b2bb7de3fff8f58db8e93418c44fc163fe756d4e61c19d1bb8bf3d"
